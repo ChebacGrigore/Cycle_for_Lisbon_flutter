@@ -1,3 +1,5 @@
+import 'package:cfl/shared/shared.dart';
+import 'package:cfl/view/screens/home/layout.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +64,9 @@ class SplashScreen extends ConsumerWidget {
                     child: SizedBox(
                       height: 49,
                       child: OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pushReplacement(Layout());
+                        },
                         style: AppComponentThemes.outlinedButtonTheme(),
                         child: const Text(
                           'Sign In',
