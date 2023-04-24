@@ -1,6 +1,6 @@
 # cfl
 
-A new Flutter project.
+Cycle For Lisbon.
 
 ## Getting Started
 
