@@ -22,7 +22,9 @@ class _LayoutState extends State<Layout> {
         bottomNavigationBar: SafeArea(
           child: Container(
             height: 100,
-            padding: const EdgeInsets.all(12),
+            color: Colors.transparent,
+            padding:
+                const EdgeInsets.only(left: 12, right: 12, bottom: 12, top: 5),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50.0),
               child: Container(

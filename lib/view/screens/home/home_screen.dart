@@ -8,6 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -73,7 +74,17 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                InitiativeCard(),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 4,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return const Padding(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: InitiativeCard(),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -92,6 +103,7 @@ class InitiativeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 180,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       width: double.infinity,
       decoration: BoxDecoration(
         image: const DecorationImage(
@@ -101,8 +113,175 @@ class InitiativeCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
-        children: [],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 260,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Kayaku',
+                  style: GoogleFonts.dmSans(
+                    fontSize: 10,
+                    color: AppColors.white.withOpacity(0.80),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Cycling for a better world',
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget augue nec massa volutpat aliquam fringilla.',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 12,
+                    color: AppColors.white.withOpacity(0.80),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 21),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  ActvityCount(
+                    count: 13,
+                    title: 'Goal',
+                  ),
+                  SizedBox(height: 4),
+                  ActvityCount(
+                    count: 13,
+                    title: 'Collected',
+                  ),
+                ],
+              ),
+              // builder here
+              Row(
+                children: const [
+                  ActivityBadge(
+                    count: 13,
+                    title: 'Goal',
+                    icon: Icons.arrow_upward,
+                  ),
+                  SizedBox(width: 10),
+                  ActivityBadge(
+                    count: 3,
+                    title: 'Fine',
+                    icon: Icons.downhill_skiing,
+                    color: AppColors.secondaryColor,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class ActivityBadge extends StatelessWidget {
+  const ActivityBadge({
+    this.color,
+    required this.count,
+    required this.title,
+    required this.icon,
+    super.key,
+  });
+  final Color? color;
+  final int count;
+  final String title;
+  final IconData icon;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 45,
+      height: 45,
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: color ?? AppColors.tomatoRed,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                count.toString(),
+                style: GoogleFonts.dmSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.white,
+                ),
+              ),
+              Text(
+                title,
+                style: GoogleFonts.dmSans(
+                  fontSize: 10,
+                  color: AppColors.white,
+                ),
+              ),
+            ],
+          ),
+          Icon(icon, color: AppColors.white, size: 10),
+        ],
+      ),
+    );
+  }
+}
+
+class ActvityCount extends StatelessWidget {
+  const ActvityCount({
+    super.key,
+    required this.count,
+    required this.title,
+  });
+  final int count;
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          '$title: ',
+          style: GoogleFonts.dmSans(
+            fontSize: 14,
+            color: AppColors.white,
+          ),
+        ),
+        const SizedBox(width: 4),
+        const Icon(
+          Icons.monetization_on_sharp,
+          color: AppColors.secondaryColor,
+          size: 10,
+        ),
+        const SizedBox(width: 4),
+        Text(
+          count.toString(),
+          style: GoogleFonts.dmSans(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: AppColors.white,
+          ),
+        ),
+      ],
     );
   }
 }
