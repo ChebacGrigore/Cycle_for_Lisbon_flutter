@@ -73,10 +73,35 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
+                InitiativeCard(),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class InitiativeCard extends StatelessWidget {
+  const InitiativeCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 180,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        image: const DecorationImage(
+          image: AssetImage(AppAssets.bg01Png),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        children: [],
       ),
     );
   }
