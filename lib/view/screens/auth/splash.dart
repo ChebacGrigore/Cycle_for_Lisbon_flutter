@@ -65,7 +65,7 @@ class SplashScreen extends ConsumerWidget {
                       height: 49,
                       child: OutlinedButton(
                         onPressed: () {
-                          context.pushReplacement(Layout());
+                          context.pushReplacement(const Layout());
                         },
                         style: AppComponentThemes.outlinedButtonTheme(),
                         child: const Text(
