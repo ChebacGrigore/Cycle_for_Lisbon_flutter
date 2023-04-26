@@ -1,5 +1,6 @@
 import 'package:cfl/shared/shared.dart';
-import 'package:cfl/view/screens/home/layout.dart';
+import 'package:cfl/view/screens/auth/signin.dart';
+import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -65,7 +66,7 @@ class SplashScreen extends ConsumerWidget {
                       height: 49,
                       child: OutlinedButton(
                         onPressed: () {
-                          context.pushReplacement(const Layout());
+                          context.showAppDialog(const SignIn());
                         },
                         style: AppComponentThemes.outlinedButtonTheme(),
                         child: const Text(
@@ -79,7 +80,9 @@ class SplashScreen extends ConsumerWidget {
                     child: SizedBox(
                       height: 49,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.showAppDialog(const SignUp());
+                        },
                         style: AppComponentThemes.elevatedButtonTheme(),
                         child: const Text('Sign Up',
                             style: TextStyle(
@@ -91,54 +94,75 @@ class SplashScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 34),
-              Row(
-                children: [
-                  const Expanded(
-                      child: Divider(
-                    color: AppColors.white,
-                  )),
-                  const SizedBox(width: 16),
-                  Text(
-                    'OR',
-                    style: TextStyle(
-                      color: AppColors.white.withOpacity(0.60),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  const Expanded(
-                      child: Divider(
-                    color: AppColors.white,
-                  )),
-                ],
-              ),
-              const SizedBox(height: 16),
-              //build rounded social login buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppRoundedButton(
-                    icon: Icons.facebook,
-                    onTap: () {},
-                  ),
-                  const SizedBox(width: 16),
-                  AppRoundedButton(
-                    icon: Icons.g_mobiledata,
-                    onTap: () {},
-                  ),
-                  const SizedBox(width: 16),
-                  AppRoundedButton(
-                    icon: Icons.apple,
-                    onTap: () {},
-                  ),
-                ],
-              ),
+              const SocialLogins(),
               const SizedBox(height: 45),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class SocialLogins extends StatelessWidget {
+  const SocialLogins({
+    this.color,
+    super.key,
+  });
+  final Color? color;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+                child: Divider(
+              color: color ?? AppColors.white,
+            )),
+            const SizedBox(width: 16),
+            Text(
+              'OR',
+              style: TextStyle(
+                color: color != null
+                    ? color!.withOpacity(0.60)
+                    : AppColors.white.withOpacity(0.60),
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+                child: Divider(
+              color: color ?? AppColors.white,
+            )),
+          ],
+        ),
+        const SizedBox(height: 16),
+        //build rounded social login buttons
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppRoundedButton(
+              icon: Icons.facebook,
+              color: color ?? AppColors.white,
+              onTap: () {},
+            ),
+            const SizedBox(width: 16),
+            AppRoundedButton(
+              color: color ?? AppColors.white,
+              icon: Icons.g_mobiledata,
+              onTap: () {},
+            ),
+            const SizedBox(width: 16),
+            AppRoundedButton(
+              color: color ?? AppColors.white,
+              icon: Icons.apple,
+              onTap: () {},
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

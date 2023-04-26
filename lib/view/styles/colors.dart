@@ -6,6 +6,8 @@ class AppColors {
   static const Color tertiaryColor = Color(0xffECF0E7);
   static const MaterialColor accentColor = MaterialColor(0xffFDDB30, color);
   static const Color shadowColor = Color(0xff093269);
+  static const Color blueGrey = Color(0xff323F4B);
+  static const Color greyish = Color(0xff7B8794);
   static const Color white = Color(0xffFFFFFF);
   static const Color black = Color(0xff000000);
   static const Color tomatoRed = Color(0xffE12020);

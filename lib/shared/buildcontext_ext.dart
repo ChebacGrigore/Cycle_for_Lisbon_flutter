@@ -14,7 +14,7 @@ extension BuidContextExtension on BuildContext {
 
   Future<T?> showAppDialog<T>(Widget dialog) => showDialog<T>(
         useSafeArea: false,
-        // barrierDismissible: false,
+        barrierDismissible: false,
         context: this,
         builder: (context) => dialog,
       );
