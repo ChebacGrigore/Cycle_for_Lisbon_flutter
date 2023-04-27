@@ -27,7 +27,7 @@ class AppComponentThemes {
   //   );
   // }
 
-  static textButtonTheme() {
+  static textButtonTheme({Color? color}) {
     return ButtonStyle(
       padding: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
@@ -39,17 +39,20 @@ class AppComponentThemes {
         if (states.contains(MaterialState.disabled)) {
           return AppColors.black;
         }
-        return AppColors.secondaryColor;
+        return color ?? AppColors.secondaryColor;
       }),
       foregroundColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
           return AppColors.black;
         }
-        return AppColors.secondaryColor;
+        return color ?? AppColors.secondaryColor;
       }),
       overlayColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
           return Colors.transparent;
+        }
+        if (color != null) {
+          return color.withOpacity(0.12);
         }
         return AppColors.secondaryColor.withOpacity(0.12);
       }),

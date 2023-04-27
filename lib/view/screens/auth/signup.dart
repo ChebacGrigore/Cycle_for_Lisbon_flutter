@@ -1,4 +1,5 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/view/screens/auth/onboarding.dart';
 import 'package:cfl/view/screens/auth/signin.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
@@ -41,10 +42,11 @@ class SignUp extends StatelessWidget {
                     ],
                   ),
                   IconButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      icon: const Icon(Icons.close)),
+                    onPressed: () {
+                      context.pop();
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
                 ],
               ),
               const SizedBox(height: 43),
@@ -80,7 +82,9 @@ class SignUp extends StatelessWidget {
                 width: double.infinity,
                 height: 52,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushReplacement(const Onboarding());
+                  },
                   style: AppComponentThemes.elevatedButtonTheme(),
                   child: Text(
                     'Continue'.toUpperCase(),
