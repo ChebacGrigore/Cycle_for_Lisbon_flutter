@@ -50,14 +50,13 @@ class _OnboardingState extends State<Onboarding> {
             ),
           ),
           //
-          const SizedBox(height: 71),
-          const Spacer(),
+          const SizedBox(height: 51),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Welcome to Cycle for Lisbon!',
@@ -111,6 +110,7 @@ class _OnboardingState extends State<Onboarding> {
               ),
             ),
           ),
+          const Spacer(),
         ],
       ),
     );
@@ -134,7 +134,7 @@ class OnboardingIndicator extends StatelessWidget {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.accentColor,
+                color: AppColors.secondaryColor,
                 borderRadius: BorderRadius.circular(20),
               ),
             )
