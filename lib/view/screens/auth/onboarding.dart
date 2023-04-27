@@ -10,6 +10,8 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
+  final List items = [1, 2, 3, 4, 5];
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,52 +51,94 @@ class _OnboardingState extends State<Onboarding> {
           ),
           //
           const SizedBox(height: 71),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Welcome to Cycle for Lisbon!',
-                  style: GoogleFonts.dmSans(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
+          const Spacer(),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Welcome to Cycle for Lisbon!',
+                    style: GoogleFonts.dmSans(
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  'Get ready to explore the city of Lisbon on two wheels while making a positive impact on NGO initiatives.',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.dmSans(
-                    color: AppColors.primaryColor.withOpacity(0.80),
-                    fontSize: 14,
+                  const SizedBox(height: 12),
+                  Text(
+                    'Get ready to explore the city of Lisbon on two wheels while making a positive impact on NGO initiatives.',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.dmSans(
+                      color: AppColors.primaryColor.withOpacity(0.80),
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 69),
-                //
-                const SizedBox(height: 24),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: SizedBox(
-                    width: 100,
-                    height: 49,
-                    child: ElevatedButton(
-                        style: AppComponentThemes.elevatedButtonTheme(),
-                        onPressed: () {},
-                        child: Text(
-                          'Next',
-                          style: GoogleFonts.dmSans(
-                            color: AppColors.black,
+                  const SizedBox(height: 69),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: items
+                        .map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: OnboardingIndicator(
+                              isCurrentIndex: items.indexOf(e) == currentIndex,
+                            ),
                           ),
-                        )),
+                        )
+                        .toList(),
                   ),
-                )
-              ],
+                  const SizedBox(height: 24),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: SizedBox(
+                      width: 100,
+                      height: 49,
+                      child: ElevatedButton(
+                          style: AppComponentThemes.elevatedButtonTheme(),
+                          onPressed: () {},
+                          child: Text(
+                            'Next',
+                            style: GoogleFonts.dmSans(
+                              color: AppColors.black,
+                            ),
+                          )),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class OnboardingIndicator extends StatelessWidget {
+  const OnboardingIndicator({required this.isCurrentIndex, super.key});
+  final bool isCurrentIndex;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 60,
+      height: 4,
+      decoration: BoxDecoration(
+        color: AppColors.primaryColor.withOpacity(0.10),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: isCurrentIndex
+          ? Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColors.accentColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+            )
+          : null,
     );
   }
 }
