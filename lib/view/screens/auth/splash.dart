@@ -94,7 +94,7 @@ class SplashScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 34),
-              const SocialLogins(),
+              const SocialLogins(fill: true),
               const SizedBox(height: 45),
             ],
           ),
@@ -108,8 +108,10 @@ class SocialLogins extends StatelessWidget {
   const SocialLogins({
     this.color,
     super.key,
+    required this.fill,
   });
   final Color? color;
+  final bool fill;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -144,18 +146,21 @@ class SocialLogins extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppRoundedButton(
+              fill: fill,
               icon: Icons.facebook,
               color: color ?? AppColors.white,
               onTap: () {},
             ),
             const SizedBox(width: 16),
             AppRoundedButton(
+              fill: fill,
               color: color ?? AppColors.white,
               icon: Icons.g_mobiledata,
               onTap: () {},
             ),
             const SizedBox(width: 16),
             AppRoundedButton(
+              fill: fill,
               color: color ?? AppColors.white,
               icon: Icons.apple,
               onTap: () {},
@@ -173,18 +178,22 @@ class AppRoundedButton extends StatelessWidget {
     this.onTap,
     required this.icon,
     this.color,
+    this.fill = false,
   });
   final VoidCallback? onTap;
   final IconData icon;
   final Color? color;
+  final bool fill;
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: onTap,
       elevation: 0,
-      fillColor: color != null
-          ? color!.withOpacity(0.16)
-          : Colors.white.withOpacity(0.16),
+      fillColor: fill
+          ? color != null
+              ? color!.withOpacity(0.16)
+              : Colors.white.withOpacity(0.16)
+          : AppColors.white,
       padding: const EdgeInsets.all(15.0),
       shape: const CircleBorder(),
       child: Icon(

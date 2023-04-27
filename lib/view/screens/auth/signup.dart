@@ -1,4 +1,5 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/view/screens/auth/signin.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
@@ -24,16 +25,16 @@ class SignUp extends StatelessWidget {
                   Row(
                     children: [
                       SvgPicture.asset(
-                        AppAssets.logoSvg,
-                        width: 30,
-                        height: 30,
+                        AppAssets.logo2Svg,
+                        width: 25,
+                        height: 25,
                       ),
                       const SizedBox(width: 8),
                       Text(
                         'Cycle for Lisbon'.toUpperCase(),
                         style: GoogleFonts.dmSans(
-                          color: AppColors.shadowColor,
-                          fontSize: 14,
+                          color: AppColors.primaryColor,
+                          fontSize: 15,
                           fontWeight: FontWeight.w800,
                         ),
                       )
@@ -89,25 +90,31 @@ class SignUp extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 42),
-              const SocialLogins(color: AppColors.accentColor),
+              const SocialLogins(color: AppColors.black, fill: false),
               const SizedBox(height: 57),
               Center(
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Already have an account? ',
-                    style: GoogleFonts.dmSans(
-                      color: AppColors.greyish,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: ' Login',
-                        style: GoogleFonts.dmSans(
-                          decoration: TextDecoration.underline,
-                          color: AppColors.accentColor,
-                          fontWeight: FontWeight.bold,
-                        ),
+                child: TextButton(
+                  onPressed: () {
+                    context.pop();
+                    context.showAppDialog(const SignIn());
+                  },
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Already have an account? ',
+                      style: GoogleFonts.dmSans(
+                        color: AppColors.greyish,
                       ),
-                    ],
+                      children: [
+                        TextSpan(
+                          text: ' Login',
+                          style: GoogleFonts.dmSans(
+                            decoration: TextDecoration.underline,
+                            color: AppColors.secondaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
