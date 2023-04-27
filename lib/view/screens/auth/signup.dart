@@ -109,7 +109,7 @@ class SignUp extends StatelessWidget {
                           text: ' Login',
                           style: GoogleFonts.dmSans(
                             decoration: TextDecoration.underline,
-                            color: AppColors.secondaryColor,
+                            color: AppColors.accentColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

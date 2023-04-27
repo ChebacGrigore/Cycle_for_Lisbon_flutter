@@ -39,19 +39,19 @@ class AppComponentThemes {
         if (states.contains(MaterialState.disabled)) {
           return AppColors.black;
         }
-        return AppColors.accentColor;
+        return AppColors.secondaryColor;
       }),
       foregroundColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
           return AppColors.black;
         }
-        return AppColors.accentColor;
+        return AppColors.secondaryColor;
       }),
       overlayColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
           return Colors.transparent;
         }
-        return AppColors.accentColor.withOpacity(0.12);
+        return AppColors.secondaryColor.withOpacity(0.12);
       }),
     );
   }
@@ -90,7 +90,7 @@ class AppComponentThemes {
         if (states.contains(MaterialState.disabled)) {
           return AppColors.black;
         }
-        return color ?? AppColors.accentColor;
+        return color ?? AppColors.secondaryColor;
       }),
       foregroundColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {

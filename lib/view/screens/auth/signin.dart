@@ -82,7 +82,7 @@ class SignIn extends StatelessWidget {
                   child: Text(
                     'Recover Password',
                     style: GoogleFonts.dmSans(
-                      color: AppColors.secondaryColor,
+                      color: AppColors.accentColor,
                       decoration: TextDecoration.underline,
                       fontWeight: FontWeight.bold,
                     ),
@@ -123,7 +123,7 @@ class SignIn extends StatelessWidget {
                           text: ' Sign Up',
                           style: GoogleFonts.dmSans(
                             decoration: TextDecoration.underline,
-                            color: AppColors.secondaryColor,
+                            color: AppColors.accentColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
