@@ -160,18 +160,16 @@ class _OnboardingState extends State<Onboarding> {
                       height: 49,
                       child: ElevatedButton(
                           style: AppComponentThemes.elevatedButtonTheme(),
-                          onPressed: currentIndex != items.length
-                              ? () {
-                                  setState(() {
-                                    if (currentIndex == items.length) {
-                                    } else {
-                                      currentIndex = currentIndex + 1;
+                          onPressed: () {
+                            setState(() {
+                              if (items.length < 4) {
+                              } else {
+                                currentIndex += 1;
 
-                                      return;
-                                    }
-                                  });
-                                }
-                              : null,
+                                return;
+                              }
+                            });
+                          },
                           child: Text(
                             'Next',
                             style: GoogleFonts.dmSans(
