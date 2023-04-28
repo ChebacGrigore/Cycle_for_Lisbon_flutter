@@ -10,7 +10,48 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
-  final List items = [1, 2, 3, 4, 5];
+  List<OnboardingItem> items = <OnboardingItem>[
+    const OnboardingItem(
+      title: 'Welcom to Cycle for Lisbon',
+      description:
+          'Get ready to explore the city of Lisbon on two wheels while making a positive impact on NGO initiatives.',
+      imagePath: AppAssets.onboarding5,
+      patners: [],
+    ),
+    const OnboardingItem(
+      title: 'Support an Initiative',
+      description:
+          'Choose the initiative you want to support and learn more about its goal and promoters.',
+      imagePath: AppAssets.onboarding2,
+      patners: [],
+    ),
+    const OnboardingItem(
+      title: 'Earn Coins',
+      description:
+          'For every kilometer you ride, you will earn coins that can be converted into real money to support the initiative you selected. Cycle for Lisbon is made possible by the generous support of sponsors.',
+      imagePath: AppAssets.onboarding1,
+      patners: [],
+    ),
+    const OnboardingItem(
+      title: 'Help the Community',
+      description:
+          'The coins you earn will automatically be donated to your selected initiative. You can only have one active initiative at a time. When the initiative\'s goal is reached, you will be prompted to select a new one.',
+      imagePath: AppAssets.onboarding4,
+      patners: [],
+    ),
+    const OnboardingItem(
+      title: 'The Project',
+      description:
+          'Cycle for Lisbon is developed by Pensar Mais for Vox Pop, a project co-financed by Câmara Municipal de Lisboa and the European Regional Development Fund through the European Urban Initiative.',
+      imagePath: AppAssets.onboarding6,
+      patners: [
+        AppAssets.p1,
+        AppAssets.p2,
+        AppAssets.p3,
+        AppAssets.p4,
+      ],
+    ),
+  ];
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -21,11 +62,11 @@ class _OnboardingState extends State<Onboarding> {
           Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height / 2,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.fill,
                 image: AssetImage(
-                  AppAssets.onboarding3,
+                  items[currentIndex].imagePath,
                 ),
               ),
             ),
@@ -51,6 +92,8 @@ class _OnboardingState extends State<Onboarding> {
           ),
           //
           const SizedBox(height: 51),
+          const Spacer(),
+
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -59,7 +102,7 @@ class _OnboardingState extends State<Onboarding> {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Welcome to Cycle for Lisbon!',
+                    items[currentIndex].title,
                     style: GoogleFonts.dmSans(
                       color: AppColors.primaryColor,
                       fontWeight: FontWeight.bold,
@@ -68,14 +111,32 @@ class _OnboardingState extends State<Onboarding> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Get ready to explore the city of Lisbon on two wheels while making a positive impact on NGO initiatives.',
+                    items[currentIndex].description,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.dmSans(
                       color: AppColors.primaryColor.withOpacity(0.80),
                       fontSize: 14,
                     ),
                   ),
-                  const SizedBox(height: 69),
+                  if (items[currentIndex].patners.isEmpty)
+                    const SizedBox(height: 39),
+                  if (items[currentIndex].patners.isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: items[currentIndex]
+                          .patners
+                          .map((partner) => Padding(
+                                padding: const EdgeInsets.only(right: 30),
+                                child: Image.asset(
+                                  partner,
+                                  height: 24,
+                                ),
+                              ))
+                          .toList(),
+                    )
+                  ],
+                  const SizedBox(height: 27),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: items
@@ -83,7 +144,9 @@ class _OnboardingState extends State<Onboarding> {
                           (e) => Padding(
                             padding: const EdgeInsets.only(right: 8),
                             child: OnboardingIndicator(
-                              isCurrentIndex: items.indexOf(e) == currentIndex,
+                              isCurrentIndex:
+                                  items.indexOf(e) == currentIndex &&
+                                      currentIndex != items.length,
                             ),
                           ),
                         )
@@ -97,7 +160,18 @@ class _OnboardingState extends State<Onboarding> {
                       height: 49,
                       child: ElevatedButton(
                           style: AppComponentThemes.elevatedButtonTheme(),
-                          onPressed: () {},
+                          onPressed: currentIndex != items.length
+                              ? () {
+                                  setState(() {
+                                    if (currentIndex == items.length) {
+                                    } else {
+                                      currentIndex = currentIndex + 1;
+
+                                      return;
+                                    }
+                                  });
+                                }
+                              : null,
                           child: Text(
                             'Next',
                             style: GoogleFonts.dmSans(
@@ -123,22 +197,38 @@ class OnboardingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 60,
+      width: 70,
       height: 4,
       decoration: BoxDecoration(
         color: AppColors.primaryColor.withOpacity(0.10),
         borderRadius: BorderRadius.circular(20),
       ),
       child: isCurrentIndex
-          ? Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.secondaryColor,
-                borderRadius: BorderRadius.circular(20),
+          ? Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                width: 50,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: AppColors.secondaryColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
             )
           : null,
     );
   }
+}
+
+class OnboardingItem {
+  final String title;
+  final String description;
+  final String imagePath;
+  final List<String> patners;
+  const OnboardingItem({
+    required this.title,
+    required this.description,
+    required this.imagePath,
+    required this.patners,
+  });
 }

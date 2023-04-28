@@ -7,5 +7,13 @@ class AppAssets {
   static const String onboarding1 = 'assets/images/onboarding01.png';
   static const String onboarding2 = 'assets/images/onboarding02.png';
   static const String onboarding3 = 'assets/images/onboarding03.png';
+  static const String onboarding4 = 'assets/images/onboarding04.png';
+  static const String onboarding5 = 'assets/images/onboarding05.png';
+  static const String onboarding6 = 'assets/images/onboarding06.png';
+  static const String p1 = 'assets/images/p1.png';
+  static const String p2 = 'assets/images/p2.png';
+  static const String p3 = 'assets/images/p3.png';
+  static const String p4 = 'assets/images/p4.png';
+
   static const String union = 'assets/images/union.svg';
 }
