@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    state = InitiativeState.selected;
+                    state = InitiativeState.completed;
                     //pass selected initiative
                   });
                 },
@@ -170,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         const SizedBox(height: 42),
-        const SelectedInitiativeCard(),
+        const SelectedInitiativeCard(progress: 0.4),
         const SizedBox(height: 32),
         Text(
           'Your Contribution for All Time:',
@@ -275,7 +275,104 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildCompletedInitiative() {
-    return const SizedBox();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Welcome Back,\n jane123',
+              style: GoogleFonts.dmSans(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            const CircleAvatar(
+              radius: 23,
+              backgroundImage: NetworkImage(
+                  'https://images.unsplash.com/photo-1616166336303-8e1b0e2e1b1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 28),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Expanded(
+              child: PillContainer(
+                title: 'Total Earned',
+                count: 13,
+                icon: Icons.arrow_upward,
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: PillContainer(
+                title: 'Total km',
+                count: 50,
+                icon: Icons.arrow_downward,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 42),
+        const SelectedInitiativeCard(
+          progress: 1,
+        ),
+        const SizedBox(height: 32),
+        RichText(
+          text: TextSpan(
+            text: 'Thank you for your support! This goal was completed. ',
+            style: GoogleFonts.dmSans(
+              fontSize: 14,
+              color: AppColors.primaryColor,
+            ),
+            children: [
+              TextSpan(
+                text: ' Want to select a new one?',
+                style: GoogleFonts.dmSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryColor,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 42),
+        Text(
+          'Available Initiatives',
+          style: GoogleFonts.dmSans(
+            fontSize: 18,
+            color: AppColors.primaryColor,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 24),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: 4,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    state = InitiativeState.selected;
+                    //pass selected initiative
+                  });
+                },
+                child: const InitiativeCard(),
+              ),
+            );
+          },
+        ),
+      ],
+    );
   }
 }
 
@@ -323,8 +420,9 @@ class ContributionCard extends StatelessWidget {
 }
 
 class SelectedInitiativeCard extends StatelessWidget {
-  const SelectedInitiativeCard({Key? key}) : super(key: key);
-
+  const SelectedInitiativeCard({required this.progress, Key? key})
+      : super(key: key);
+  final double progress;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -352,16 +450,44 @@ class SelectedInitiativeCard extends StatelessWidget {
           const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              InitiativeCounter2(
-                title: 'Collected',
-                count: 24,
-              ),
-              InitiativeCounter2(
+            children: [
+              progress != 1
+                  ? const InitiativeCounter2(
+                      title: 'Collected',
+                      count: 24,
+                    )
+                  : Row(
+                      children: [
+                        const Icon(
+                          Icons.check_circle,
+                          color: AppColors.accentColor,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          'Completed',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.white,
+                          ),
+                        )
+                      ],
+                    ),
+              const InitiativeCounter2(
                 title: 'Goal',
                 count: 1230,
               ),
             ],
+          ),
+          const SizedBox(height: 9),
+          SizedBox(
+            height: 16,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: LinearProgressIndicator(
+                value: progress,
+              ),
+            ),
           ),
         ],
       ),
