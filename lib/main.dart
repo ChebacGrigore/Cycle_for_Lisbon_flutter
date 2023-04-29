@@ -1,4 +1,4 @@
-import 'package:cfl/view/screens/auth/splash.dart';
+import 'package:cfl/view/screens/auth/onboarding.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: AppColors.accentColor,
         fontFamily: GoogleFonts.dmSans().fontFamily,
       ),
-      home: const SplashScreen(),
+      home: const Onboarding(),
     );
   }
 }

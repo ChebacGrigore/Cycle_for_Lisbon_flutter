@@ -1,6 +1,7 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
+import 'package:cfl/view/screens/home/layout.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -94,7 +95,9 @@ class SignIn extends StatelessWidget {
                 width: double.infinity,
                 height: 52,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push(const Layout());
+                  },
                   style: AppComponentThemes.elevatedButtonTheme(),
                   child: Text(
                     'Continue'.toUpperCase(),

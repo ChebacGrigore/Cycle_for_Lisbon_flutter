@@ -1,5 +1,5 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
-import 'package:cfl/view/screens/auth/onboarding.dart';
+import 'package:cfl/view/screens/auth/setup_profile.dart';
 import 'package:cfl/view/screens/auth/signin.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
@@ -83,7 +83,7 @@ class SignUp extends StatelessWidget {
                 height: 52,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.pushReplacement(const Onboarding());
+                    context.pushReplacement(const SetupProfile());
                   },
                   style: AppComponentThemes.elevatedButtonTheme(),
                   child: Text(

@@ -1,10 +1,17 @@
 import 'package:cfl/view/styles/styles.dart';
+import 'package:cfl/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  InitiativeState state = InitiativeState.initial;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,327 +20,398 @@ class HomeScreen extends StatelessWidget {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Hello, jane123',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                    const CircleAvatar(
-                      radius: 23,
-                      backgroundImage: NetworkImage(
-                          'https://images.unsplash.com/photo-1616166336303-8e1b0e2e1b1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 28),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Expanded(
-                      child: PillContainer(
-                        title: 'Total Earned',
-                        count: 13,
-                        icon: Icons.arrow_upward,
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: PillContainer(
-                        title: 'Total km',
-                        count: 50,
-                        icon: Icons.arrow_downward,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 42),
-                Text(
-                  'Let\'s start cycling?',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryColor,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  'Choose your initiative',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    color: AppColors.primaryColor.withOpacity(0.80),
-                  ),
-                ),
-                const SizedBox(height: 24),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return const Padding(
-                      padding: EdgeInsets.only(bottom: 10),
-                      child: InitiativeCard(),
-                    );
-                  },
-                ),
-              ],
-            ),
+            child: homeBuilder(),
           ),
         ),
       ),
     );
   }
-}
 
-class InitiativeCard extends StatelessWidget {
-  const InitiativeCard({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 180,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        image: const DecorationImage(
-          image: AssetImage(AppAssets.bg01Png),
-          fit: BoxFit.cover,
-        ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 260,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Kayaku',
-                  style: GoogleFonts.dmSans(
-                    fontSize: 10,
-                    color: AppColors.white.withOpacity(0.80),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Cycling for a better world',
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.white,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget augue nec massa volutpat aliquam fringilla.',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 12,
-                    color: AppColors.white.withOpacity(0.80),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 21),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  ActvityCount(
-                    count: 13,
-                    title: 'Goal',
-                  ),
-                  SizedBox(height: 4),
-                  ActvityCount(
-                    count: 13,
-                    title: 'Collected',
-                  ),
-                ],
-              ),
-              // builder here
-              Row(
-                children: const [
-                  ActivityBadge(
-                    count: 13,
-                    title: 'Goal',
-                    icon: Icons.arrow_upward,
-                  ),
-                  SizedBox(width: 10),
-                  ActivityBadge(
-                    count: 3,
-                    title: 'Fine',
-                    icon: Icons.downhill_skiing,
-                    color: AppColors.secondaryColor,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+  Widget homeBuilder() {
+    if (state == InitiativeState.initial) {
+      return _buildInitialInitiative();
+    }
+    if (state == InitiativeState.selected) {
+      return _buildSelectedInitiative();
+    }
+    if (state == InitiativeState.completed) {
+      return _buildCompletedInitiative();
+    }
+    return const SizedBox();
   }
-}
 
-class ActivityBadge extends StatelessWidget {
-  const ActivityBadge({
-    this.color,
-    required this.count,
-    required this.title,
-    required this.icon,
-    super.key,
-  });
-  final Color? color;
-  final int count;
-  final String title;
-  final IconData icon;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 45,
-      height: 45,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: color ?? AppColors.tomatoRed,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                count.toString(),
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.white,
-                ),
-              ),
-              Text(
-                title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 10,
-                  color: AppColors.white,
-                ),
-              ),
-            ],
-          ),
-          Icon(icon, color: AppColors.white, size: 10),
-        ],
-      ),
-    );
-  }
-}
-
-class ActvityCount extends StatelessWidget {
-  const ActvityCount({
-    super.key,
-    required this.count,
-    required this.title,
-  });
-  final int count;
-  final String title;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
+  Widget _buildInitialInitiative() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '$title: ',
-          style: GoogleFonts.dmSans(
-            fontSize: 14,
-            color: AppColors.white,
-          ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Hello, jane123',
+              style: GoogleFonts.dmSans(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            const CircleAvatar(
+              radius: 23,
+              backgroundImage: NetworkImage(
+                  'https://images.unsplash.com/photo-1616166336303-8e1b0e2e1b1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
+            ),
+          ],
         ),
-        const SizedBox(width: 4),
-        const Icon(
-          Icons.monetization_on_sharp,
-          color: AppColors.secondaryColor,
-          size: 10,
+        const SizedBox(height: 28),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Expanded(
+              child: PillContainer(
+                title: 'Total Earned',
+                count: 13,
+                icon: Icons.arrow_upward,
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: PillContainer(
+                title: 'Total km',
+                count: 50,
+                icon: Icons.arrow_downward,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 4),
+        const SizedBox(height: 42),
         Text(
-          count.toString(),
+          'Let\'s start cycling?',
           style: GoogleFonts.dmSans(
-            fontSize: 14,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
-            color: AppColors.white,
+            color: AppColors.primaryColor,
           ),
+        ),
+        const SizedBox(height: 5),
+        Text(
+          'Choose your initiative',
+          style: GoogleFonts.dmSans(
+            fontSize: 14,
+            color: AppColors.primaryColor.withOpacity(0.80),
+          ),
+        ),
+        const SizedBox(height: 24),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: 4,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    state = InitiativeState.selected;
+                    //pass selected initiative
+                  });
+                },
+                child: const InitiativeCard(),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSelectedInitiative() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Welcome Back,\n jane123',
+              style: GoogleFonts.dmSans(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            const CircleAvatar(
+              radius: 23,
+              backgroundImage: NetworkImage(
+                  'https://images.unsplash.com/photo-1616166336303-8e1b0e2e1b1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 28),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Expanded(
+              child: PillContainer(
+                title: 'Total Earned',
+                count: 13,
+                icon: Icons.arrow_upward,
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: PillContainer(
+                title: 'Total km',
+                count: 50,
+                icon: Icons.arrow_downward,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 42),
+        const SelectedInitiativeCard(),
+        const SizedBox(height: 32),
+        Text(
+          'Your Contribution for All Time:',
+          style: GoogleFonts.dmSans(
+            color: AppColors.primaryColor,
+            fontSize: 14,
+          ),
+        ),
+        const SizedBox(height: 14),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            ContributionCard(
+              icon: Icons.rotate_90_degrees_ccw,
+              count: 12,
+              title: 'km',
+            ),
+            ContributionCard(
+              icon: Icons.timelapse_outlined,
+              count: 5,
+              title: 'h',
+            ),
+            ContributionCard(
+              icon: Icons.monetization_on,
+              count: 20,
+              title: 'Coins',
+            ),
+          ],
+        ),
+        const SizedBox(height: 32),
+        Text(
+          'Your Last Ride:',
+          style: GoogleFonts.dmSans(
+            color: AppColors.primaryColor,
+            fontSize: 14,
+          ),
+        ),
+        const SizedBox(height: 14),
+        Container(
+          width: double.infinity,
+          height: 200,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: AppColors.black.withOpacity(.05),
+          ),
+        ),
+        const SizedBox(height: 32),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            ContributionCard(
+              icon: Icons.rotate_90_degrees_ccw,
+              count: 12,
+              title: 'km',
+            ),
+            ContributionCard(
+              icon: Icons.timelapse_outlined,
+              count: 5,
+              title: 'min',
+            ),
+            ContributionCard(
+              icon: Icons.monetization_on,
+              count: 8,
+              title: 'Coins',
+            ),
+          ],
+        ),
+        const SizedBox(height: 42),
+        SizedBox(
+          width: double.infinity,
+          height: 49,
+          child: ElevatedButton(
+            style: AppComponentThemes.elevatedButtonTheme(
+              color: AppColors.cabbageGreen,
+            ),
+            onPressed: () {},
+            child: Text(
+              'Start/Stop',
+              style: GoogleFonts.dmSans(),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Center(
+          child: TextButton(
+            onPressed: () {
+              setState(() {
+                state = InitiativeState.initial;
+              });
+            },
+            child: Text(
+              'Change Initiative',
+              style: GoogleFonts.dmSans(
+                decoration: TextDecoration.underline,
+                color: AppColors.primaryColor,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCompletedInitiative() {
+    return const SizedBox();
+  }
+}
+
+class ContributionCard extends StatelessWidget {
+  const ContributionCard({
+    super.key,
+    required this.icon,
+    required this.count,
+    required this.title,
+  });
+  final IconData icon;
+
+  final String title;
+  final int count;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 40,
+            vertical: 20,
+          ),
+          decoration: BoxDecoration(
+            color: AppColors.tertiaryColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Center(
+            child: Icon(
+              icon,
+              color: AppColors.accentColor,
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          '$count $title',
+          style: GoogleFonts.dmSans(),
         ),
       ],
     );
   }
 }
 
-class PillContainer extends StatelessWidget {
-  const PillContainer({
-    super.key,
-    required this.title,
-    required this.count,
-    required this.icon,
-  });
-  final String title;
-  final int count;
-  final IconData icon;
+class SelectedInitiativeCard extends StatelessWidget {
+  const SelectedInitiativeCard({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 27,
-        vertical: 7,
-      ),
+      width: double.infinity,
+      height: 180,
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
-        color: AppColors.tertiaryColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(12),
+        image: const DecorationImage(
+          image: AssetImage(AppAssets.bg01Png),
+          fit: BoxFit.cover,
+        ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
+            'Name of cause',
             style: GoogleFonts.dmSans(
-              fontSize: 12,
-              color: AppColors.primaryColor.withOpacity(0.80),
-            ),
-          ),
-          const SizedBox(width: 6),
-          Icon(
-            icon,
-            color: AppColors.secondaryColor,
-          ),
-          const SizedBox(width: 6),
-          Text(
-            count.toString(),
-            style: GoogleFonts.dmSans(
-              fontSize: 14,
+              color: AppColors.white,
               fontWeight: FontWeight.bold,
-              color: AppColors.primaryColor,
+              fontSize: 18,
             ),
+          ),
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              InitiativeCounter2(
+                title: 'Collected',
+                count: 24,
+              ),
+              InitiativeCounter2(
+                title: 'Goal',
+                count: 1230,
+              ),
+            ],
           ),
         ],
       ),
     );
   }
+}
+
+class InitiativeCounter2 extends StatelessWidget {
+  const InitiativeCounter2({
+    required this.count,
+    required this.title,
+    super.key,
+  });
+  final String title;
+  final int count;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.dmSans(
+            color: AppColors.white.withOpacity(0.50),
+            fontSize: 12,
+          ),
+        ),
+        Row(
+          children: [
+            const Icon(
+              Icons.monetization_on,
+              color: AppColors.accentColor,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              count.toString(),
+              style: GoogleFonts.dmSans(
+                color: AppColors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}
+
+enum InitiativeState {
+  selected,
+  completed,
+  initial,
 }

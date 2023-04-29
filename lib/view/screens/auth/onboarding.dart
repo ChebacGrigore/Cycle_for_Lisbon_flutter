@@ -1,3 +1,5 @@
+import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -79,7 +81,9 @@ class _OnboardingState extends State<Onboarding> {
                     style: AppComponentThemes.textButtonTheme(
                       color: AppColors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.pushReplacement(const SplashScreen());
+                    },
                     icon: Text(
                       'Skip',
                       style: GoogleFonts.dmSans(),
@@ -162,11 +166,10 @@ class _OnboardingState extends State<Onboarding> {
                           style: AppComponentThemes.elevatedButtonTheme(),
                           onPressed: () {
                             setState(() {
-                              if (items.length < 4) {
+                              if (currentIndex == 4) {
+                                context.pushReplacement(const SplashScreen());
                               } else {
                                 currentIndex += 1;
-
-                                return;
                               }
                             });
                           },
