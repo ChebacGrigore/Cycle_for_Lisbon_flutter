@@ -81,6 +81,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                         return const Badge(
                           value: 0.5,
                           badgePath: AppAssets.barBellBadge,
+                          badgeName: 'Badge Name',
                         );
                       },
                     ),
@@ -96,9 +97,15 @@ class _BadgesScreenState extends State<BadgesScreen> {
 }
 
 class Badge extends StatelessWidget {
-  const Badge({super.key, required this.value, required this.badgePath});
+  const Badge({
+    super.key,
+    required this.value,
+    required this.badgePath,
+    required this.badgeName,
+  });
   final double value;
   final String badgePath;
+  final String badgeName;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -130,7 +137,7 @@ class Badge extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Text(
-          'Badge Name',
+          badgeName,
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.w500,
             color: AppColors.primaryColor,

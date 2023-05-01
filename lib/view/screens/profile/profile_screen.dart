@@ -1,5 +1,6 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/profile/badges.dart';
+import 'package:cfl/view/screens/profile/help_center.dart';
 import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
@@ -175,7 +176,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       AppListTile(
                         title: 'Help Center',
                         icon: Icons.help_center_sharp,
-                        onTap: () {},
+                        onTap: () {
+                          context.push(const HelpCenter());
+                        },
                         trailing: const Icon(Icons.chevron_right_outlined),
                       ),
                       const SizedBox(height: 14),
