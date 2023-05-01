@@ -1,3 +1,5 @@
+import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/view/screens/profile/profile_screen.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   InitiativeState state = InitiativeState.initial;
+  bool showProfile = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,24 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Hello, jane123',
-              style: GoogleFonts.dmSans(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor,
-              ),
-            ),
-            const CircleAvatar(
-              radius: 23,
-              backgroundImage: NetworkImage(
-                  'https://images.unsplash.com/photo-1616166336303-8e1b0e2e1b1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
-            ),
-          ],
+        ProfileButton(
+          onTap: () {
+            context.push(const ProfileScreen());
+          },
+          greeting: 'Hello',
         ),
         const SizedBox(height: 28),
         Row(
@@ -129,24 +119,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Welcome Back,\n jane123',
-              style: GoogleFonts.dmSans(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor,
-              ),
-            ),
-            const CircleAvatar(
-              radius: 23,
-              backgroundImage: NetworkImage(
-                  'https://images.unsplash.com/photo-1616166336303-8e1b0e2e1b1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
-            ),
-          ],
+        ProfileButton(
+          onTap: () {
+            context.push(const ProfileScreen());
+          },
+          greeting: 'Welcome Back',
         ),
         const SizedBox(height: 28),
         Row(
@@ -278,24 +255,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Welcome Back,\n jane123',
-              style: GoogleFonts.dmSans(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor,
-              ),
-            ),
-            const CircleAvatar(
-              radius: 23,
-              backgroundImage: NetworkImage(
-                  'https://images.unsplash.com/photo-1616166336303-8e1b0e2e1b1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
-            ),
-          ],
+        ProfileButton(
+          onTap: () {
+            context.push(const ProfileScreen());
+          },
+          greeting: 'Hello',
         ),
         const SizedBox(height: 28),
         Row(
@@ -372,6 +336,46 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ],
+    );
+  }
+}
+
+class ProfileButton extends StatelessWidget {
+  const ProfileButton({
+    this.onTap,
+    super.key,
+    required this.greeting,
+  });
+  final VoidCallback? onTap;
+  final String greeting;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            greeting.contains('Welcome')
+                ? '$greeting,\n jane123'
+                : '$greeting, Jane123',
+            style: GoogleFonts.dmSans(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
+            ),
+          ),
+          InkWell(
+            onTap: onTap,
+            child: const CircleAvatar(
+              radius: 23,
+              backgroundImage: NetworkImage(
+                  'https://images.unsplash.com/photo-1616166336303-8e1b0e2e1b1c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
