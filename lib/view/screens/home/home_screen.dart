@@ -448,49 +448,68 @@ class SelectedInitiativeCard extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              progress != 1
-                  ? const InitiativeCounter2(
-                      title: 'Collected',
-                      count: 24,
-                    )
-                  : Row(
-                      children: [
-                        const Icon(
-                          Icons.check_circle,
-                          color: AppColors.accentColor,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Completed',
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.white,
-                          ),
-                        )
-                      ],
-                    ),
-              const InitiativeCounter2(
-                title: 'Goal',
-                count: 1230,
-              ),
-            ],
-          ),
-          const SizedBox(height: 9),
-          SizedBox(
-            height: 16,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: LinearProgressIndicator(
-                value: progress,
-              ),
-            ),
-          ),
+          InitiativeProgress(progress: progress),
         ],
       ),
+    );
+  }
+}
+
+class InitiativeProgress extends StatelessWidget {
+  const InitiativeProgress({
+    super.key,
+    required this.progress,
+  });
+
+  final double progress;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            progress != 1
+                ? const InitiativeCounter2(
+                    title: 'Collected',
+                    count: 24,
+                  )
+                : Row(
+                    children: [
+                      const Icon(
+                        Icons.check_circle,
+                        color: AppColors.accentColor,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Completed',
+                        style: GoogleFonts.dmSans(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.white,
+                        ),
+                      )
+                    ],
+                  ),
+            const InitiativeCounter2(
+              title: 'Goal',
+              count: 1230,
+            ),
+          ],
+        ),
+        const SizedBox(height: 9),
+        SizedBox(
+          height: 16,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: LinearProgressIndicator(
+              value: progress,
+              backgroundColor: AppColors.tertiaryColor.withOpacity(0.20),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

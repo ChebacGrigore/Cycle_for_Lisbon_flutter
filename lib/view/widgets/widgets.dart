@@ -118,8 +118,8 @@ class ActivityBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 45,
-      height: 45,
+      width: 50,
+      height: 50,
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: color ?? AppColors.tomatoRed,
@@ -133,19 +133,26 @@ class ActivityBadge extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                count.toString(),
-                style: GoogleFonts.dmSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.white,
+              Expanded(
+                child: Text(
+                  count.toString(),
+                  style: GoogleFonts.dmSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                  ),
                 ),
               ),
-              Text(
-                title,
-                style: GoogleFonts.dmSans(
-                  fontSize: 10,
-                  color: AppColors.white,
+              Expanded(
+                flex: 2,
+                child: Text(
+                  title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: GoogleFonts.dmSans(
+                    fontSize: 8,
+                    color: AppColors.white,
+                  ),
                 ),
               ),
             ],

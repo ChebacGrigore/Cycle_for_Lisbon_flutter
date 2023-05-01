@@ -1,3 +1,5 @@
+import 'package:cfl/shared/shared.dart';
+import 'package:cfl/view/screens/home/single_initiative.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +37,7 @@ class InitiativeScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: GestureDetector(
                       onTap: () {
-                        //open initiative
+                        context.push(const SingleInitiative());
                       },
                       child: const InitiativeCard(),
                     ),

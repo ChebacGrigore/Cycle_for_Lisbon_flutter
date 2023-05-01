@@ -91,15 +91,15 @@ class AppComponentThemes {
       }),
       backgroundColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
-          return AppColors.black;
+          return AppColors.white;
         }
         return color ?? AppColors.secondaryColor;
       }),
       foregroundColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
-          return AppColors.black;
+          return AppColors.greyish;
         }
-        return AppColors.white;
+        return AppColors.black;
       }),
       overlayColor: MaterialStateProperty.resolveWith((states) {
         if (states.contains(MaterialState.disabled)) {
