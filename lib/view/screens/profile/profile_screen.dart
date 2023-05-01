@@ -1,3 +1,5 @@
+import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -132,7 +134,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       AppListTile(
                         title: 'Profile Settings',
                         icon: Icons.settings,
-                        onTap: () {},
+                        onTap: () {
+                          context.push(const ProfileSettings());
+                        },
                         trailing: const Icon(Icons.chevron_right_outlined),
                       ),
                       const SizedBox(height: 14),
@@ -221,7 +225,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: 'Delete Account',
                         icon: Icons.delete_outlined,
                         color: AppColors.tomatoRed,
-                        onTap: () {},
+                        onTap: () {
+                          context.showAppDialog(
+                            AppDialog(
+                              icon: Icons.delete_outline_rounded,
+                              acceptTitle: 'Yes, Delete',
+                              declineTitle: 'I changed my mind',
+                              title:
+                                  'Are you sure you want to delete your account?',
+                              description:
+                                  'By doing so, all your data will be permanently deleted and cannot be recovered. This action cannot be undone.',
+                              onAccept: () {},
+                              onDecline: () {
+                                context.pop();
+                              },
+                            ),
+                          );
+                        },
                       ),
                     ]),
               ),
@@ -308,6 +328,117 @@ class ProfileActivityCount extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class AppDialog extends StatelessWidget {
+  const AppDialog(
+      {this.icon,
+      required this.acceptTitle,
+      required this.declineTitle,
+      required this.title,
+      this.description,
+      this.onAccept,
+      this.onDecline,
+      super.key});
+  final IconData? icon;
+  final VoidCallback? onAccept;
+  final VoidCallback? onDecline;
+  final String acceptTitle;
+  final String declineTitle;
+  final String title;
+  final String? description;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: MediaQuery.of(context).size.height / 5,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: AppColors.white,
+      ),
+      child: Material(
+        color: AppColors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 45,
+              backgroundColor: AppColors.tertiaryColor,
+              child: Icon(
+                icon ?? Icons.info_outline,
+                color: AppColors.primaryColor,
+                size: 30,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.dmSans(
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            const SizedBox(height: 14),
+            Text(
+              description ?? '',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.dmSans(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColors.primaryColor.withOpacity(0.80),
+              ),
+            ),
+            const SizedBox(height: 45),
+            SizedBox(
+              width: double.infinity,
+              height: 49,
+              child: OutlinedButton(
+                style: AppComponentThemes.outlinedButtonTheme(
+                  color: AppColors.black,
+                  borderColor: AppColors.secondaryColor,
+                ),
+                onPressed: onAccept,
+                child: Text(
+                  acceptTitle,
+                  style: GoogleFonts.dmSans(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              height: 49,
+              child: ElevatedButton(
+                style: AppComponentThemes.elevatedButtonTheme(
+                  color: AppColors.secondaryColor,
+                  borderColor: Colors.transparent,
+                ),
+                onPressed: onDecline,
+                child: Text(
+                  declineTitle,
+                  style: GoogleFonts.dmSans(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
