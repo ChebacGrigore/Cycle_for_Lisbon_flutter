@@ -21,7 +21,8 @@ class AppAssets {
   static const String loom = 'assets/images/loom.svg';
   static const String unsplash = 'assets/images/unsplash.svg';
 
-  ///
+  ///badges
+  static const String barBellBadge = 'assets/images/barbell_badge.png';
 
   static const String union = 'assets/images/union.svg';
 }
