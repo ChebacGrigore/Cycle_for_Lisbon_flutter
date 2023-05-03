@@ -4,6 +4,7 @@ import 'package:cfl/view/screens/profile/badges.dart';
 import 'package:cfl/view/screens/profile/help_center.dart';
 import 'package:cfl/view/screens/profile/leaderboard.dart';
 import 'package:cfl/view/screens/profile/profile_settings.dart';
+import 'package:cfl/view/screens/profile/trip_history.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -171,7 +172,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       AppListTile(
                         title: 'Trip Histoy',
                         icon: Icons.history,
-                        onTap: () {},
+                        onTap: () {
+                          context.push(const TripHistoryScreen());
+                        },
                         trailing: const Icon(Icons.chevron_right_outlined),
                       ),
                       const SizedBox(height: 14),
