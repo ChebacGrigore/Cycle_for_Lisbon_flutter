@@ -1,4 +1,5 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/view/screens/profile/about.dart';
 import 'package:cfl/view/screens/profile/badges.dart';
 import 'package:cfl/view/screens/profile/help_center.dart';
 import 'package:cfl/view/screens/profile/profile_settings.dart';
@@ -187,7 +188,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       AppListTile(
                         title: 'About',
                         icon: Icons.info_outline,
-                        onTap: () {},
+                        onTap: () {
+                          context.push(const AboutScreen());
+                        },
                         trailing: const Icon(Icons.chevron_right_outlined),
                       ),
                       const SizedBox(height: 14),
