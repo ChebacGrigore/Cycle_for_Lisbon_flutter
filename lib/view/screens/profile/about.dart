@@ -19,7 +19,7 @@ class AboutScreen extends StatelessWidget {
             floating: true,
             pinned: true,
             snap: true,
-            expandedHeight: 400,
+            expandedHeight: 300,
             // iconTheme: const IconThemeData(
             //   color: AppColors.white,
             // ),
@@ -50,6 +50,7 @@ class AboutScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        const SizedBox(height: 100),
                         SvgPicture.asset(AppAssets.logoSvg),
                         const SizedBox(height: 8),
                         Text(
@@ -82,6 +83,106 @@ class AboutScreen extends StatelessWidget {
                   topRight: Radius.circular(12),
                 ),
                 color: AppColors.background,
+              ),
+              child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '''Lorem ipsum dolor sit amet consectetur. Aliquam vulputate massa id lacus gravida enim pretium sit. Sollicitudin fermentum duis ullamcorper gravida enim phasellus consectetur. Sapien sed varius fermentum dictumst varius pellentesque. Dui aliquam feugiat enim lectus. 
+
+Maecenas magna orci ut sit ultricies. Imperdiet neque libero at euismod. Tincidunt ut ac nibh amet posuere non nisl. Enim at dui in et ullamcorper. Risus tempus rhoncus tristique aliquam interdum. 
+
+Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed tortor. Pellentesque vel cras nunc quis volutpat dictumst mauris. Scelerisque leo id eu nunc pretium viverra. Ornare id diam sagittis in ornare hendrerit dolor leo. Nec amet non mauris tincidunt mauris eget mauris.''',
+                      textAlign: TextAlign.start,
+                      style: GoogleFonts.dmSans(
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(height: 42),
+                    Text(
+                      'Developed by: ',
+                      style: GoogleFonts.dmSans(),
+                    ),
+                    const SizedBox(height: 24),
+                    Image.asset(
+                      AppAssets.p1,
+                      width: 150,
+                      height: 32,
+                    ),
+                    const SizedBox(height: 32),
+                    const Divider(),
+                    const SizedBox(height: 42),
+                    Text(
+                      'Project: ',
+                      style: GoogleFonts.dmSans(),
+                    ),
+                    const SizedBox(height: 24),
+                    Image.asset(
+                      AppAssets.p2,
+                      width: 150,
+                      height: 32,
+                    ),
+                    const SizedBox(height: 32),
+                    const Divider(),
+                    const SizedBox(height: 42),
+                    Text(
+                      'Co-financed by: ',
+                      style: GoogleFonts.dmSans(),
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          AppAssets.p5,
+                          width: 90,
+                          height: 32,
+                        ),
+                        const SizedBox(width: 32),
+                        Image.asset(
+                          AppAssets.p3,
+                          width: 90,
+                          height: 32,
+                        ),
+                        // const SizedBox(width: 32),
+                        Image.asset(
+                          AppAssets.p4,
+                          width: 90,
+                          height: 32,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
+                    const Divider(),
+                    // const SizedBox(height: 51),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Privacy Policy and GDPR',
+                        style: GoogleFonts.dmSans(
+                          color: AppColors.primaryColor,
+                          decoration: TextDecoration.underline,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Terms and Conditions',
+                        style: GoogleFonts.dmSans(
+                          color: AppColors.primaryColor,
+                          decoration: TextDecoration.underline,
+                          fontSize: 14,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

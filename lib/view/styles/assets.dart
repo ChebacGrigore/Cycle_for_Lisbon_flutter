@@ -16,6 +16,7 @@ class AppAssets {
   static const String p2 = 'assets/images/p2.png';
   static const String p3 = 'assets/images/p3.png';
   static const String p4 = 'assets/images/p4.png';
+  static const String p5 = 'assets/images/p5.png';
   //sponsors
   static const String shopify = 'assets/images/shopify.svg';
   static const String loom = 'assets/images/loom.svg';
