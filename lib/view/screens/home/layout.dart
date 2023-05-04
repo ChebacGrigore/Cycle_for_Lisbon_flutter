@@ -17,7 +17,7 @@ class _LayoutState extends State<Layout> {
     return DefaultTabController(
       length: kTempScreens.length,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.background,
         body: Stack(
           children: [
             kTempScreens[_selectedIndex],
