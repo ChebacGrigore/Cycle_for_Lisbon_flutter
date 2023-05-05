@@ -22,15 +22,15 @@ class _SingleInitiativeState extends State<SingleInitiative> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            foregroundColor: AppColors.accentColor,
             floating: true,
             pinned: true,
             snap: true,
             expandedHeight: 300,
-            iconTheme: const IconThemeData(color: AppColors.white),
             title: Text(
               'Initiative Name',
               style: GoogleFonts.dmSans(
-                color: AppColors.white,
+                color: AppColors.background,
               ),
             ),
             flexibleSpace: FlexibleSpaceBar(

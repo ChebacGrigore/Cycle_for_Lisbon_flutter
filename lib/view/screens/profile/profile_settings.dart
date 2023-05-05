@@ -19,56 +19,140 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: CustomScrollView(slivers: [
-        SliverAppBar(
-          backgroundColor: AppColors.background,
-          floating: true,
-          pinned: true,
-          snap: true,
-          expandedHeight: 240,
-          iconTheme: const IconThemeData(
-            color: AppColors.white,
-          ),
-          title: Text(
-            'Profile Settings',
-            style: GoogleFonts.dmSans(
-              color: AppColors.white,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: AppColors.background,
+            foregroundColor: AppColors.accentColor,
+            floating: true,
+            pinned: true,
+            snap: true,
+            expandedHeight: 240,
+            title: Text(
+              'Profile Settings',
+              style: GoogleFonts.dmSans(),
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                children: <Widget>[
+                  ClipPath(
+                    clipper: HeaderClipper(
+                      avatarRadius: 0,
+                    ),
+                    child: CustomPaint(
+                      size: const Size.fromHeight(220),
+                      painter: HeaderPainter(
+                          color: AppColors.primaryColor, avatarRadius: 0),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: Stack(
+                        children: const [
+                          CircleAvatar(
+                            radius: 65,
+                            backgroundColor: AppColors.tertiaryColor,
+                          ),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: CircleAvatar(
+                              backgroundColor: AppColors.secondaryColor,
+                              child: Icon(
+                                Icons.photo_camera_outlined,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-          flexibleSpace: FlexibleSpaceBar(
-            background: Stack(
-              children: <Widget>[
-                ClipPath(
-                  clipper: HeaderClipper(
-                    avatarRadius: 0,
-                  ),
-                  child: CustomPaint(
-                    size: const Size.fromHeight(220),
-                    painter: HeaderPainter(
-                        color: AppColors.primaryColor, avatarRadius: 0),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SizedBox(
-                    width: 120,
-                    height: 120,
-                    child: Stack(
-                      children: const [
-                        CircleAvatar(
-                          radius: 65,
-                          backgroundColor: AppColors.tertiaryColor,
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 42),
+                        AppTextField(
+                          hint: 'First Name',
+                          controller: TextEditingController(),
                         ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: CircleAvatar(
-                            backgroundColor: AppColors.secondaryColor,
-                            child: Icon(
-                              Icons.photo_camera_outlined,
-                              color: AppColors.primaryColor,
+                        const SizedBox(height: 19),
+                        AppTextField(
+                          hint: 'Last Name',
+                          controller: TextEditingController(),
+                        ),
+                        const SizedBox(height: 19),
+                        AppTextField(
+                          hint: 'Nickname',
+                          controller: TextEditingController(),
+                        ),
+                        const SizedBox(height: 19),
+                        AppTextField(
+                          hint: 'Email',
+                          controller: TextEditingController(),
+                        ),
+                        const SizedBox(height: 29),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: AppColors.primaryColor.withOpacity(0.10),
+                              ),
                             ),
-                          ),
-                        )
+                            const SizedBox(width: 16),
+                            Text(
+                              'CHANGE PASSWORD',
+                              style: GoogleFonts.dmSans(
+                                color: AppColors.primaryColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Divider(
+                                color: AppColors.primaryColor.withOpacity(0.10),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 29),
+                        AppTextField(
+                          hint: 'Old Password',
+                          controller: TextEditingController(),
+                        ),
+                        const SizedBox(height: 19),
+                        AppTextField(
+                          hint: 'New Password',
+                          controller: TextEditingController(),
+                        ),
+                        const SizedBox(height: 19),
+                        AppTextField(
+                          hint: 'Confirm Password',
+                          controller: TextEditingController(),
+                        ),
+                        const SizedBox(height: 44),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 49,
+                          child: ElevatedButton(
+                              style: AppComponentThemes.elevatedButtonTheme(),
+                              onPressed: () {},
+                              child: const Text('Save Changes')),
+                        ),
+                        const SizedBox(height: 44),
                       ],
                     ),
                   ),
@@ -76,89 +160,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               ],
             ),
           ),
-        ),
-        SliverFillRemaining(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                const SizedBox(height: 42),
-                AppTextField(
-                  hint: 'First Name',
-                  controller: TextEditingController(),
-                ),
-                const SizedBox(height: 19),
-                AppTextField(
-                  hint: 'Last Name',
-                  controller: TextEditingController(),
-                ),
-                const SizedBox(height: 19),
-                AppTextField(
-                  hint: 'Nickname',
-                  controller: TextEditingController(),
-                ),
-                const SizedBox(height: 19),
-                AppTextField(
-                  hint: 'Email',
-                  controller: TextEditingController(),
-                ),
-                const SizedBox(height: 29),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        color: AppColors.primaryColor.withOpacity(0.10),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      'CHANGE PASSWORD',
-                      style: GoogleFonts.dmSans(
-                        color: AppColors.primaryColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Divider(
-                        color: AppColors.primaryColor.withOpacity(0.10),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 29),
-                AppTextField(
-                  hint: 'Old Password',
-                  controller: TextEditingController(),
-                ),
-                const SizedBox(height: 19),
-                AppTextField(
-                  hint: 'New Password',
-                  controller: TextEditingController(),
-                ),
-                const SizedBox(height: 19),
-                AppTextField(
-                  hint: 'Confirm Password',
-                  controller: TextEditingController(),
-                ),
-                const SizedBox(height: 44),
-                SizedBox(
-                  width: double.infinity,
-                  height: 49,
-                  child: ElevatedButton(
-                      style: AppComponentThemes.elevatedButtonTheme(),
-                      onPressed: () {},
-                      child: const Text('Save Changes')),
-                ),
-                const SizedBox(height: 44),
-              ],
-            ),
-          ),
-        ))
-      ]),
+        ],
+      ),
     );
   }
 }

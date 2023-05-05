@@ -20,6 +20,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
         slivers: [
           SliverAppBar(
             backgroundColor: AppColors.background,
+            foregroundColor: AppColors.accentColor,
             floating: true,
             pinned: true,
             snap: true,
@@ -27,7 +28,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
             automaticallyImplyLeading: widget.showAppBar ? true : false,
             expandedHeight: 150,
             iconTheme: const IconThemeData(
-              color: AppColors.white,
+              color: AppColors.primaryColor,
             ),
             title: Text(
               'Badges',

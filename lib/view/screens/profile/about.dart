@@ -14,15 +14,15 @@ class AboutScreen extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            foregroundColor: AppColors.white,
+            foregroundColor: AppColors.accentColor,
             backgroundColor: AppColors.background,
             floating: true,
             pinned: true,
             snap: true,
             expandedHeight: 300,
-            // iconTheme: const IconThemeData(
-            //   color: AppColors.white,
-            // ),
+            iconTheme: const IconThemeData(
+              color: AppColors.accentColor,
+            ),
             title: Text(
               'About',
               style: GoogleFonts.dmSans(

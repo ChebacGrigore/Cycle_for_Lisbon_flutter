@@ -94,16 +94,12 @@ class _OnboardingState extends State<Onboarding> {
               ),
             ),
           ),
-          //
           const SizedBox(height: 51),
-          const Spacer(),
-
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     items[currentIndex].title,
@@ -127,31 +123,24 @@ class _OnboardingState extends State<Onboarding> {
                   if (items[currentIndex].patners.isNotEmpty) ...[
                     const SizedBox(height: 24),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: items[currentIndex]
                           .patners
-                          .map((partner) => Padding(
-                                padding: const EdgeInsets.only(right: 30),
-                                child: Image.asset(
-                                  partner,
-                                  height: 24,
-                                ),
+                          .map((partner) => Image.asset(
+                                partner,
+                                height: 20,
                               ))
                           .toList(),
                     )
                   ],
                   const SizedBox(height: 27),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: items
                         .map(
-                          (e) => Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: OnboardingIndicator(
-                              isCurrentIndex:
-                                  items.indexOf(e) == currentIndex &&
-                                      currentIndex != items.length,
-                            ),
+                          (e) => OnboardingIndicator(
+                            isCurrentIndex: items.indexOf(e) == currentIndex &&
+                                currentIndex != items.length,
                           ),
                         )
                         .toList(),

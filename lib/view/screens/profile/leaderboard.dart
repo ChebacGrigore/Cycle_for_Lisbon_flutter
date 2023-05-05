@@ -116,6 +116,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
+                padding: const EdgeInsets.only(bottom: 150),
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(12),
@@ -126,7 +127,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 child: ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 1000,
+                  itemCount: 5,
                   itemBuilder: (ctx, idx) {
                     return ListTile(
                       leading: const CircleAvatar(radius: 45),
