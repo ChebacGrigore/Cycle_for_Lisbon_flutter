@@ -1,12 +1,10 @@
-import 'package:cfl/view/screens/profile/profile_screen.dart';
 import 'package:cfl/view/styles/styles.dart';
-import 'package:cfl/view/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LeaderboardScreen extends StatefulWidget {
-  const LeaderboardScreen({super.key});
-
+  const LeaderboardScreen({this.showAppBar = true, super.key});
+  final bool showAppBar;
   @override
   State<LeaderboardScreen> createState() => _LeaderboardScreenState();
 }
@@ -19,6 +17,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: widget.showAppBar ? true : false,
+            centerTitle: true,
+            stretch: true,
             floating: true,
             pinned: true,
             expandedHeight: 370,

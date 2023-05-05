@@ -21,7 +21,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       children: [
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.example.app',
+          userAgentPackageName: 'com.app.cfl',
           tileBuilder: darkModeTileBuilder,
           backgroundColor: Colors.black54,
         ),

@@ -1,4 +1,5 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/view/screens/home/map.dart';
 import 'package:cfl/view/screens/profile/profile_screen.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
@@ -193,6 +194,9 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(12),
             color: AppColors.black.withOpacity(.05),
           ),
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: const MapScreen()),
         ),
         const SizedBox(height: 32),
         Row(

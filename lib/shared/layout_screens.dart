@@ -1,14 +1,17 @@
+import 'package:cfl/view/screens/feed/all_feed.dart';
 import 'package:cfl/view/screens/home/home_screen.dart';
 import 'package:cfl/view/screens/home/all_intiatives_screen.dart';
 import 'package:cfl/view/screens/home/map.dart';
-import 'package:flutter/material.dart';
+import 'package:cfl/view/screens/profile/badges.dart';
+import 'package:cfl/view/screens/profile/help_center.dart';
+import 'package:cfl/view/screens/profile/leaderboard.dart';
 
 const kTempScreens = [
   HomeScreen(),
   InitiativeScreen(),
-  Text('Add'),
+  BadgesScreen(showAppBar: false),
   MapScreen(),
-  Text('data'),
-  Text('Feed'),
-  Text('Profile'),
+  LeaderboardScreen(showAppBar: false),
+  AllFeedScreen(),
+  HelpCenter(showAppBar: false),
 ];

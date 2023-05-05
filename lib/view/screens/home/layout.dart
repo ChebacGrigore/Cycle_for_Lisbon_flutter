@@ -66,13 +66,13 @@ class _LayoutState extends State<Layout> {
                           ),
                           Tab(
                             icon: Icon(
-                              Icons.track_changes_outlined,
+                              Icons.add_road,
                               size: 20,
                             ),
                           ),
                           Tab(
                             icon: Icon(
-                              Icons.add_road,
+                              Icons.track_changes_outlined,
                               size: 20,
                             ),
                           ),
@@ -90,13 +90,13 @@ class _LayoutState extends State<Layout> {
                           ),
                           Tab(
                             icon: Icon(
-                              Icons.wb_incandescent_outlined,
+                              Icons.feed_outlined,
                               size: 20,
                             ),
                           ),
                           Tab(
                             icon: Icon(
-                              Icons.file_copy,
+                              Icons.phone_in_talk_outlined,
                               size: 20,
                             ),
                           ),

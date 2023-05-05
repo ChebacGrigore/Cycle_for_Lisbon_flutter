@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HelpCenter extends StatefulWidget {
-  const HelpCenter({super.key});
-
+  const HelpCenter({this.showAppBar = true, super.key});
+  final bool showAppBar;
   @override
   State<HelpCenter> createState() => _HelpCenterState();
 }
@@ -22,6 +22,8 @@ class _HelpCenterState extends State<HelpCenter> {
             floating: true,
             pinned: true,
             snap: true,
+            centerTitle: true,
+            automaticallyImplyLeading: widget.showAppBar ? true : false,
             expandedHeight: 150,
             iconTheme: const IconThemeData(
               color: AppColors.white,

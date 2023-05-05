@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BadgesScreen extends StatefulWidget {
-  const BadgesScreen({super.key});
-
+  const BadgesScreen({this.showAppBar = true, super.key});
+  final bool showAppBar;
   @override
   State<BadgesScreen> createState() => _BadgesScreenState();
 }
@@ -23,6 +23,8 @@ class _BadgesScreenState extends State<BadgesScreen> {
             floating: true,
             pinned: true,
             snap: true,
+            centerTitle: true,
+            automaticallyImplyLeading: widget.showAppBar ? true : false,
             expandedHeight: 150,
             iconTheme: const IconThemeData(
               color: AppColors.white,
