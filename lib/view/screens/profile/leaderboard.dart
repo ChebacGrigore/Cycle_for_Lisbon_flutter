@@ -113,76 +113,79 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
               ),
             ),
           ),
-          SliverFillRemaining(
-            child: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                  color: AppColors.white,
                 ),
-                color: AppColors.white,
-              ),
-              child: ListView.separated(
-                shrinkWrap: true,
-                itemCount: 100,
-                itemBuilder: (ctx, idx) {
-                  return ListTile(
-                    leading: const CircleAvatar(radius: 45),
-                    title: RichText(
-                      text: TextSpan(
-                        text: 'Wade  ',
-                        children: [
-                          TextSpan(
-                            text: '@username',
-                            style: GoogleFonts.dmSans(
-                              fontSize: 12,
-                              color: AppColors.primaryColor.withOpacity(0.60),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 1000,
+                  itemBuilder: (ctx, idx) {
+                    return ListTile(
+                      leading: const CircleAvatar(radius: 45),
+                      title: RichText(
+                        text: TextSpan(
+                          text: 'Wade  ',
+                          children: [
+                            TextSpan(
+                              text: '@username',
+                              style: GoogleFonts.dmSans(
+                                fontSize: 12,
+                                color: AppColors.primaryColor.withOpacity(0.60),
+                              ),
                             ),
+                          ],
+                          style: GoogleFonts.dmSans(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.primaryColor,
                           ),
-                        ],
-                        style: GoogleFonts.dmSans(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.primaryColor,
                         ),
                       ),
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        LeaderboardActivityCount(
-                          showTitle: false,
-                          count: 232,
-                          title: '',
-                          unit: 'km',
-                          icon: Icons.roundabout_right_outlined,
-                        ),
-                        SizedBox(width: 20),
-                        LeaderboardActivityCount(
-                          showTitle: false,
-                          count: 20,
-                          title: 'Rides',
-                          unit: 'x',
-                          icon: Icons.pedal_bike,
-                        ),
-                        SizedBox(width: 20),
-                        LeaderboardActivityCount(
-                          showTitle: false,
-                          count: 20,
-                          title: '',
-                          unit: '',
-                          icon: Icons.attach_money_outlined,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                separatorBuilder: (ctx, idx) {
-                  return const Divider();
-                },
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: const [
+                          LeaderboardActivityCount(
+                            showTitle: false,
+                            count: 232,
+                            title: '',
+                            unit: 'km',
+                            icon: Icons.roundabout_right_outlined,
+                          ),
+                          SizedBox(width: 20),
+                          LeaderboardActivityCount(
+                            showTitle: false,
+                            count: 20,
+                            title: 'Rides',
+                            unit: 'x',
+                            icon: Icons.pedal_bike,
+                          ),
+                          SizedBox(width: 20),
+                          LeaderboardActivityCount(
+                            showTitle: false,
+                            count: 20,
+                            title: '',
+                            unit: '',
+                            icon: Icons.attach_money_outlined,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (ctx, idx) {
+                    return const Divider();
+                  },
+                ),
               ),
-            ),
-          )
+            ]),
+          ),
         ],
       ),
     );

@@ -121,146 +121,150 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
-          SliverFillRemaining(
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                  color: AppColors.white,
                 ),
-                color: AppColors.white,
-              ),
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppListTile(
-                        title: 'Profile Settings',
-                        icon: Icons.settings,
-                        onTap: () {
-                          context.push(const ProfileSettings());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'Badges',
-                        icon: Icons.badge,
-                        onTap: () {
-                          context.push(const BadgesScreen());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'Leaderboard',
-                        icon: Icons.leaderboard,
-                        onTap: () {
-                          context.push(const LeaderboardScreen());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'Trip Histoy',
-                        icon: Icons.history,
-                        onTap: () {
-                          context.push(const TripHistoryScreen());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'Help Center',
-                        icon: Icons.help_center_sharp,
-                        onTap: () {
-                          context.push(const HelpCenter());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'About',
-                        icon: Icons.info_outline,
-                        onTap: () {
-                          context.push(const AboutScreen());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'Notifications',
-                        icon: Icons.notifications_none_sharp,
-                        onTap: () {},
-                        trailing: Switch(
-                          onChanged: (val) {},
-                          value: true,
-                          trackColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.disabled)) {
-                              return AppColors.greyish.withOpacity(.48);
-                            }
-                            return AppColors.greyish;
-                          }),
-                          thumbColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.disabled)) {
-                              return AppColors.accentColor.withOpacity(.48);
-                            }
-                            return AppColors.accentColor;
-                          }),
+                child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppListTile(
+                          title: 'Profile Settings',
+                          icon: Icons.settings,
+                          onTap: () {
+                            context.push(const ProfileSettings());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
                         ),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'Logout',
-                        icon: Icons.exit_to_app,
-                        onTap: () {},
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'Delete Account',
-                        icon: Icons.delete_outlined,
-                        color: AppColors.tomatoRed,
-                        onTap: () {
-                          context.showAppDialog(
-                            AppDialog(
-                              icon: Icons.delete_outline_rounded,
-                              acceptTitle: 'Yes, Delete',
-                              declineTitle: 'I changed my mind',
-                              title:
-                                  'Are you sure you want to delete your account?',
-                              description:
-                                  'By doing so, all your data will be permanently deleted and cannot be recovered. This action cannot be undone.',
-                              onAccept: () {},
-                              onDecline: () {
-                                context.pop();
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ]),
+                        const SizedBox(height: 14),
+                        const Divider(),
+                        const SizedBox(height: 14),
+                        AppListTile(
+                          title: 'Badges',
+                          icon: Icons.badge,
+                          onTap: () {
+                            context.push(const BadgesScreen());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
+                        ),
+                        const SizedBox(height: 14),
+                        const Divider(),
+                        const SizedBox(height: 14),
+                        AppListTile(
+                          title: 'Leaderboard',
+                          icon: Icons.leaderboard,
+                          onTap: () {
+                            context.push(const LeaderboardScreen());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
+                        ),
+                        const SizedBox(height: 14),
+                        const Divider(),
+                        const SizedBox(height: 14),
+                        AppListTile(
+                          title: 'Trip Histoy',
+                          icon: Icons.history,
+                          onTap: () {
+                            context.push(const TripHistoryScreen());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
+                        ),
+                        const SizedBox(height: 14),
+                        const Divider(),
+                        const SizedBox(height: 14),
+                        AppListTile(
+                          title: 'Help Center',
+                          icon: Icons.help_center_sharp,
+                          onTap: () {
+                            context.push(const HelpCenter());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
+                        ),
+                        const SizedBox(height: 14),
+                        const Divider(),
+                        const SizedBox(height: 14),
+                        AppListTile(
+                          title: 'About',
+                          icon: Icons.info_outline,
+                          onTap: () {
+                            context.push(const AboutScreen());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
+                        ),
+                        const SizedBox(height: 14),
+                        const Divider(),
+                        const SizedBox(height: 14),
+                        AppListTile(
+                          title: 'Notifications',
+                          icon: Icons.notifications_none_sharp,
+                          onTap: () {},
+                          trailing: Switch(
+                            onChanged: (val) {},
+                            value: true,
+                            trackColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return AppColors.greyish.withOpacity(.48);
+                              }
+                              return AppColors.greyish;
+                            }),
+                            thumbColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return AppColors.accentColor.withOpacity(.48);
+                              }
+                              return AppColors.accentColor;
+                            }),
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        const Divider(),
+                        const SizedBox(height: 14),
+                        AppListTile(
+                          title: 'Logout',
+                          icon: Icons.exit_to_app,
+                          onTap: () {},
+                        ),
+                        const SizedBox(height: 14),
+                        const Divider(),
+                        const SizedBox(height: 14),
+                        AppListTile(
+                          title: 'Delete Account',
+                          icon: Icons.delete_outlined,
+                          color: AppColors.tomatoRed,
+                          onTap: () {
+                            context.showAppDialog(
+                              AppDialog(
+                                icon: Icons.delete_outline_rounded,
+                                acceptTitle: 'Yes, Delete',
+                                declineTitle: 'I changed my mind',
+                                title:
+                                    'Are you sure you want to delete your account?',
+                                description:
+                                    'By doing so, all your data will be permanently deleted and cannot be recovered. This action cannot be undone.',
+                                onAccept: () {},
+                                onDecline: () {
+                                  context.pop();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ]),
+                ),
               ),
-            ),
+            ]),
           ),
         ],
       ),

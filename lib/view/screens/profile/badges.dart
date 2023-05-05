@@ -50,48 +50,52 @@ class _BadgesScreenState extends State<BadgesScreen> {
               ]),
             ),
           ),
-          SliverFillRemaining(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 39),
-                    Text(
-                      'You have Unlocked 3 Badges out of 15',
-                      style: GoogleFonts.dmSans(
-                        fontSize: 14,
-                        color: AppColors.primaryColor,
-                      ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                  ),
+                  child: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 39),
+                        Text(
+                          'You have Unlocked 3 Badges out of 15',
+                          style: GoogleFonts.dmSans(
+                            fontSize: 14,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 37),
+                        GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 41,
+                            mainAxisSpacing: 24,
+                          ),
+                          itemCount: 150,
+                          itemBuilder: (context, index) {
+                            return const Badge(
+                              value: 0.5,
+                              badgePath: AppAssets.barBellBadge,
+                              badgeName: 'Badge Name',
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 37),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 41,
-                        mainAxisSpacing: 24,
-                      ),
-                      itemCount: 15,
-                      itemBuilder: (context, index) {
-                        return const Badge(
-                          value: 0.5,
-                          badgePath: AppAssets.barBellBadge,
-                          badgeName: 'Badge Name',
-                        );
-                      },
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );
