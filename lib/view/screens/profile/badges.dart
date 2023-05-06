@@ -65,7 +65,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                       children: [
                         const SizedBox(height: 39),
                         Text(
-                          'You have Unlocked 3 Badges out of 15',
+                          'You have Unlocked 3 Badges out of 12',
                           style: GoogleFonts.dmSans(
                             fontSize: 14,
                             color: AppColors.primaryColor,
@@ -77,11 +77,12 @@ class _BadgesScreenState extends State<BadgesScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 41,
-                            mainAxisSpacing: 24,
+                            crossAxisCount: 4,
+                            childAspectRatio: 0.8,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
                           ),
-                          itemCount: 150,
+                          itemCount: 12,
                           itemBuilder: (context, index) {
                             return const Badge(
                               value: 0.5,

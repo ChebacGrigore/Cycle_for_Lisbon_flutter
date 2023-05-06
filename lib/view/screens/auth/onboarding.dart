@@ -59,123 +59,129 @@ class _OnboardingState extends State<Onboarding> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height / 2,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.fill,
-                image: AssetImage(
-                  items[currentIndex].imagePath,
-                ),
-              ),
-            ),
-            child: Container(
-              color: AppColors.black.withOpacity(0.5),
-              child: SafeArea(
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton.icon(
-                    style: AppComponentThemes.textButtonTheme(
-                      color: AppColors.white,
-                    ),
-                    onPressed: () {
-                      context.pushReplacement(const SplashScreen());
-                    },
-                    icon: Text(
-                      'Skip',
-                      style: GoogleFonts.dmSans(),
-                    ),
-                    label: const Icon(Icons.skip_next),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 2 - 20,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage(
+                    items[currentIndex].imagePath,
                   ),
                 ),
               ),
+              child: Container(
+                color: AppColors.black.withOpacity(0.5),
+                child: SafeArea(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: TextButton.icon(
+                      style: AppComponentThemes.textButtonTheme(
+                        color: AppColors.white,
+                      ),
+                      onPressed: () {
+                        context.pushReplacement(const SplashScreen());
+                      },
+                      icon: Text(
+                        'Skip',
+                        style: GoogleFonts.dmSans(),
+                      ),
+                      label: const Icon(Icons.skip_next),
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 51),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    items[currentIndex].title,
-                    style: GoogleFonts.dmSans(
-                      color: AppColors.primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
+            const SizedBox(height: 51),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      items[currentIndex].title,
+                      style: GoogleFonts.dmSans(
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 22,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    items[currentIndex].description,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.dmSans(
-                      color: AppColors.primaryColor.withOpacity(0.80),
-                      fontSize: 14,
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      height: 120,
+                      child: Text(
+                        items[currentIndex].description,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.dmSans(
+                          color: AppColors.primaryColor.withOpacity(0.80),
+                          fontSize: 14,
+                        ),
+                      ),
                     ),
-                  ),
-                  if (items[currentIndex].patners.isEmpty)
-                    const SizedBox(height: 39),
-                  if (items[currentIndex].patners.isNotEmpty) ...[
-                    const SizedBox(height: 24),
+                    if (items[currentIndex].patners.isEmpty)
+                      const SizedBox(height: 19),
+                    if (items[currentIndex].patners.isNotEmpty) ...[
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: items[currentIndex]
+                            .patners
+                            .map((partner) => Image.asset(
+                                  partner,
+                                  height: 20,
+                                ))
+                            .toList(),
+                      )
+                    ],
+                    const SizedBox(height: 29),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: items[currentIndex]
-                          .patners
-                          .map((partner) => Image.asset(
-                                partner,
-                                height: 20,
-                              ))
+                      children: items
+                          .map(
+                            (e) => OnboardingIndicator(
+                              isCurrentIndex:
+                                  items.indexOf(e) == currentIndex &&
+                                      currentIndex != items.length,
+                            ),
+                          )
                           .toList(),
+                    ),
+                    const SizedBox(height: 29),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: SizedBox(
+                        width: 100,
+                        height: 49,
+                        child: ElevatedButton(
+                            style: AppComponentThemes.elevatedButtonTheme(),
+                            onPressed: () {
+                              setState(() {
+                                if (currentIndex == 4) {
+                                  context.pushReplacement(const SplashScreen());
+                                } else {
+                                  currentIndex += 1;
+                                }
+                              });
+                            },
+                            child: Text(
+                              'Next',
+                              style: GoogleFonts.dmSans(
+                                color: AppColors.black,
+                              ),
+                            )),
+                      ),
                     )
                   ],
-                  const SizedBox(height: 27),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: items
-                        .map(
-                          (e) => OnboardingIndicator(
-                            isCurrentIndex: items.indexOf(e) == currentIndex &&
-                                currentIndex != items.length,
-                          ),
-                        )
-                        .toList(),
-                  ),
-                  const SizedBox(height: 24),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: SizedBox(
-                      width: 100,
-                      height: 49,
-                      child: ElevatedButton(
-                          style: AppComponentThemes.elevatedButtonTheme(),
-                          onPressed: () {
-                            setState(() {
-                              if (currentIndex == 4) {
-                                context.pushReplacement(const SplashScreen());
-                              } else {
-                                currentIndex += 1;
-                              }
-                            });
-                          },
-                          child: Text(
-                            'Next',
-                            style: GoogleFonts.dmSans(
-                              color: AppColors.black,
-                            ),
-                          )),
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
-          ),
-          const Spacer(),
-        ],
+            // const Spacer(),
+          ],
+        ),
       ),
     );
   }
