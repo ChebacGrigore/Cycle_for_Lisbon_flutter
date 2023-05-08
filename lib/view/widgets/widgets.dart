@@ -185,7 +185,7 @@ class ActvityCount extends StatelessWidget {
         ),
         const SizedBox(width: 4),
         const Icon(
-          Icons.monetization_on_sharp,
+          CFLIcons.coin1,
           color: AppColors.secondaryColor,
           size: 10,
         ),

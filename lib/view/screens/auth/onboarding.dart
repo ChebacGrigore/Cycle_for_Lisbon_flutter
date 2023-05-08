@@ -89,7 +89,7 @@ class _OnboardingState extends State<Onboarding> {
                         'Skip',
                         style: GoogleFonts.dmSans(),
                       ),
-                      label: const Icon(Icons.skip_next),
+                      label: const Icon(CFLIcons.skipArrow),
                     ),
                   ),
                 ),

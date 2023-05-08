@@ -10,10 +10,9 @@ class InitiativeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(16),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 100),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +46,7 @@ class InitiativeScreen extends StatelessWidget {
             ],
           ),
         ),
-      )),
+      ),
     );
   }
 }

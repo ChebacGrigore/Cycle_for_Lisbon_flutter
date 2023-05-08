@@ -1,5 +1,4 @@
-import 'package:cfl/view/styles/assets.dart';
-import 'package:cfl/view/styles/colors.dart';
+import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -87,21 +86,20 @@ class _SingleNewsFeedState extends ConsumerState<SingleNewsFeed> {
                             ),
                           ),
                           const SizedBox(width: 22),
-                          // TODO: use icons
                           IconButton(
                             color: AppColors.accentColor,
                             onPressed: () {},
-                            icon: const Icon(Icons.facebook),
+                            icon: const Icon(CFLIcons.facebook),
                           ),
                           IconButton(
                             color: AppColors.accentColor,
                             onPressed: () {},
-                            icon: const Icon(Icons.bookmark_outline_rounded),
+                            icon: const Icon(CFLIcons.twitter),
                           ),
                           IconButton(
                             color: AppColors.accentColor,
                             onPressed: () {},
-                            icon: const Icon(Icons.dataset_linked_rounded),
+                            icon: const Icon(CFLIcons.linkedin),
                           ),
                         ],
                       ),

@@ -1,4 +1,5 @@
 import 'package:cfl/shared/shared.dart';
+import 'package:cfl/view/styles/cfl_icons.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -60,37 +61,37 @@ class _LayoutState extends State<Layout> {
                         tabs: const [
                           Tab(
                             icon: Icon(
-                              Icons.home,
+                              CFLIcons.home,
                               size: 20,
                             ),
                           ),
                           Tab(
                             icon: Icon(
-                              Icons.add_road,
+                              CFLIcons.roadhz,
                               size: 20,
                             ),
                           ),
                           Tab(
                             icon: Icon(
-                              Icons.track_changes_outlined,
+                              CFLIcons.target,
                               size: 20,
                             ),
                           ),
                           Tab(
                             icon: Icon(
-                              Icons.map,
+                              CFLIcons.map,
                               size: 20,
                             ),
                           ),
                           Tab(
                             icon: Icon(
-                              Icons.leaderboard,
+                              CFLIcons.crown1,
                               size: 20,
                             ),
                           ),
                           Tab(
                             icon: Icon(
-                              Icons.feed_outlined,
+                              CFLIcons.newspaper1,
                               size: 20,
                             ),
                           ),

@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             unit: 'h',
                             count: 3,
                             title: 'Total Rides',
-                            icon: Icons.access_time,
+                            icon: CFLIcons.clock,
                           ),
                           const SizedBox(width: 6),
                           SizedBox(
@@ -96,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             unit: '',
                             count: 3340,
                             title: 'Total km',
-                            icon: Icons.access_time,
+                            icon: CFLIcons.roadhz,
                           ),
                           const SizedBox(width: 6),
                           SizedBox(
@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             unit: '',
                             count: 567,
                             title: 'Total Donations',
-                            icon: Icons.monetization_on,
+                            icon: CFLIcons.coin1,
                           ),
                         ],
                       ),
@@ -139,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         AppListTile(
                           title: 'Profile Settings',
-                          icon: Icons.settings,
+                          icon: CFLIcons.settings,
                           onTap: () {
                             context.push(const ProfileSettings());
                           },
@@ -150,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 14),
                         AppListTile(
                           title: 'Badges',
-                          icon: Icons.badge,
+                          icon: CFLIcons.bmedalmilitary,
                           onTap: () {
                             context.push(const BadgesScreen());
                           },
@@ -161,7 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 14),
                         AppListTile(
                           title: 'Leaderboard',
-                          icon: Icons.leaderboard,
+                          icon: CFLIcons.crown1,
                           onTap: () {
                             context.push(const LeaderboardScreen());
                           },
@@ -172,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 14),
                         AppListTile(
                           title: 'Trip Histoy',
-                          icon: Icons.history,
+                          icon: CFLIcons.roadhz,
                           onTap: () {
                             context.push(const TripHistoryScreen());
                           },
@@ -183,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 14),
                         AppListTile(
                           title: 'Help Center',
-                          icon: Icons.help_center_sharp,
+                          icon: CFLIcons.help,
                           onTap: () {
                             context.push(const HelpCenter());
                           },
@@ -233,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 14),
                         AppListTile(
                           title: 'Logout',
-                          icon: Icons.exit_to_app,
+                          icon: CFLIcons.exit,
                           onTap: () {},
                         ),
                         const SizedBox(height: 14),

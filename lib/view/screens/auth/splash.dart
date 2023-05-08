@@ -147,7 +147,7 @@ class SocialLogins extends StatelessWidget {
           children: [
             AppRoundedButton(
               fill: fill,
-              icon: Icons.facebook,
+              icon: CFLIcons.facebook,
               color: color ?? AppColors.white,
               onTap: () {},
             ),
@@ -155,14 +155,14 @@ class SocialLogins extends StatelessWidget {
             AppRoundedButton(
               fill: fill,
               color: color ?? AppColors.white,
-              icon: Icons.g_mobiledata,
+              icon: CFLIcons.google,
               onTap: () {},
             ),
             const SizedBox(width: 16),
             AppRoundedButton(
               fill: fill,
               color: color ?? AppColors.white,
-              icon: Icons.apple,
+              icon: CFLIcons.apple,
               onTap: () {},
             ),
           ],

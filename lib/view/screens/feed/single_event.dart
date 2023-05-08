@@ -138,21 +138,20 @@ class _SingleFeedScreenState extends ConsumerState<SingleEventFeed> {
                             ),
                           ),
                           const SizedBox(width: 22),
-                          // TODO: use icons
                           IconButton(
                             color: AppColors.accentColor,
                             onPressed: () {},
-                            icon: const Icon(Icons.facebook),
+                            icon: const Icon(CFLIcons.facebook),
                           ),
                           IconButton(
                             color: AppColors.accentColor,
                             onPressed: () {},
-                            icon: const Icon(Icons.bookmark_outline_rounded),
+                            icon: const Icon(CFLIcons.twitter),
                           ),
                           IconButton(
                             color: AppColors.accentColor,
                             onPressed: () {},
-                            icon: const Icon(Icons.dataset_linked_rounded),
+                            icon: const Icon(CFLIcons.linkedin),
                           ),
                         ],
                       ),

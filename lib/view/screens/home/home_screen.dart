@@ -23,7 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.only(
+                left: 16, right: 16, top: 16, bottom: 200),
             child: homeBuilder(),
           ),
         ),
@@ -62,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: PillContainer(
                 title: 'Total Earned',
                 count: 13,
-                icon: Icons.arrow_upward,
+                icon: CFLIcons.coin1,
               ),
             ),
             SizedBox(width: 10),
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: PillContainer(
                 title: 'Total km',
                 count: 50,
-                icon: Icons.arrow_downward,
+                icon: CFLIcons.roadhz,
               ),
             ),
           ],
@@ -134,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: PillContainer(
                 title: 'Total Earned',
                 count: 13,
-                icon: Icons.arrow_upward,
+                icon: CFLIcons.coin1,
               ),
             ),
             SizedBox(width: 10),
@@ -142,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: PillContainer(
                 title: 'Total km',
                 count: 50,
-                icon: Icons.arrow_downward,
+                icon: CFLIcons.roadhz,
               ),
             ),
           ],
@@ -162,17 +163,17 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const [
             ContributionCard(
-              icon: Icons.rotate_90_degrees_ccw,
+              icon: CFLIcons.roadhz,
               count: 12,
               title: 'km',
             ),
             ContributionCard(
-              icon: Icons.timelapse_outlined,
+              icon: CFLIcons.clock,
               count: 5,
               title: 'h',
             ),
             ContributionCard(
-              icon: Icons.monetization_on,
+              icon: CFLIcons.coin1,
               count: 20,
               title: 'Coins',
             ),
@@ -203,18 +204,18 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const [
             ContributionCard(
-              icon: Icons.rotate_90_degrees_ccw,
+              icon: CFLIcons.roadhz,
               count: 12,
               title: 'km',
             ),
             ContributionCard(
-              icon: Icons.timelapse_outlined,
+              icon: CFLIcons.clock,
               count: 5,
-              title: 'min',
+              title: 'h',
             ),
             ContributionCard(
-              icon: Icons.monetization_on,
-              count: 8,
+              icon: CFLIcons.coin1,
+              count: 20,
               title: 'Coins',
             ),
           ],
@@ -273,7 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: PillContainer(
                 title: 'Total Earned',
                 count: 13,
-                icon: Icons.arrow_upward,
+                icon: CFLIcons.coin1,
               ),
             ),
             SizedBox(width: 10),
@@ -281,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: PillContainer(
                 title: 'Total km',
                 count: 50,
-                icon: Icons.arrow_downward,
+                icon: CFLIcons.roadhz,
               ),
             ),
           ],
@@ -544,7 +545,7 @@ class InitiativeCounter2 extends StatelessWidget {
         Row(
           children: [
             const Icon(
-              Icons.monetization_on,
+              CFLIcons.coin1,
               color: AppColors.accentColor,
             ),
             const SizedBox(width: 4),
