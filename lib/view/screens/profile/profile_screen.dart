@@ -1,4 +1,6 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/view/screens/auth/signup.dart';
+import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/screens/profile/about.dart';
 import 'package:cfl/view/screens/profile/badges.dart';
 import 'package:cfl/view/screens/profile/help_center.dart';
@@ -253,7 +255,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     'Are you sure you want to delete your account?',
                                 description:
                                     'By doing so, all your data will be permanently deleted and cannot be recovered. This action cannot be undone.',
-                                onAccept: () {},
+                                onAccept: () {
+                                  context.popUntil(const SignUp());
+                                },
                                 onDecline: () {
                                   context.pop();
                                 },

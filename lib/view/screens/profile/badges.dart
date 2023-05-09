@@ -55,8 +55,11 @@ class _BadgesScreenState extends State<BadgesScreen> {
             delegate: SliverChildListDelegate(
               [
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 16,
+                    bottom: 200,
                   ),
                   child: SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -77,10 +80,10 @@ class _BadgesScreenState extends State<BadgesScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                            childAspectRatio: 0.8,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
+                            crossAxisCount: 3,
+                            childAspectRatio: 0.9,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
                           ),
                           itemCount: 12,
                           itemBuilder: (context, index) {

@@ -27,12 +27,16 @@ extension BuidContextExtension on BuildContext {
       );
 
   void pop<T>([T? result]) => Navigator.of(this).pop(result);
+
+  void popUntil<T>(Widget page) =>
+      Navigator.of(this).popUntil((page) => page.isFirst);
   //push navigation
   Future<T?> push<T>(Widget page) => Navigator.of(this).push<T>(
         MaterialPageRoute<T>(
           builder: (context) => page,
         ),
       );
+
   //push replacement navigation
   Future<T?> pushReplacement<T, TO>(Widget page) =>
       Navigator.of(this).pushReplacement<T, TO>(
