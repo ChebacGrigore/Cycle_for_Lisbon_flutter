@@ -1,11 +1,23 @@
 import 'package:cfl/view/screens/auth/onboarding.dart';
 import 'package:cfl/view/styles/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:i18n_extension/i18n_widget.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('pt', 'BR'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en', 'US'),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -16,23 +28,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cycle For Lisbon',
-      // localizationsDelegates: [
-      //   // GlobalMaterialLocalizations.delegate,
-      //   // GlobalWidgetsLocalizations.delegate,
-      //   // GlobalCupertinoLocalizations.delegate,
-      // ],
-      supportedLocales: const [
-        Locale('en', "US"),
-        Locale('pt', "BR"),
-      ],
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       theme: ThemeData(
         primarySwatch: AppColors.accentColor,
         fontFamily: GoogleFonts.dmSans().fontFamily,
       ),
-      home: I18n(
-        initialLocale: const Locale("pt", "BR"),
-        child: const Onboarding(),
-      ),
+      home: const Onboarding(),
     );
   }
 }

@@ -1,0 +1,27 @@
+{
+    "splash_welcome":"Bem-vindo ao Cycle for Lisbon! Conheça a cidade em duas rodas e ajude a comunidade.",
+
+
+    "onboard_welcome_title":"Bem-vindo ao Cycle for Lisbon",
+    "onboard_welcome_desc":"Prepare-se para explorar a cidade de Lisboa em duas rodas enquanto tem um impacto positivo em iniciativas de ONGs.",
+
+    "onboard_initiative_title":"Apoie uma Iniciativa",
+    "onboard_initiative_desc":"Escolha a iniciativa que pretende apoiar e saiba mais sobre o seu objetivo e os seus promotores.",
+
+    "onboard_coin_title":"Ganhe Moedas",
+    "onboard_coin_desc":"Por cada quilómetro que percorrer, ganhará moedas que podem ser convertidas em dinheiro real para apoiar a iniciativa que selecionou. A Cycle for Lisbon é possível graças ao apoio generoso de patrocinadores.",
+
+    "onboard_help_title":"Ajude a Comunidade",
+    "onboard_help_desc":"As moedas que ganha serão automaticamente doadas à iniciativa que selecionou. Só poderá ter uma iniciativa ativa de cada vez. Quando o objetivo da iniciativa for atingido, ser-lhe-á pedido que selecione uma nova iniciativa.",
+
+    "onboard_project_title":"O Projeto",
+    "onboard_project_desc":"A Cycle for Lisbon é desenvolvida pela Pensar Mais para o Vox Pop, um projecto co-financiado pela Câmara Municipal de Lisboa e pelo Fundo Europeu de Desenvolvimento Regional através da Iniciativa Urbana Europeia.",
+
+
+
+    "or":"Ou",
+    "next":"Próximo",
+    "skip":"Saltar",
+    "sign_in":"Entrar",
+    "sign_up":"Criar conta"
+}

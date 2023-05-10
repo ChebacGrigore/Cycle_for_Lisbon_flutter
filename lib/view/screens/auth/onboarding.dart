@@ -1,7 +1,8 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
-import 'package:cfl/shared/translation_extension.dart';
+import 'package:cfl/shared/constants.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,14 +16,14 @@ class Onboarding extends StatefulWidget {
 class _OnboardingState extends State<Onboarding> {
   List<OnboardingItem> items = <OnboardingItem>[
     OnboardingItem(
-      title: welcomeOnboard.i18n,
-      description: welcomeOnboardDesc.i18n,
+      title: 'onboard_welcome_title'.tr(),
+      description: 'onboard_welcome_desc'.tr(),
       imagePath: AppAssets.onboarding5,
       patners: [],
     ),
     OnboardingItem(
-      title: supportInitiativeOnboard.i18n,
-      description: supportInitiativeOnboardDesc.i18n,
+      title: 'onboard_initiative_title'.tr(),
+      description: 'onboard_initiative_desc'.tr(),
       imagePath: AppAssets.onboarding2,
       patners: [],
     ),
@@ -85,7 +86,7 @@ class _OnboardingState extends State<Onboarding> {
                         context.pushReplacement(const SplashScreen());
                       },
                       icon: Text(
-                        'Skip',
+                        'skip'.tr(),
                         style: GoogleFonts.dmSans(),
                       ),
                       label: const Icon(CFLIcons.skipArrow),
@@ -153,11 +154,12 @@ class _OnboardingState extends State<Onboarding> {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: SizedBox(
-                        width: 100,
+                        width: 130,
                         height: 49,
                         child: ElevatedButton(
                             style: AppComponentThemes.elevatedButtonTheme(),
                             onPressed: () {
+                              context.setLocale(kPT);
                               setState(() {
                                 if (currentIndex == 4) {
                                   context.pushReplacement(const SplashScreen());
@@ -167,7 +169,7 @@ class _OnboardingState extends State<Onboarding> {
                               });
                             },
                             child: Text(
-                              'Next',
+                              'next'.tr(),
                               style: GoogleFonts.dmSans(
                                 color: AppColors.black,
                               ),

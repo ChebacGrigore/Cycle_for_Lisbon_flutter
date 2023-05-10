@@ -1,8 +1,8 @@
 import 'package:cfl/shared/shared.dart';
-import 'package:cfl/shared/translation_extension.dart';
 import 'package:cfl/view/screens/auth/signin.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
@@ -49,7 +49,7 @@ class SplashScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      welcomeSplash.i18n,
+                      'splash_welcome'.tr(),
                       style: GoogleFonts.dmSans(
                         color: AppColors.white.withOpacity(0.80),
                         fontSize: 14,
@@ -71,7 +71,7 @@ class SplashScreen extends ConsumerWidget {
                         },
                         style: AppComponentThemes.outlinedButtonTheme(),
                         child: Text(
-                          signIn.i18n,
+                          'sign_in'.tr(),
                           style: GoogleFonts.dmSans(
                             color: AppColors.white,
                           ),
@@ -89,7 +89,7 @@ class SplashScreen extends ConsumerWidget {
                         },
                         style: AppComponentThemes.elevatedButtonTheme(),
                         child: Text(
-                          singUp.i18n,
+                          'sign_up'.tr(),
                           style: GoogleFonts.dmSans(
                             color: AppColors.black,
                           ),
