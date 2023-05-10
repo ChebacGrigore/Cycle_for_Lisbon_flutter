@@ -1,4 +1,5 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/shared/translation_extension.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
@@ -13,17 +14,15 @@ class Onboarding extends StatefulWidget {
 
 class _OnboardingState extends State<Onboarding> {
   List<OnboardingItem> items = <OnboardingItem>[
-    const OnboardingItem(
-      title: 'Welcom to Cycle for Lisbon',
-      description:
-          'Get ready to explore the city of Lisbon on two wheels while making a positive impact on NGO initiatives.',
+    OnboardingItem(
+      title: welcomeOnboard.i18n,
+      description: welcomeOnboardDesc.i18n,
       imagePath: AppAssets.onboarding5,
       patners: [],
     ),
-    const OnboardingItem(
-      title: 'Support an Initiative',
-      description:
-          'Choose the initiative you want to support and learn more about its goal and promoters.',
+    OnboardingItem(
+      title: supportInitiativeOnboard.i18n,
+      description: supportInitiativeOnboardDesc.i18n,
       imagePath: AppAssets.onboarding2,
       patners: [],
     ),

@@ -1,4 +1,5 @@
 import 'package:cfl/shared/shared.dart';
+import 'package:cfl/shared/translation_extension.dart';
 import 'package:cfl/view/screens/auth/signin.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/styles/styles.dart';
@@ -48,7 +49,7 @@ class SplashScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit adipiscing sit enim enim id iaculis tristique.',
+                      welcomeSplash.i18n,
                       style: GoogleFonts.dmSans(
                         color: AppColors.white.withOpacity(0.80),
                         fontSize: 14,
@@ -69,8 +70,11 @@ class SplashScreen extends ConsumerWidget {
                           context.showAppDialog(const SignIn());
                         },
                         style: AppComponentThemes.outlinedButtonTheme(),
-                        child: const Text(
-                          'Sign In',
+                        child: Text(
+                          signIn.i18n,
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -84,10 +88,12 @@ class SplashScreen extends ConsumerWidget {
                           context.showAppDialog(const SignUp());
                         },
                         style: AppComponentThemes.elevatedButtonTheme(),
-                        child: const Text('Sign Up',
-                            style: TextStyle(
-                              color: AppColors.black,
-                            )),
+                        child: Text(
+                          singUp.i18n,
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.black,
+                          ),
+                        ),
                       ),
                     ),
                   ),
