@@ -1,6 +1,7 @@
 //TODO: move later
 
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -66,30 +67,30 @@ class InitiativeCard extends StatelessWidget {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   ActvityCount(
                     count: 13,
-                    title: 'Goal',
+                    title: 'goal'.tr(),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   ActvityCount(
                     count: 13,
-                    title: 'Collected',
+                    title: 'collected'.tr(),
                   ),
                 ],
               ),
               // builder here
               Row(
-                children: const [
+                children: [
                   ActivityBadge(
                     count: 13,
-                    title: 'Goal',
+                    title: 'goal'.tr(),
                     icon: Icons.arrow_upward,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   ActivityBadge(
                     count: 3,
-                    title: 'Fine',
+                    title: 'fine'.tr(),
                     icon: Icons.downhill_skiing,
                     color: AppColors.secondaryColor,
                   ),

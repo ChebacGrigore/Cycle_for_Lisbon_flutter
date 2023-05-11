@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         const SizedBox(height: 5),
         Text(
-          'Choose your initiative',
+          'choose_initiative'.tr(),
           style: GoogleFonts.dmSans(
             fontSize: 14,
             color: AppColors.primaryColor.withOpacity(0.80),
@@ -153,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
         const SelectedInitiativeCard(progress: 0.4),
         const SizedBox(height: 32),
         Text(
-          'Your Contribution for All Time:',
+          '${'contributions'.tr()}: ',
           style: GoogleFonts.dmSans(
             color: AppColors.primaryColor,
             fontSize: 14,
@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         const SizedBox(height: 32),
         Text(
-          'Your Last Ride:',
+          '${'you_last_ride'.tr()}: ',
           style: GoogleFonts.dmSans(
             color: AppColors.primaryColor,
             fontSize: 14,
@@ -203,21 +203,21 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: 32),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             ContributionCard(
               icon: CFLIcons.roadhz,
               count: 12,
-              title: 'km',
+              title: 'km'.tr(),
             ),
             ContributionCard(
               icon: CFLIcons.clock,
               count: 5,
-              title: 'h',
+              title: 'h'.tr(),
             ),
             ContributionCard(
               icon: CFLIcons.coin1,
               count: 20,
-              title: 'Coins',
+              title: 'coins'.tr(),
             ),
           ],
         ),
@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onPressed: () {},
             child: Text(
-              'Start/Stop',
+              '${'start'.tr()}/${'stop'.tr()}',
               style: GoogleFonts.dmSans(),
             ),
           ),
@@ -245,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
               });
             },
             child: Text(
-              'Change Initiative',
+              'change_initiative'.tr(),
               style: GoogleFonts.dmSans(
                 decoration: TextDecoration.underline,
                 color: AppColors.primaryColor,
@@ -481,8 +481,8 @@ class InitiativeProgress extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             progress != 1
-                ? const InitiativeCounter2(
-                    title: 'Collected',
+                ? InitiativeCounter2(
+                    title: 'collected'.tr(),
                     count: 24,
                   )
                 : Row(
@@ -493,7 +493,7 @@ class InitiativeProgress extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        'Completed',
+                        'completed'.tr(),
                         style: GoogleFonts.dmSans(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -502,8 +502,8 @@ class InitiativeProgress extends StatelessWidget {
                       )
                     ],
                   ),
-            const InitiativeCounter2(
-              title: 'Goal',
+            InitiativeCounter2(
+              title: 'goal'.tr(),
               count: 1230,
             ),
           ],
