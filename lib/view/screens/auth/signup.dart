@@ -3,6 +3,7 @@ import 'package:cfl/view/screens/auth/setup_profile.dart';
 import 'package:cfl/view/screens/auth/signin.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,7 +62,7 @@ class SignUp extends StatelessWidget {
                 ),
                 const SizedBox(height: 14),
                 Text(
-                  'Enter your email address to sign up',
+                  'enter_email_sign_up'.tr(),
                   style: GoogleFonts.dmSans(
                     color: AppColors.blueGrey,
                     fontSize: 16,
@@ -71,12 +72,12 @@ class SignUp extends StatelessWidget {
                 const SizedBox(height: 33),
                 AppTextField(
                   controller: TextEditingController(),
-                  hint: 'Email',
+                  hint: 'email'.tr(),
                 ),
                 const SizedBox(height: 20),
                 AppTextField(
                   controller: TextEditingController(),
-                  hint: 'Password',
+                  hint: 'password'.tr(),
                 ),
                 const SizedBox(height: 32),
                 SizedBox(
@@ -88,7 +89,7 @@ class SignUp extends StatelessWidget {
                     },
                     style: AppComponentThemes.elevatedButtonTheme(),
                     child: Text(
-                      'Continue'.toUpperCase(),
+                      'continue'.tr().toUpperCase(),
                       style: GoogleFonts.dmSans(
                           color: AppColors.black, fontWeight: FontWeight.w700),
                     ),
@@ -105,13 +106,13 @@ class SignUp extends StatelessWidget {
                     },
                     child: RichText(
                       text: TextSpan(
-                        text: 'Already have an account? ',
+                        text: '${'already_have_account_sign_in'.tr()} ',
                         style: GoogleFonts.dmSans(
                           color: AppColors.greyish,
                         ),
                         children: [
                           TextSpan(
-                            text: ' Login',
+                            text: 'sign_in'.tr(),
                             style: GoogleFonts.dmSans(
                               decoration: TextDecoration.underline,
                               color: AppColors.accentColor,
@@ -156,7 +157,7 @@ class AppTextField extends StatelessWidget {
         TextFormField(
           controller: controller,
           decoration: InputDecoration(
-            hintText: 'Enter $hint here',
+            hintText: '${'enter'.tr()} $hint',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
             ),

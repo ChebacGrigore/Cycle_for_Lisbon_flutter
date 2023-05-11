@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:cfl/view/screens/auth/signin.dart';
+import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

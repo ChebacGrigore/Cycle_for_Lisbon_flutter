@@ -130,7 +130,7 @@ class SocialLogins extends StatelessWidget {
             )),
             const SizedBox(width: 16),
             Text(
-              'OR',
+              'or'.tr(),
               style: TextStyle(
                 color: color != null
                     ? color!.withOpacity(0.60)

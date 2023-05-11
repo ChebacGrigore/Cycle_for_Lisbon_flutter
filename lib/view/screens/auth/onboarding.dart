@@ -1,5 +1,4 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
-import 'package:cfl/shared/constants.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -27,24 +26,21 @@ class _OnboardingState extends State<Onboarding> {
       imagePath: AppAssets.onboarding2,
       patners: [],
     ),
-    const OnboardingItem(
-      title: 'Earn Coins',
-      description:
-          'For every kilometer you ride, you will earn coins that can be converted into real money to support the initiative you selected. Cycle for Lisbon is made possible by the generous support of sponsors.',
+    OnboardingItem(
+      title: 'onboard_coin_title'.tr(),
+      description: 'onboard_coin_desc'.tr(),
       imagePath: AppAssets.onboarding1,
       patners: [],
     ),
-    const OnboardingItem(
-      title: 'Help the Community',
-      description:
-          'The coins you earn will automatically be donated to your selected initiative. You can only have one active initiative at a time. When the initiative\'s goal is reached, you will be prompted to select a new one.',
+    OnboardingItem(
+      title: 'onboard_help_title'.tr(),
+      description: 'onboard_help_desc'.tr(),
       imagePath: AppAssets.onboarding4,
       patners: [],
     ),
-    const OnboardingItem(
-      title: 'The Project',
-      description:
-          'Cycle for Lisbon is developed by Pensar Mais for Vox Pop, a project co-financed by Câmara Municipal de Lisboa and the European Regional Development Fund through the European Urban Initiative.',
+    OnboardingItem(
+      title: 'onboard_project_title'.tr(),
+      description: 'onboard_project_desc'.tr(),
       imagePath: AppAssets.onboarding6,
       patners: [
         AppAssets.p1,
@@ -159,7 +155,7 @@ class _OnboardingState extends State<Onboarding> {
                         child: ElevatedButton(
                             style: AppComponentThemes.elevatedButtonTheme(),
                             onPressed: () {
-                              context.setLocale(kPT);
+                              // context.setLocale(kPT);
                               setState(() {
                                 if (currentIndex == 4) {
                                   context.pushReplacement(const SplashScreen());

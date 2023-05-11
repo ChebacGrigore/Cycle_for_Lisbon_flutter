@@ -3,6 +3,7 @@ import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/screens/home/layout.dart';
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -51,7 +52,7 @@ class SignIn extends StatelessWidget {
                 ),
                 const SizedBox(height: 43),
                 Text(
-                  'Login',
+                  'sign_in'.tr(),
                   style: GoogleFonts.dmSans(
                     color: AppColors.shadowColor,
                     fontSize: 32,
@@ -60,7 +61,7 @@ class SignIn extends StatelessWidget {
                 ),
                 const SizedBox(height: 14),
                 Text(
-                  'Enter your email address and password to login',
+                  'login_to_account'.tr(),
                   style: GoogleFonts.dmSans(
                     color: AppColors.blueGrey,
                     fontSize: 16,
@@ -70,19 +71,19 @@ class SignIn extends StatelessWidget {
                 const SizedBox(height: 33),
                 AppTextField(
                   controller: TextEditingController(),
-                  hint: 'Email',
+                  hint: 'email'.tr(),
                 ),
                 const SizedBox(height: 20),
                 AppTextField(
                   controller: TextEditingController(),
-                  hint: 'Password',
+                  hint: 'password'.tr(),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {},
                     child: Text(
-                      'Recover Password',
+                      'recover_password'.tr(),
                       style: GoogleFonts.dmSans(
                         color: AppColors.accentColor,
                         decoration: TextDecoration.underline,
@@ -101,7 +102,7 @@ class SignIn extends StatelessWidget {
                     },
                     style: AppComponentThemes.elevatedButtonTheme(),
                     child: Text(
-                      'Continue'.toUpperCase(),
+                      'continue'.tr().toUpperCase(),
                       style: GoogleFonts.dmSans(
                           color: AppColors.black, fontWeight: FontWeight.w700),
                     ),
@@ -118,13 +119,13 @@ class SignIn extends StatelessWidget {
                     },
                     child: RichText(
                       text: TextSpan(
-                        text: 'Don\'t have an account? ',
+                        text: '${'no_account_sign_up'.tr()} ',
                         style: GoogleFonts.dmSans(
                           color: AppColors.greyish,
                         ),
                         children: [
                           TextSpan(
-                            text: ' Sign Up',
+                            text: 'sign_up'.tr(),
                             style: GoogleFonts.dmSans(
                               decoration: TextDecoration.underline,
                               color: AppColors.accentColor,
@@ -141,41 +142,6 @@ class SignIn extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class AppTextField extends StatelessWidget {
-  const AppTextField({
-    required this.hint,
-    required this.controller,
-    super.key,
-  });
-  final String hint;
-  final TextEditingController controller;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          hint.toUpperCase(),
-          style: GoogleFonts.dmSans(
-            fontWeight: FontWeight.bold,
-            color: AppColors.blueGrey,
-          ),
-        ),
-        const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: 'Enter $hint here',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

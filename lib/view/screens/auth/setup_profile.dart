@@ -1,5 +1,6 @@
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,7 @@ class SetupProfile extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Complete your profile by adding additional info about yourself',
+                'complete_profile_heading'.tr(),
                 textAlign: TextAlign.center,
                 style: GoogleFonts.dmSans(
                   fontWeight: FontWeight.bold,
@@ -28,26 +29,26 @@ class SetupProfile extends StatelessWidget {
               const CircleAvatar(radius: 40),
               TextButton(
                 onPressed: () {},
-                child: const Text('Change Avatar'),
+                child: Text('change_avatar'.tr()),
               ),
               const SizedBox(height: 32),
               AppTextField(
-                hint: 'First Name',
+                hint: 'first_name'.tr(),
                 controller: TextEditingController(),
               ),
               const SizedBox(height: 16),
               AppTextField(
-                hint: 'Last Name',
+                hint: 'last_name'.tr(),
                 controller: TextEditingController(),
               ),
               const SizedBox(height: 16),
               AppTextField(
-                hint: 'Nickname',
+                hint: 'nickname'.tr(),
                 controller: TextEditingController(),
               ),
               const SizedBox(height: 16),
               AppTextField(
-                hint: 'Email',
+                hint: 'email'.tr(),
                 controller: TextEditingController(),
               ),
               const SizedBox(height: 16),
@@ -59,23 +60,23 @@ class SetupProfile extends StatelessWidget {
                     text: TextSpan(
                       style: GoogleFonts.dmSans(
                         color: AppColors.primaryColor,
-                        fontSize: 13,
+                        fontSize: 11,
                       ),
-                      text: 'I agree to the ',
+                      text: '${'agree'.tr()} ',
                       children: [
                         TextSpan(
-                          text: 'Terms of Service ',
+                          text: '${'terms'.tr()} ',
                           style: GoogleFonts.dmSans(
                             color: AppColors.accentColor,
                             decoration: TextDecoration.underline,
                           ),
                           recognizer: TapGestureRecognizer()..onTap = () {},
                         ),
-                        const TextSpan(
-                          text: 'and ',
+                        TextSpan(
+                          text: '${'and'.tr()} ',
                         ),
                         TextSpan(
-                          text: 'Privacy Policy',
+                          text: 'privacy'.tr(),
                           style: GoogleFonts.dmSans(
                             color: AppColors.accentColor,
                             decoration: TextDecoration.underline,
@@ -95,7 +96,7 @@ class SetupProfile extends StatelessWidget {
                   style: AppComponentThemes.elevatedButtonTheme(),
                   onPressed: () {},
                   child: Text(
-                    'Save',
+                    'save'.tr(),
                     style: GoogleFonts.dmSans(
                       color: AppColors.primaryColor,
                     ),
