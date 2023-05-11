@@ -3,6 +3,7 @@ import 'package:cfl/view/screens/home/map.dart';
 import 'package:cfl/view/screens/profile/profile_screen.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {
             context.push(const ProfileScreen());
           },
-          greeting: 'Hello',
+          greeting: 'hello'.tr(),
         ),
         const SizedBox(height: 28),
         Row(
@@ -125,23 +126,23 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {
             context.push(const ProfileScreen());
           },
-          greeting: 'Welcome Back',
+          greeting: 'welcome_back'.tr(),
         ),
         const SizedBox(height: 28),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Expanded(
               child: PillContainer(
-                title: 'Total Earned',
+                title: 'total_earned'.tr(),
                 count: 13,
                 icon: CFLIcons.coin1,
               ),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: PillContainer(
-                title: 'Total km',
+                title: 'total_km'.tr(),
                 count: 50,
                 icon: CFLIcons.roadhz,
               ),
@@ -264,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: () {
             context.push(const ProfileScreen());
           },
-          greeting: 'Hello',
+          greeting: 'hello'.tr(),
         ),
         const SizedBox(height: 28),
         Row(
