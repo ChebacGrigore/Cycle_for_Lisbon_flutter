@@ -55,12 +55,13 @@ class _OnboardingState extends State<Onboarding> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height / 2 - 20,
+              height: MediaQuery.of(context).size.height / 2 + 150,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.fill,
@@ -70,7 +71,7 @@ class _OnboardingState extends State<Onboarding> {
                 ),
               ),
               child: Container(
-                color: AppColors.black.withOpacity(0.5),
+                color: AppColors.black.withOpacity(0.3),
                 child: SafeArea(
                   child: Align(
                     alignment: Alignment.topRight,
@@ -85,18 +86,39 @@ class _OnboardingState extends State<Onboarding> {
                         'skip'.tr(),
                         style: GoogleFonts.dmSans(),
                       ),
-                      label: const Icon(CFLIcons.skipArrow),
+                      label: const Icon(Icons.skip_next_rounded),
                     ),
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 51),
-            SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
+          ),
+
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+              ),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 2 - 100,
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                  top: 32,
+                ),
+                decoration: const BoxDecoration(
+                  color: AppColors.white,
+                  gradient: AppColors.whiteBgGradient,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       items[currentIndex].title,
@@ -108,7 +130,6 @@ class _OnboardingState extends State<Onboarding> {
                     ),
                     const SizedBox(height: 12),
                     SizedBox(
-                      height: 120,
                       child: Text(
                         items[currentIndex].description,
                         textAlign: TextAlign.center,
@@ -119,9 +140,9 @@ class _OnboardingState extends State<Onboarding> {
                       ),
                     ),
                     if (items[currentIndex].patners.isEmpty)
-                      const SizedBox(height: 19),
+                      const SizedBox(height: 24),
                     if (items[currentIndex].patners.isNotEmpty) ...[
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 19),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: items[currentIndex]
@@ -146,7 +167,7 @@ class _OnboardingState extends State<Onboarding> {
                           )
                           .toList(),
                     ),
-                    const SizedBox(height: 29),
+                    const SizedBox(height: 24),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: SizedBox(
@@ -176,9 +197,9 @@ class _OnboardingState extends State<Onboarding> {
                 ),
               ),
             ),
-            // const Spacer(),
-          ],
-        ),
+          ),
+          // const Spacer(),
+        ],
       ),
     );
   }

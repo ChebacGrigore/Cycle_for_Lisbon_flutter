@@ -204,7 +204,7 @@ class AppRoundedButton extends StatelessWidget {
       shape: const CircleBorder(),
       child: Icon(
         icon,
-        size: 35.0,
+        size: 24.0,
         color: color ?? AppColors.white,
       ),
     );

@@ -14,6 +14,16 @@ class AppColors {
   static const Color tomatoRed = Color(0xffE12020);
   static const Color cabbageGreen = Color(0xff00CC66);
   static const Color background = Color(0xffF5F5F5);
+
+  static const whiteBgGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color.fromARGB(255, 255, 255, 255),
+      Color.fromARGB(255, 223, 231, 210),
+    ],
+    stops: [0.0, 2],
+  );
 }
 
 const Map<int, Color> color = {
