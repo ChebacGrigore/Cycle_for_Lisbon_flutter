@@ -32,9 +32,11 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(
-        primarySwatch: AppColors.accentColor,
-        fontFamily: GoogleFonts.dmSans().fontFamily,
-      ),
+          primarySwatch: AppColors.accentColor,
+          fontFamily: GoogleFonts.dmSans().fontFamily,
+          appBarTheme: const AppBarTheme(
+            centerTitle: true,
+          )),
       home: const Onboarding(),
     );
   }

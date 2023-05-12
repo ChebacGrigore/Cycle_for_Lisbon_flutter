@@ -11,6 +11,9 @@ class AppAssets {
   static const String onboarding4 = 'assets/images/onboarding04.png';
   static const String onboarding5 = 'assets/images/onboarding05.png';
   static const String onboarding6 = 'assets/images/onboarding06.png';
+
+  static const String fishBg = 'assets/images/fish.png';
+
   //patners
   static const String p1 = 'assets/images/p1.png';
   static const String p2 = 'assets/images/p2.png';
@@ -26,4 +29,7 @@ class AppAssets {
   static const String barBellBadge = 'assets/images/barbell_badge.png';
 
   static const String union = 'assets/images/union.svg';
+  //stickers
+  static const String waterSticker = 'assets/images/water_sticker.png';
+  static const String energySticker = 'assets/images/energy_sticker.png';
 }

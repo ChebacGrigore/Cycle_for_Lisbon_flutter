@@ -11,10 +11,19 @@ class InitiativeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 100),
-        child: SingleChildScrollView(
+    return Container(
+      padding: const EdgeInsets.only(
+        left: 16,
+        right: 16,
+      ),
+      height: MediaQuery.of(context).size.height,
+      decoration: const BoxDecoration(gradient: AppColors.whiteBgGradient),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            bottom: 100,
+            top: 54,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -22,9 +31,9 @@ class InitiativeScreen extends StatelessWidget {
               Text(
                 'available_initiatives'.tr(),
                 style: GoogleFonts.dmSans(
-                  fontSize: 18,
+                  fontSize: 24,
                   color: AppColors.primaryColor,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 24),

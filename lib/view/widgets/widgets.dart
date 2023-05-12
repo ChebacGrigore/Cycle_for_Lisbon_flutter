@@ -18,13 +18,14 @@ class InitiativeCard extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         image: const DecorationImage(
-          image: AssetImage(AppAssets.bg01Png),
+          image: AssetImage(AppAssets.fishBg),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             width: 260,
@@ -61,7 +62,7 @@ class InitiativeCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 21),
+          const SizedBox(height: 26),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -82,17 +83,16 @@ class InitiativeCard extends StatelessWidget {
               // builder here
               Row(
                 children: [
-                  ActivityBadge(
-                    count: 13,
-                    title: 'goal'.tr(),
-                    icon: Icons.arrow_upward,
+                  Image.asset(
+                    AppAssets.waterSticker,
+                    width: 32,
+                    height: 32,
                   ),
                   const SizedBox(width: 10),
-                  ActivityBadge(
-                    count: 3,
-                    title: 'fine'.tr(),
-                    icon: Icons.downhill_skiing,
-                    color: AppColors.secondaryColor,
+                  Image.asset(
+                    AppAssets.energySticker,
+                    width: 32,
+                    height: 32,
                   ),
                 ],
               ),

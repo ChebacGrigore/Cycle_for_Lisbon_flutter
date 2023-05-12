@@ -24,6 +24,21 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             floating: true,
             pinned: true,
             expandedHeight: 370,
+            actions: [
+              Container(
+                margin: const EdgeInsets.only(right: 20),
+                padding: const EdgeInsets.all(12),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: AppColors.blackShareButtonGradient,
+                ),
+                child: const Icon(
+                  Icons.share_outlined,
+                  color: AppColors.accentColor,
+                  size: 24,
+                ),
+              ),
+            ],
             iconTheme: const IconThemeData(color: AppColors.white),
             title: Text(
               'leaderboard'.tr(),
@@ -119,9 +134,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
               Container(
                 padding: const EdgeInsets.only(bottom: 150),
                 decoration: const BoxDecoration(
+                  gradient: AppColors.whiteBgGradient,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
                   ),
                   color: AppColors.white,
                 ),

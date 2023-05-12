@@ -24,6 +24,19 @@ class AppColors {
     ],
     stops: [0.0, 2],
   );
+
+  static const LinearGradient blackShareButtonGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0x00000000),
+      Color(0xFF454A51),
+    ],
+    stops: [
+      0.135,
+      0.7,
+    ],
+  );
 }
 
 const Map<int, Color> color = {

@@ -19,81 +19,85 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: AppColors.background,
-            floating: true,
-            pinned: true,
-            snap: true,
-            expandedHeight: 150,
-            iconTheme: const IconThemeData(
-              color: AppColors.white,
-            ),
-            title: Text(
-              'trip_history'.tr(),
-              style: GoogleFonts.dmSans(
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(gradient: AppColors.whiteBgGradient),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: AppColors.background,
+              floating: true,
+              pinned: true,
+              snap: true,
+              expandedHeight: 150,
+              iconTheme: const IconThemeData(
                 color: AppColors.white,
               ),
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(children: <Widget>[
-                ClipPath(
-                  clipper: HeaderClipper(
-                    avatarRadius: 0,
-                  ),
-                  child: CustomPaint(
-                    size: const Size.fromHeight(220),
-                    painter: HeaderPainter(
-                        color: AppColors.primaryColor, avatarRadius: 0),
-                  ),
+              title: Text(
+                'trip_history'.tr(),
+                style: GoogleFonts.dmSans(
+                  color: AppColors.white,
                 ),
-              ]),
-            ),
-          ),
-          SliverFillRemaining(
-            child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: DefaultTabController(
-                  length: 3,
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: AppColors.tertiaryColor,
-                          ),
-                          child: TabBar(
-                              unselectedLabelColor: AppColors.primaryColor,
-                              indicator: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: AppColors.secondaryColor),
-                              tabs: [
-                                Tab(
-                                  text: 'for_all_time'.tr(),
-                                ),
-                                Tab(
-                                  text: 'this_week'.tr(),
-                                ),
-                                Tab(
-                                  text: 'this_month'.tr(),
-                                ),
-                              ]),
-                        ),
-                        Expanded(
-                          child: PageView(
-                            children: List.generate(
-                                3, (index) => const TripHistoryItem()),
-                          ),
-                        ),
-                      ],
+              ),
+              flexibleSpace: FlexibleSpaceBar(
+                background: Stack(children: <Widget>[
+                  ClipPath(
+                    clipper: HeaderClipper(
+                      avatarRadius: 0,
+                    ),
+                    child: CustomPaint(
+                      size: const Size.fromHeight(220),
+                      painter: HeaderPainter(
+                          color: AppColors.primaryColor, avatarRadius: 0),
                     ),
                   ),
-                )),
-          ),
-        ],
+                ]),
+              ),
+            ),
+            SliverFillRemaining(
+              child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: DefaultTabController(
+                    length: 3,
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: AppColors.tertiaryColor,
+                            ),
+                            child: TabBar(
+                                unselectedLabelColor: AppColors.primaryColor,
+                                indicator: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50),
+                                    color: AppColors.secondaryColor),
+                                tabs: [
+                                  Tab(
+                                    text: 'for_all_time'.tr(),
+                                  ),
+                                  Tab(
+                                    text: 'this_week'.tr(),
+                                  ),
+                                  Tab(
+                                    text: 'this_month'.tr(),
+                                  ),
+                                ]),
+                          ),
+                          Expanded(
+                            child: PageView(
+                              children: List.generate(
+                                  3, (index) => const TripHistoryItem()),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }
