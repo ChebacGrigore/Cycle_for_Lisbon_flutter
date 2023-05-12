@@ -1,6 +1,7 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
-import 'package:cfl/view/screens/home/home_screen.dart';
+
+import 'package:cfl/view/screens/home/layout.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
@@ -112,7 +113,7 @@ class SetupProfile extends StatelessWidget {
                   child: ElevatedButton(
                     style: AppComponentThemes.elevatedButtonTheme(),
                     onPressed: () {
-                      context.pushReplacement(const HomeScreen());
+                      context.pushReplacement(const Layout());
                     },
                     child: Text(
                       'save'.tr(),

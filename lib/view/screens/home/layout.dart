@@ -26,7 +26,7 @@ class _LayoutState extends State<Layout> {
               alignment: Alignment.bottomCenter,
               child: SafeArea(
                 child: Container(
-                  height: 100,
+                  height: 80,
                   color: Colors.transparent,
                   padding: const EdgeInsets.only(
                       left: 12, right: 12, bottom: 12, top: 5),

@@ -21,12 +21,20 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(
-                left: 16, right: 16, top: 16, bottom: 200),
-            child: homeBuilder(),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: const BoxDecoration(gradient: AppColors.whiteBgGradient),
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 40,
+                bottom: 200,
+              ),
+              child: homeBuilder(),
+            ),
           ),
         ),
       ),
@@ -354,24 +362,57 @@ class ProfileButton extends StatelessWidget {
   });
   final VoidCallback? onTap;
   final String greeting;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            greeting.contains('Welcome')
-                ? '$greeting,\n jane123'
-                : '$greeting, Jane123',
-            style: GoogleFonts.dmSans(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primaryColor,
-            ),
-          ),
+          greeting.contains('Bem vindo') || greeting.contains('Welcome')
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$greeting, ',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                    Text(
+                      'jane123',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.accentColor,
+                      ),
+                    ),
+                  ],
+                )
+              : Row(
+                  children: [
+                    Text(
+                      '$greeting, ',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                    Text(
+                      'jane123',
+                      style: GoogleFonts.dmSans(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.accentColor,
+                      ),
+                    ),
+                  ],
+                ),
           InkWell(
             onTap: onTap,
             child: const CircleAvatar(
