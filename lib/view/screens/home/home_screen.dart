@@ -60,7 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         ProfileButton(
           onTap: () {
-            context.push(const ProfileScreen());
+            context.push(const ProfileScreen(
+              key: Key('profile'),
+            ));
           },
           greeting: 'hello'.tr(),
         ),

@@ -63,6 +63,9 @@
   "and": "e",
   "position": "Position",
   "see_map": "Ver mapa",
+  "language":"Linguagem",
+  "english":"Inglês",
+  "portugues":"Português",
 
   "number_km": "Número de Km",
   "training_wheels": "Rodinhas de Treino",

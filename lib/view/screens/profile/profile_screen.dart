@@ -126,7 +126,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
-                height: MediaQuery.of(context).size.height,
                 padding: const EdgeInsets.only(
                   top: 53,
                   right: 41,
@@ -239,7 +238,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const Divider(),
                       const SizedBox(height: 14),
                       AppListTile(
-                        title: 'logout'.tr(),
+                        title: 'language'.tr(),
+                        icon: Icons.language,
+                        onTap: () {},
+                        trailing: DropdownButton(
+                          underline: const SizedBox(),
+                          items: [
+                            DropdownMenuItem(
+                              key: const Key('en'),
+                              value: 'en',
+                              child: Text(
+                                'english'.tr(),
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              key: const Key('pt'),
+                              value: 'pt',
+                              child: Text(
+                                'portugues'.tr(),
+                              ),
+                            )
+                          ],
+                          value: context.locale.languageCode,
+                          onChanged: (v) {
+                            final lang = v.toString();
+                            if (lang.contains('en')) {
+                              EasyLocalization.of(context)
+                                  ?.setLocale(const Locale('en', 'US'));
+                            } else {
+                              EasyLocalization.of(context)
+                                  ?.setLocale(const Locale('pt', 'BR'));
+                            }
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      const Divider(),
+                      const SizedBox(height: 14),
+                      AppListTile(
+                        title: 'log_out'.tr(),
                         icon: CFLIcons.exit,
                         onTap: () {},
                       ),

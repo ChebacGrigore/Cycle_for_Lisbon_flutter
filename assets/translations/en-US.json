@@ -17,7 +17,7 @@
   "onboard_project_desc": "Cycle for Lisbon is developed by Pensar Mais for Vox Pop, a project co-financed by Câmara Municipal de Lisboa and the European Regional Development Fund through the European Urban Initiative.",
 
   "sign_in": "Sign In",
-  "sing_up": "Sign Up",
+  "sign_up": "Sign Up",
   
   "log_out": "Log Out",
   "email": "Email",
@@ -63,6 +63,9 @@
   "and":"and",
   "position": "Position",
   "see_map": "See Map",
+  "language":"Language",
+  "english":"English",
+  "portugues":"Português",
 
   "number_km": "Number of Km",
   "training_wheels": "Training Wheels",
