@@ -13,46 +13,46 @@ class Onboarding extends StatefulWidget {
 }
 
 class _OnboardingState extends State<Onboarding> {
-  List<OnboardingItem> items = <OnboardingItem>[
-    OnboardingItem(
-      title: 'onboard_welcome_title'.tr(),
-      description: 'onboard_welcome_desc'.tr(),
-      imagePath: AppAssets.onboarding5,
-      patners: [],
-    ),
-    OnboardingItem(
-      title: 'onboard_initiative_title'.tr(),
-      description: 'onboard_initiative_desc'.tr(),
-      imagePath: AppAssets.onboarding2,
-      patners: [],
-    ),
-    OnboardingItem(
-      title: 'onboard_coin_title'.tr(),
-      description: 'onboard_coin_desc'.tr(),
-      imagePath: AppAssets.onboarding1,
-      patners: [],
-    ),
-    OnboardingItem(
-      title: 'onboard_help_title'.tr(),
-      description: 'onboard_help_desc'.tr(),
-      imagePath: AppAssets.onboarding4,
-      patners: [],
-    ),
-    OnboardingItem(
-      title: 'onboard_project_title'.tr(),
-      description: 'onboard_project_desc'.tr(),
-      imagePath: AppAssets.onboarding6,
-      patners: [
-        AppAssets.p1,
-        AppAssets.p2,
-        AppAssets.p3,
-        AppAssets.p4,
-      ],
-    ),
-  ];
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    List<OnboardingItem> items = <OnboardingItem>[
+      OnboardingItem(
+        title: 'onboard_welcome_title'.tr(),
+        description: 'onboard_welcome_desc'.tr(),
+        imagePath: AppAssets.onboarding5,
+        patners: [],
+      ),
+      OnboardingItem(
+        title: 'onboard_initiative_title'.tr(),
+        description: 'onboard_initiative_desc'.tr(),
+        imagePath: AppAssets.onboarding2,
+        patners: [],
+      ),
+      OnboardingItem(
+        title: 'onboard_coin_title'.tr(),
+        description: 'onboard_coin_desc'.tr(),
+        imagePath: AppAssets.onboarding1,
+        patners: [],
+      ),
+      OnboardingItem(
+        title: 'onboard_help_title'.tr(),
+        description: 'onboard_help_desc'.tr(),
+        imagePath: AppAssets.onboarding4,
+        patners: [],
+      ),
+      OnboardingItem(
+        title: 'onboard_project_title'.tr(),
+        description: 'onboard_project_desc'.tr(),
+        imagePath: AppAssets.onboarding6,
+        patners: [
+          AppAssets.p1,
+          AppAssets.p2,
+          AppAssets.p3,
+          AppAssets.p4,
+        ],
+      ),
+    ];
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
@@ -73,21 +73,70 @@ class _OnboardingState extends State<Onboarding> {
               child: Container(
                 color: AppColors.black.withOpacity(0.3),
                 child: SafeArea(
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: TextButton.icon(
-                      style: AppComponentThemes.textButtonTheme(
-                        color: AppColors.white,
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: DropdownButton(
+                                  underline: const SizedBox(),
+                                  borderRadius: BorderRadius.circular(8),
+                                  dropdownColor: AppColors.greyish,
+                                  style: GoogleFonts.dmSans(
+                                      color: AppColors.white),
+                                  icon: const Icon(
+                                    Icons.language,
+                                    color: AppColors.white,
+                                  ),
+                                  items: [
+                                    DropdownMenuItem(
+                                      value: 'en',
+                                      child: Text(
+                                        'english'.tr(),
+                                      ),
+                                    ),
+                                    DropdownMenuItem(
+                                      value: 'pt',
+                                      child: Text(
+                                        'portugues'.tr(),
+                                      ),
+                                    ),
+                                  ],
+                                  onChanged: (v) {
+                                    if (v == 'pt') {
+                                      context.setLocale(
+                                        const Locale('pt', 'BR'),
+                                      );
+                                    } else {
+                                      context.setLocale(
+                                        const Locale('en', 'US'),
+                                      );
+                                    }
+                                    setState(() {});
+                                  },
+                                  value: context.locale.languageCode),
+                            ),
+                            TextButton.icon(
+                              style: AppComponentThemes.textButtonTheme(
+                                color: AppColors.white,
+                              ),
+                              onPressed: () {
+                                context.pushReplacement(const SplashScreen());
+                              },
+                              icon: Text(
+                                'skip'.tr(),
+                                style: GoogleFonts.dmSans(),
+                              ),
+                              label: const Icon(Icons.skip_next_rounded),
+                            ),
+                          ],
+                        ),
                       ),
-                      onPressed: () {
-                        context.pushReplacement(const SplashScreen());
-                      },
-                      icon: Text(
-                        'skip'.tr(),
-                        style: GoogleFonts.dmSans(),
-                      ),
-                      label: const Icon(Icons.skip_next_rounded),
-                    ),
+                    ],
                   ),
                 ),
               ),
