@@ -2,9 +2,9 @@
 
 import 'dart:math';
 
-import 'package:cfl/view/screens/auth/signin.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -30,7 +30,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             snap: true,
             expandedHeight: 240,
             title: Text(
-              'Profile Settings',
+              'profile_settings'.tr(),
               style: GoogleFonts.dmSans(),
             ),
             flexibleSpace: FlexibleSpaceBar(
@@ -86,22 +86,22 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       children: [
                         const SizedBox(height: 42),
                         AppTextField(
-                          hint: 'First Name',
+                          hint: 'first_name'.tr(),
                           controller: TextEditingController(),
                         ),
                         const SizedBox(height: 19),
                         AppTextField(
-                          hint: 'Last Name',
+                          hint: 'last_name'.tr(),
                           controller: TextEditingController(),
                         ),
                         const SizedBox(height: 19),
                         AppTextField(
-                          hint: 'Nickname',
+                          hint: 'nickname'.tr(),
                           controller: TextEditingController(),
                         ),
                         const SizedBox(height: 19),
                         AppTextField(
-                          hint: 'Email',
+                          hint: 'email'.tr(),
                           controller: TextEditingController(),
                         ),
                         const SizedBox(height: 29),
@@ -114,7 +114,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             ),
                             const SizedBox(width: 16),
                             Text(
-                              'CHANGE PASSWORD',
+                              'change_password'.tr().toUpperCase(),
                               style: GoogleFonts.dmSans(
                                 color: AppColors.primaryColor,
                                 fontSize: 14,
@@ -131,17 +131,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         ),
                         const SizedBox(height: 29),
                         AppTextField(
-                          hint: 'Old Password',
+                          hint: 'old_password'.tr(),
                           controller: TextEditingController(),
                         ),
                         const SizedBox(height: 19),
                         AppTextField(
-                          hint: 'New Password',
+                          hint: 'new_password'.tr(),
                           controller: TextEditingController(),
                         ),
                         const SizedBox(height: 19),
                         AppTextField(
-                          hint: 'Confirm Password',
+                          hint: 'confirm_password'.tr(),
                           controller: TextEditingController(),
                         ),
                         const SizedBox(height: 44),
@@ -149,9 +149,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           width: double.infinity,
                           height: 49,
                           child: ElevatedButton(
-                              style: AppComponentThemes.elevatedButtonTheme(),
-                              onPressed: () {},
-                              child: const Text('Save Changes')),
+                            style: AppComponentThemes.elevatedButtonTheme(),
+                            onPressed: () {},
+                            child: Text(
+                              'save_changes'.tr(),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 44),
                       ],

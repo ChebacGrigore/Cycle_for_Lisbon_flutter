@@ -1,5 +1,6 @@
 import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -29,7 +30,7 @@ class _HelpCenterState extends State<HelpCenter> {
               color: AppColors.white,
             ),
             title: Text(
-              'Help Center',
+              'help_center'.tr(),
               style: GoogleFonts.dmSans(
                 color: AppColors.white,
               ),
@@ -95,7 +96,7 @@ class _HelpCenterState extends State<HelpCenter> {
                     TextButton(
                       onPressed: () {},
                       child: Text(
-                        'Privacy Policy and GDPR',
+                        'privacy_GDPR'.tr(),
                         style: GoogleFonts.dmSans(
                           color: AppColors.primaryColor,
                           decoration: TextDecoration.underline,
@@ -107,7 +108,7 @@ class _HelpCenterState extends State<HelpCenter> {
                     TextButton(
                       onPressed: () {},
                       child: Text(
-                        'Terms and Conditions',
+                        'terms_condition'.tr(),
                         style: GoogleFonts.dmSans(
                           color: AppColors.primaryColor,
                           decoration: TextDecoration.underline,

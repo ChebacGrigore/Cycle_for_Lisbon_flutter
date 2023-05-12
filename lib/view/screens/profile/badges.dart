@@ -1,6 +1,7 @@
 import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/styles/assets.dart';
 import 'package:cfl/view/styles/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -31,7 +32,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
               color: AppColors.primaryColor,
             ),
             title: Text(
-              'Badges',
+              'badges'.tr(),
               style: GoogleFonts.dmSans(
                 color: AppColors.white,
               ),
@@ -68,7 +69,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                       children: [
                         const SizedBox(height: 39),
                         Text(
-                          'You have Unlocked 3 Badges out of 12',
+                          'unlcoked_badge_title'.tr(),
                           style: GoogleFonts.dmSans(
                             fontSize: 14,
                             color: AppColors.primaryColor,

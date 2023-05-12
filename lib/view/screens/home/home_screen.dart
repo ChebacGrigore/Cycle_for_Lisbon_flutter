@@ -59,18 +59,18 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: 28),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Expanded(
               child: PillContainer(
-                title: 'Total Earned',
+                title: 'total_earned'.tr(),
                 count: 13,
                 icon: CFLIcons.coin1,
               ),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: PillContainer(
-                title: 'Total km',
+                title: 'total_km'.tr(),
                 count: 50,
                 icon: CFLIcons.roadhz,
               ),
@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         const SizedBox(height: 42),
         Text(
-          'Let\'s start cycling?',
+          'let_start_cycling'.tr(),
           style: GoogleFonts.dmSans(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -162,13 +162,13 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: 14),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            ContributionCard(
+          children: [
+            const ContributionCard(
               icon: CFLIcons.roadhz,
               count: 12,
               title: 'km',
             ),
-            ContributionCard(
+            const ContributionCard(
               icon: CFLIcons.clock,
               count: 5,
               title: 'h',
@@ -176,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ContributionCard(
               icon: CFLIcons.coin1,
               count: 20,
-              title: 'Coins',
+              title: 'coins'.tr(),
             ),
           ],
         ),
@@ -270,18 +270,18 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: 28),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Expanded(
               child: PillContainer(
-                title: 'Total Earned',
+                title: 'total_earned'.tr(),
                 count: 13,
                 icon: CFLIcons.coin1,
               ),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: PillContainer(
-                title: 'Total km',
+                title: 'total_km'.tr(),
                 count: 50,
                 icon: CFLIcons.roadhz,
               ),
@@ -295,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: 32),
         RichText(
           text: TextSpan(
-            text: 'Thank you for your support! This goal was completed. ',
+            text: 'thank_for_support'.tr(),
             style: GoogleFonts.dmSans(
               fontSize: 14,
               color: AppColors.primaryColor,
@@ -314,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         const SizedBox(height: 42),
         Text(
-          'Available Initiatives',
+          'available_initiatives'.tr(),
           style: GoogleFonts.dmSans(
             fontSize: 18,
             color: AppColors.primaryColor,

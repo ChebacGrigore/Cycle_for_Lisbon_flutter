@@ -1,4 +1,5 @@
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,7 +26,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             expandedHeight: 370,
             iconTheme: const IconThemeData(color: AppColors.white),
             title: Text(
-              'Leaderboard',
+              'leaderboard'.tr(),
               style: GoogleFonts.dmSans(
                 color: AppColors.white,
               ),
@@ -53,7 +54,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'You',
+                        'you'.tr(),
                         style: GoogleFonts.dmSans(
                           color: AppColors.white,
                           fontSize: 16,
@@ -76,31 +77,31 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                         padding: const EdgeInsets.all(20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             LeaderboardActivityCount(
                               count: 23,
-                              title: 'Total km',
+                              title: 'total_km'.tr(),
                               unit: 'km',
                               icon: CFLIcons.roadhz,
                             ),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             LeaderboardActivityCount(
                               count: 12,
-                              title: 'Total Rides',
+                              title: 'total_rides'.tr(),
                               unit: 'x',
                               icon: CFLIcons.bicycle,
                             ),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             LeaderboardActivityCount(
                               count: 120,
-                              title: 'Total Earned',
+                              title: 'total_earned'.tr(),
                               unit: '',
                               icon: CFLIcons.coin1,
                             ),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             LeaderboardActivityCount(
                               count: 23,
-                              title: 'Position',
+                              title: 'position'.tr(),
                               unit: '',
                               icon: CFLIcons.bmedalmilitary,
                             ),
@@ -152,24 +153,24 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                       ),
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
+                        children: [
                           LeaderboardActivityCount(
                             showTitle: false,
                             count: 232,
                             title: '',
-                            unit: 'km',
+                            unit: 'km'.tr(),
                             icon: CFLIcons.roadhz,
                           ),
-                          SizedBox(width: 20),
+                          const SizedBox(width: 20),
                           LeaderboardActivityCount(
                             showTitle: false,
                             count: 20,
-                            title: 'Rides',
+                            title: 'rides'.tr(),
                             unit: 'x',
                             icon: CFLIcons.bicycle,
                           ),
-                          SizedBox(width: 20),
-                          LeaderboardActivityCount(
+                          const SizedBox(width: 20),
+                          const LeaderboardActivityCount(
                             showTitle: false,
                             count: 20,
                             title: '',

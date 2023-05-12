@@ -22,6 +22,9 @@
   "email": "Email",
   "password": "Palavra-passe",
   "confirm_password": "Confirmar palavra-passe",
+  "change_password":"Alterar palavra-passe",
+  "old_password":"Velho palavra-passe",
+  "new_password":"Nova palavra-passe",
   "recover_password": "Recuperar palavra-passe",
   "change_avatar": "Alterar Avatar",
   "first_name": "Primeiro Nome",
@@ -35,7 +38,7 @@
 
   "save": "Guardar",
   "enter":"Insira",
-  "Save_changes": "Guardar Alterações",
+  "save_changes": "Guardar Alterações",
   "goal": "Objetivo",
   "collected": "Recolhido",
   "km": "Km",
@@ -59,7 +62,7 @@
   "pro": "Pro",
   "and": "e",
   "position": "Position",
-  "see_map": "See Map",
+  "see_map": "Ver mapa",
 
   "number_km": "Número de Km",
   "training_wheels": "Rodinhas de Treino",

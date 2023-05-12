@@ -1,5 +1,6 @@
 import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,7 +25,7 @@ class AboutScreen extends StatelessWidget {
               color: AppColors.accentColor,
             ),
             title: Text(
-              'About',
+              'about'.tr(),
               style: GoogleFonts.dmSans(
                   // color: AppColors.white,
                   ),
@@ -105,7 +106,7 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                         ),
                         const SizedBox(height: 42),
                         Text(
-                          'Developed by: ',
+                          '${'developed_by'.tr()}: ',
                           style: GoogleFonts.dmSans(),
                         ),
                         const SizedBox(height: 24),
@@ -118,7 +119,7 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                         const Divider(),
                         const SizedBox(height: 42),
                         Text(
-                          'Project: ',
+                          '${'project'.tr()}: ',
                           style: GoogleFonts.dmSans(),
                         ),
                         const SizedBox(height: 24),
@@ -131,7 +132,7 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                         const Divider(),
                         const SizedBox(height: 42),
                         Text(
-                          'Co-financed by: ',
+                          '${'co_financed'.tr()}: ',
                           style: GoogleFonts.dmSans(),
                         ),
                         const SizedBox(height: 24),
@@ -163,7 +164,7 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                         TextButton(
                           onPressed: () {},
                           child: Text(
-                            'Privacy Policy and GDPR',
+                            'privacy_GDPR'.tr(),
                             style: GoogleFonts.dmSans(
                               color: AppColors.primaryColor,
                               decoration: TextDecoration.underline,
@@ -175,7 +176,7 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                         TextButton(
                           onPressed: () {},
                           child: Text(
-                            'Terms and Conditions',
+                            'terms_condition'.tr(),
                             style: GoogleFonts.dmSans(
                               color: AppColors.primaryColor,
                               decoration: TextDecoration.underline,

@@ -2,6 +2,7 @@ import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/screens/profile/trip_history_map.dart';
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,7 +31,7 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
               color: AppColors.white,
             ),
             title: Text(
-              'Trip History',
+              'trip_history'.tr(),
               style: GoogleFonts.dmSans(
                 color: AppColors.white,
               ),
@@ -69,15 +70,15 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
                               indicator: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
                                   color: AppColors.secondaryColor),
-                              tabs: const [
+                              tabs: [
                                 Tab(
-                                  text: 'For all time',
+                                  text: 'for_all_time'.tr(),
                                 ),
                                 Tab(
-                                  text: 'This Week',
+                                  text: 'this_week'.tr(),
                                 ),
                                 Tab(
-                                  text: 'This Month',
+                                  text: 'this_month'.tr(),
                                 ),
                               ]),
                         ),
@@ -111,7 +112,7 @@ class TripHistoryItem extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Initiative Name',
+                'initiative_name'.tr(),
                 style: GoogleFonts.dmSans(
                   fontSize: 16,
                   color: AppColors.primaryColor,
@@ -119,7 +120,7 @@ class TripHistoryItem extends ConsumerWidget {
                 ),
               ),
               Text(
-                'October 30, 2023',
+                '${'oct'.tr()} 30, 2023',
                 style: GoogleFonts.dmSans(
                   fontSize: 12,
                   color: AppColors.primaryColor.withOpacity(0.60),
@@ -151,7 +152,7 @@ class TripHistoryItem extends ConsumerWidget {
                 ],
               ),
               SizedBox(
-                width: 90,
+                width: 100,
                 child: TextButton(
                   onPressed: () {
                     context.push(const TripMapScreen());
@@ -162,7 +163,8 @@ class TripHistoryItem extends ConsumerWidget {
                       const Icon(Icons.map, size: 15),
                       const SizedBox(width: 6),
                       Text(
-                        'See Map',
+                        'see_map'.tr(),
+                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,

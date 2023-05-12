@@ -1,4 +1,5 @@
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,7 +67,7 @@ class _SingleNewsFeedState extends ConsumerState<SingleNewsFeed> {
                       ),
                       const SizedBox(height: 32),
                       Text(
-                        'March 13, 2023',
+                        '${'mar'.tr()} 13, 2023',
                         style: GoogleFonts.dmSans(
                           color: AppColors.primaryColor.withOpacity(0.60),
                           fontSize: 12,
@@ -78,7 +79,7 @@ class _SingleNewsFeedState extends ConsumerState<SingleNewsFeed> {
                       Row(
                         children: [
                           Text(
-                            'Share: ',
+                            '${'share'.tr()}: ',
                             style: GoogleFonts.dmSans(
                               color: AppColors.primaryColor,
                               fontWeight: FontWeight.w500,
@@ -112,7 +113,7 @@ class _SingleNewsFeedState extends ConsumerState<SingleNewsFeed> {
                           TextButton.icon(
                             onPressed: () {},
                             label: Text(
-                              'Back to All',
+                              'back_to_all'.tr(),
                               style: GoogleFonts.dmSans(
                                   color: AppColors.primaryColor),
                             ),
@@ -122,7 +123,7 @@ class _SingleNewsFeedState extends ConsumerState<SingleNewsFeed> {
                           TextButton.icon(
                             onPressed: () {},
                             icon: Text(
-                              'Next Article',
+                              'next_article'.tr(),
                               style: GoogleFonts.dmSans(
                                   color: AppColors.primaryColor),
                             ),

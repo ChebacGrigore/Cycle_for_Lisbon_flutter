@@ -1,6 +1,7 @@
 import 'package:cfl/view/screens/home/home_screen.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,7 +29,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
             snap: true,
             expandedHeight: 300,
             title: Text(
-              'Initiative Name',
+              'initiative_name'.tr(),
               style: GoogleFonts.dmSans(
                 color: AppColors.background,
               ),
@@ -70,7 +71,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Sustainable Development Goals:',
+                          '${'sustainable_development_goals'.tr()}:',
                           style: GoogleFonts.dmSans(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w500,
@@ -102,7 +103,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                         ),
                         const SizedBox(height: 42),
                         Text(
-                          'About Initiative:',
+                          '${'about_initiative'.tr()}:',
                           style: GoogleFonts.dmSans(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w500,
@@ -211,7 +212,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                         ),
                         const SizedBox(height: 42),
                         Text(
-                          'Sponsors:',
+                          '${'sponsors'.tr()}:',
                           style: GoogleFonts.dmSans(
                             color: AppColors.primaryColor,
                             fontWeight: FontWeight.w500,
@@ -237,7 +238,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                             style: AppComponentThemes.elevatedButtonTheme(),
                             onPressed: () {},
                             child: Text(
-                              'Support this Initiative',
+                              'support_initiative'.tr(),
                               style: GoogleFonts.dmSans(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,

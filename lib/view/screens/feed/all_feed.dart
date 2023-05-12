@@ -3,6 +3,7 @@ import 'package:cfl/view/screens/feed/single_event.dart';
 import 'package:cfl/view/screens/feed/single_news_feed.dart';
 import 'package:cfl/view/styles/assets.dart';
 import 'package:cfl/view/styles/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +28,7 @@ class _AllFeedScreenState extends ConsumerState<AllFeedScreen> {
           automaticallyImplyLeading: false,
           centerTitle: false,
           title: Text(
-            'News & Events',
+            'news_event'.tr(),
             style: GoogleFonts.dmSans(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -46,12 +47,12 @@ class _AllFeedScreenState extends ConsumerState<AllFeedScreen> {
                   indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       color: AppColors.secondaryColor),
-                  tabs: const [
+                  tabs: [
                     Tab(
-                      text: 'News',
+                      text: 'news'.tr(),
                     ),
                     Tab(
-                      text: 'Events',
+                      text: 'events'.tr(),
                     ),
                   ]),
             ),
@@ -118,7 +119,7 @@ class _NewsFeedsState extends ConsumerState<NewsFeeds> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'March 13, 2023',
+                        '${'mar'.tr()} 13, 2023',
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           color: AppColors.primaryColor.withOpacity(0.60),
@@ -205,7 +206,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'March 13, 2023',
+                        '${'mar'.tr()} 13, 2023',
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           color: AppColors.primaryColor.withOpacity(0.60),

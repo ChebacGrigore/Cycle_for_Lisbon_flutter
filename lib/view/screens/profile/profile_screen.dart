@@ -1,6 +1,5 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
-import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/screens/profile/about.dart';
 import 'package:cfl/view/screens/profile/badges.dart';
 import 'package:cfl/view/screens/profile/help_center.dart';
@@ -8,6 +7,7 @@ import 'package:cfl/view/screens/profile/leaderboard.dart';
 import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/screens/profile/trip_history.dart';
 import 'package:cfl/view/styles/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             expandedHeight: 350,
             iconTheme: const IconThemeData(color: AppColors.white),
             title: Text(
-              'My Profile',
+              'my_profile'.tr(),
               style: GoogleFonts.dmSans(
                 color: AppColors.white,
               ),
@@ -79,10 +79,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const ProfileActivityCount(
+                          ProfileActivityCount(
                             unit: 'h',
                             count: 3,
-                            title: 'Total Rides',
+                            title: 'total_rides'.tr(),
                             icon: CFLIcons.clock,
                           ),
                           const SizedBox(width: 6),
@@ -94,10 +94,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           const SizedBox(width: 6),
-                          const ProfileActivityCount(
+                          ProfileActivityCount(
                             unit: '',
                             count: 3340,
-                            title: 'Total km',
+                            title: 'total_km'.tr(),
                             icon: CFLIcons.roadhz,
                           ),
                           const SizedBox(width: 6),
@@ -109,10 +109,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           const SizedBox(width: 6),
-                          const ProfileActivityCount(
+                          ProfileActivityCount(
                             unit: '',
                             count: 567,
-                            title: 'Total Donations',
+                            title: 'total_donations'.tr(),
                             icon: CFLIcons.coin1,
                           ),
                         ],
@@ -140,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AppListTile(
-                          title: 'Profile Settings',
+                          title: 'profile_settings'.tr(),
                           icon: CFLIcons.settings,
                           onTap: () {
                             context.push(const ProfileSettings());
@@ -151,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         const SizedBox(height: 14),
                         AppListTile(
-                          title: 'Badges',
+                          title: 'badges'.tr(),
                           icon: CFLIcons.bmedalmilitary,
                           onTap: () {
                             context.push(const BadgesScreen());
@@ -162,7 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         const SizedBox(height: 14),
                         AppListTile(
-                          title: 'Leaderboard',
+                          title: 'leaderboard'.tr(),
                           icon: CFLIcons.crown1,
                           onTap: () {
                             context.push(const LeaderboardScreen());
@@ -173,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         const SizedBox(height: 14),
                         AppListTile(
-                          title: 'Trip Histoy',
+                          title: 'trip_history'.tr(),
                           icon: CFLIcons.roadhz,
                           onTap: () {
                             context.push(const TripHistoryScreen());
@@ -184,7 +184,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         const SizedBox(height: 14),
                         AppListTile(
-                          title: 'Help Center',
+                          title: 'help_center'.tr(),
                           icon: CFLIcons.help,
                           onTap: () {
                             context.push(const HelpCenter());
@@ -195,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         const SizedBox(height: 14),
                         AppListTile(
-                          title: 'About',
+                          title: 'about'.tr(),
                           icon: Icons.info_outline,
                           onTap: () {
                             context.push(const AboutScreen());
@@ -206,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         const SizedBox(height: 14),
                         AppListTile(
-                          title: 'Notifications',
+                          title: 'notifications'.tr(),
                           icon: Icons.notifications_none_sharp,
                           onTap: () {},
                           trailing: Switch(
@@ -234,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         const SizedBox(height: 14),
                         AppListTile(
-                          title: 'Logout',
+                          title: 'logout'.tr(),
                           icon: CFLIcons.exit,
                           onTap: () {},
                         ),
@@ -242,19 +242,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         const SizedBox(height: 14),
                         AppListTile(
-                          title: 'Delete Account',
+                          title: 'delete_account'.tr(),
                           icon: Icons.delete_outlined,
                           color: AppColors.tomatoRed,
                           onTap: () {
                             context.showAppDialog(
                               AppDialog(
                                 icon: Icons.delete_outline_rounded,
-                                acceptTitle: 'Yes, Delete',
-                                declineTitle: 'I changed my mind',
-                                title:
-                                    'Are you sure you want to delete your account?',
-                                description:
-                                    'By doing so, all your data will be permanently deleted and cannot be recovered. This action cannot be undone.',
+                                acceptTitle: 'yes_delete'.tr(),
+                                declineTitle: 'no_delete'.tr(),
+                                title: 'sure_delete_account'.tr(),
+                                description: 'delete_acount_desc'.tr(),
                                 onAccept: () {
                                   context.popUntil(const SignUp());
                                 },

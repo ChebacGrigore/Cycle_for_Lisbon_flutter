@@ -2,6 +2,7 @@ import 'package:cfl/shared/shared.dart';
 import 'package:cfl/view/screens/home/single_initiative.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,7 +20,7 @@ class InitiativeScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 42),
               Text(
-                'Available Initiatives',
+                'available_initiatives'.tr(),
                 style: GoogleFonts.dmSans(
                   fontSize: 18,
                   color: AppColors.primaryColor,
