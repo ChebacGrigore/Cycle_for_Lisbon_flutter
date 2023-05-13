@@ -151,11 +151,11 @@ class _OnboardingState extends State<Onboarding> {
                 topRight: Radius.circular(24),
               ),
               child: Container(
-                height: MediaQuery.of(context).size.height / 2 - 100,
+                height: MediaQuery.of(context).size.height / 2 - 60,
                 padding: const EdgeInsets.only(
                   left: 20,
                   right: 20,
-                  top: 32,
+                  top: 23,
                 ),
                 decoration: const BoxDecoration(
                   color: AppColors.white,
@@ -188,10 +188,8 @@ class _OnboardingState extends State<Onboarding> {
                         ),
                       ),
                     ),
-                    if (items[currentIndex].patners.isEmpty)
-                      const SizedBox(height: 24),
+                    const SizedBox(height: 19),
                     if (items[currentIndex].patners.isNotEmpty) ...[
-                      const SizedBox(height: 19),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: items[currentIndex]

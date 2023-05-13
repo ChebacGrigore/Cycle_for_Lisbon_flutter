@@ -35,7 +35,7 @@ class _AllFeedScreenState extends ConsumerState<AllFeedScreen> {
             ),
           ),
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(100),
+            preferredSize: const Size.fromHeight(65),
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
@@ -91,7 +91,7 @@ class _NewsFeedsState extends ConsumerState<NewsFeeds> {
               context.push(const SingleNewsFeed());
             },
             child: Container(
-              height: 400,
+              // height: 380,
               width: double.infinity,
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(

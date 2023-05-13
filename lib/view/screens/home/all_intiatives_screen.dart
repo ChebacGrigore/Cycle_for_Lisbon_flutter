@@ -27,7 +27,7 @@ class InitiativeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 42),
+              const SizedBox(height: 22),
               Text(
                 'available_initiatives'.tr(),
                 style: GoogleFonts.dmSans(
@@ -36,7 +36,6 @@ class InitiativeScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 24),
               ListView.builder(
                 shrinkWrap: true,
                 itemCount: 4,
