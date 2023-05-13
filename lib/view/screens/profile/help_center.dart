@@ -12,11 +12,32 @@ class HelpCenter extends StatefulWidget {
 }
 
 class _HelpCenterState extends State<HelpCenter> {
+  ScrollController scrollController = ScrollController();
+  Color appbarColor = AppColors.white;
+
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController.addListener(() {
+      setState(
+        () {
+          if (scrollController.offset > 100) {
+            appbarColor = AppColors.accentColor;
+          } else {
+            appbarColor = AppColors.white;
+          }
+        },
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: CustomScrollView(
+        controller: scrollController,
         slivers: [
           SliverAppBar(
             backgroundColor: AppColors.background,
@@ -26,13 +47,13 @@ class _HelpCenterState extends State<HelpCenter> {
             centerTitle: true,
             automaticallyImplyLeading: widget.showAppBar ? true : false,
             expandedHeight: 150,
-            iconTheme: const IconThemeData(
-              color: AppColors.white,
+            iconTheme: IconThemeData(
+              color: appbarColor,
             ),
             title: Text(
               'help_center'.tr(),
               style: GoogleFonts.dmSans(
-                color: AppColors.white,
+                color: appbarColor,
               ),
             ),
             flexibleSpace: FlexibleSpaceBar(

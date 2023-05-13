@@ -13,11 +13,32 @@ class BadgesScreen extends StatefulWidget {
 }
 
 class _BadgesScreenState extends State<BadgesScreen> {
+  ScrollController scrollController = ScrollController();
+  Color appbarColor = AppColors.white;
+
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController.addListener(() {
+      setState(
+        () {
+          if (scrollController.offset > 170) {
+            appbarColor = AppColors.accentColor;
+          } else {
+            appbarColor = AppColors.white;
+          }
+        },
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: CustomScrollView(
+        controller: scrollController,
         slivers: [
           SliverAppBar(
             backgroundColor: AppColors.background,
@@ -28,13 +49,13 @@ class _BadgesScreenState extends State<BadgesScreen> {
             centerTitle: true,
             automaticallyImplyLeading: widget.showAppBar ? true : false,
             expandedHeight: 150,
-            iconTheme: const IconThemeData(
-              color: AppColors.primaryColor,
+            iconTheme: IconThemeData(
+              color: appbarColor,
             ),
             title: Text(
               'badges'.tr(),
               style: GoogleFonts.dmSans(
-                color: AppColors.white,
+                color: appbarColor,
               ),
             ),
             flexibleSpace: FlexibleSpaceBar(
