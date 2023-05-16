@@ -253,19 +253,25 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                             ],
                           ),
                           const SizedBox(width: 17),
-                          Row(
-                            children: [
-                              const Icon(Icons.location_on_outlined,
-                                  color: AppColors.accentColor),
-                              const SizedBox(width: 6),
-                              Text(
-                                'Elgin St. Celina, Delaware',
-                                style: GoogleFonts.dmSans(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
+                          Flexible(
+                            child: Row(
+                              children: [
+                                const Icon(Icons.location_on_outlined,
+                                    color: AppColors.accentColor),
+                                const SizedBox(width: 6),
+                                Flexible(
+                                  child: Text(
+                                    'Elgin St. Celina, Delaware',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: GoogleFonts.dmSans(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),

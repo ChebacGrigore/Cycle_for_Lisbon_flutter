@@ -23,7 +23,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             stretch: true,
             floating: true,
             pinned: true,
-            expandedHeight: 370,
+            expandedHeight: 325,
             actions: [
               Container(
                 margin: const EdgeInsets.only(right: 20),

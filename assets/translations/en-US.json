@@ -27,6 +27,7 @@
   "old_password":"Old Password",
   "new_password":"New Password",
   "recover_password": "Recover Password",
+  "enter_email_recover":"Enter the email address you used to register",
   "change_avatar": "Change Avatar",
   "first_name": "First Name",
   "last_name": "Last Name",
@@ -79,6 +80,7 @@
   "treasure_master": "Treasure Master",
 
   "login_to_account": "Login to your Cycle for Lisbon account",
+  
   "no_account_sign_up": "Don't have an account? Sign up",
   "enter_email_sign_up": "Enter your e-mail address to sign up",
   "already_have_account_sign_in": "Already have an account? Login",
@@ -102,7 +104,7 @@
   "total_rides": "Total Rides",
   "total_donations": "Total Donations",
 
-  "let_start_cycling": "Let's start cycling",
+  "let_start_cycling": "Let's start cycling?",
   "choose_initiative": "Choose your initiative",
   "change_initiative": "Change Initiative",
   "support_initiative": "Support this Initiative",
@@ -122,6 +124,7 @@
   "news": "News",
   "events": "Events",
   "share": "Share",
+  "send":"Send",
   "back_to_all": "Back to All",
   "next_article": "Next Article",
   "next_vent": "Next Event",
@@ -144,6 +147,7 @@
   "dec": "December",
 
   "thank_for_support": "Thank you for your support! This goal was completed. Want to select a new one?",
+  "want_select_new":"Want to select a new one?",  
   "sustainable_development_goals": "Sustainable Development Goals",
   "initiative_placeholder": "This is a description placeholder. Here you can describe your initiative and how it will impact your community,",
   "institution_placeholder": "This is a description placeholder. Here you can give information about your Institution and its area of work.",

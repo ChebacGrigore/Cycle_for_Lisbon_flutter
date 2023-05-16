@@ -16,19 +16,40 @@ class ProfileSettings extends StatefulWidget {
 }
 
 class _ProfileSettingsState extends State<ProfileSettings> {
+  ScrollController scrollController = ScrollController();
+  Color appbarColor = AppColors.white;
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController.addListener(() {
+      setState(
+        () {
+          if (scrollController.offset > 70) {
+            appbarColor = AppColors.primaryColor;
+          } else {
+            appbarColor = AppColors.white;
+          }
+        },
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: CustomScrollView(
+        controller: scrollController,
         slivers: [
           SliverAppBar(
             backgroundColor: AppColors.background,
-            foregroundColor: AppColors.accentColor,
+            foregroundColor: appbarColor,
             floating: true,
             pinned: true,
             snap: true,
-            expandedHeight: 240,
+            centerTitle: true,
+            expandedHeight: 190,
             title: Text(
               'profile_settings'.tr(),
               style: GoogleFonts.dmSans(),
@@ -41,7 +62,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       avatarRadius: 0,
                     ),
                     child: CustomPaint(
-                      size: const Size.fromHeight(220),
+                      size: const Size.fromHeight(190),
                       painter: HeaderPainter(
                           color: AppColors.primaryColor, avatarRadius: 0),
                     ),

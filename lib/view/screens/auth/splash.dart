@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cfl/shared/shared.dart';
 import 'package:cfl/view/screens/auth/signin.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
@@ -40,7 +42,7 @@ class SplashScreen extends ConsumerWidget {
                 child: Column(
                   children: [
                     Text(
-                      'Cycle For Lisbon',
+                      'Cycle For Lisbon'.toUpperCase(),
                       style: GoogleFonts.dmSans(
                         color: AppColors.white,
                         fontSize: 48,
@@ -65,16 +67,35 @@ class SplashScreen extends ConsumerWidget {
                   Expanded(
                     child: SizedBox(
                       height: 49,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          context.showAppDialog(const SignIn());
-                        },
-                        style: AppComponentThemes.outlinedButtonTheme(),
-                        child: Text(
-                          'sign_in'.tr(),
-                          style: GoogleFonts.dmSans(
-                            color: AppColors.white,
-                          ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Stack(
+                          children: [
+                            BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                              child: Container(
+                                width: double.infinity,
+                                height: double.infinity,
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 49,
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  context.showAppDialog(const SignIn());
+                                },
+                                style: AppComponentThemes.outlinedButtonTheme(),
+                                child: Text(
+                                  'sign_in'.tr(),
+                                  style: GoogleFonts.dmSans(
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -157,14 +178,14 @@ class SocialLogins extends StatelessWidget {
               color: color ?? AppColors.white,
               onTap: () {},
             ),
-            const SizedBox(width: 16),
+            // const SizedBox(width: 16),
             AppRoundedButton(
               fill: fill,
               color: color ?? AppColors.white,
               icon: CFLIcons.google,
               onTap: () {},
             ),
-            const SizedBox(width: 16),
+            // const SizedBox(width: 16),
             AppRoundedButton(
               fill: fill,
               color: color ?? AppColors.white,
@@ -204,7 +225,7 @@ class AppRoundedButton extends StatelessWidget {
       shape: const CircleBorder(),
       child: Icon(
         icon,
-        size: 24.0,
+        size: 22.0,
         color: color ?? AppColors.white,
       ),
     );

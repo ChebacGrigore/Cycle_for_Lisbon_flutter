@@ -171,6 +171,7 @@ class _OnboardingState extends State<Onboarding> {
                   children: [
                     Text(
                       items[currentIndex].title,
+                      textAlign: TextAlign.center,
                       style: GoogleFonts.dmSans(
                         color: AppColors.primaryColor,
                         fontWeight: FontWeight.bold,

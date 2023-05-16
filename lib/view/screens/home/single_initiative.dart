@@ -16,6 +16,25 @@ class SingleInitiative extends StatefulWidget {
 class _SingleInitiativeState extends State<SingleInitiative> {
   bool isFullDesc = false;
   bool isFullInstNameDesc = false;
+  ScrollController scrollController = ScrollController();
+  Color appbarColor = AppColors.white;
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController.addListener(() {
+      setState(
+        () {
+          if (scrollController.offset > 170) {
+            appbarColor = AppColors.primaryColor;
+          } else {
+            appbarColor = AppColors.white;
+          }
+        },
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +43,10 @@ class _SingleInitiativeState extends State<SingleInitiative> {
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(gradient: AppColors.whiteBgGradient),
         child: CustomScrollView(
+          controller: scrollController,
           slivers: [
             SliverAppBar(
-              foregroundColor: AppColors.accentColor,
+              foregroundColor: appbarColor,
               backgroundColor: AppColors.white,
               floating: true,
               pinned: true,
@@ -120,12 +140,12 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                           ),
                           const SizedBox(height: 14),
                           SizedBox(
-                            height: isFullDesc == true ? 100 : 50,
+                            height: isFullDesc == true ? 120 : 55,
                             width: double.infinity,
                             child: Text(
                               'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.Faucibus faucibus lectus nibh hendrerit. Et cursus egestas blandit nibh vitae risus rhonc dolor tellus',
                               overflow: TextOverflow.ellipsis,
-                              maxLines: isFullDesc == true ? 100 : 5,
+                              maxLines: isFullDesc == true ? 300 : 5,
                               style: GoogleFonts.dmSans(
                                 color: AppColors.primaryColor,
                                 fontWeight: FontWeight.w400,

@@ -31,9 +31,9 @@ class _LayoutState extends State<Layout> {
                   padding: const EdgeInsets.only(
                       left: 12, right: 12, bottom: 12, top: 5),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50.0),
+                    borderRadius: BorderRadius.circular(100),
                     child: Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                         color: AppColors.primaryColor,
                         boxShadow: [
@@ -55,7 +55,7 @@ class _LayoutState extends State<Layout> {
                         unselectedLabelColor: Colors.white.withOpacity(0.40),
                         splashBorderRadius: BorderRadius.circular(50.0),
                         indicator: const BoxDecoration(
-                          color: AppColors.accentColor,
+                          color: AppColors.secondaryColor,
                           shape: BoxShape.circle,
                         ),
                         tabs: const [
@@ -67,13 +67,13 @@ class _LayoutState extends State<Layout> {
                           ),
                           Tab(
                             icon: Icon(
-                              CFLIcons.roadhz,
+                              CFLIcons.target,
                               size: 20,
                             ),
                           ),
                           Tab(
                             icon: Icon(
-                              CFLIcons.target,
+                              CFLIcons.roadhz,
                               size: 20,
                             ),
                           ),

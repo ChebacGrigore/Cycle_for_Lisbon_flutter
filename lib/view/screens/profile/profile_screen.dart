@@ -29,7 +29,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             floating: true,
             pinned: true,
             snap: true,
-            expandedHeight: 350,
+            centerTitle: true,
+            expandedHeight: 330,
             iconTheme: const IconThemeData(color: AppColors.white),
             title: Text(
               'my_profile'.tr(),

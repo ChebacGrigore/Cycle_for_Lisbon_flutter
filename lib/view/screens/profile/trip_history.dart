@@ -29,7 +29,7 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
               floating: true,
               pinned: true,
               snap: true,
-              expandedHeight: 150,
+              expandedHeight: 140,
               iconTheme: const IconThemeData(
                 color: AppColors.white,
               ),
@@ -46,7 +46,7 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
                       avatarRadius: 0,
                     ),
                     child: CustomPaint(
-                      size: const Size.fromHeight(220),
+                      size: const Size.fromHeight(185),
                       painter: HeaderPainter(
                           color: AppColors.primaryColor, avatarRadius: 0),
                     ),

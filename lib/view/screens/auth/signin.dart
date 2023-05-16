@@ -84,7 +84,9 @@ class SignIn extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.showAppDialog(const RecoverPasswordDialog());
+                      },
                       child: Text(
                         'recover_password'.tr(),
                         style: GoogleFonts.dmSans(
@@ -145,6 +147,98 @@ class SignIn extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class RecoverPasswordDialog extends StatelessWidget {
+  const RecoverPasswordDialog({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: MediaQuery.of(context).size.height / 4,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: AppColors.white,
+      ),
+      child: Material(
+        color: AppColors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  AppAssets.logo2Svg,
+                  width: 25,
+                  height: 25,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'CYCLE FOR LISBON',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.dmSans(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 22,
+                    color: AppColors.black,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'recover_password'.tr(),
+              textAlign: TextAlign.center,
+              style: GoogleFonts.dmSans(
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            const SizedBox(height: 14),
+            Text(
+              'enter_email_recover'.tr(),
+              textAlign: TextAlign.center,
+              style: GoogleFonts.dmSans(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColors.primaryColor.withOpacity(0.80),
+              ),
+            ),
+            const SizedBox(height: 16),
+            AppTextField(hint: 'Email', controller: TextEditingController()),
+            const SizedBox(height: 45),
+            SizedBox(
+              width: double.infinity,
+              height: 49,
+              child: ElevatedButton(
+                style: AppComponentThemes.elevatedButtonTheme(
+                  color: AppColors.secondaryColor,
+                  borderColor: Colors.transparent,
+                ),
+                onPressed: () {},
+                child: Text(
+                  '${'send'.tr()} Email',
+                  style: GoogleFonts.dmSans(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

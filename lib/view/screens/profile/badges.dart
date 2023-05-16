@@ -48,7 +48,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
             snap: true,
             centerTitle: true,
             automaticallyImplyLeading: widget.showAppBar ? true : false,
-            expandedHeight: 150,
+            expandedHeight: 130,
             iconTheme: IconThemeData(
               color: appbarColor,
             ),
@@ -65,7 +65,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                     avatarRadius: 0,
                   ),
                   child: CustomPaint(
-                    size: const Size.fromHeight(220),
+                    size: const Size.fromHeight(200),
                     painter: HeaderPainter(
                         color: AppColors.primaryColor, avatarRadius: 0),
                   ),

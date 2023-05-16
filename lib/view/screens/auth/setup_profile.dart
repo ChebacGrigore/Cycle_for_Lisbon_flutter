@@ -20,7 +20,7 @@ class SetupProfile extends StatelessWidget {
         child: SingleChildScrollView(
           child: SafeArea(
               child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 44),
             child: Column(
               children: [
                 Text(

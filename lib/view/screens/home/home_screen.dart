@@ -242,7 +242,9 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {},
             child: Text(
               '${'start'.tr()}/${'stop'.tr()}',
-              style: GoogleFonts.dmSans(),
+              style: GoogleFonts.dmSans(
+                color: AppColors.white,
+              ),
             ),
           ),
         ),
@@ -305,14 +307,14 @@ class _HomeScreenState extends State<HomeScreen> {
         const SizedBox(height: 32),
         RichText(
           text: TextSpan(
-            text: 'thank_for_support'.tr(),
+            text: '${'thank_for_support'.tr()} ',
             style: GoogleFonts.dmSans(
               fontSize: 14,
               color: AppColors.primaryColor,
             ),
             children: [
               TextSpan(
-                text: ' Want to select a new one?',
+                text: 'want_select_new'.tr(),
                 style: GoogleFonts.dmSans(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,

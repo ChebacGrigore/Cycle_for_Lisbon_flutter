@@ -5,30 +5,51 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AboutScreen extends StatelessWidget {
+class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});
+
+  @override
+  State<AboutScreen> createState() => _AboutScreenState();
+}
+
+class _AboutScreenState extends State<AboutScreen> {
+  ScrollController scrollController = ScrollController();
+  Color appbarColor = AppColors.white;
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController.addListener(() {
+      setState(
+        () {
+          if (scrollController.offset > 170) {
+            appbarColor = AppColors.primaryColor;
+          } else {
+            appbarColor = AppColors.white;
+          }
+        },
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: CustomScrollView(
+        controller: scrollController,
         slivers: [
           SliverAppBar(
-            foregroundColor: AppColors.accentColor,
+            foregroundColor: appbarColor,
             backgroundColor: AppColors.background,
             floating: true,
             pinned: true,
             snap: true,
-            expandedHeight: 300,
-            iconTheme: const IconThemeData(
-              color: AppColors.accentColor,
-            ),
+            centerTitle: true,
+            expandedHeight: 250,
             title: Text(
               'about'.tr(),
-              style: GoogleFonts.dmSans(
-                  // color: AppColors.white,
-                  ),
+              style: GoogleFonts.dmSans(),
             ),
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
@@ -38,7 +59,7 @@ class AboutScreen extends StatelessWidget {
                       avatarRadius: 0,
                     ),
                     child: CustomPaint(
-                      size: const Size.fromHeight(325),
+                      size: const Size.fromHeight(300),
                       painter: HeaderPainter(
                         color: AppColors.primaryColor,
                         avatarRadius: 0,
