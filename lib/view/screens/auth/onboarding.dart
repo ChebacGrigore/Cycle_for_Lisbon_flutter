@@ -169,6 +169,7 @@ class _OnboardingState extends State<Onboarding> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const Spacer(),
                     Text(
                       items[currentIndex].title,
                       textAlign: TextAlign.center,
@@ -216,6 +217,7 @@ class _OnboardingState extends State<Onboarding> {
                           .toList(),
                     ),
                     const SizedBox(height: 24),
+                    const Spacer(),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: SizedBox(
@@ -240,7 +242,8 @@ class _OnboardingState extends State<Onboarding> {
                               ),
                             )),
                       ),
-                    )
+                    ),
+                    const Spacer(),
                   ],
                 ),
               ),
