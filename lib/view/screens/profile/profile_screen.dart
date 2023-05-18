@@ -125,157 +125,143 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SliverList(
-            delegate: SliverChildListDelegate([
-              Container(
-                padding: const EdgeInsets.only(
-                  top: 53,
-                  right: 41,
-                  left: 41,
-                  bottom: 63,
-                ),
-                decoration: const BoxDecoration(
-                  gradient: AppColors.whiteBgGradient,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
+            delegate: SliverChildListDelegate(
+              [
+                Container(
+                  padding: const EdgeInsets.only(
+                    top: 53,
+                    right: 20,
+                    left: 20,
+                    bottom: 63,
                   ),
-                  color: AppColors.white,
-                ),
-                child: SingleChildScrollView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppListTile(
-                        title: 'profile_settings'.tr(),
-                        icon: CFLIcons.settings,
-                        onTap: () {
-                          context.push(const ProfileSettings());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'badges'.tr(),
-                        icon: CFLIcons.bmedalmilitary,
-                        onTap: () {
-                          context.push(const BadgesScreen());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'leaderboard'.tr(),
-                        icon: CFLIcons.crown1,
-                        onTap: () {
-                          context.push(const LeaderboardScreen());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'trip_history'.tr(),
-                        icon: CFLIcons.roadhz,
-                        onTap: () {
-                          context.push(const TripHistoryScreen());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'help_center'.tr(),
-                        icon: CFLIcons.help,
-                        onTap: () {
-                          context.push(const HelpCenter());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'about'.tr(),
-                        icon: Icons.info_outline,
-                        onTap: () {
-                          context.push(const AboutScreen());
-                        },
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'notifications'.tr(),
-                        icon: Icons.notifications_none_sharp,
-                        onTap: () {},
-                        trailing: Switch(
-                          onChanged: (val) {},
-                          value: true,
-                          trackColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.disabled)) {
-                              return AppColors.greyish.withOpacity(.48);
-                            }
-                            return AppColors.greyish;
-                          }),
-                          thumbColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.disabled)) {
-                              return AppColors.accentColor.withOpacity(.48);
-                            }
-                            return AppColors.accentColor;
-                          }),
+                  decoration: const BoxDecoration(
+                    gradient: AppColors.whiteBgGradient,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
+                    ),
+                    color: AppColors.white,
+                  ),
+                  child: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppListTile(
+                          title: 'profile_settings'.tr(),
+                          icon: CFLIcons.settings,
+                          onTap: () {
+                            context.push(const ProfileSettings());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
                         ),
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'log_out'.tr(),
-                        icon: CFLIcons.exit,
-                        onTap: () {},
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                      AppListTile(
-                        title: 'delete_account'.tr(),
-                        icon: Icons.delete_outlined,
-                        color: AppColors.tomatoRed,
-                        onTap: () {
-                          context.showAppDialog(
-                            AppDialog(
-                              icon: Icons.delete_outline_rounded,
-                              acceptTitle: 'yes_delete'.tr(),
-                              declineTitle: 'no_delete'.tr(),
-                              title: 'sure_delete_account'.tr(),
-                              description: 'delete_acount_desc'.tr(),
-                              onAccept: () {
-                                context.popUntil(const SignUp());
-                              },
-                              onDecline: () {
-                                context.pop();
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 14),
-                      const Divider(),
-                      const SizedBox(height: 14),
-                    ],
+                        const Divider(),
+                        AppListTile(
+                          title: 'badges'.tr(),
+                          icon: CFLIcons.bmedalmilitary,
+                          onTap: () {
+                            context.push(const BadgesScreen());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
+                        ),
+                        const Divider(),
+                        AppListTile(
+                          title: 'leaderboard'.tr(),
+                          icon: CFLIcons.crown1,
+                          onTap: () {
+                            context.push(const LeaderboardScreen());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
+                        ),
+                        const Divider(),
+                        AppListTile(
+                          title: 'trip_history'.tr(),
+                          icon: CFLIcons.roadhz,
+                          onTap: () {
+                            context.push(const TripHistoryScreen());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
+                        ),
+                        const Divider(),
+                        AppListTile(
+                          title: 'help_center'.tr(),
+                          icon: CFLIcons.help,
+                          onTap: () {
+                            context.push(const HelpCenter());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
+                        ),
+                        const Divider(),
+                        AppListTile(
+                          title: 'about'.tr(),
+                          icon: Icons.info_outline,
+                          onTap: () {
+                            context.push(const AboutScreen());
+                          },
+                          trailing: const Icon(Icons.chevron_right_outlined),
+                        ),
+                        const Divider(),
+                        AppListTile(
+                          title: 'notifications'.tr(),
+                          icon: Icons.notifications_none_sharp,
+                          onTap: () {},
+                          trailing: Switch(
+                            onChanged: (val) {},
+                            value: true,
+                            trackColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return AppColors.greyish.withOpacity(.48);
+                              }
+                              return AppColors.greyish;
+                            }),
+                            thumbColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return AppColors.accentColor.withOpacity(.48);
+                              }
+                              return AppColors.accentColor;
+                            }),
+                          ),
+                        ),
+                        const Divider(),
+                        AppListTile(
+                          title: 'log_out'.tr(),
+                          icon: CFLIcons.exit,
+                          onTap: () {},
+                        ),
+                        const Divider(),
+                        AppListTile(
+                          title: 'delete_account'.tr(),
+                          icon: Icons.delete_outlined,
+                          color: AppColors.tomatoRed,
+                          onTap: () {
+                            context.showAppDialog(
+                              AppDialog(
+                                icon: Icons.delete_outline_rounded,
+                                acceptTitle: 'yes_delete'.tr(),
+                                declineTitle: 'no_delete'.tr(),
+                                title: 'sure_delete_account'.tr(),
+                                description: 'delete_acount_desc'.tr(),
+                                onAccept: () {
+                                  context.popUntil(const SignUp());
+                                },
+                                onDecline: () {
+                                  context.pop();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        const Divider(),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           ),
         ],
       ),
@@ -299,20 +285,27 @@ class AppListTile extends StatelessWidget {
   final Color? color;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 60,
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: ListTile(
+        contentPadding: EdgeInsets.zero,
         onTap: onTap,
-        leading: Icon(
-          icon,
-          color: color ?? AppColors.accentColor,
-        ),
-        title: Text(
-          title,
-          style: GoogleFonts.dmSans(
-            fontSize: 14,
-            color: color ?? AppColors.primaryColor,
-          ),
+        title: Row(
+          children: [
+            Icon(
+              icon,
+              color: color ?? AppColors.accentColor,
+            ),
+            const SizedBox(width: 12),
+            Text(
+              title,
+              style: GoogleFonts.dmSans(
+                fontSize: 14,
+                color: color ?? AppColors.primaryColor,
+              ),
+            ),
+          ],
         ),
         trailing: trailing,
       ),
@@ -388,7 +381,7 @@ class AppDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
       margin: EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: MediaQuery.of(context).size.height / 5,
+        vertical: MediaQuery.of(context).size.height / 6,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),

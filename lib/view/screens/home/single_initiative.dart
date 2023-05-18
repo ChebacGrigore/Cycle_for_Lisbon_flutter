@@ -143,9 +143,9 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                             height: isFullDesc == true ? null : 55,
                             width: double.infinity,
                             child: Text(
-                              'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.Faucibus faucibus lectus nibh hendrerit. Et cursus egestas blandit nibh vitae risus rhonc dolor tellus',
+                              'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.Faucibus faucibus lectus nibh hendrerit. Et',
                               overflow: TextOverflow.ellipsis,
-                              maxLines: isFullDesc == true ? 500 : 5,
+                              maxLines: isFullDesc == true ? 1000 : 5,
                               style: GoogleFonts.dmSans(
                                 color: AppColors.primaryColor,
                                 fontWeight: FontWeight.w400,
@@ -204,12 +204,12 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                           ),
                           const SizedBox(height: 16),
                           SizedBox(
-                            height: isFullInstNameDesc == true ? null : 50,
+                            height: isFullInstNameDesc == true ? null : 55,
                             width: double.infinity,
                             child: Text(
-                              'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo. Faucibus faucibus lectus nibh hendrerit. Et cursus egestas blandit nibh vitae risus rhonc dolor tellus',
+                              'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.erg ekrg eroj gerjg jeg ersjog bljwngpiwrengojergb ihg i',
                               overflow: TextOverflow.ellipsis,
-                              maxLines: isFullInstNameDesc == true ? 500 : 5,
+                              maxLines: isFullInstNameDesc == true ? 1000 : 5,
                               style: GoogleFonts.dmSans(
                                 color: AppColors.primaryColor,
                                 fontWeight: FontWeight.w400,
@@ -223,11 +223,13 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                               isFullInstNameDesc = !isFullInstNameDesc;
                               setState(() {});
                             },
-                            icon: Text(isFullInstNameDesc == true
-                                ? 'Read Less'
-                                : 'Read More'),
+                            icon: Text(
+                              isFullInstNameDesc == true
+                                  ? 'Read Less'
+                                  : 'Read More',
+                            ),
                             label: Icon(
-                              isFullDesc == true
+                              isFullInstNameDesc == true
                                   ? Icons.arrow_upward
                                   : Icons.arrow_downward,
                               size: 15,

@@ -1,5 +1,5 @@
 import 'package:cfl/shared/app_bar_clip.dart';
-import 'package:cfl/view/screens/profile/profile_settings.dart';
+
 import 'package:cfl/view/styles/assets.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -25,7 +25,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
       setState(
         () {
           if (scrollController.offset > 170) {
-            appbarColor = AppColors.accentColor;
+            appbarColor = AppColors.primaryColor;
           } else {
             appbarColor = AppColors.white;
           }
@@ -71,9 +71,9 @@ class _BadgesScreenState extends State<BadgesScreen> {
               [
                 Padding(
                   padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                    top: 20,
+                    left: 38,
+                    right: 38,
+                    top: 32,
                     bottom: 200,
                   ),
                   child: SingleChildScrollView(
@@ -88,16 +88,16 @@ class _BadgesScreenState extends State<BadgesScreen> {
                             color: AppColors.primaryColor,
                           ),
                         ),
-                        const SizedBox(height: 37),
+                        // 47 //  const SizedBox(height: 23),
                         GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
-                            childAspectRatio: 0.9,
-                            crossAxisSpacing: 12,
-                            mainAxisSpacing: 12,
+                            childAspectRatio: 0.8,
+                            crossAxisSpacing: 47,
+                            mainAxisSpacing: 30,
                           ),
                           itemCount: 12,
                           itemBuilder: (context, index) {
@@ -150,11 +150,11 @@ class Badge extends StatelessWidget {
                 backgroundColor: value >= 1
                     ? AppColors.accentColor
                     : AppColors.tertiaryColor,
-                radius: 30,
+                radius: 35,
                 child: Image.asset(
                   badgePath,
-                  width: 20,
-                  height: 20,
+                  width: 25,
+                  height: 25,
                 ),
               ),
             ),

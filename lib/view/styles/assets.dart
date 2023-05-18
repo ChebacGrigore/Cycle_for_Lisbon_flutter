@@ -32,4 +32,6 @@ class AppAssets {
   //stickers
   static const String waterSticker = 'assets/images/water_sticker.png';
   static const String energySticker = 'assets/images/energy_sticker.png';
+  //
+  static const String mapPlaceholder = 'assets/images/placeholder_map.png';
 }

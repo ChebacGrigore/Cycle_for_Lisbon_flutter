@@ -47,7 +47,7 @@ class _AboutScreenState extends State<AboutScreen> {
             pinned: true,
             snap: true,
             centerTitle: true,
-            expandedHeight: 350,
+            expandedHeight: 300,
             title: Text(
               'about'.tr(),
               style: GoogleFonts.dmSans(),
@@ -125,12 +125,12 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                         const SizedBox(height: 24),
                         Image.asset(
                           AppAssets.p1,
-                          width: 150,
+                          width: 154,
                           height: 32,
                         ),
                         const SizedBox(height: 32),
                         const Divider(),
-                        const SizedBox(height: 42),
+                        const SizedBox(height: 32),
                         Text(
                           '${'project'.tr()}: ',
                           style: GoogleFonts.dmSans(),
@@ -143,7 +143,7 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                         ),
                         const SizedBox(height: 32),
                         const Divider(),
-                        const SizedBox(height: 42),
+                        const SizedBox(height: 32),
                         Text(
                           '${'co_financed'.tr()}: ',
                           style: GoogleFonts.dmSans(),
@@ -173,7 +173,6 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                         ),
                         const SizedBox(height: 32),
                         const Divider(),
-                        // const SizedBox(height: 51),
                         TextButton(
                           onPressed: () {},
                           child: Text(
@@ -185,7 +184,7 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        // const SizedBox(height: 20),
                         TextButton(
                           onPressed: () {},
                           child: Text(

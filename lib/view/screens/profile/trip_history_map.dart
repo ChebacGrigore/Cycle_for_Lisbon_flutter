@@ -1,6 +1,7 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/profile/leaderboard.dart';
 import 'package:cfl/view/screens/profile/trip_history.dart';
+import 'package:cfl/view/styles/assets.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -26,20 +27,21 @@ class _TripMapScreenState extends State<TripMapScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          FlutterMap(
-            options: MapOptions(
-              center: LatLng(51.509364, -0.128928),
-              zoom: 15.2,
-            ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.app.cfl',
-                tileBuilder: darkModeTileBuilder,
-                backgroundColor: Colors.black54,
-              ),
-            ],
-          ),
+          // FlutterMap(
+          //   options: MapOptions(
+          //     center: LatLng(51.509364, -0.128928),
+          //     zoom: 15.2,
+          //   ),
+          //   children: [
+          //     TileLayer(
+          //       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+          //       userAgentPackageName: 'com.app.cfl',
+          //       tileBuilder: darkModeTileBuilder,
+          //       backgroundColor: Colors.black54,
+          //     ),
+          //   ],
+          // ),
+          Image.asset(AppAssets.mapPlaceholder),
           Align(
             alignment: Alignment.topCenter,
             child: SafeArea(

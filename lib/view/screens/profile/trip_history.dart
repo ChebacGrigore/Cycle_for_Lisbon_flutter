@@ -61,21 +61,26 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
                               color: AppColors.tertiaryColor,
                             ),
                             child: TabBar(
-                                unselectedLabelColor: AppColors.primaryColor,
-                                indicator: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: AppColors.secondaryColor),
-                                tabs: [
-                                  Tab(
-                                    text: 'for_all_time'.tr(),
-                                  ),
-                                  Tab(
-                                    text: 'this_week'.tr(),
-                                  ),
-                                  Tab(
-                                    text: 'this_month'.tr(),
-                                  ),
-                                ]),
+                              labelStyle: GoogleFonts.dmSans(
+                                fontSize: 13,
+                              ),
+                              unselectedLabelColor: AppColors.primaryColor,
+                              indicator: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: AppColors.secondaryColor,
+                              ),
+                              tabs: [
+                                Tab(
+                                  text: 'for_all_time'.tr(),
+                                ),
+                                Tab(
+                                  text: 'this_week'.tr(),
+                                ),
+                                Tab(
+                                  text: 'this_month'.tr(),
+                                ),
+                              ],
+                            ),
                           ),
                           Expanded(
                             child: PageView(

@@ -28,8 +28,7 @@ class _LayoutState extends State<Layout> {
                 child: Container(
                   height: 80,
                   color: Colors.transparent,
-                  padding: const EdgeInsets.only(
-                      left: 12, right: 12, bottom: 12, top: 5),
+                  padding: const EdgeInsets.all(12),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: Container(
@@ -62,43 +61,43 @@ class _LayoutState extends State<Layout> {
                           Tab(
                             icon: Icon(
                               CFLIcons.home,
-                              size: 20,
+                              size: 18,
                             ),
                           ),
                           Tab(
                             icon: Icon(
                               CFLIcons.target,
-                              size: 20,
+                              size: 18,
                             ),
                           ),
                           Tab(
                             icon: Icon(
                               CFLIcons.roadhz,
-                              size: 20,
+                              size: 18,
                             ),
                           ),
                           Tab(
                             icon: Icon(
                               CFLIcons.map,
-                              size: 20,
+                              size: 18,
                             ),
                           ),
                           Tab(
                             icon: Icon(
                               CFLIcons.crown1,
-                              size: 20,
+                              size: 18,
                             ),
                           ),
                           Tab(
                             icon: Icon(
                               CFLIcons.newspaper1,
-                              size: 20,
+                              size: 18,
                             ),
                           ),
                           Tab(
                             icon: Icon(
                               Icons.phone_in_talk_outlined,
-                              size: 20,
+                              size: 18,
                             ),
                           ),
                         ],

@@ -151,7 +151,7 @@ class SocialLogins extends StatelessWidget {
             )),
             const SizedBox(width: 16),
             Text(
-              'or'.tr(),
+              'or'.tr().toUpperCase(),
               style: TextStyle(
                 color: color != null
                     ? color!.withOpacity(0.60)

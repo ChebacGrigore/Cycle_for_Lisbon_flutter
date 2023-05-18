@@ -163,8 +163,8 @@ class AppTextField extends StatelessWidget {
         Text(
           hint,
           style: GoogleFonts.dmSans(
-            fontWeight: FontWeight.bold,
-            color: AppColors.blueGrey,
+            fontWeight: FontWeight.normal,
+            color: AppColors.primaryColor,
           ),
         ),
         const SizedBox(height: 8),

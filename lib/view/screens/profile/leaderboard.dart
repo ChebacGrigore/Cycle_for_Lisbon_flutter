@@ -147,51 +147,63 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   itemCount: 5,
                   itemBuilder: (ctx, idx) {
                     return ListTile(
-                      leading: const CircleAvatar(radius: 45),
-                      title: RichText(
-                        text: TextSpan(
-                          text: 'Wade  ',
-                          children: [
-                            TextSpan(
-                              text: '@username',
-                              style: GoogleFonts.dmSans(
-                                fontSize: 12,
-                                color: AppColors.primaryColor.withOpacity(0.60),
-                              ),
-                            ),
-                          ],
-                          style: GoogleFonts.dmSans(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      title: Row(
                         children: [
-                          LeaderboardActivityCount(
-                            showTitle: false,
-                            count: 232,
-                            title: '',
-                            unit: 'km'.tr(),
-                            icon: CFLIcons.roadhz,
-                          ),
-                          const SizedBox(width: 20),
-                          LeaderboardActivityCount(
-                            showTitle: false,
-                            count: 20,
-                            title: 'rides'.tr(),
-                            unit: 'x',
-                            icon: CFLIcons.bicycle,
-                          ),
-                          const SizedBox(width: 20),
-                          const LeaderboardActivityCount(
-                            showTitle: false,
-                            count: 20,
-                            title: '',
-                            unit: '',
-                            icon: CFLIcons.coin1,
+                          const CircleAvatar(radius: 25),
+                          const SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Wade  ',
+                                  children: [
+                                    TextSpan(
+                                      text: '@username',
+                                      style: GoogleFonts.dmSans(
+                                        fontSize: 12,
+                                        color: AppColors.primaryColor
+                                            .withOpacity(0.60),
+                                      ),
+                                    ),
+                                  ],
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  LeaderboardActivityCount(
+                                    showTitle: false,
+                                    count: 232,
+                                    title: '',
+                                    unit: 'km'.tr(),
+                                    icon: CFLIcons.roadhz,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  LeaderboardActivityCount(
+                                    showTitle: false,
+                                    count: 20,
+                                    title: 'rides'.tr(),
+                                    unit: 'x',
+                                    icon: CFLIcons.bicycle,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  const LeaderboardActivityCount(
+                                    showTitle: false,
+                                    count: 20,
+                                    title: '',
+                                    unit: '',
+                                    icon: CFLIcons.coin1,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ],
                       ),

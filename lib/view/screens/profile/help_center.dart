@@ -24,7 +24,7 @@ class _HelpCenterState extends State<HelpCenter> {
       setState(
         () {
           if (scrollController.offset > 100) {
-            appbarColor = AppColors.accentColor;
+            appbarColor = AppColors.primaryColor;
           } else {
             appbarColor = AppColors.white;
           }
@@ -108,7 +108,7 @@ class _HelpCenterState extends State<HelpCenter> {
                       title: 'Instagram',
                       onTap: () {},
                     ),
-                    const SizedBox(height: 51),
+                    const SizedBox(height: 32),
                     TextButton(
                       onPressed: () {},
                       child: Text(
@@ -171,7 +171,7 @@ class HelpCenterListTile extends StatelessWidget {
             border: isPrimary
                 ? null
                 : Border.all(
-                    color: AppColors.greyish,
+                    color: AppColors.primaryColor.withOpacity(0.16),
                   ),
           ),
           child: Center(
