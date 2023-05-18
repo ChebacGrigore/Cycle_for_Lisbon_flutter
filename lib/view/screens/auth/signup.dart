@@ -21,7 +21,7 @@ class SignUp extends StatelessWidget {
         child: SingleChildScrollView(
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -74,11 +74,13 @@ class SignUp extends StatelessWidget {
                   ),
                   const SizedBox(height: 33),
                   AppTextField(
+                    prefixIcon: CFLIcons.mail,
                     controller: TextEditingController(),
                     hint: 'email'.tr(),
                   ),
                   const SizedBox(height: 20),
                   AppTextField(
+                    prefixIcon: CFLIcons.lock,
                     controller: TextEditingController(),
                     hint: 'password'.tr(),
                   ),
@@ -142,9 +144,16 @@ class AppTextField extends StatelessWidget {
   const AppTextField({
     required this.hint,
     required this.controller,
+    this.prefixIcon,
+    this.sufixIcon,
+    this.isVisivle = true,
     super.key,
   });
   final String hint;
+  final IconData? prefixIcon;
+  final Widget? sufixIcon;
+  final bool isVisivle;
+
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -152,19 +161,29 @@ class AppTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          hint.toUpperCase(),
+          hint,
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.bold,
             color: AppColors.blueGrey,
           ),
         ),
         const SizedBox(height: 8),
-        TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: '${'enter'.tr()} $hint',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
+        SizedBox(
+          height: 46,
+          child: TextFormField(
+            obscureText: isVisivle,
+            controller: controller,
+            decoration: InputDecoration(
+              prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+              suffixIcon: sufixIcon,
+              hintText: '${'enter'.tr()} $hint',
+              hintStyle: GoogleFonts.dmSans(
+                fontSize: 14,
+                color: AppColors.primaryColor.withOpacity(0.50),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
           ),
         ),

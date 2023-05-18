@@ -178,14 +178,14 @@ class SocialLogins extends StatelessWidget {
               color: color ?? AppColors.white,
               onTap: () {},
             ),
-            // const SizedBox(width: 16),
+            const SizedBox(width: 16),
             AppRoundedButton(
               fill: fill,
               color: color ?? AppColors.white,
               icon: CFLIcons.google,
               onTap: () {},
             ),
-            // const SizedBox(width: 16),
+            const SizedBox(width: 16),
             AppRoundedButton(
               fill: fill,
               color: color ?? AppColors.white,
@@ -213,20 +213,26 @@ class AppRoundedButton extends StatelessWidget {
   final bool fill;
   @override
   Widget build(BuildContext context) {
-    return RawMaterialButton(
-      onPressed: onTap,
-      elevation: 0,
-      fillColor: fill
-          ? color != null
-              ? color!.withOpacity(0.16)
-              : Colors.white.withOpacity(0.16)
-          : AppColors.white,
-      padding: const EdgeInsets.all(15.0),
-      shape: const CircleBorder(),
-      child: Icon(
-        icon,
-        size: 22.0,
-        color: color ?? AppColors.white,
+    return SizedBox(
+      width: 48,
+      height: 48,
+      child: RawMaterialButton(
+        onPressed: onTap,
+        elevation: 0,
+        fillColor: fill
+            ? color != null
+                ? color!.withOpacity(0.16)
+                : Colors.white.withOpacity(0.16)
+            : AppColors.white,
+        padding: const EdgeInsets.all(15.0),
+        shape: const CircleBorder(),
+        child: Center(
+          child: Icon(
+            icon,
+            size: 16,
+            color: color ?? AppColors.white,
+          ),
+        ),
       ),
     );
   }

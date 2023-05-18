@@ -75,7 +75,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                 padding: const EdgeInsets.all(20),
                 margin: const EdgeInsets.all(16),
                 width: double.infinity,
-                height: 150,
+                height: 118,
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -91,7 +91,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                         color: AppColors.primaryColor,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 10),
                     Row(
                       children: const [
                         TripHistoryInfo(
@@ -101,7 +101,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                         SizedBox(width: 10),
                         Icon(
                           Icons.arrow_forward,
-                          size: 19,
+                          size: 18,
                           color: AppColors.accentColor,
                         ),
                         SizedBox(width: 10),
@@ -111,7 +111,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
                         LeaderboardActivityCount(

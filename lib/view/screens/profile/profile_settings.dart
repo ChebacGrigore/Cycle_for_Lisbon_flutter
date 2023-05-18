@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:cfl/shared/app_bar_clip.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -49,7 +50,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             pinned: true,
             snap: true,
             centerTitle: true,
-            expandedHeight: 190,
+            expandedHeight: 175,
             title: Text(
               'profile_settings'.tr(),
               style: GoogleFonts.dmSans(),
@@ -57,25 +58,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 children: <Widget>[
-                  ClipPath(
-                    clipper: HeaderClipper(
-                      avatarRadius: 0,
-                    ),
-                    child: CustomPaint(
-                      size: const Size.fromHeight(190),
-                      painter: HeaderPainter(
-                          color: AppColors.primaryColor, avatarRadius: 0),
-                    ),
+                  const MyArc(
+                    diameter: double.infinity,
+                    color: AppColors.primaryColor,
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(
-                      width: 120,
-                      height: 120,
+                      width: 108,
+                      height: 108,
                       child: Stack(
                         children: const [
                           CircleAvatar(
-                            radius: 65,
+                            radius: 85,
                             backgroundColor: AppColors.tertiaryColor,
                           ),
                           Align(

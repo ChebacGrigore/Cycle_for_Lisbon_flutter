@@ -299,20 +299,23 @@ class AppListTile extends StatelessWidget {
   final Color? color;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      leading: Icon(
-        icon,
-        color: color ?? AppColors.accentColor,
-      ),
-      title: Text(
-        title,
-        style: GoogleFonts.dmSans(
-          fontSize: 14,
-          color: color ?? AppColors.primaryColor,
+    return SizedBox(
+      height: 60,
+      child: ListTile(
+        onTap: onTap,
+        leading: Icon(
+          icon,
+          color: color ?? AppColors.accentColor,
         ),
+        title: Text(
+          title,
+          style: GoogleFonts.dmSans(
+            fontSize: 14,
+            color: color ?? AppColors.primaryColor,
+          ),
+        ),
+        trailing: trailing,
       ),
-      trailing: trailing,
     );
   }
 }

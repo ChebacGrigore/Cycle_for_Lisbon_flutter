@@ -26,7 +26,7 @@
   "old_password":"Velho palavra-passe",
   "new_password":"Nova palavra-passe",
   "recover_password": "Recuperar palavra-passe",
-  "enter_email_recover":"Incira O email que utilizou no registo",
+  "enter_email_recover":"Insira o email que utilizou no registo",
   "change_avatar": "Alterar Avatar",
   "first_name": "Primeiro Nome",
   "last_name": "Último Nome",
@@ -147,7 +147,7 @@
   "nov": "Novembro",
   "dec": "Dezembro",
 
-  "thank_for_support": "Obrigado pelo seu apoio! Este objectivo foi concluído. Quer selecionar um novo?",
+  "thank_for_support": "Obrigado pelo seu apoio! Este foi concluído",
   "want_select_new":"Quer selecionar um novo?",
   "sustainable_development_goals": "Objetivos de Desenvolvimento Sustentável",
   "initiative_placeholder": "Este é um espaço reservado para a descrição. Aqui pode descrever a sua iniciativa e o impacto que a mesma terá na sua comunidade.",

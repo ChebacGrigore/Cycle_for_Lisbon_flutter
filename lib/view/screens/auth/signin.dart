@@ -8,8 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignIn extends StatelessWidget {
+class SignIn extends StatefulWidget {
   const SignIn({super.key});
+
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  bool obsecure = true;
+  TextEditingController passController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +82,25 @@ class SignIn extends StatelessWidget {
                   ),
                   const SizedBox(height: 33),
                   AppTextField(
-                    controller: TextEditingController(),
+                    prefixIcon: CFLIcons.mail,
+                    controller: emailController,
                     hint: 'email'.tr(),
                   ),
                   const SizedBox(height: 20),
                   AppTextField(
-                    controller: TextEditingController(),
+                    isVisivle: obsecure,
+                    prefixIcon: CFLIcons.lock,
+                    sufixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          obsecure = !obsecure;
+                        });
+                      },
+                      child: Icon(
+                        obsecure ? CFLIcons.visibility : CFLIcons.visibilityOff,
+                      ),
+                    ),
+                    controller: passController,
                     hint: 'password'.tr(),
                   ),
                   Align(
@@ -164,7 +186,7 @@ class RecoverPasswordDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
       margin: EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: MediaQuery.of(context).size.height / 4,
+        vertical: MediaQuery.of(context).size.height * 0.2,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),

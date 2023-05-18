@@ -1,4 +1,5 @@
-import 'package:cfl/view/screens/profile/profile_settings.dart';
+import 'package:cfl/shared/app_bar_clip.dart';
+
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class _AboutScreenState extends State<AboutScreen> {
             pinned: true,
             snap: true,
             centerTitle: true,
-            expandedHeight: 250,
+            expandedHeight: 350,
             title: Text(
               'about'.tr(),
               style: GoogleFonts.dmSans(),
@@ -54,17 +55,8 @@ class _AboutScreenState extends State<AboutScreen> {
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
                 children: <Widget>[
-                  ClipPath(
-                    clipper: HeaderClipper(
-                      avatarRadius: 0,
-                    ),
-                    child: CustomPaint(
-                      size: const Size.fromHeight(300),
-                      painter: HeaderPainter(
-                        color: AppColors.primaryColor,
-                        avatarRadius: 0,
-                      ),
-                    ),
+                  const MyArc(
+                    diameter: double.infinity,
                   ),
                   Image.asset(AppAssets.appBarBg),
                   Center(
@@ -100,7 +92,7 @@ class _AboutScreenState extends State<AboutScreen> {
             delegate: SliverChildListDelegate(
               [
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(20),
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(12),

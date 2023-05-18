@@ -1,3 +1,4 @@
+import 'package:cfl/shared/app_bar_clip.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/screens/profile/trip_history_map.dart';
@@ -29,7 +30,7 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
               floating: true,
               pinned: true,
               snap: true,
-              expandedHeight: 140,
+              expandedHeight: 150,
               iconTheme: const IconThemeData(
                 color: AppColors.white,
               ),
@@ -39,19 +40,10 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
                   color: AppColors.white,
                 ),
               ),
-              flexibleSpace: FlexibleSpaceBar(
-                background: Stack(children: <Widget>[
-                  ClipPath(
-                    clipper: HeaderClipper(
-                      avatarRadius: 0,
-                    ),
-                    child: CustomPaint(
-                      size: const Size.fromHeight(185),
-                      painter: HeaderPainter(
-                          color: AppColors.primaryColor, avatarRadius: 0),
-                    ),
-                  ),
-                ]),
+              flexibleSpace: const FlexibleSpaceBar(
+                background: MyArc(
+                  color: AppColors.primaryColor,
+                ),
               ),
             ),
             SliverFillRemaining(
@@ -201,21 +193,28 @@ class TripHistoryInfo extends StatelessWidget {
   final String text;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          color: AppColors.black,
-          size: 19,
-        ),
-        const SizedBox(width: 4),
-        Text(
-          text,
-          style: GoogleFonts.dmSans(
-            fontSize: 16,
+    return Flexible(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            color: AppColors.black,
+            size: 18,
           ),
-        ),
-      ],
+          const SizedBox(width: 4),
+          Expanded(
+            child: Text(
+              text,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.dmSans(
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

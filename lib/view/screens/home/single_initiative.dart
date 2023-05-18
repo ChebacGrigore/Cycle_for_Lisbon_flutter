@@ -140,12 +140,12 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                           ),
                           const SizedBox(height: 14),
                           SizedBox(
-                            height: isFullDesc == true ? 120 : 55,
+                            height: isFullDesc == true ? null : 55,
                             width: double.infinity,
                             child: Text(
                               'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.Faucibus faucibus lectus nibh hendrerit. Et cursus egestas blandit nibh vitae risus rhonc dolor tellus',
                               overflow: TextOverflow.ellipsis,
-                              maxLines: isFullDesc == true ? 300 : 5,
+                              maxLines: isFullDesc == true ? 500 : 5,
                               style: GoogleFonts.dmSans(
                                 color: AppColors.primaryColor,
                                 fontWeight: FontWeight.w400,
@@ -204,12 +204,12 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                           ),
                           const SizedBox(height: 16),
                           SizedBox(
-                            height: isFullInstNameDesc == true ? 100 : 50,
+                            height: isFullInstNameDesc == true ? null : 50,
                             width: double.infinity,
                             child: Text(
                               'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo. Faucibus faucibus lectus nibh hendrerit. Et cursus egestas blandit nibh vitae risus rhonc dolor tellus',
                               overflow: TextOverflow.ellipsis,
-                              maxLines: isFullInstNameDesc == true ? 100 : 5,
+                              maxLines: isFullInstNameDesc == true ? 500 : 5,
                               style: GoogleFonts.dmSans(
                                 color: AppColors.primaryColor,
                                 fontWeight: FontWeight.w400,

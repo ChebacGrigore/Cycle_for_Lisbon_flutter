@@ -1,4 +1,5 @@
-import 'package:cfl/view/screens/profile/profile_settings.dart';
+import 'package:cfl/shared/app_bar_clip.dart';
+
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -57,17 +58,11 @@ class _HelpCenterState extends State<HelpCenter> {
               ),
             ),
             flexibleSpace: FlexibleSpaceBar(
-              background: Stack(children: <Widget>[
-                ClipPath(
-                  clipper: HeaderClipper(
-                    avatarRadius: 0,
-                  ),
-                  child: CustomPaint(
-                    size: const Size.fromHeight(220),
-                    painter: HeaderPainter(
-                        color: AppColors.primaryColor, avatarRadius: 0),
-                  ),
-                ),
+              background: Stack(children: const <Widget>[
+                MyArc(
+                  diameter: double.infinity,
+                  color: AppColors.primaryColor,
+                )
               ]),
             ),
           ),
@@ -162,38 +157,42 @@ class HelpCenterListTile extends StatelessWidget {
   final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(18),
-        // height: 64,
-        decoration: BoxDecoration(
-          color: isPrimary ? AppColors.secondaryColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-          border: isPrimary
-              ? null
-              : Border.all(
-                  color: AppColors.greyish,
-                ),
-        ),
-        child: Center(
-          child: ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: Icon(
-              icon,
-              color: isPrimary ? AppColors.primaryColor : AppColors.accentColor,
+    return SizedBox(
+      height: 64,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 19),
+          // height: 64,
+          decoration: BoxDecoration(
+            color: isPrimary ? AppColors.secondaryColor : Colors.transparent,
+            borderRadius: BorderRadius.circular(12),
+            border: isPrimary
+                ? null
+                : Border.all(
+                    color: AppColors.greyish,
+                  ),
+          ),
+          child: Center(
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(
+                icon,
+                color:
+                    isPrimary ? AppColors.primaryColor : AppColors.accentColor,
+              ),
+              title: Text(
+                title,
+                style: GoogleFonts.dmSans(fontSize: 14),
+              ),
+              trailing: isPrimary
+                  ? const Icon(
+                      Icons.chevron_right_outlined,
+                      color: AppColors.primaryColor,
+                    )
+                  : null,
             ),
-            title: Text(
-              title,
-              style: GoogleFonts.dmSans(fontSize: 14),
-            ),
-            trailing: isPrimary
-                ? const Icon(
-                    Icons.chevron_right_outlined,
-                    color: AppColors.primaryColor,
-                  )
-                : null,
           ),
         ),
       ),

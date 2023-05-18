@@ -1,3 +1,4 @@
+import 'package:cfl/shared/app_bar_clip.dart';
 import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/styles/assets.dart';
 import 'package:cfl/view/styles/colors.dart';
@@ -48,7 +49,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
             snap: true,
             centerTitle: true,
             automaticallyImplyLeading: widget.showAppBar ? true : false,
-            expandedHeight: 130,
+            expandedHeight: 150,
             iconTheme: IconThemeData(
               color: appbarColor,
             ),
@@ -58,19 +59,11 @@ class _BadgesScreenState extends State<BadgesScreen> {
                 color: appbarColor,
               ),
             ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(children: <Widget>[
-                ClipPath(
-                  clipper: HeaderClipper(
-                    avatarRadius: 0,
-                  ),
-                  child: CustomPaint(
-                    size: const Size.fromHeight(200),
-                    painter: HeaderPainter(
-                        color: AppColors.primaryColor, avatarRadius: 0),
-                  ),
-                ),
-              ]),
+            flexibleSpace: const FlexibleSpaceBar(
+              background: MyArc(
+                diameter: double.infinity,
+                color: AppColors.primaryColor,
+              ),
             ),
           ),
           SliverList(
@@ -78,9 +71,9 @@ class _BadgesScreenState extends State<BadgesScreen> {
               [
                 Padding(
                   padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 16,
+                    left: 20,
+                    right: 20,
+                    top: 20,
                     bottom: 200,
                   ),
                   child: SingleChildScrollView(
@@ -88,7 +81,6 @@ class _BadgesScreenState extends State<BadgesScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 39),
                         Text(
                           'unlcoked_badge_title'.tr(),
                           style: GoogleFonts.dmSans(

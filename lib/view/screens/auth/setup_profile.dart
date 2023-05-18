@@ -20,7 +20,11 @@ class SetupProfile extends StatelessWidget {
         child: SingleChildScrollView(
           child: SafeArea(
               child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 44),
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 57,
+            ),
             child: Column(
               children: [
                 Text(
@@ -56,6 +60,7 @@ class SetupProfile extends StatelessWidget {
                 AppTextField(
                   hint: 'email'.tr(),
                   controller: TextEditingController(),
+                  sufixIcon: const Icon(Icons.check),
                 ),
                 const SizedBox(height: 16),
                 Row(
