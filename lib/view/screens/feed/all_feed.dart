@@ -27,34 +27,54 @@ class _AllFeedScreenState extends ConsumerState<AllFeedScreen> {
           elevation: 0,
           automaticallyImplyLeading: false,
           centerTitle: false,
-          title: Text(
-            'news_event'.tr(),
-            style: GoogleFonts.dmSans(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(68),
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: AppColors.tertiaryColor,
-              ),
-              child: TabBar(
-                  unselectedLabelColor: AppColors.primaryColor,
-                  indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: AppColors.secondaryColor),
-                  tabs: [
-                    Tab(
-                      text: 'news'.tr(),
+            preferredSize: const Size.fromHeight(115),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 54.0,
+                    left: 20,
+                    bottom: 20,
+                  ),
+                  child: Text(
+                    'news_event'.tr(),
+                    style: GoogleFonts.dmSans(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Tab(
-                      text: 'events'.tr(),
-                    ),
-                  ]),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    bottom: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: AppColors.tertiaryColor,
+                  ),
+                  child: Column(
+                    children: [
+                      TabBar(
+                          unselectedLabelColor: AppColors.primaryColor,
+                          indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: AppColors.secondaryColor),
+                          tabs: [
+                            Tab(
+                              text: 'news'.tr(),
+                            ),
+                            Tab(
+                              text: 'events'.tr(),
+                            ),
+                          ]),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),

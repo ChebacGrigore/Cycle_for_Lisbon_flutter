@@ -54,9 +54,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   image: DecorationImage(
                     alignment: Alignment.bottomCenter,
                     image: AssetImage(
-                      AppAssets.appBarBg,
+                      AppAssets.leaderBoardBg,
                     ),
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 child: Padding(

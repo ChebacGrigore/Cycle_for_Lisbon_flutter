@@ -6,10 +6,29 @@ import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SetupProfile extends StatelessWidget {
+class SetupProfile extends StatefulWidget {
   const SetupProfile({Key? key}) : super(key: key);
+
+  @override
+  State<SetupProfile> createState() => _SetupProfileState();
+}
+
+class _SetupProfileState extends State<SetupProfile> {
+  @override
+  void initState() {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +43,7 @@ class SetupProfile extends StatelessWidget {
               left: 20,
               right: 20,
               top: 57,
+              bottom: 67,
             ),
             child: Column(
               children: [

@@ -5,6 +5,7 @@ import 'package:cfl/view/screens/home/layout.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,6 +20,18 @@ class _SignInState extends State<SignIn> {
   bool obsecure = true;
   TextEditingController passController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  @override
+  void initState() {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +111,7 @@ class _SignInState extends State<SignIn> {
                         });
                       },
                       child: Icon(
-                        obsecure ? CFLIcons.visibility : CFLIcons.visibilityOff,
+                        obsecure ? CFLIcons.visibilityOff : CFLIcons.visibility,
                       ),
                     ),
                     controller: passController,
@@ -139,7 +152,7 @@ class _SignInState extends State<SignIn> {
                   ),
                   const SizedBox(height: 42),
                   const SocialLogins(color: AppColors.black, fill: false),
-                  const SizedBox(height: 57),
+                  const SizedBox(height: 42),
                   Center(
                     child: TextButton(
                       onPressed: () {

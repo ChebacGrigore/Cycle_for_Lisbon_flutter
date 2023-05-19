@@ -179,7 +179,7 @@ class PillContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 27,
+        horizontal: 25,
         vertical: 7,
       ),
       decoration: BoxDecoration(

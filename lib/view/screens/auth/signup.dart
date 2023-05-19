@@ -5,12 +5,34 @@ import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignUp extends StatelessWidget {
+class SignUp extends StatefulWidget {
   const SignUp({super.key});
 
+  @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  @override
+  void initState() {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+
+    super.dispose();
+  }
+
+  bool obsecure = true;
+  TextEditingController passController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,13 +97,25 @@ class SignUp extends StatelessWidget {
                   const SizedBox(height: 33),
                   AppTextField(
                     prefixIcon: CFLIcons.mail,
-                    controller: TextEditingController(),
+                    isObsecure: false,
+                    controller: emailController,
                     hint: 'email'.tr(),
                   ),
                   const SizedBox(height: 20),
                   AppTextField(
+                    isObsecure: obsecure,
                     prefixIcon: CFLIcons.lock,
-                    controller: TextEditingController(),
+                    sufixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          obsecure = !obsecure;
+                        });
+                      },
+                      child: Icon(
+                        obsecure ? CFLIcons.visibilityOff : CFLIcons.visibility,
+                      ),
+                    ),
+                    controller: passController,
                     hint: 'password'.tr(),
                   ),
                   const SizedBox(height: 32),
@@ -94,7 +128,7 @@ class SignUp extends StatelessWidget {
                       },
                       style: AppComponentThemes.elevatedButtonTheme(),
                       child: Text(
-                        'continue'.tr().toUpperCase(),
+                        'continue'.tr(),
                         style: GoogleFonts.dmSans(
                             color: AppColors.black,
                             fontWeight: FontWeight.w700),
@@ -103,7 +137,7 @@ class SignUp extends StatelessWidget {
                   ),
                   const SizedBox(height: 42),
                   const SocialLogins(color: AppColors.black, fill: false),
-                  const SizedBox(height: 57),
+                  const SizedBox(height: 42),
                   Center(
                     child: TextButton(
                       onPressed: () {

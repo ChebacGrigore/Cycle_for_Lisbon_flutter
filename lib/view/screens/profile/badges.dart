@@ -93,16 +93,14 @@ class _BadgesScreenState extends State<BadgesScreen> {
                             color: AppColors.primaryColor,
                           ),
                         ),
-                        // 47 //  const SizedBox(height: 23),
+                        const SizedBox(height: 47),
                         GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
-                            childAspectRatio: 0.6,
-                            crossAxisSpacing: 47,
-                            mainAxisSpacing: 30,
+                            childAspectRatio: 0.5,
                           ),
                           itemCount: 12,
                           itemBuilder: (context, index) {
@@ -155,7 +153,7 @@ class Badge extends StatelessWidget {
                 backgroundColor: value >= 1
                     ? AppColors.accentColor
                     : AppColors.tertiaryColor,
-                radius: 35,
+                radius: 30,
                 child: Image.asset(
                   badgePath,
                   width: 25,

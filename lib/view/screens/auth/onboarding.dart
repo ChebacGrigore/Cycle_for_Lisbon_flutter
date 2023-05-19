@@ -1,8 +1,9 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
-import 'package:cfl/view/screens/auth/splash.dart';
+import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -78,53 +79,14 @@ class _OnboardingState extends State<Onboarding> {
                     Align(
                       alignment: Alignment.topRight,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: DropdownButton(
-                                underline: const SizedBox(),
-                                borderRadius: BorderRadius.circular(8),
-                                dropdownColor: AppColors.greyish,
-                                style: GoogleFonts.dmSans(color: actionColor),
-                                icon: Icon(
-                                  Icons.language,
-                                  color: actionColor,
-                                ),
-                                items: [
-                                  DropdownMenuItem(
-                                    value: 'en',
-                                    child: Text(
-                                      'english'.tr(),
-                                    ),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'pt',
-                                    child: Text(
-                                      'portugues'.tr(),
-                                    ),
-                                  ),
-                                ],
-                                onChanged: (v) {
-                                  if (v == 'pt') {
-                                    context.setLocale(
-                                      const Locale('pt', 'BR'),
-                                    );
-                                  } else {
-                                    context.setLocale(
-                                      const Locale('en', 'US'),
-                                    );
-                                  }
-                                  setState(() {});
-                                },
-                                value: context.locale.languageCode),
-                          ),
                           TextButton(
                             style: AppComponentThemes.textButtonTheme(
                               color: actionColor,
                             ),
                             onPressed: () {
-                              context.pushReplacement(const SplashScreen());
+                              context.pushReplacement(const SignUp());
                             },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,15 +200,18 @@ class _OnboardingState extends State<Onboarding> {
                         child: ElevatedButton(
                             style: AppComponentThemes.elevatedButtonTheme(),
                             onPressed: () {
-                              // context.setLocale(kPT);
                               setState(() {
                                 if (currentIndex == 1 || currentIndex == 3) {
+                                  FlutterStatusbarcolor
+                                      .setStatusBarWhiteForeground(false);
                                   actionColor = AppColors.primaryColor;
                                 } else {
+                                  FlutterStatusbarcolor
+                                      .setStatusBarWhiteForeground(true);
                                   actionColor = AppColors.white;
                                 }
                                 if (currentIndex == 4) {
-                                  context.pushReplacement(const SplashScreen());
+                                  context.pushReplacement(const SignUp());
                                 } else {
                                   currentIndex += 1;
                                 }

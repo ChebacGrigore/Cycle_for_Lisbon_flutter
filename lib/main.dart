@@ -1,4 +1,5 @@
 import 'package:cfl/view/screens/auth/onboarding.dart';
+import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(
             centerTitle: true,
           )),
-      home: const Onboarding(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -118,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           const SizedBox(width: 6),
                           SizedBox(
-                            width: 100,
+                            width: 90,
                             child: ProfileActivityCount(
                               unit: '',
                               count: 3340,
@@ -136,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           const SizedBox(width: 6),
                           SizedBox(
-                            width: 100,
+                            width: 90,
                             child: ProfileActivityCount(
                               unit: '',
                               count: 567,
@@ -365,6 +365,7 @@ class ProfileActivityCount extends StatelessWidget {
         Icon(
           icon,
           color: AppColors.accentColor,
+          size: 15,
         ),
         const SizedBox(height: 4),
         Text(
