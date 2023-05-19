@@ -3,7 +3,7 @@ description: Cycle For Lisbon.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+17
+version: 1.0.0+19
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
@@ -26,6 +26,7 @@ dependencies:
   flutter_map: ^3.1.0
   latlong2: ^0.8.1
   easy_localization: ^3.0.1
+  flutter_statusbarcolor_ns: 0.5.0
   
   
 

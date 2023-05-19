@@ -4,6 +4,8 @@ import 'package:cfl/view/styles/assets.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 class BadgesScreen extends StatefulWidget {
@@ -21,13 +23,16 @@ class _BadgesScreenState extends State<BadgesScreen> {
   void initState() {
     super.initState();
 
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     scrollController.addListener(() {
       setState(
         () {
           if (scrollController.offset > 170) {
             appbarColor = AppColors.primaryColor;
+            FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
           } else {
             appbarColor = AppColors.white;
+            FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
           }
         },
       );
@@ -49,7 +54,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
             snap: true,
             centerTitle: true,
             automaticallyImplyLeading: widget.showAppBar ? true : false,
-            expandedHeight: 150,
+            expandedHeight: 110,
             iconTheme: IconThemeData(
               color: appbarColor,
             ),
@@ -95,7 +100,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
-                            childAspectRatio: 0.8,
+                            childAspectRatio: 0.6,
                             crossAxisSpacing: 47,
                             mainAxisSpacing: 30,
                           ),

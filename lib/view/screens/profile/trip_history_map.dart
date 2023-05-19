@@ -125,7 +125,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                           count: 5,
                           title: '',
                           unit: 'km'.tr(),
-                          icon: Icons.roundabout_left,
+                          icon: AppAssets.roadIco,
                         ),
                         const SizedBox(width: 20),
                         LeaderboardActivityCount(
@@ -133,7 +133,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                           count: 2,
                           title: '',
                           unit: 'h'.tr(),
-                          icon: Icons.timer,
+                          icon: AppAssets.roadIco,
                         ),
                         const SizedBox(width: 20),
                         const LeaderboardActivityCount(
@@ -141,7 +141,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                           count: 200,
                           title: '',
                           unit: '',
-                          icon: Icons.attach_money_outlined,
+                          icon: AppAssets.roadIco,
                         ),
                       ],
                     ),

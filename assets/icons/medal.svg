@@ -1,0 +1,13 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="MedalMilitary" clip-path="url(#clip0_2_815)">
+<path id="Vector" d="M8 14C9.38071 14 10.5 12.8807 10.5 11.5C10.5 10.1193 9.38071 9 8 9C6.61929 9 5.5 10.1193 5.5 11.5C5.5 12.8807 6.61929 14 8 14Z" stroke="#F7B40A" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M8 9L13.17 6.65C13.2684 6.60532 13.3519 6.53322 13.4104 6.44232C13.469 6.35143 13.5001 6.2456 13.5 6.1375V3.0625C13.5 2.91332 13.4407 2.77024 13.3352 2.66475C13.2298 2.55926 13.0867 2.5 12.9375 2.5H3.0625C2.91332 2.5 2.77024 2.55926 2.66475 2.66475C2.55926 2.77024 2.5 2.91332 2.5 3.0625V6.1375C2.49994 6.2456 2.53104 6.35143 2.58956 6.44232C2.64809 6.53322 2.73156 6.60532 2.83 6.65L8 9Z" stroke="#F7B40A" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M10.5 2.5V7.86375" stroke="#F7B40A" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M5.5 2.5V7.86375" stroke="#F7B40A" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_2_815">
+<rect width="16" height="16" fill="white"/>
+</clipPath>
+</defs>
+</svg>

@@ -146,13 +146,13 @@ class AppTextField extends StatelessWidget {
     required this.controller,
     this.prefixIcon,
     this.sufixIcon,
-    this.isVisivle = true,
+    this.isObsecure = true,
     super.key,
   });
   final String hint;
   final IconData? prefixIcon;
   final Widget? sufixIcon;
-  final bool isVisivle;
+  final bool isObsecure;
 
   final TextEditingController controller;
   @override
@@ -171,7 +171,7 @@ class AppTextField extends StatelessWidget {
         SizedBox(
           height: 46,
           child: TextFormField(
-            obscureText: isVisivle,
+            obscureText: isObsecure,
             controller: controller,
             decoration: InputDecoration(
               prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,

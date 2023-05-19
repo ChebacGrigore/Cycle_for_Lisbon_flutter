@@ -105,61 +105,22 @@ class InitiativeCard extends StatelessWidget {
 }
 
 class ActivityBadge extends StatelessWidget {
-  const ActivityBadge({
-    this.color,
-    required this.count,
-    required this.title,
-    required this.icon,
+  const ActivityBadge(
+    this.sticker, {
     super.key,
   });
-  final Color? color;
-  final int count;
-  final String title;
-  final IconData icon;
+
+  final String sticker;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 50,
-      height: 50,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: color ?? AppColors.tomatoRed,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  count.toString(),
-                  style: GoogleFonts.dmSans(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Text(
-                  title,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: GoogleFonts.dmSans(
-                    fontSize: 8,
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Icon(icon, color: AppColors.white, size: 10),
-        ],
+    return SizedBox(
+      width: 32,
+      height: 32,
+      child: Image.asset(
+        sticker,
+        width: 32,
+        height: 32,
       ),
     );
   }
@@ -188,7 +149,7 @@ class ActvityCount extends StatelessWidget {
         const Icon(
           CFLIcons.coin1,
           color: AppColors.secondaryColor,
-          size: 10,
+          size: 16,
         ),
         const SizedBox(width: 4),
         Text(

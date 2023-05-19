@@ -55,4 +55,32 @@ class AppAssets {
 
   static const String targetIco = 'assets/icons/target.svg';
   static const String targetIco2 = 'assets/icons/target2.svg';
+  //
+  static const String badges = 'assets/icons/badges.svg';
+  static const String settings = 'assets/icons/settings.svg';
+  static const String help = 'assets/icons/help.svg';
+  static const String info = 'assets/icons/info.svg';
+  static const String bell = 'assets/icons/bell.svg';
+  static const String exit = 'assets/icons/exit.svg';
+
+  static const String delete = 'assets/icons/delete.svg';
+  static const String skip = 'assets/icons/skip.svg';
+
+  //
+  static const String google = 'assets/icons/google.svg';
+  static const String apple = 'assets/icons/apple.svg';
+  static const String facebook = 'assets/icons/facebook.svg';
+  static const String aboutArrow = 'assets/icons/about_arrow.svg';
+
+  //
+  static const String medal1 = 'assets/icons/medal1.png';
+  static const String medal2 = 'assets/icons/medal2.png';
+  static const String medal3 = 'assets/icons/medal3.png';
+
+  //
+  static const String avatar = 'assets/images/avatar.png';
+  //
+  static const String medal = 'assets/icons/medal.svg';
+  static const String bicycle = 'assets/icons/bicycle.svg';
+  static const String handCoins = 'assets/icons/hand_coins.svg';
 }

@@ -83,12 +83,13 @@ class _SignInState extends State<SignIn> {
                   const SizedBox(height: 33),
                   AppTextField(
                     prefixIcon: CFLIcons.mail,
+                    isObsecure: false,
                     controller: emailController,
                     hint: 'email'.tr(),
                   ),
                   const SizedBox(height: 20),
                   AppTextField(
-                    isVisivle: obsecure,
+                    isObsecure: obsecure,
                     prefixIcon: CFLIcons.lock,
                     sufixIcon: GestureDetector(
                       onTap: () {
@@ -129,7 +130,7 @@ class _SignInState extends State<SignIn> {
                       },
                       style: AppComponentThemes.elevatedButtonTheme(),
                       child: Text(
-                        'continue'.tr().toUpperCase(),
+                        'continue'.tr(),
                         style: GoogleFonts.dmSans(
                             color: AppColors.black,
                             fontWeight: FontWeight.w700),

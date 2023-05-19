@@ -76,10 +76,11 @@ class _AboutScreenState extends State<AboutScreen> {
                           ),
                         ),
                         const SizedBox(height: 39),
-                        Icon(
-                          Icons.keyboard_arrow_down,
+                        SvgPicture.asset(
+                          AppAssets.aboutArrow,
+                          height: 13,
+                          width: 6,
                           color: AppColors.silvery.withOpacity(0.50),
-                          size: 40,
                         )
                       ],
                     ),

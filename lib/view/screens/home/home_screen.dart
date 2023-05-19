@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors.background,
       body: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(gradient: AppColors.whiteBgGradient),
+        decoration: const BoxDecoration(gradient: AppColors.whiteBg2Gradient),
         child: SingleChildScrollView(
           child: SafeArea(
             child: Padding(
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 left: 20,
                 right: 20,
                 top: 40,
-                bottom: 200,
+                bottom: 100,
               ),
               child: homeBuilder(),
             ),

@@ -35,9 +35,9 @@ class _AllFeedScreenState extends ConsumerState<AllFeedScreen> {
             ),
           ),
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(65),
+            preferredSize: const Size.fromHeight(68),
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16),
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
                 color: AppColors.tertiaryColor,
@@ -58,11 +58,17 @@ class _AllFeedScreenState extends ConsumerState<AllFeedScreen> {
             ),
           ),
         ),
-        body: const TabBarView(
-          children: [
-            NewsFeeds(),
-            EventsFeed(),
-          ],
+        body: Container(
+          decoration: const BoxDecoration(
+            color: AppColors.background,
+            gradient: AppColors.whiteBg2Gradient,
+          ),
+          child: const TabBarView(
+            children: [
+              NewsFeeds(),
+              EventsFeed(),
+            ],
+          ),
         ),
       ),
     );
@@ -79,12 +85,15 @@ class NewsFeeds extends ConsumerStatefulWidget {
 class _NewsFeedsState extends ConsumerState<NewsFeeds> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
-      decoration: const BoxDecoration(gradient: AppColors.whiteBgGradient),
       child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: 15,
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          bottom: 120,
+        ),
+        itemCount: 5,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
@@ -95,10 +104,11 @@ class _NewsFeedsState extends ConsumerState<NewsFeeds> {
               width: double.infinity,
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(12),
+                color: AppColors.background,
                 border: Border.all(
-                  color: AppColors.greyish,
-                  width: 0.2,
+                  color: AppColors.tertiaryColor,
+                  width: 1,
                 ),
               ),
               child: Column(
@@ -106,12 +116,12 @@ class _NewsFeedsState extends ConsumerState<NewsFeeds> {
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
                     ),
                     child: Image.asset(
-                      AppAssets.onboarding4,
-                      height: 250,
+                      AppAssets.fishBg,
+                      height: 160,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -171,35 +181,40 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: 15,
+      padding: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+        bottom: 120,
+      ),
+      itemCount: 5,
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
             context.push(const SingleEventFeed());
           },
           child: Container(
-            height: 420,
-            width: double.infinity,
-            margin: const EdgeInsets.only(bottom: 16),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(12),
+              color: AppColors.background,
               border: Border.all(
-                color: AppColors.greyish,
-                width: 0.2,
+                color: AppColors.tertiaryColor,
+                width: 1,
               ),
             ),
+            height: 333,
+            width: double.infinity,
+            margin: const EdgeInsets.only(bottom: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
                   ),
                   child: Image.asset(
                     AppAssets.onboarding2,
-                    height: 250,
+                    height: 160,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
@@ -221,7 +236,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                         'Event Title',
                         style: GoogleFonts.dmSans(
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.normal,
                           color: AppColors.primaryColor,
                         ),
                       ),
@@ -232,7 +247,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                         maxLines: 4,
                         style: GoogleFonts.dmSans(
                           fontSize: 14,
-                          color: AppColors.primaryColor,
+                          color: AppColors.primaryColor.withOpacity(0.80),
                         ),
                       ),
                       const SizedBox(height: 20),

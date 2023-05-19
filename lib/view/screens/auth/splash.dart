@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:ui';
 
 import 'package:cfl/shared/shared.dart';
@@ -174,7 +176,7 @@ class SocialLogins extends StatelessWidget {
           children: [
             AppRoundedButton(
               fill: fill,
-              icon: CFLIcons.facebook,
+              icon: AppAssets.facebook,
               color: color ?? AppColors.white,
               onTap: () {},
             ),
@@ -182,14 +184,14 @@ class SocialLogins extends StatelessWidget {
             AppRoundedButton(
               fill: fill,
               color: color ?? AppColors.white,
-              icon: CFLIcons.google,
+              icon: AppAssets.google,
               onTap: () {},
             ),
             const SizedBox(width: 16),
             AppRoundedButton(
               fill: fill,
               color: color ?? AppColors.white,
-              icon: CFLIcons.apple,
+              icon: AppAssets.apple,
               onTap: () {},
             ),
           ],
@@ -208,7 +210,7 @@ class AppRoundedButton extends StatelessWidget {
     this.fill = false,
   });
   final VoidCallback? onTap;
-  final IconData icon;
+  final String icon;
   final Color? color;
   final bool fill;
   @override
@@ -227,9 +229,8 @@ class AppRoundedButton extends StatelessWidget {
         padding: const EdgeInsets.all(15.0),
         shape: const CircleBorder(),
         child: Center(
-          child: Icon(
+          child: SvgPicture.asset(
             icon,
-            size: 16,
             color: color ?? AppColors.white,
           ),
         ),

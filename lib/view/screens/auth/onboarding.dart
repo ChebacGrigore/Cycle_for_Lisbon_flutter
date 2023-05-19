@@ -3,6 +3,7 @@ import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Onboarding extends StatefulWidget {
@@ -14,6 +15,7 @@ class Onboarding extends StatefulWidget {
 
 class _OnboardingState extends State<Onboarding> {
   int currentIndex = 0;
+  Color actionColor = AppColors.white;
   @override
   Widget build(BuildContext context) {
     List<OnboardingItem> items = <OnboardingItem>[
@@ -61,83 +63,93 @@ class _OnboardingState extends State<Onboarding> {
             alignment: Alignment.topCenter,
             child: Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height / 2 + 150,
+              height: MediaQuery.of(context).size.height / 2 + 200,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                   image: AssetImage(
                     items[currentIndex].imagePath,
                   ),
                 ),
               ),
-              child: Container(
-                color: AppColors.black.withOpacity(0.3),
-                child: SafeArea(
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: DropdownButton(
-                                  underline: const SizedBox(),
-                                  borderRadius: BorderRadius.circular(8),
-                                  dropdownColor: AppColors.greyish,
-                                  style: GoogleFonts.dmSans(
-                                      color: AppColors.white),
-                                  icon: const Icon(
-                                    Icons.language,
-                                    color: AppColors.white,
+              child: SafeArea(
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: DropdownButton(
+                                underline: const SizedBox(),
+                                borderRadius: BorderRadius.circular(8),
+                                dropdownColor: AppColors.greyish,
+                                style: GoogleFonts.dmSans(color: actionColor),
+                                icon: Icon(
+                                  Icons.language,
+                                  color: actionColor,
+                                ),
+                                items: [
+                                  DropdownMenuItem(
+                                    value: 'en',
+                                    child: Text(
+                                      'english'.tr(),
+                                    ),
                                   ),
-                                  items: [
-                                    DropdownMenuItem(
-                                      value: 'en',
-                                      child: Text(
-                                        'english'.tr(),
-                                      ),
+                                  DropdownMenuItem(
+                                    value: 'pt',
+                                    child: Text(
+                                      'portugues'.tr(),
                                     ),
-                                    DropdownMenuItem(
-                                      value: 'pt',
-                                      child: Text(
-                                        'portugues'.tr(),
-                                      ),
-                                    ),
-                                  ],
-                                  onChanged: (v) {
-                                    if (v == 'pt') {
-                                      context.setLocale(
-                                        const Locale('pt', 'BR'),
-                                      );
-                                    } else {
-                                      context.setLocale(
-                                        const Locale('en', 'US'),
-                                      );
-                                    }
-                                    setState(() {});
-                                  },
-                                  value: context.locale.languageCode),
+                                  ),
+                                ],
+                                onChanged: (v) {
+                                  if (v == 'pt') {
+                                    context.setLocale(
+                                      const Locale('pt', 'BR'),
+                                    );
+                                  } else {
+                                    context.setLocale(
+                                      const Locale('en', 'US'),
+                                    );
+                                  }
+                                  setState(() {});
+                                },
+                                value: context.locale.languageCode),
+                          ),
+                          TextButton(
+                            style: AppComponentThemes.textButtonTheme(
+                              color: actionColor,
                             ),
-                            TextButton.icon(
-                              style: AppComponentThemes.textButtonTheme(
-                                color: AppColors.white,
-                              ),
-                              onPressed: () {
-                                context.pushReplacement(const SplashScreen());
-                              },
-                              icon: Text(
-                                'skip'.tr(),
-                                style: GoogleFonts.dmSans(),
-                              ),
-                              label: const Icon(Icons.skip_next_rounded),
+                            onPressed: () {
+                              context.pushReplacement(const SplashScreen());
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'skip'.tr(),
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: actionColor,
+                                  ),
+                                ),
+                                SvgPicture.asset(
+                                  AppAssets.skip,
+                                  width: 25,
+                                  height: 25,
+                                  color: actionColor,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -151,11 +163,10 @@ class _OnboardingState extends State<Onboarding> {
                 topRight: Radius.circular(24),
               ),
               child: Container(
-                height: MediaQuery.of(context).size.height / 2 - 60,
+                height: 355,
                 padding: const EdgeInsets.only(
                   left: 20,
                   right: 20,
-                  top: 23,
                 ),
                 decoration: const BoxDecoration(
                   color: AppColors.white,
@@ -180,18 +191,17 @@ class _OnboardingState extends State<Onboarding> {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    SizedBox(
-                      child: Text(
-                        items[currentIndex].description,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.dmSans(
-                          color: AppColors.primaryColor.withOpacity(0.80),
-                          fontSize: 14,
-                        ),
+                    Text(
+                      items[currentIndex].description,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.dmSans(
+                        color: AppColors.primaryColor.withOpacity(0.80),
+                        fontSize: 14,
                       ),
                     ),
-                    const SizedBox(height: 19),
+                    if (items[currentIndex].patners.isEmpty) const Spacer(),
                     if (items[currentIndex].patners.isNotEmpty) ...[
+                      const SizedBox(height: 24),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: items[currentIndex]
@@ -201,11 +211,13 @@ class _OnboardingState extends State<Onboarding> {
                                   height: 20,
                                 ))
                             .toList(),
-                      )
+                      ),
+                      const SizedBox(height: 27),
                     ],
-                    const SizedBox(height: 29),
+                    if (items[currentIndex].patners.isEmpty)
+                      const SizedBox(height: 24),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: items
                           .map(
                             (e) => OnboardingIndicator(
@@ -228,6 +240,11 @@ class _OnboardingState extends State<Onboarding> {
                             onPressed: () {
                               // context.setLocale(kPT);
                               setState(() {
+                                if (currentIndex == 1 || currentIndex == 3) {
+                                  actionColor = AppColors.primaryColor;
+                                } else {
+                                  actionColor = AppColors.white;
+                                }
                                 if (currentIndex == 4) {
                                   context.pushReplacement(const SplashScreen());
                                 } else {
@@ -262,8 +279,9 @@ class OnboardingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 70,
+      width: 60.6,
       height: 4,
+      margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
         color: AppColors.primaryColor.withOpacity(0.10),
         borderRadius: BorderRadius.circular(20),

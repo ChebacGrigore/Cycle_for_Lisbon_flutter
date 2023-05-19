@@ -1,6 +1,7 @@
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LeaderboardScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             stretch: true,
             floating: true,
             pinned: true,
-            expandedHeight: 325,
+            expandedHeight: 380,
             actions: [
               Container(
                 margin: const EdgeInsets.only(right: 20),
@@ -59,13 +60,22 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.only(
+                    top: 100,
+                    left: 16.0,
+                    right: 16,
+                  ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 45,
                         backgroundColor: AppColors.white,
+                        child: Image.asset(
+                          AppAssets.avatar,
+                          width: 62,
+                          height: 62,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -97,28 +107,28 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               count: 23,
                               title: 'total_km'.tr(),
                               unit: 'km',
-                              icon: CFLIcons.roadhz,
+                              icon: AppAssets.roadIco,
                             ),
                             const SizedBox(width: 6),
                             LeaderboardActivityCount(
                               count: 12,
                               title: 'total_rides'.tr(),
                               unit: 'x',
-                              icon: CFLIcons.bicycle,
+                              icon: AppAssets.bicycle,
                             ),
                             const SizedBox(width: 6),
                             LeaderboardActivityCount(
                               count: 120,
                               title: 'total_earned'.tr(),
                               unit: '',
-                              icon: CFLIcons.coin1,
+                              icon: AppAssets.handCoins,
                             ),
                             const SizedBox(width: 6),
                             LeaderboardActivityCount(
                               count: 23,
                               title: 'position'.tr(),
                               unit: '',
-                              icon: CFLIcons.bmedalmilitary,
+                              icon: AppAssets.medal,
                             ),
                           ],
                         ),
@@ -134,12 +144,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
               Container(
                 padding: const EdgeInsets.only(bottom: 150),
                 decoration: const BoxDecoration(
-                  gradient: AppColors.whiteBgGradient,
+                  color: AppColors.background,
+                  gradient: AppColors.whiteBg3Gradient,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24),
                   ),
-                  color: AppColors.white,
                 ),
                 child: ListView.separated(
                   shrinkWrap: true,
@@ -149,7 +159,11 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     return ListTile(
                       title: Row(
                         children: [
-                          const CircleAvatar(radius: 25),
+                          Image.asset(
+                            AppAssets.medal1,
+                            width: 48,
+                            height: 48,
+                          ),
                           const SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,7 +197,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     count: 232,
                                     title: '',
                                     unit: 'km'.tr(),
-                                    icon: CFLIcons.roadhz,
+                                    icon: AppAssets.roadIco,
                                   ),
                                   const SizedBox(width: 20),
                                   LeaderboardActivityCount(
@@ -191,7 +205,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     count: 20,
                                     title: 'rides'.tr(),
                                     unit: 'x',
-                                    icon: CFLIcons.bicycle,
+                                    icon: AppAssets.bicycle,
                                   ),
                                   const SizedBox(width: 20),
                                   const LeaderboardActivityCount(
@@ -199,7 +213,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     count: 20,
                                     title: '',
                                     unit: '',
-                                    icon: CFLIcons.coin1,
+                                    icon: AppAssets.handCoins,
                                   ),
                                 ],
                               ),
@@ -233,7 +247,7 @@ class LeaderboardActivityCount extends StatelessWidget {
   });
   final String title;
   final int count;
-  final IconData icon;
+  final String icon;
   final String unit;
   final bool showTitle;
   @override
@@ -255,10 +269,10 @@ class LeaderboardActivityCount extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
+            SvgPicture.asset(
               icon,
               color: AppColors.accentColor,
-              size: showTitle ? 25 : 15,
+              width: showTitle ? 25 : 15,
             ),
             const SizedBox(width: 8),
             Text(

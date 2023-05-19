@@ -38,6 +38,7 @@ class _HelpCenterState extends State<HelpCenter> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: scrollController,
         slivers: [
           SliverAppBar(
@@ -47,7 +48,7 @@ class _HelpCenterState extends State<HelpCenter> {
             snap: true,
             centerTitle: true,
             automaticallyImplyLeading: widget.showAppBar ? true : false,
-            expandedHeight: 150,
+            expandedHeight: 120,
             iconTheme: IconThemeData(
               color: appbarColor,
             ),
@@ -67,72 +68,77 @@ class _HelpCenterState extends State<HelpCenter> {
             ),
           ),
           SliverFillRemaining(
-            child: Padding(
-              padding: const EdgeInsets.all(23),
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HelpCenterListTile(
-                      isPrimary: true,
-                      icon: Icons.email,
-                      title: 'cyclelisbon@email.com',
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 21),
-                    HelpCenterListTile(
-                      isPrimary: false,
-                      icon: CFLIcons.globe_1,
-                      title: 'Website',
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 21),
-                    HelpCenterListTile(
-                      isPrimary: false,
-                      icon: CFLIcons.facebook,
-                      title: 'Facebook',
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 21),
-                    HelpCenterListTile(
-                      isPrimary: false,
-                      icon: CFLIcons.twitter,
-                      title: 'Twitter',
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 21),
-                    HelpCenterListTile(
-                      isPrimary: false,
-                      icon: CFLIcons.instagram,
-                      title: 'Instagram',
-                      onTap: () {},
-                    ),
-                    const SizedBox(height: 32),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'privacy_GDPR'.tr(),
-                        style: GoogleFonts.dmSans(
-                          color: AppColors.primaryColor,
-                          decoration: TextDecoration.underline,
-                          fontSize: 14,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: AppColors.background,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(23),
+                child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HelpCenterListTile(
+                        isPrimary: true,
+                        icon: Icons.email,
+                        title: 'cyclelisbon@email.com',
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: 21),
+                      HelpCenterListTile(
+                        isPrimary: false,
+                        icon: CFLIcons.globe_1,
+                        title: 'Website',
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: 21),
+                      HelpCenterListTile(
+                        isPrimary: false,
+                        icon: CFLIcons.facebook,
+                        title: 'Facebook',
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: 21),
+                      HelpCenterListTile(
+                        isPrimary: false,
+                        icon: CFLIcons.twitter,
+                        title: 'Twitter',
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: 21),
+                      HelpCenterListTile(
+                        isPrimary: false,
+                        icon: CFLIcons.instagram,
+                        title: 'Instagram',
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: 32),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Text(
+                          'privacy_GDPR'.tr(),
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.primaryColor,
+                            decoration: TextDecoration.underline,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'terms_condition'.tr(),
-                        style: GoogleFonts.dmSans(
-                          color: AppColors.primaryColor,
-                          decoration: TextDecoration.underline,
-                          fontSize: 14,
+                      const SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Text(
+                          'terms_condition'.tr(),
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.primaryColor,
+                            decoration: TextDecoration.underline,
+                            fontSize: 14,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -9,6 +9,8 @@ import 'package:cfl/view/screens/profile/trip_history.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -19,6 +21,18 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,9 +69,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 45,
                         backgroundColor: AppColors.white,
+                        child: Image.asset(
+                          AppAssets.avatar,
+                          width: 62,
+                          height: 62,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -78,13 +97,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(height: 37),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ProfileActivityCount(
-                            unit: 'h',
-                            count: 3,
-                            title: 'total_rides'.tr(),
-                            icon: CFLIcons.clock,
+                          SizedBox(
+                            width: 100,
+                            child: ProfileActivityCount(
+                              unit: 'h',
+                              count: 3,
+                              title: 'total_rides'.tr(),
+                              icon: CFLIcons.clock,
+                            ),
                           ),
                           const SizedBox(width: 6),
                           SizedBox(
@@ -95,11 +117,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           const SizedBox(width: 6),
-                          ProfileActivityCount(
-                            unit: '',
-                            count: 3340,
-                            title: 'total_km'.tr(),
-                            icon: CFLIcons.roadhz,
+                          SizedBox(
+                            width: 100,
+                            child: ProfileActivityCount(
+                              unit: '',
+                              count: 3340,
+                              title: 'total_km'.tr(),
+                              icon: CFLIcons.roadhz,
+                            ),
                           ),
                           const SizedBox(width: 6),
                           SizedBox(
@@ -110,11 +135,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           const SizedBox(width: 6),
-                          ProfileActivityCount(
-                            unit: '',
-                            count: 567,
-                            title: 'total_donations'.tr(),
-                            icon: CFLIcons.coin1,
+                          SizedBox(
+                            width: 100,
+                            child: ProfileActivityCount(
+                              unit: '',
+                              count: 567,
+                              title: 'total_donations'.tr(),
+                              icon: CFLIcons.coin1,
+                            ),
                           ),
                         ],
                       ),
@@ -149,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         AppListTile(
                           title: 'profile_settings'.tr(),
-                          icon: CFLIcons.settings,
+                          icon: AppAssets.settings,
                           onTap: () {
                             context.push(const ProfileSettings());
                           },
@@ -158,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         AppListTile(
                           title: 'badges'.tr(),
-                          icon: CFLIcons.bmedalmilitary,
+                          icon: AppAssets.badges,
                           onTap: () {
                             context.push(const BadgesScreen());
                           },
@@ -167,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         AppListTile(
                           title: 'leaderboard'.tr(),
-                          icon: CFLIcons.crown1,
+                          icon: AppAssets.crownIco,
                           onTap: () {
                             context.push(const LeaderboardScreen());
                           },
@@ -176,7 +204,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         AppListTile(
                           title: 'trip_history'.tr(),
-                          icon: CFLIcons.roadhz,
+                          icon: AppAssets.roadIco,
                           onTap: () {
                             context.push(const TripHistoryScreen());
                           },
@@ -185,7 +213,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         AppListTile(
                           title: 'help_center'.tr(),
-                          icon: CFLIcons.help,
+                          icon: AppAssets.help,
                           onTap: () {
                             context.push(const HelpCenter());
                           },
@@ -194,7 +222,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         AppListTile(
                           title: 'about'.tr(),
-                          icon: Icons.info_outline,
+                          icon: AppAssets.info,
                           onTap: () {
                             context.push(const AboutScreen());
                           },
@@ -203,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         AppListTile(
                           title: 'notifications'.tr(),
-                          icon: Icons.notifications_none_sharp,
+                          icon: AppAssets.bell,
                           onTap: () {},
                           trailing: Switch(
                             onChanged: (val) {},
@@ -229,13 +257,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         AppListTile(
                           title: 'log_out'.tr(),
-                          icon: CFLIcons.exit,
+                          icon: AppAssets.exit,
                           onTap: () {},
                         ),
                         const Divider(),
                         AppListTile(
                           title: 'delete_account'.tr(),
-                          icon: Icons.delete_outlined,
+                          icon: AppAssets.delete,
                           color: AppColors.tomatoRed,
                           onTap: () {
                             context.showAppDialog(
@@ -281,7 +309,7 @@ class AppListTile extends StatelessWidget {
   final VoidCallback? onTap;
   final Widget? trailing;
   final String title;
-  final IconData icon;
+  final String icon;
   final Color? color;
   @override
   Widget build(BuildContext context) {
@@ -293,8 +321,11 @@ class AppListTile extends StatelessWidget {
         onTap: onTap,
         title: Row(
           children: [
-            Icon(
+            SvgPicture.asset(
               icon,
+              width: 20,
+              height: 20,
+              // ignore: deprecated_member_use
               color: color ?? AppColors.accentColor,
             ),
             const SizedBox(width: 12),

@@ -3,6 +3,7 @@ import 'package:cfl/view/styles/assets.dart';
 
 import 'package:cfl/view/styles/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Layout extends StatefulWidget {
@@ -13,6 +14,12 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> {
+  @override
+  void initState() {
+    super.initState();
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+  }
+
   int _selectedIndex = 0;
 
   String homeIco = AppAssets.homeIco2;
@@ -64,6 +71,8 @@ class _LayoutState extends State<Layout> {
 
                             switch (x) {
                               case 0:
+                                FlutterStatusbarcolor
+                                    .setStatusBarWhiteForeground(false);
                                 homeIco = AppAssets.homeIco2;
                                 targetIco = AppAssets.targetIco;
                                 crownIco = AppAssets.crownIco;
@@ -73,6 +82,8 @@ class _LayoutState extends State<Layout> {
                                 roadIco = AppAssets.roadIco;
                                 break;
                               case 1:
+                                FlutterStatusbarcolor
+                                    .setStatusBarWhiteForeground(false);
                                 homeIco = AppAssets.homeIco;
                                 targetIco = AppAssets.targetIco2;
                                 crownIco = AppAssets.crownIco;
@@ -83,6 +94,8 @@ class _LayoutState extends State<Layout> {
 
                                 break;
                               case 2:
+                                FlutterStatusbarcolor
+                                    .setStatusBarWhiteForeground(true);
                                 homeIco = AppAssets.homeIco;
                                 targetIco = AppAssets.targetIco;
                                 roadIco = AppAssets.roadIco2;
@@ -93,6 +106,8 @@ class _LayoutState extends State<Layout> {
 
                                 break;
                               case 3:
+                                FlutterStatusbarcolor
+                                    .setStatusBarWhiteForeground(true);
                                 homeIco = AppAssets.homeIco;
                                 targetIco = AppAssets.targetIco;
                                 roadIco = AppAssets.roadIco;
@@ -103,6 +118,8 @@ class _LayoutState extends State<Layout> {
 
                                 break;
                               case 4:
+                                FlutterStatusbarcolor
+                                    .setStatusBarWhiteForeground(true);
                                 homeIco = AppAssets.homeIco;
                                 targetIco = AppAssets.targetIco;
                                 roadIco = AppAssets.roadIco;
@@ -113,6 +130,8 @@ class _LayoutState extends State<Layout> {
 
                                 break;
                               case 5:
+                                FlutterStatusbarcolor
+                                    .setStatusBarWhiteForeground(false);
                                 homeIco = AppAssets.homeIco;
                                 targetIco = AppAssets.targetIco;
                                 roadIco = AppAssets.roadIco;
@@ -123,6 +142,8 @@ class _LayoutState extends State<Layout> {
 
                                 break;
                               case 6:
+                                FlutterStatusbarcolor
+                                    .setStatusBarWhiteForeground(true);
                                 homeIco = AppAssets.homeIco;
                                 targetIco = AppAssets.targetIco;
                                 roadIco = AppAssets.roadIco;
@@ -133,6 +154,8 @@ class _LayoutState extends State<Layout> {
 
                                 break;
                               default:
+                                FlutterStatusbarcolor
+                                    .setStatusBarWhiteForeground(false);
                                 homeIco = AppAssets.homeIco2;
                                 targetIco = AppAssets.targetIco;
                                 crownIco = AppAssets.crownIco;

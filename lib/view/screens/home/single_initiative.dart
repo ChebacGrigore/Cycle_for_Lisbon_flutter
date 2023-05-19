@@ -41,7 +41,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
       backgroundColor: AppColors.background,
       body: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(gradient: AppColors.whiteBgGradient),
+        decoration: const BoxDecoration(gradient: AppColors.whiteBg2Gradient),
         child: CustomScrollView(
           controller: scrollController,
           slivers: [
@@ -109,24 +109,11 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                           const SizedBox(height: 14),
                           Row(
                             children: const [
-                              ActivityBadge(
-                                count: 3,
-                                title: 'Climate Action',
-                                icon: Icons.cloud,
-                                color: AppColors.cabbageGreen,
-                              ),
+                              ActivityBadge(AppAssets.energySticker),
                               SizedBox(width: 6),
-                              ActivityBadge(
-                                count: 3,
-                                title: 'Climate Action',
-                                icon: Icons.cloud,
-                                color: AppColors.blueGrey,
-                              ),
+                              ActivityBadge(AppAssets.waterSticker),
                               SizedBox(width: 6),
-                              ActivityBadge(
-                                  count: 3,
-                                  title: 'Climate Action',
-                                  icon: Icons.cloud),
+                              ActivityBadge(AppAssets.energySticker),
                             ],
                           ),
                           const SizedBox(height: 42),
@@ -147,7 +134,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                               overflow: TextOverflow.ellipsis,
                               maxLines: isFullDesc == true ? 1000 : 5,
                               style: GoogleFonts.dmSans(
-                                color: AppColors.primaryColor,
+                                color: AppColors.primaryColor.withOpacity(0.60),
                                 fontWeight: FontWeight.w400,
                                 fontSize: 14,
                               ),
