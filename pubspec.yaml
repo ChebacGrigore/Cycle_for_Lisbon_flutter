@@ -3,7 +3,7 @@ description: Cycle For Lisbon.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+16
+version: 1.0.0+17
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
@@ -56,6 +56,8 @@ flutter:
     - assets/images/
     - assets/ico_fonts/
     - assets/translations/
+    - assets/icons/
+
 
 
 

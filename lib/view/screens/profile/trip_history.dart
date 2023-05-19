@@ -1,6 +1,5 @@
 import 'package:cfl/shared/app_bar_clip.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
-import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/screens/profile/trip_history_map.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';

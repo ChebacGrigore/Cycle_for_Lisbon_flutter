@@ -1,6 +1,5 @@
 import 'package:cfl/view/styles/colors.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 class MyArc extends StatelessWidget {
   final double diameter;

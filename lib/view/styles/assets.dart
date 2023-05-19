@@ -34,4 +34,25 @@ class AppAssets {
   static const String energySticker = 'assets/images/energy_sticker.png';
   //
   static const String mapPlaceholder = 'assets/images/placeholder_map.png';
+  // icons
+  static const String crownIco = 'assets/icons/crown.svg';
+  static const String crownIco2 = 'assets/icons/crown2.svg';
+
+  static const String homeIco = 'assets/icons/home.svg';
+  static const String homeIco2 = 'assets/icons/home2.svg';
+
+  static const String mapIco = 'assets/icons/map.svg';
+  static const String mapIco2 = 'assets/icons/map2.svg';
+
+  static const String newsIco = 'assets/icons/news.svg';
+  static const String newsIco2 = 'assets/icons/news2.svg';
+
+  static const String phoneIco = 'assets/icons/phone.svg';
+  static const String phoneIco2 = 'assets/icons/phone2.svg';
+
+  static const String roadIco = 'assets/icons/road.svg';
+  static const String roadIco2 = 'assets/icons/road2.svg';
+
+  static const String targetIco = 'assets/icons/target.svg';
+  static const String targetIco2 = 'assets/icons/target2.svg';
 }

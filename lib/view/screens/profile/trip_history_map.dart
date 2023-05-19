@@ -5,9 +5,7 @@ import 'package:cfl/view/styles/assets.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:latlong2/latlong.dart';
 
 class TripMapScreen extends StatefulWidget {
   const TripMapScreen({Key? key}) : super(key: key);
@@ -41,7 +39,13 @@ class _TripMapScreenState extends State<TripMapScreen> {
           //     ),
           //   ],
           // ),
-          Image.asset(AppAssets.mapPlaceholder),
+          SizedBox(
+            width: double.infinity,
+            child: Image.asset(
+              AppAssets.mapPlaceholder,
+              fit: BoxFit.fitWidth,
+            ),
+          ),
           Align(
             alignment: Alignment.topCenter,
             child: SafeArea(

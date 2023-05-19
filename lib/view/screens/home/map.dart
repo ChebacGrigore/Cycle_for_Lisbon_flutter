@@ -1,8 +1,6 @@
 import 'package:cfl/view/styles/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:latlong2/latlong.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
@@ -14,9 +12,12 @@ class MapScreen extends ConsumerStatefulWidget {
 class _MapScreenState extends ConsumerState<MapScreen> {
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      AppAssets.mapPlaceholder,
-      fit: BoxFit.cover,
+    return SizedBox(
+      width: double.infinity,
+      child: Image.asset(
+        AppAssets.mapPlaceholder,
+        fit: BoxFit.fitWidth,
+      ),
     );
   }
 }
