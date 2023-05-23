@@ -197,7 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         AppListTile(
                           title: 'leaderboard'.tr(),
-                          icon: AppAssets.crownIco,
+                          icon: AppAssets.crown3,
                           onTap: () {
                             context.push(const LeaderboardScreen());
                           },

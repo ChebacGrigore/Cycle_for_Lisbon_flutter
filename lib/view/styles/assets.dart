@@ -96,4 +96,5 @@ class AppAssets {
   static const String twitter = 'assets/icons/twitter.svg';
   static const String instagram = 'assets/icons/instagram.svg';
   static const String globe = 'assets/icons/globe.svg';
+  static const String crown3 = 'assets/icons/crown3.svg';
 }
