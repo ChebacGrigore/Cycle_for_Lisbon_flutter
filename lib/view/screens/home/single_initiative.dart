@@ -137,18 +137,14 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                             ),
                           ),
                           const SizedBox(height: 14),
-                          SizedBox(
-                            height: isFullDesc == true ? null : 55,
-                            width: double.infinity,
-                            child: Text(
-                              'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.Faucibus faucibus lectus nibh hendrerit. Et',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: isFullDesc == true ? 1000 : 5,
-                              style: GoogleFonts.dmSans(
-                                color: AppColors.primaryColor.withOpacity(0.60),
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                              ),
+                          Text(
+                            'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor xrhoncus dolor purus non enim praesent elementum facilisis leo.Faucibus faucibus lectus nibh hendrerit. Et fbnrjkeguoenr pgjhir3tejhigneheitngiobn[oehoi]grepgjiop3r4giojog5iejrtijipretijepitjpgeji[rtjhijetihjoi]',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: isFullDesc == true ? 1000 : 5,
+                            style: GoogleFonts.dmSans(
+                              color: AppColors.primaryColor.withOpacity(0.60),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
                             ),
                           ),
                           // const SizedBox(height: 16),
@@ -188,18 +184,14 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          SizedBox(
-                            height: isFullInstNameDesc == true ? null : 55,
-                            width: double.infinity,
-                            child: Text(
-                              'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.erg ekrg eroj gerjg jeg ersjog bljwngpiwrengojergb ihg i',
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: isFullInstNameDesc == true ? 1000 : 5,
-                              style: GoogleFonts.dmSans(
-                                color: AppColors.primaryColor,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                              ),
+                          Text(
+                            'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.erg ekrg eroj gerjg jeg ersjog bljwngpiwrengojergb ihg i',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: isFullInstNameDesc == true ? 1000 : 5,
+                            style: GoogleFonts.dmSans(
+                              color: AppColors.primaryColor,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
                             ),
                           ),
                           // const SizedBox(height: 16),

@@ -124,7 +124,12 @@ class _SignUpState extends State<SignUp> {
                     height: 52,
                     child: ElevatedButton(
                       onPressed: () {
-                        context.pushReplacement(const SetupProfile());
+                        context.pushReplacement(
+                          SetupProfile(
+                            emai: emailController.text,
+                            password: passController.text,
+                          ),
+                        );
                       },
                       style: AppComponentThemes.elevatedButtonTheme(),
                       child: Text(

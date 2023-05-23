@@ -1,22 +1,30 @@
-import 'package:cfl/view/screens/auth/onboarding.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  final container = ProviderContainer();
+
   runApp(
-    EasyLocalization(
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('pt', 'BR'),
-      ],
-      path: 'assets/translations',
-      fallbackLocale: const Locale('en', 'US'),
-      child: const MyApp(),
+    UncontrolledProviderScope(
+      // Our riverpod provider scope container
+      container: container,
+      child: EasyLocalization(
+        supportedLocales: const [
+          Locale('en', 'US'),
+          Locale('pt', 'BR'),
+        ],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en', 'US'),
+        child: const MyApp(),
+      ),
+      //child: const TestAdPurchaseProviderScreen(),
+      //child: const TestInAppPurchaseProviderScreen(),
     ),
   );
 }

@@ -206,7 +206,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const Divider(),
                         AppListTile(
                           title: 'trip_history'.tr(),
-                          icon: AppAssets.roadIco,
+                          icon: AppAssets.roadHz,
                           onTap: () {
                             context.push(const TripHistoryScreen());
                           },

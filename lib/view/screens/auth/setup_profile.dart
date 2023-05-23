@@ -1,3 +1,4 @@
+import 'package:cfl/controller/auth.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 
@@ -6,19 +7,26 @@ import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SetupProfile extends StatefulWidget {
-  const SetupProfile({Key? key}) : super(key: key);
-
+class SetupProfile extends ConsumerStatefulWidget {
+  const SetupProfile({
+    required this.emai,
+    required this.password,
+    super.key,
+  });
+  final String emai;
+  final String password;
   @override
-  State<SetupProfile> createState() => _SetupProfileState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SetupProfile2State();
 }
 
-class _SetupProfileState extends State<SetupProfile> {
+class _SetupProfile2State extends ConsumerState<SetupProfile> {
   @override
   void initState() {
+    email = TextEditingController(text: widget.emai);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     super.initState();
   }
@@ -30,12 +38,11 @@ class _SetupProfileState extends State<SetupProfile> {
     super.dispose();
   }
 
-  final TextEditingController email = TextEditingController();
+  TextEditingController email = TextEditingController();
   final TextEditingController fName = TextEditingController();
   final TextEditingController lName = TextEditingController();
   final TextEditingController nickName = TextEditingController();
   bool isCheked = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,8 +153,18 @@ class _SetupProfileState extends State<SetupProfile> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: AppComponentThemes.elevatedButtonTheme(),
-                    onPressed: () {
-                      context.pushReplacement(const Layout());
+                    onPressed: () async {
+                      await ref.watch(
+                        registerUserProvider(
+                          email: widget.emai,
+                          password: widget.password,
+                          fName: fName.text,
+                          lName: lName.text,
+                        ),
+                      );
+                      if (context.mounted) {
+                        context.pushReplacement(const Layout());
+                      }
                     },
                     child: Text(
                       'save'.tr(),
