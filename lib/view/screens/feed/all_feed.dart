@@ -128,7 +128,7 @@ class _NewsFeedsState extends ConsumerState<NewsFeeds> {
                 color: AppColors.background,
                 border: Border.all(
                   color: AppColors.tertiaryColor,
-                  width: 1,
+                  width: 1.5,
                 ),
               ),
               child: Column(
@@ -218,7 +218,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
               color: AppColors.background,
               border: Border.all(
                 color: AppColors.tertiaryColor,
-                width: 1,
+                width: 1.5,
               ),
             ),
             height: 333,

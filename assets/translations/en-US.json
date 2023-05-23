@@ -81,9 +81,9 @@
 
   "login_to_account": "Login to your Cycle for Lisbon account",
   
-  "no_account_sign_up": "Don't have an account? Sign up",
+  "no_account_sign_up": "Don't have an account?",
   "enter_email_sign_up": "Enter your e-mail address to sign up",
-  "already_have_account_sign_in": "Already have an account? Login",
+  "already_have_account_sign_in": "Already have an account?",
   "my_profile": "My Profile",
   "profile_settings": "Profile Settings",
   "badges": "Badges",
@@ -102,6 +102,7 @@
   "total_earned": "Total Earned",
   "total_km": "Total km",
   "total_rides": "Total Rides",
+  "rides":"Viagens",
   "total_donations": "Total Donations",
 
   "let_start_cycling": "Let's start cycling?",

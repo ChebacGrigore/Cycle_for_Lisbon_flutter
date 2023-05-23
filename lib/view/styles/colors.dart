@@ -33,6 +33,7 @@ class AppColors {
     ],
     stops: [0.9, 1],
   );
+
   static const whiteBg3Gradient = LinearGradient(
     colors: [
       AppColors.silvery,
@@ -43,7 +44,16 @@ class AppColors {
     stops: [0.0, 1.0],
     transform: GradientRotation(180 * 3.14159 / 180),
   );
-
+  static const whiteBg4Gradient = LinearGradient(
+    begin: Alignment.centerRight,
+    end: Alignment.centerLeft,
+    colors: [
+      Color.fromRGBO(255, 255, 255, 0.4),
+      Color.fromRGBO(223, 231, 210, 0.4),
+    ],
+    stops: [0.0, 1.0],
+    transform: GradientRotation(3.14159),
+  );
   static const LinearGradient blackShareButtonGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,

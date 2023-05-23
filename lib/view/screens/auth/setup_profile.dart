@@ -30,6 +30,12 @@ class _SetupProfileState extends State<SetupProfile> {
     super.dispose();
   }
 
+  final TextEditingController email = TextEditingController();
+  final TextEditingController fName = TextEditingController();
+  final TextEditingController lName = TextEditingController();
+  final TextEditingController nickName = TextEditingController();
+  bool isCheked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,22 +70,22 @@ class _SetupProfileState extends State<SetupProfile> {
                 const SizedBox(height: 32),
                 AppTextField(
                   hint: 'first_name'.tr(),
-                  controller: TextEditingController(),
+                  controller: fName,
                 ),
                 const SizedBox(height: 16),
                 AppTextField(
                   hint: 'last_name'.tr(),
-                  controller: TextEditingController(),
+                  controller: lName,
                 ),
                 const SizedBox(height: 16),
                 AppTextField(
                   hint: 'nickname'.tr(),
-                  controller: TextEditingController(),
+                  controller: nickName,
                 ),
                 const SizedBox(height: 16),
                 AppTextField(
                   hint: 'email'.tr(),
-                  controller: TextEditingController(),
+                  controller: email,
                   sufixIcon: const Icon(Icons.check),
                 ),
                 const SizedBox(height: 16),
@@ -89,8 +95,11 @@ class _SetupProfileState extends State<SetupProfile> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(5),
                       child: Checkbox(
-                        value: true,
-                        onChanged: (val) {},
+                        value: isCheked,
+                        onChanged: (val) {
+                          isCheked = val ?? false;
+                          setState(() {});
+                        },
                         activeColor: AppColors.accentColor,
                         checkColor: Colors.white,
                       ),

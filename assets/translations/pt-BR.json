@@ -80,9 +80,9 @@
   "treasure_master": "Mestre do Tesouror",
 
   "login_to_account": "Entre na sua conta Cycle for Lisbon",
-  "no_account_sign_up": "Não tem conta? Crie uma",
+  "no_account_sign_up": "Não tem conta?",
   "enter_email_sign_up": "Insira o seu endereço de e-mail para criar conta",
-  "already_have_account_sign_in": "Já tem conta? Faça login",
+  "already_have_account_sign_in": "Já tem conta?",
   "my_profile": "O meu perfil",
   "profile_settings": "Definições do Perfil",
   "badges": "Distintivos",
@@ -103,6 +103,7 @@
   "total_earned": "Total Ganho",
   "total_km": "Total de km",
   "total_rides": "Total de Viagens",
+  "rides":"Viagens",
   "total_donations": "Total de Donativos",
 
   "let_start_cycling": "Vamos começar a pedalar?",

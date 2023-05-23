@@ -3,6 +3,7 @@ import 'package:cfl/shared/app_bar_clip.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HelpCenter extends StatefulWidget {
@@ -38,7 +39,6 @@ class _HelpCenterState extends State<HelpCenter> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: CustomScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         controller: scrollController,
         slivers: [
           SliverAppBar(
@@ -71,6 +71,7 @@ class _HelpCenterState extends State<HelpCenter> {
             child: Container(
               decoration: const BoxDecoration(
                 color: AppColors.background,
+                gradient: AppColors.whiteBg2Gradient,
               ),
               child: Padding(
                 padding: const EdgeInsets.all(23),
@@ -81,35 +82,35 @@ class _HelpCenterState extends State<HelpCenter> {
                     children: [
                       HelpCenterListTile(
                         isPrimary: true,
-                        icon: Icons.email,
+                        icon: AppAssets.envelope,
                         title: 'cyclelisbon@email.com',
                         onTap: () {},
                       ),
                       const SizedBox(height: 21),
                       HelpCenterListTile(
                         isPrimary: false,
-                        icon: CFLIcons.globe_1,
+                        icon: AppAssets.globe,
                         title: 'Website',
                         onTap: () {},
                       ),
                       const SizedBox(height: 21),
                       HelpCenterListTile(
                         isPrimary: false,
-                        icon: CFLIcons.facebook,
+                        icon: AppAssets.facebook2,
                         title: 'Facebook',
                         onTap: () {},
                       ),
                       const SizedBox(height: 21),
                       HelpCenterListTile(
                         isPrimary: false,
-                        icon: CFLIcons.twitter,
+                        icon: AppAssets.twitter,
                         title: 'Twitter',
                         onTap: () {},
                       ),
                       const SizedBox(height: 21),
                       HelpCenterListTile(
                         isPrimary: false,
-                        icon: CFLIcons.instagram,
+                        icon: AppAssets.instagram,
                         title: 'Instagram',
                         onTap: () {},
                       ),
@@ -158,7 +159,7 @@ class HelpCenterListTile extends StatelessWidget {
     this.onTap,
   });
   final bool isPrimary;
-  final IconData icon;
+  final String icon;
   final String title;
   final VoidCallback? onTap;
   @override
@@ -183,7 +184,7 @@ class HelpCenterListTile extends StatelessWidget {
           child: Center(
             child: ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(
+              leading: SvgPicture.asset(
                 icon,
                 color:
                     isPrimary ? AppColors.primaryColor : AppColors.accentColor,

@@ -180,7 +180,7 @@ class AppTextField extends StatelessWidget {
     required this.controller,
     this.prefixIcon,
     this.sufixIcon,
-    this.isObsecure = true,
+    this.isObsecure = false,
     super.key,
   });
   final String hint;

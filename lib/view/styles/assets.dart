@@ -79,10 +79,20 @@ class AppAssets {
   static const String medal2 = 'assets/icons/medal2.png';
   static const String medal3 = 'assets/icons/medal3.png';
 
+  static const String share = 'assets/icons/share.png';
   //
   static const String avatar = 'assets/images/avatar.png';
   //
   static const String medal = 'assets/icons/medal.svg';
   static const String bicycle = 'assets/icons/bicycle.svg';
   static const String handCoins = 'assets/icons/hand_coins.svg';
+
+  static const String lisboa = 'assets/icons/lisboa.svg';
+
+  //
+  static const String envelope = 'assets/icons/envelope.svg';
+  static const String facebook2 = 'assets/icons/face_book.svg';
+  static const String twitter = 'assets/icons/twitter.svg';
+  static const String instagram = 'assets/icons/instagram.svg';
+  static const String globe = 'assets/icons/globe.svg';
 }

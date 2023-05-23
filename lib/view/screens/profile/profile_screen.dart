@@ -33,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.dispose();
   }
 
+  bool isNotify = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             snap: true,
             centerTitle: true,
             expandedHeight: 330,
+            backgroundColor: AppColors.primaryColor,
             iconTheme: const IconThemeData(color: AppColors.white),
             title: Text(
               'my_profile'.tr(),
@@ -100,12 +102,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                            width: 100,
+                            width: 90,
                             child: ProfileActivityCount(
                               unit: 'h',
                               count: 3,
                               title: 'total_rides'.tr(),
-                              icon: CFLIcons.clock,
+                              icon: Icons.access_time_outlined,
                             ),
                           ),
                           const SizedBox(width: 6),
@@ -163,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     bottom: 63,
                   ),
                   decoration: const BoxDecoration(
-                    gradient: AppColors.whiteBgGradient,
+                    gradient: AppColors.whiteBg2Gradient,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(24),
                       topRight: Radius.circular(24),
@@ -234,8 +236,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           icon: AppAssets.bell,
                           onTap: () {},
                           trailing: Switch(
-                            onChanged: (val) {},
-                            value: true,
+                            onChanged: (val) {
+                              setState(() {
+                                isNotify = val;
+                              });
+                            },
+                            value: isNotify,
                             trackColor:
                                 MaterialStateProperty.resolveWith<Color>(
                                     (Set<MaterialState> states) {
@@ -365,7 +371,7 @@ class ProfileActivityCount extends StatelessWidget {
         Icon(
           icon,
           color: AppColors.accentColor,
-          size: 15,
+          size: 17,
         ),
         const SizedBox(height: 4),
         Text(
@@ -382,7 +388,7 @@ class ProfileActivityCount extends StatelessWidget {
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.w400,
             color: AppColors.white.withOpacity(0.50),
-            fontSize: 12,
+            fontSize: 10,
           ),
         ),
       ],

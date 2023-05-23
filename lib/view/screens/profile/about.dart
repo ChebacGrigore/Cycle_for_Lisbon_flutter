@@ -47,7 +47,7 @@ class _AboutScreenState extends State<AboutScreen> {
             pinned: true,
             snap: true,
             centerTitle: true,
-            expandedHeight: 300,
+            expandedHeight: 290,
             title: Text(
               'about'.tr(),
               style: GoogleFonts.dmSans(),
@@ -61,12 +61,12 @@ class _AboutScreenState extends State<AboutScreen> {
                   Image.asset(AppAssets.appBarBg),
                   Center(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 100),
+                        const SizedBox(height: 150),
                         SvgPicture.asset(AppAssets.logoSvg),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 6),
                         Text(
                           'CYCLE FOR LISBON',
                           style: GoogleFonts.dmSans(
@@ -81,7 +81,8 @@ class _AboutScreenState extends State<AboutScreen> {
                           height: 13,
                           width: 6,
                           color: AppColors.silvery.withOpacity(0.50),
-                        )
+                        ),
+                        const SizedBox(height: 17),
                       ],
                     ),
                   )

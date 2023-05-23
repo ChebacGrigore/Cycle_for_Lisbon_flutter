@@ -109,11 +109,22 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                           const SizedBox(height: 14),
                           Row(
                             children: const [
-                              ActivityBadge(AppAssets.energySticker),
+                              SizedBox(
+                                  width: 48,
+                                  height: 48,
+                                  child:
+                                      ActivityBadge(AppAssets.energySticker)),
                               SizedBox(width: 6),
-                              ActivityBadge(AppAssets.waterSticker),
+                              SizedBox(
+                                  width: 48,
+                                  height: 48,
+                                  child: ActivityBadge(AppAssets.waterSticker)),
                               SizedBox(width: 6),
-                              ActivityBadge(AppAssets.energySticker),
+                              SizedBox(
+                                  width: 48,
+                                  height: 48,
+                                  child:
+                                      ActivityBadge(AppAssets.energySticker)),
                             ],
                           ),
                           const SizedBox(height: 42),
@@ -140,7 +151,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          // const SizedBox(height: 16),
                           TextButton.icon(
                             onPressed: () {
                               isFullDesc = !isFullDesc;
@@ -172,21 +183,8 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                             ),
                             width: double.infinity,
                             height: 140,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.home_repair_service),
-                                const SizedBox(width: 20),
-                                Text(
-                                  'lisboa'.toUpperCase(),
-                                  style: GoogleFonts.dmSans(
-                                    color: AppColors.primaryColor,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ],
+                            child: Center(
+                              child: SvgPicture.asset(AppAssets.lisboa),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -204,7 +202,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          // const SizedBox(height: 16),
                           TextButton.icon(
                             onPressed: () {
                               isFullInstNameDesc = !isFullInstNameDesc;

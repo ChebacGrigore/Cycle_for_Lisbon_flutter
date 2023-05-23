@@ -79,7 +79,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                     left: 38,
                     right: 38,
                     top: 32,
-                    bottom: 200,
+                    bottom: 100,
                   ),
                   child: SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
@@ -90,22 +90,25 @@ class _BadgesScreenState extends State<BadgesScreen> {
                           'unlcoked_badge_title'.tr(),
                           style: GoogleFonts.dmSans(
                             fontSize: 14,
-                            color: AppColors.primaryColor,
+                            color: AppColors.primaryColor.withOpacity(0.50),
                           ),
                         ),
-                        const SizedBox(height: 47),
+                        const SizedBox(height: 37),
                         GridView.builder(
+                          padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
-                            childAspectRatio: 0.5,
+                            childAspectRatio: 0.9,
+                            crossAxisSpacing: 35.0,
+                            mainAxisSpacing: 24.0,
                           ),
                           itemCount: 12,
                           itemBuilder: (context, index) {
                             return const Badge(
-                              value: 0.5,
+                              value: 1.9,
                               badgePath: AppAssets.barBellBadge,
                               badgeName: 'Badge Name',
                             );
@@ -143,17 +146,19 @@ class Badge extends StatelessWidget {
         Stack(
           children: [
             Positioned.fill(
-                child: CircularProgressIndicator(
-              backgroundColor: AppColors.tertiaryColor,
-              value: value,
-            )),
+              child: CircularProgressIndicator(
+                backgroundColor: AppColors.tertiaryColor,
+                value: value,
+                color: AppColors.secondaryColor,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(5),
               child: CircleAvatar(
                 backgroundColor: value >= 1
-                    ? AppColors.accentColor
+                    ? AppColors.secondaryColor
                     : AppColors.tertiaryColor,
-                radius: 30,
+                radius: 29,
                 child: Image.asset(
                   badgePath,
                   width: 25,

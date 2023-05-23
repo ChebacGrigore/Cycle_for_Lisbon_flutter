@@ -131,9 +131,11 @@ class ActvityCount extends StatelessWidget {
     super.key,
     required this.count,
     required this.title,
+    this.color = AppColors.accentColor,
   });
   final int count;
   final String title;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Row(

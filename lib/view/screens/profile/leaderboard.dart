@@ -24,20 +24,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             stretch: true,
             floating: true,
             pinned: true,
-            expandedHeight: 380,
+            expandedHeight: 340,
+            backgroundColor: AppColors.primaryColor,
             actions: [
               Container(
                 margin: const EdgeInsets.only(right: 20),
-                padding: const EdgeInsets.all(12),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: AppColors.blackShareButtonGradient,
-                ),
-                child: const Icon(
-                  Icons.share_outlined,
-                  color: AppColors.accentColor,
-                  size: 24,
-                ),
+                width: 40,
+                height: 40,
+                child: Image.asset(AppAssets.share),
               ),
             ],
             iconTheme: const IconThemeData(color: AppColors.white),
@@ -61,7 +55,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    top: 100,
+                    top: 45,
                     left: 16.0,
                     right: 16,
                   ),
