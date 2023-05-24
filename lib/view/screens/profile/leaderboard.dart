@@ -12,6 +12,20 @@ class LeaderboardScreen extends StatefulWidget {
 }
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
+  String _buildMedal(int position) {
+    switch (position) {
+      case 0:
+        return AppAssets.medal1;
+      case 1:
+        return AppAssets.medal2;
+      case 2:
+        return AppAssets.medal3;
+
+      default:
+        return (position + 1).toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +77,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CircleAvatar(
-                        radius: 45,
+                        radius: 40,
                         backgroundColor: AppColors.white,
                         child: Image.asset(
                           AppAssets.avatar,
@@ -101,7 +115,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               count: 23,
                               title: 'total_km'.tr(),
                               unit: 'km',
-                              icon: AppAssets.roadIco,
+                              icon: AppAssets.roadHz,
                             ),
                             const SizedBox(width: 6),
                             LeaderboardActivityCount(
@@ -153,11 +167,22 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     return ListTile(
                       title: Row(
                         children: [
-                          Image.asset(
-                            AppAssets.medal1,
-                            width: 48,
-                            height: 48,
-                          ),
+                          idx <= 2
+                              ? Image.asset(
+                                  _buildMedal(idx),
+                                  width: 48,
+                                  height: 48,
+                                )
+                              : CircleAvatar(
+                                  radius: 23,
+                                  backgroundColor: AppColors.tertiaryColor,
+                                  child: Text(
+                                    _buildMedal(idx),
+                                    style: GoogleFonts.dmSans(
+                                      color: AppColors.accentColor,
+                                    ),
+                                  ),
+                                ),
                           const SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,7 +216,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     count: 232,
                                     title: '',
                                     unit: 'km'.tr(),
-                                    icon: AppAssets.roadIco,
+                                    icon: AppAssets.roadHz,
                                   ),
                                   const SizedBox(width: 20),
                                   LeaderboardActivityCount(
@@ -266,7 +291,7 @@ class LeaderboardActivityCount extends StatelessWidget {
             SvgPicture.asset(
               icon,
               color: AppColors.accentColor,
-              width: showTitle ? 25 : 15,
+              width: 25,
             ),
             const SizedBox(width: 8),
             Text(

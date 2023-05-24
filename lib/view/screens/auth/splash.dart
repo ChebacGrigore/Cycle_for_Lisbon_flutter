@@ -22,7 +22,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     super.initState();
   }
 

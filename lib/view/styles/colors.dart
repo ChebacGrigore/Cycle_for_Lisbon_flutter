@@ -54,6 +54,7 @@ class AppColors {
     stops: [0.0, 1.0],
     transform: GradientRotation(3.14159),
   );
+
   static const LinearGradient blackShareButtonGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
