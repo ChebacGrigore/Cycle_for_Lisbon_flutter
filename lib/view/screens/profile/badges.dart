@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cfl/shared/app_bar_clip.dart';
 
 import 'package:cfl/view/styles/assets.dart';
@@ -7,6 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+
+class BadgeModel {
+  final double value;
+  final String badgeName;
+  final String badgePath;
+  BadgeModel(this.value, this.badgeName, this.badgePath);
+}
 
 class BadgesScreen extends StatefulWidget {
   const BadgesScreen({this.showAppBar = true, super.key});
@@ -38,6 +47,21 @@ class _BadgesScreenState extends State<BadgesScreen> {
       );
     });
   }
+
+  final List<BadgeModel> badgeList = [
+    BadgeModel(1, "Beginner", AppAssets.barBellBadge),
+    BadgeModel(1, "Traveler", AppAssets.barBellBadge),
+    BadgeModel(1, "Pro", AppAssets.barBellBadge),
+    BadgeModel(0.8, "Training Wheels", AppAssets.barBellBadge),
+    BadgeModel(0.7, "Steady Rider", AppAssets.barBellBadge),
+    BadgeModel(0.6, "Road Chamption", AppAssets.barBellBadge),
+    BadgeModel(0.4, "Good Kid", AppAssets.barBellBadge),
+    BadgeModel(0.4, "Heart of Gold", AppAssets.barBellBadge),
+    BadgeModel(0.3, "Philantrophist", AppAssets.barBellBadge),
+    BadgeModel(0.2, "Gatherer", AppAssets.barBellBadge),
+    BadgeModel(0.0, "Hoarder", AppAssets.barBellBadge),
+    BadgeModel(0.1, "Treasure Master", AppAssets.barBellBadge),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -95,25 +119,22 @@ class _BadgesScreenState extends State<BadgesScreen> {
                         ),
                         const SizedBox(height: 37),
                         GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 0.9,
-                            crossAxisSpacing: 35.0,
-                            mainAxisSpacing: 24.0,
-                          ),
-                          itemCount: 12,
-                          itemBuilder: (context, index) {
-                            return const Badge(
-                              value: 1.9,
-                              badgePath: AppAssets.barBellBadge,
-                              badgeName: 'Badge Name',
-                            );
-                          },
-                        ),
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 0.9,
+                              crossAxisSpacing: 35.0,
+                              mainAxisSpacing: 24.0,
+                            ),
+                            itemCount: badgeList.length,
+                            itemBuilder: (context, index) => Badge(
+                                  value: badgeList[index].value,
+                                  badgePath: badgeList[index].badgePath,
+                                  badgeName: badgeList[index].badgeName,
+                                )),
                       ],
                     ),
                   ),
@@ -137,6 +158,7 @@ class Badge extends StatelessWidget {
   final double value;
   final String badgePath;
   final String badgeName;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -171,6 +193,8 @@ class Badge extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           badgeName,
+          softWrap: true,
+          overflow: TextOverflow.ellipsis,
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.w500,
             color: AppColors.primaryColor,

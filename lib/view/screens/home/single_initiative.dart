@@ -142,7 +142,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                             overflow: TextOverflow.ellipsis,
                             maxLines: isFullDesc == true ? 1000 : 5,
                             style: GoogleFonts.dmSans(
-                              color: AppColors.primaryColor.withOpacity(0.60),
+                              color: AppColors.primaryColor.withOpacity(0.4),
                               fontWeight: FontWeight.w400,
                               fontSize: 14,
                             ),
@@ -166,7 +166,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                           Text(
                             'Institution Name:',
                             style: GoogleFonts.dmSans(
-                              color: AppColors.primaryColor,
+                              color: AppColors.primaryColor.withOpacity(0.4),
                               fontWeight: FontWeight.w500,
                               fontSize: 18,
                             ),
@@ -184,14 +184,17 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          Text(
-                            'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.erg ekrg eroj gerjg jeg ersjog bljwngpiwrengojergb ihg i',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: isFullInstNameDesc == true ? 1000 : 5,
-                            style: GoogleFonts.dmSans(
-                              color: AppColors.primaryColor,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
+                          Opacity(
+                            opacity: 0.5,
+                            child: Text(
+                              'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo.erg ekrg eroj gerjg jeg ersjog bljwngpiwrengojergb ihg i',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: isFullInstNameDesc == true ? 1000 : 5,
+                              style: GoogleFonts.dmSans(
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                           // const SizedBox(height: 16),

@@ -203,7 +203,7 @@ class RecoverPasswordDialog extends StatelessWidget {
         vertical: MediaQuery.of(context).size.height * 0.2,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(24),
         color: AppColors.white,
       ),
       child: Material(
@@ -215,19 +215,17 @@ class RecoverPasswordDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(
-                  AppAssets.logo2Svg,
-                  width: 25,
-                  height: 25,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'CYCLE FOR LISBON',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.dmSans(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 22,
-                    color: AppColors.black,
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      color: AppColors.tertiaryColor,
+                      borderRadius: BorderRadius.circular(50)),
+                  child: const Center(
+                    child: Icon(
+                      Icons.lock_outline,
+                      size: 40,
+                    ),
                   ),
                 ),
               ],
@@ -253,8 +251,34 @@ class RecoverPasswordDialog extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            AppTextField(hint: 'Email', controller: TextEditingController()),
-            const SizedBox(height: 45),
+            AppTextField(
+              hint: 'Email',
+              controller: TextEditingController(),
+              prefixIcon: Icons.email_outlined,
+            ),
+            const SizedBox(height: 30),
+            SizedBox(
+              width: double.infinity,
+              height: 49,
+              child: ElevatedButton(
+                style: AppComponentThemes.elevatedButtonTheme(
+                  color: AppColors.white,
+                  borderColor: AppColors.secondaryColor,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Go Back To Login',
+                  style: GoogleFonts.dmSans(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: AppColors.black,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 25),
             SizedBox(
               width: double.infinity,
               height: 49,
@@ -263,9 +287,203 @@ class RecoverPasswordDialog extends StatelessWidget {
                   color: AppColors.secondaryColor,
                   borderColor: Colors.transparent,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  context.showAppDialog(const ResetPasswordDialog());
+                },
                 child: Text(
                   '${'send'.tr()} Email',
+                  style: GoogleFonts.dmSans(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ResetPasswordDialog extends StatelessWidget {
+  const ResetPasswordDialog({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: MediaQuery.of(context).size.height * 0.2,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        color: AppColors.white,
+      ),
+      child: Material(
+        color: AppColors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      color: AppColors.tertiaryColor,
+                      borderRadius: BorderRadius.circular(50)),
+                  child: const Center(
+                    child: Icon(
+                      Icons.key,
+                      size: 40,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Text(
+              "Reset Passwoed",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.dmSans(
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            const SizedBox(height: 14),
+            Text(
+              "Enter your new password below",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.dmSans(
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColors.primaryColor.withOpacity(0.80),
+              ),
+            ),
+            const SizedBox(height: 16),
+            AppTextField(
+              hint: 'New Password',
+              controller: TextEditingController(),
+            ),
+            const SizedBox(height: 14),
+            const SizedBox(height: 16),
+            AppTextField(
+              hint: "Confirm Password",
+              controller: TextEditingController(),
+            ),
+            const SizedBox(height: 25),
+            SizedBox(
+              width: double.infinity,
+              height: 49,
+              child: ElevatedButton(
+                style: AppComponentThemes.elevatedButtonTheme(
+                  color: AppColors.secondaryColor,
+                  borderColor: Colors.transparent,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  context.showAppDialog(const SuccessDialog());
+                },
+                child: Text(
+                  'save',
+                  style: GoogleFonts.dmSans(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: AppColors.primaryColor,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SuccessDialog extends StatelessWidget {
+  const SuccessDialog({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: MediaQuery.of(context).size.height * 0.3,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        color: AppColors.white,
+      ),
+      child: Material(
+        color: AppColors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      color: AppColors.tertiaryColor,
+                      borderRadius: BorderRadius.circular(50)),
+                  child: const Center(
+                    child: Icon(
+                      Icons.done,
+                      size: 40,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Text(
+              "Your Email has been",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.dmSans(
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Sucessfully submitted",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.dmSans(
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+                color: AppColors.primaryColor,
+              ),
+            ),
+            const SizedBox(height: 14),
+            const SizedBox(height: 25),
+            SizedBox(
+              width: double.infinity,
+              height: 49,
+              child: ElevatedButton(
+                style: AppComponentThemes.elevatedButtonTheme(
+                  color: AppColors.secondaryColor,
+                  borderColor: Colors.transparent,
+                ),
+                onPressed: () => {},
+                child: Text(
+                  'Continue',
                   style: GoogleFonts.dmSans(
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
