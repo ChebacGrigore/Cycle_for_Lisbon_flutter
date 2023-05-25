@@ -8,6 +8,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   final container = ProviderContainer();
+  await Future.delayed(const Duration(milliseconds: 5000));
 
   runApp(
     UncontrolledProviderScope(
