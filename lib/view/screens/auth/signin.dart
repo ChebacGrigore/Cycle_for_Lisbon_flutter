@@ -221,11 +221,8 @@ class RecoverPasswordDialog extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: AppColors.tertiaryColor,
                       borderRadius: BorderRadius.circular(50)),
-                  child: const Center(
-                    child: Icon(
-                      Icons.lock_outline,
-                      size: 40,
-                    ),
+                  child: Center(
+                    child: SvgPicture.asset(AppAssets.lock),
                   ),
                 ),
               ],
@@ -340,11 +337,8 @@ class ResetPasswordDialog extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: AppColors.tertiaryColor,
                       borderRadius: BorderRadius.circular(50)),
-                  child: const Center(
-                    child: Icon(
-                      Icons.key,
-                      size: 40,
-                    ),
+                  child: Center(
+                    child: SvgPicture.asset(AppAssets.key),
                   ),
                 ),
               ],

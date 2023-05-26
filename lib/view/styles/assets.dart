@@ -97,4 +97,18 @@ class AppAssets {
   static const String instagram = 'assets/icons/instagram.svg';
   static const String globe = 'assets/icons/globe.svg';
   static const String crown3 = 'assets/icons/crown3.svg';
+  static const String key = 'assets/icons/key.svg';
+  static const String lock = 'assets/icons/lock.svg';
+  static const String biginner = 'assets/icons/Vector.svg';
+  static const String traveler = 'assets/icons/Vector (1).svg';
+  static const String pro = 'assets/icons/Vector (2).svg';
+  static const String trainingWheels = 'assets/icons/Vector (2).svg';
+  static const String steadyRider = 'assets/icons/Vector (3).svg';
+  static const String roadChampion = 'assets/icons/Vector (4).svg';
+  static const String goodKid = 'assets/icons/Vector (5).svg';
+  static const String heartOfGold = 'assets/icons/Vector (6).svg';
+  static const String philantrophist = 'assets/icons/Vector (7).svg';
+  static const String gatherer = 'assets/icons/Vector (7).svg';
+  static const String hoarder = 'assets/icons/Vector (8).svg';
+  static const String treasureMaster = 'assets/icons/Vector (9).svg';
 }

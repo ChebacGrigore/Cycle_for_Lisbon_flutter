@@ -7,6 +7,7 @@ import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -49,18 +50,18 @@ class _BadgesScreenState extends State<BadgesScreen> {
   }
 
   final List<BadgeModel> badgeList = [
-    BadgeModel(1, "Beginner", AppAssets.barBellBadge),
-    BadgeModel(1, "Traveler", AppAssets.barBellBadge),
-    BadgeModel(1, "Pro", AppAssets.barBellBadge),
-    BadgeModel(0.8, "Training Wheels", AppAssets.barBellBadge),
-    BadgeModel(0.7, "Steady Rider", AppAssets.barBellBadge),
-    BadgeModel(0.6, "Road Chamption", AppAssets.barBellBadge),
-    BadgeModel(0.4, "Good Kid", AppAssets.barBellBadge),
-    BadgeModel(0.4, "Heart of Gold", AppAssets.barBellBadge),
-    BadgeModel(0.3, "Philantrophist", AppAssets.barBellBadge),
-    BadgeModel(0.2, "Gatherer", AppAssets.barBellBadge),
-    BadgeModel(0.0, "Hoarder", AppAssets.barBellBadge),
-    BadgeModel(0.1, "Treasure Master", AppAssets.barBellBadge),
+    BadgeModel(1, "Beginner", AppAssets.biginner),
+    BadgeModel(1, 'traveler'.tr(), AppAssets.traveler),
+    BadgeModel(1, "Pro", AppAssets.pro),
+    BadgeModel(0.8, 'training_wheels'.tr(), AppAssets.trainingWheels),
+    BadgeModel(0.7, 'steady_rider'.tr(), AppAssets.steadyRider),
+    BadgeModel(0.6, 'road_champion'.tr(), AppAssets.roadChampion),
+    BadgeModel(0.4, 'good_kid'.tr(), AppAssets.goodKid),
+    BadgeModel(0.4, 'heart_of_gold'.tr(), AppAssets.heartOfGold),
+    BadgeModel(0.3, 'philanthropist'.tr(), AppAssets.philantrophist),
+    BadgeModel(0.2, 'gatherer'.tr(), AppAssets.gatherer),
+    BadgeModel(0.0, "Hoader", AppAssets.hoarder),
+    BadgeModel(0.1, 'treasure_master'.tr(), AppAssets.treasureMaster),
   ];
 
   @override
@@ -181,10 +182,8 @@ class Badge extends StatelessWidget {
                     ? AppColors.secondaryColor
                     : AppColors.tertiaryColor,
                 radius: 29,
-                child: Image.asset(
+                child: SvgPicture.asset(
                   badgePath,
-                  width: 25,
-                  height: 25,
                 ),
               ),
             ),
