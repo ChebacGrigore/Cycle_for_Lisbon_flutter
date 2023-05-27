@@ -200,7 +200,7 @@ class RecoverPasswordDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
       margin: EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: MediaQuery.of(context).size.height * 0.2,
+        vertical: MediaQuery.of(context).size.height * 0.1,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
@@ -266,7 +266,7 @@ class RecoverPasswordDialog extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  'Go Back To Login',
+                  'Go back to login',
                   style: GoogleFonts.dmSans(
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
@@ -313,10 +313,10 @@ class ResetPasswordDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 82),
       margin: EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: MediaQuery.of(context).size.height * 0.2,
+        vertical: MediaQuery.of(context).size.height * 0.1,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
@@ -343,7 +343,7 @@ class ResetPasswordDialog extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 12),
             Text(
               "Reset Passwoed",
               textAlign: TextAlign.center,
@@ -363,21 +363,20 @@ class ResetPasswordDialog extends StatelessWidget {
                 color: AppColors.primaryColor.withOpacity(0.80),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             AppTextField(
               hint: 'New Password',
               controller: TextEditingController(),
             ),
-            const SizedBox(height: 14),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             AppTextField(
               hint: "Confirm Password",
               controller: TextEditingController(),
             ),
-            const SizedBox(height: 25),
+            const SizedBox(height: 16),
             SizedBox(
-              width: double.infinity,
               height: 49,
+              width: double.infinity,
               child: ElevatedButton(
                 style: AppComponentThemes.elevatedButtonTheme(
                   color: AppColors.secondaryColor,
@@ -388,7 +387,7 @@ class ResetPasswordDialog extends StatelessWidget {
                   context.showAppDialog(const SuccessDialog());
                 },
                 child: Text(
-                  'save',
+                  'Save',
                   style: GoogleFonts.dmSans(
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
@@ -415,7 +414,7 @@ class SuccessDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
       margin: EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: MediaQuery.of(context).size.height * 0.3,
+        vertical: MediaQuery.of(context).size.height * 0.2,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),

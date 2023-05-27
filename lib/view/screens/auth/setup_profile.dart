@@ -47,8 +47,8 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(gradient: AppColors.whiteBgGradient),
+        height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: SafeArea(
               child: Padding(

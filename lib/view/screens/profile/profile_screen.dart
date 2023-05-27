@@ -1,5 +1,6 @@
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
+import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/screens/profile/about.dart';
 import 'package:cfl/view/screens/profile/badges.dart';
 import 'package:cfl/view/screens/profile/help_center.dart';
@@ -264,7 +265,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         AppListTile(
                           title: 'log_out'.tr(),
                           icon: AppAssets.exit,
-                          onTap: () {},
+                          onTap: () {
+                            context.push(const SplashScreen());
+                          },
                         ),
                         const Divider(),
                         AppListTile(

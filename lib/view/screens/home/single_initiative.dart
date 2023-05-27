@@ -166,7 +166,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                           Text(
                             'Institution Name:',
                             style: GoogleFonts.dmSans(
-                              color: AppColors.primaryColor.withOpacity(0.4),
+                              color: AppColors.primaryColor,
                               fontWeight: FontWeight.w500,
                               fontSize: 18,
                             ),

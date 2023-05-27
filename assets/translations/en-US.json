@@ -18,16 +18,16 @@
 
   "sign_in": "Sign In",
   "sign_up": "Sign Up",
-  
+
   "log_out": "Log Out",
   "email": "Email",
   "password": "Password",
   "confirm_password": "Confirm Password",
-  "change_password":"Change Password",
-  "old_password":"Old Password",
-  "new_password":"New Password",
-  "recover_password": "Forgot Password",
-  "enter_email_recover":"Enter Your email below to reset your password",
+  "change_password": "Change Password",
+  "old_password": "Old Password",
+  "new_password": "New Password",
+  "recover_password": "Forgot Your Password",
+  "enter_email_recover": "Enter your email below to reset your password",
   "change_avatar": "Change Avatar",
   "first_name": "First Name",
   "last_name": "Last Name",
@@ -37,7 +37,7 @@
   "no_delete": "I changed my mind",
   "sure_delete_account": "Are you sure you want to delete your account?",
   "delete_acount_desc": "By doing so, all your data will be permanently deleted and cannot be recovered. This action cannot be undone.",
-"enter":"Enter",
+  "enter": "Enter",
   "save": "Save",
   "save_changes": "Save Changes",
   "goal": "Goal",
@@ -61,12 +61,12 @@
   "begginer": "Begginer",
   "traveler": "Traveler",
   "pro": "Pro",
-  "and":"and",
+  "and": "and",
   "position": "Position",
   "see_map": "See Map",
-  "language":"Language",
-  "english":"English",
-  "portugues":"Português",
+  "language": "Language",
+  "english": "English",
+  "portugues": "Português",
 
   "number_km": "Number of Km",
   "training_wheels": "Training Wheels",
@@ -80,7 +80,7 @@
   "treasure_master": "Treasure Master",
 
   "login_to_account": "Login to your Cycle for Lisbon account",
-  
+
   "no_account_sign_up": "Don't have an account?",
   "enter_email_sign_up": "Enter your e-mail address to sign up",
   "already_have_account_sign_in": "Already have an account?",
@@ -94,7 +94,7 @@
   "notifications": "Notifications",
   "privacy_GDPR": "Privacy Policy and GDPR",
   "terms_condition": "Terms and Conditions",
-  "agree":"I agree to the",
+  "agree": "I agree to the",
   "terms": "Terms of Service",
   "privacy": "Privacy Policy",
 
@@ -102,7 +102,7 @@
   "total_earned": "Total Earned",
   "total_km": "Total km",
   "total_rides": "Total Rides",
-  "rides":"Viagens",
+  "rides": "Viagens",
   "total_donations": "Total Donations",
 
   "let_start_cycling": "Let's start cycling?",
@@ -125,7 +125,7 @@
   "news": "News",
   "events": "Events",
   "share": "Share",
-  "send":"Send",
+  "send": "Send",
   "back_to_all": "Back to All",
   "next_article": "Next Article",
   "next_vent": "Next Event",
@@ -148,7 +148,7 @@
   "dec": "December",
 
   "thank_for_support": "Thank you for your support! This goal was completed",
-  "want_select_new":"Select a new one?",  
+  "want_select_new": "Select a new one?",
   "sustainable_development_goals": "Sustainable Development Goals",
   "initiative_placeholder": "This is a description placeholder. Here you can describe your initiative and how it will impact your community,",
   "institution_placeholder": "This is a description placeholder. Here you can give information about your Institution and its area of work.",
