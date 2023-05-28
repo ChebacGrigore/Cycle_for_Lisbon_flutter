@@ -166,7 +166,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     bottom: 63,
                   ),
                   decoration: const BoxDecoration(
-                    gradient: AppColors.whiteBg2Gradient,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(24),
                       topRight: Radius.circular(24),
@@ -266,7 +265,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'log_out'.tr(),
                           icon: AppAssets.exit,
                           onTap: () {
-                            context.push(const SplashScreen());
+                            context.showAppDialog(AppDialog(
+                              icon: Icons.logout_outlined,
+                              acceptTitle: 'yes_logout'.tr(),
+                              declineTitle: 'no_delete'.tr(),
+                              title: 'sure_logout'.tr(),
+                              description: 'logout_desc'.tr(),
+                              onAccept: () {
+                                context.push(const SplashScreen());
+                              },
+                              onDecline: () {
+                                context.pop();
+                              },
+                            ));
                           },
                         ),
                         const Divider(),
@@ -422,7 +433,7 @@ class AppDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
       margin: EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: MediaQuery.of(context).size.height / 6,
+        vertical: MediaQuery.of(context).size.height * 0.1,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),

@@ -20,6 +20,7 @@ class _SignInState extends State<SignIn> {
   bool obsecure = true;
   TextEditingController passController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
   @override
   void initState() {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
@@ -189,10 +190,17 @@ class _SignInState extends State<SignIn> {
   }
 }
 
-class RecoverPasswordDialog extends StatelessWidget {
+class RecoverPasswordDialog extends StatefulWidget {
   const RecoverPasswordDialog({
     super.key,
   });
+
+  @override
+  State<RecoverPasswordDialog> createState() => _RecoverPasswordDialogState();
+}
+
+class _RecoverPasswordDialogState extends State<RecoverPasswordDialog> {
+  TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -216,13 +224,17 @@ class RecoverPasswordDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 100,
-                  height: 100,
+                  width: 90,
+                  height: 90,
                   decoration: BoxDecoration(
                       color: AppColors.tertiaryColor,
                       borderRadius: BorderRadius.circular(50)),
                   child: Center(
-                    child: SvgPicture.asset(AppAssets.lock),
+                    child: SvgPicture.asset(
+                      AppAssets.lock,
+                      width: 25,
+                      height: 25,
+                    ),
                   ),
                 ),
               ],
@@ -250,7 +262,8 @@ class RecoverPasswordDialog extends StatelessWidget {
             const SizedBox(height: 16),
             AppTextField(
               hint: 'Email',
-              controller: TextEditingController(),
+              isObsecure: false,
+              controller: emailController,
               prefixIcon: Icons.email_outlined,
             ),
             const SizedBox(height: 30),
@@ -266,7 +279,7 @@ class RecoverPasswordDialog extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
                 child: Text(
-                  'Go back to login',
+                  'back_login'.tr(),
                   style: GoogleFonts.dmSans(
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
@@ -305,15 +318,24 @@ class RecoverPasswordDialog extends StatelessWidget {
   }
 }
 
-class ResetPasswordDialog extends StatelessWidget {
+class ResetPasswordDialog extends StatefulWidget {
   const ResetPasswordDialog({
     super.key,
   });
 
   @override
+  State<ResetPasswordDialog> createState() => _ResetPasswordDialogState();
+}
+
+class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
+  TextEditingController passController = TextEditingController();
+
+  TextEditingController confirmController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 82),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20.0),
       margin: EdgeInsets.symmetric(
         horizontal: 20,
         vertical: MediaQuery.of(context).size.height * 0.1,
@@ -332,20 +354,24 @@ class ResetPasswordDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 100,
-                  height: 100,
+                  width: 90,
+                  height: 90,
                   decoration: BoxDecoration(
                       color: AppColors.tertiaryColor,
                       borderRadius: BorderRadius.circular(50)),
                   child: Center(
-                    child: SvgPicture.asset(AppAssets.key),
+                    child: SvgPicture.asset(
+                      AppAssets.key,
+                      width: 25,
+                      height: 25,
+                    ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 12),
             Text(
-              "Reset Passwoed",
+              "Reset Password",
               textAlign: TextAlign.center,
               style: GoogleFonts.dmSans(
                 fontWeight: FontWeight.w500,
@@ -366,12 +392,12 @@ class ResetPasswordDialog extends StatelessWidget {
             const SizedBox(height: 12),
             AppTextField(
               hint: 'New Password',
-              controller: TextEditingController(),
+              controller: passController,
             ),
             const SizedBox(height: 12),
             AppTextField(
               hint: "Confirm Password",
-              controller: TextEditingController(),
+              controller: confirmController,
             ),
             const SizedBox(height: 16),
             SizedBox(
@@ -414,7 +440,7 @@ class SuccessDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
       margin: EdgeInsets.symmetric(
         horizontal: 20,
-        vertical: MediaQuery.of(context).size.height * 0.2,
+        vertical: MediaQuery.of(context).size.height * 0.1,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
@@ -430,15 +456,15 @@ class SuccessDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 100,
-                  height: 100,
+                  width: 90,
+                  height: 90,
                   decoration: BoxDecoration(
                       color: AppColors.tertiaryColor,
                       borderRadius: BorderRadius.circular(50)),
                   child: const Center(
                     child: Icon(
                       Icons.done,
-                      size: 40,
+                      size: 30,
                     ),
                   ),
                 ),

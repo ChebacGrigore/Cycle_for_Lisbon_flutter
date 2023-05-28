@@ -21,7 +21,7 @@ class _AllFeedScreenState extends ConsumerState<AllFeedScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.white,
         appBar: AppBar(
           backgroundColor: AppColors.background,
           elevation: 0,

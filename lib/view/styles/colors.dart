@@ -13,7 +13,7 @@ class AppColors {
   static const Color black = Color(0xff000000);
   static const Color tomatoRed = Color(0xffE12020);
   static const Color cabbageGreen = Color(0xff00CC66);
-  static const Color background = Color(0xffF5F5F5);
+  static const Color background = Color(0xffFFFFFF);
 
   static const whiteBgGradient = LinearGradient(
     begin: Alignment.topLeft,

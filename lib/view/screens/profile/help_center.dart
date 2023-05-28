@@ -37,7 +37,7 @@ class _HelpCenterState extends State<HelpCenter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.white,
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
