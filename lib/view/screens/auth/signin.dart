@@ -37,6 +37,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.background,
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -122,7 +123,15 @@ class _SignInState extends State<SignIn> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
-                        context.showAppDialog(const RecoverPasswordDialog());
+                        showDialog(
+                          context: context,
+                          useSafeArea: false,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return const RecoverPasswordDialog();
+                          },
+                        );
+                        // context.showAppDialog(const RecoverPasswordDialog());
                       },
                       child: Text(
                         'recover_password'.tr(),
@@ -517,3 +526,125 @@ class SuccessDialog extends StatelessWidget {
     );
   }
 }
+
+// class RecoverPasswordDialog extends StatefulWidget {
+//   const RecoverPasswordDialog({super.key});
+
+//   @override
+//   State<RecoverPasswordDialog> createState() => _RecoverPasswordDialog();
+// }
+
+// class _RecoverPasswordDialog extends State<RecoverPasswordDialog> {
+//   TextEditingController email = TextEditingController();
+//   @override
+//   Widget build(BuildContext context) {
+//     return Dialog(
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(24.0),
+//       ),
+//       child: SingleChildScrollView(
+//         child: Container(
+//           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+//           height: MediaQuery.of(context).size.height * 0.65,
+//           // width: 500,
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             crossAxisAlignment: CrossAxisAlignment.stretch,
+//             children: [
+//               const SizedBox(height: 22),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Container(
+//                     width: 100,
+//                     height: 100,
+//                     decoration: BoxDecoration(
+//                         color: AppColors.tertiaryColor,
+//                         borderRadius: BorderRadius.circular(50)),
+//                     child: const Center(
+//                       child: Icon(
+//                         Icons.lock_outline,
+//                         size: 40,
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               const SizedBox(height: 24),
+//               Text(
+//                 'recover_password'.tr(),
+//                 textAlign: TextAlign.center,
+//                 style: GoogleFonts.dmSans(
+//                   fontWeight: FontWeight.w500,
+//                   fontSize: 22,
+//                   color: AppColors.primaryColor,
+//                 ),
+//               ),
+//               const SizedBox(height: 14),
+//               Text(
+//                 'enter_email_recover'.tr(),
+//                 textAlign: TextAlign.center,
+//                 style: GoogleFonts.dmSans(
+//                   fontWeight: FontWeight.w400,
+//                   fontSize: 14,
+//                   color: AppColors.primaryColor.withOpacity(0.80),
+//                 ),
+//               ),
+//               const SizedBox(height: 16),
+//               AppTextField(
+//                 hint: 'Email',
+//                 controller: email,
+//                 prefixIcon: Icons.email_outlined,
+//               ),
+//               const SizedBox(height: 30),
+//               SizedBox(
+//                 width: double.infinity,
+//                 height: 49,
+//                 child: ElevatedButton(
+//                   style: AppComponentThemes.elevatedButtonTheme(
+//                     color: AppColors.white,
+//                     borderColor: AppColors.secondaryColor,
+//                   ),
+//                   onPressed: () {
+//                     Navigator.of(context).pop();
+//                   },
+//                   child: Text(
+//                     'Go back To Login',
+//                     style: GoogleFonts.dmSans(
+//                       fontWeight: FontWeight.w500,
+//                       fontSize: 14,
+//                       color: AppColors.black,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(height: 25),
+//               SizedBox(
+//                 width: double.infinity,
+//                 height: 49,
+//                 child: ElevatedButton(
+//                   style: AppComponentThemes.elevatedButtonTheme(
+//                     color: AppColors.secondaryColor,
+//                     borderColor: Colors.transparent,
+//                   ),
+//                   onPressed: () {
+//                     Navigator.of(context).pop();
+//                     context.showAppDialog(const ResetPasswordDialog());
+//                   },
+//                   child: Text(
+//                     '${'send'.tr()} Email',
+//                     style: GoogleFonts.dmSans(
+//                       fontWeight: FontWeight.w500,
+//                       fontSize: 14,
+//                       color: AppColors.primaryColor,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

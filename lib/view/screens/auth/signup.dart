@@ -185,6 +185,7 @@ class AppTextField extends StatelessWidget {
     required this.controller,
     this.prefixIcon,
     this.sufixIcon,
+    this.onChanged,
     this.isObsecure = false,
     super.key,
   });
@@ -192,6 +193,7 @@ class AppTextField extends StatelessWidget {
   final IconData? prefixIcon;
   final Widget? sufixIcon;
   final bool isObsecure;
+  final void Function(String)? onChanged;
 
   final TextEditingController controller;
   @override
@@ -200,7 +202,7 @@ class AppTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          hint,
+          hint.contains('_') ? hint.tr() : hint,
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.normal,
             color: AppColors.primaryColor,
@@ -212,6 +214,7 @@ class AppTextField extends StatelessWidget {
           child: TextFormField(
             obscureText: isObsecure,
             controller: controller,
+            onChanged: onChanged,
             decoration: InputDecoration(
               prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
               suffixIcon: sufixIcon,
