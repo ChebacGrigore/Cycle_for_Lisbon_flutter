@@ -1,10 +1,13 @@
+import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/screens/home/layout.dart';
+// import 'package:cfl/view/screens/home/layout.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,6 +23,8 @@ class _SignInState extends State<SignIn> {
   bool obsecure = true;
   TextEditingController passController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  bool isLoading = false;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -39,161 +44,217 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.background,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(gradient: AppColors.whiteBgGradient),
-        child: SingleChildScrollView(
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            AppAssets.logo2Svg,
-                            width: 25,
-                            height: 25,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Cycle for Lisbon'.toUpperCase(),
-                            style: GoogleFonts.dmSans(
-                              color: AppColors.primaryColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          )
-                        ],
-                      ),
-                      IconButton(
-                          onPressed: () {
-                            context.pop();
-                          },
-                          icon: const Icon(Icons.close)),
-                    ],
-                  ),
-                  const SizedBox(height: 43),
-                  Text(
-                    'sign_in'.tr(),
-                    style: GoogleFonts.dmSans(
-                      color: AppColors.primaryColor,
-                      fontSize: 32,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  Text(
-                    'login_to_account'.tr(),
-                    style: GoogleFonts.dmSans(
-                      color: AppColors.blueGrey,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(height: 33),
-                  AppTextField(
-                    prefixIcon: CFLIcons.mail,
-                    isObsecure: false,
-                    controller: emailController,
-                    hint: 'email'.tr(),
-                  ),
-                  const SizedBox(height: 20),
-                  AppTextField(
-                    isObsecure: obsecure,
-                    prefixIcon: CFLIcons.lock,
-                    sufixIcon: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          obsecure = !obsecure;
-                        });
-                      },
-                      child: Icon(
-                        obsecure ? CFLIcons.visibilityOff : CFLIcons.visibility,
-                      ),
-                    ),
-                    controller: passController,
-                    hint: 'password'.tr(),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          useSafeArea: false,
-                          barrierDismissible: true,
-                          builder: (BuildContext context) {
-                            return const RecoverPasswordDialog();
-                          },
-                        );
-                        // context.showAppDialog(const RecoverPasswordDialog());
-                      },
-                      child: Text(
-                        'recover_password'.tr(),
-                        style: GoogleFonts.dmSans(
-                          color: AppColors.accentColor,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 52,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        context.push(const Layout());
-                      },
-                      style: AppComponentThemes.elevatedButtonTheme(),
-                      child: Text(
-                        'continue'.tr(),
-                        style: GoogleFonts.dmSans(
-                            color: AppColors.black,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 42),
-                  const SocialLogins(color: AppColors.black, fill: false),
-                  const SizedBox(height: 42),
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        context.pop();
-                        context.showAppDialog(const SignUp());
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          text: '${'no_account_sign_up'.tr()} ',
-                          style: GoogleFonts.dmSans(
-                            color: AppColors.greyish,
-                          ),
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.status.isLoading) {
+            setState(() {
+              isLoading = true;
+            });
+          } else if (state.status.isError) {
+            setState(() {
+              isLoading = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.exception.toString()),
+              ),
+            );
+          } else if (state.status.isAuthenticated) {
+            setState(() {
+              isLoading = false;
+            });
+            context.push(const Layout());
+          }
+        },
+        builder: (context, state) {
+          return Container(
+            height: MediaQuery.of(context).size.height,
+            decoration:
+                const BoxDecoration(gradient: AppColors.whiteBgGradient),
+            child: SingleChildScrollView(
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            TextSpan(
-                              text: 'sign_up'.tr(),
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  AppAssets.logo2Svg,
+                                  width: 25,
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'Cycle for Lisbon'.toUpperCase(),
+                                  style: GoogleFonts.dmSans(
+                                    color: AppColors.primaryColor,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                )
+                              ],
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  context.pop();
+                                },
+                                icon: const Icon(Icons.close)),
+                          ],
+                        ),
+                        const SizedBox(height: 43),
+                        Text(
+                          'sign_in'.tr(),
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.primaryColor,
+                            fontSize: 32,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        Text(
+                          'login_to_account'.tr(),
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.blueGrey,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(height: 33),
+                        AppTextField(
+                          prefixIcon: CFLIcons.mail,
+                          isObsecure: false,
+                          controller: emailController,
+                          hint: 'email'.tr(),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Email is required';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        AppTextField(
+                          isObsecure: obsecure,
+                          prefixIcon: CFLIcons.lock,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Password is required';
+                            } else if (value.length < 8) {
+                              return 'Password cannot be less than 8 characters';
+                            }
+                            return null;
+                          },
+                          sufixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                obsecure = !obsecure;
+                              });
+                            },
+                            child: Icon(
+                              obsecure
+                                  ? CFLIcons.visibilityOff
+                                  : CFLIcons.visibility,
+                            ),
+                          ),
+                          controller: passController,
+                          hint: 'password'.tr(),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                useSafeArea: false,
+                                barrierDismissible: true,
+                                builder: (BuildContext context) {
+                                  return const RecoverPasswordDialog();
+                                },
+                              );
+                              // context.showAppDialog(const RecoverPasswordDialog());
+                            },
+                            child: Text(
+                              'recover_password'.tr(),
                               style: GoogleFonts.dmSans(
-                                decoration: TextDecoration.underline,
                                 color: AppColors.accentColor,
+                                decoration: TextDecoration.underline,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 32),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: ElevatedButton(
+                            onPressed: isLoading == true
+                                ? () {}
+                                : () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      context.read<AuthBloc>().add(
+                                            AuthLogin(
+                                              email: emailController.text,
+                                              password: passController.text,
+                                            ),
+                                          );
+                                    }
+                                  },
+                            style: AppComponentThemes.elevatedButtonTheme(),
+                            child: isLoading == true
+                                ? const CircularProgressIndicator()
+                                : Text(
+                                    'continue'.tr(),
+                                    style: GoogleFonts.dmSans(
+                                        color: AppColors.black,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                          ),
+                        ),
+                        const SizedBox(height: 42),
+                        const SocialLogins(color: AppColors.black, fill: false),
+                        const SizedBox(height: 42),
+                        Center(
+                          child: TextButton(
+                            onPressed: () {
+                              context.pop();
+                              context.showAppDialog(const SignUp());
+                            },
+                            child: RichText(
+                              text: TextSpan(
+                                text: '${'no_account_sign_up'.tr()} ',
+                                style: GoogleFonts.dmSans(
+                                  color: AppColors.greyish,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'sign_up'.tr(),
+                                    style: GoogleFonts.dmSans(
+                                      decoration: TextDecoration.underline,
+                                      color: AppColors.accentColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -308,7 +369,7 @@ class _RecoverPasswordDialogState extends State<RecoverPasswordDialog> {
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  context.showAppDialog(const ResetPasswordDialog());
+                  context.showAppDialog(const SuccessDialog());
                 },
                 child: Text(
                   '${'send'.tr()} Email',
@@ -419,7 +480,7 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  context.showAppDialog(const SuccessDialog());
+                  // context.showAppDialog(const SuccessDialog());
                 },
                 child: Text(
                   'Save',
@@ -509,7 +570,10 @@ class SuccessDialog extends StatelessWidget {
                   color: AppColors.secondaryColor,
                   borderColor: Colors.transparent,
                 ),
-                onPressed: () => {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  context.showAppDialog(const ResetPasswordDialog());
+                },
                 child: Text(
                   'Continue',
                   style: GoogleFonts.dmSans(

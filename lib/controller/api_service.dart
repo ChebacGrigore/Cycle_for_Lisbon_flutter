@@ -75,30 +75,4 @@ class ApiService {
       throw Exception('Request failed with status code ${response.statusCode}');
     }
   }
-
-  Future<String> getToken(String domain, String email, String password,
-      String clientId, String clientSecret) async {
-    final url = Uri.parse('$domain/dex/token');
-    final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    final body = {
-      'grant_type': 'password',
-      'username': email,
-      'password': password,
-      'client_id': clientId,
-      'client_secret': clientSecret,
-      'scope': 'openid profile email offline_access',
-    };
-
-    try {
-      final response = await http.post(url, headers: headers, body: body);
-
-      if (response.statusCode == 200) {
-        return response.body;
-      } else {
-        throw Exception('Failed to get token: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Failed to get token: $e');
-    }
-  }
 }

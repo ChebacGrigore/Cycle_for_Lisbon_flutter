@@ -1,8 +1,8 @@
 String domain = 'https://api.cycleforlisbon.com';
 String baseUrl = 'https://api.cycleforlisbon.com/api';
 
-String username = 'test@test.com';
-String password = '123456';
+String username = 'test1@test.com';
+String password = 'stringst';
 
 String androidClientId = 'android-app';
 String iosClientId = 'ios-app';

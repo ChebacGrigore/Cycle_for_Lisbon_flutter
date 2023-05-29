@@ -1,4 +1,4 @@
-import 'package:cfl/controller/auth.dart';
+import 'package:cfl/controller/auth/auth.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 

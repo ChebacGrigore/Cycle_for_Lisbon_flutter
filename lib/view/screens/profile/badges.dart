@@ -176,7 +176,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                         ),
                         const SizedBox(height: 50.0),
                         const Text(
-                          "Supported Intiatives",
+                          "Supported Initiatives",
                           style: TextStyle(
                               fontWeight: FontWeight.w700, fontSize: 16.0),
                         ),
@@ -207,22 +207,23 @@ class _BadgesScreenState extends State<BadgesScreen> {
                         ),
                         const SizedBox(height: 18.0),
                         GridView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio: 0.7,
-                              crossAxisSpacing: 35.0,
-                              mainAxisSpacing: 24.0,
-                            ),
-                            itemCount: badgeList.length,
-                            itemBuilder: (context, index) => Badge(
-                                  value: badgeList[index].value,
-                                  badgePath: badgeList[index].badgePath,
-                                  badgeName: badgeList[index].badgeName,
-                                )),
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            childAspectRatio: 0.9,
+                            crossAxisSpacing: 35.0,
+                            mainAxisSpacing: 24.0,
+                          ),
+                          itemCount: coinearned.length,
+                          itemBuilder: (context, index) => Badge(
+                            value: coinearned[index].value,
+                            badgePath: coinearned[index].badgePath,
+                            badgeName: coinearned[index].badgeName,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -279,8 +280,7 @@ class Badge extends StatelessWidget {
         const SizedBox(height: 12),
         Text(
           badgeName,
-          softWrap: true,
-          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.w500,
             color: AppColors.primaryColor,

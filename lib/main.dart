@@ -2,7 +2,10 @@ import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'bloc/auth/bloc/auth_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,18 +38,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cycle For Lisbon',
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      theme: ThemeData(
-          primarySwatch: AppColors.accentColor,
-          fontFamily: 'DmSans',
-          appBarTheme: const AppBarTheme(
-            centerTitle: true,
-          )),
-      home: const SplashScreen(),
+    return BlocProvider(
+      create: (context) => AuthBloc(),
+      child: MaterialApp(
+        title: 'Cycle For Lisbon',
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        theme: ThemeData(
+            primarySwatch: AppColors.accentColor,
+            fontFamily: 'DmSans',
+            appBarTheme: const AppBarTheme(
+              centerTitle: true,
+            )),
+        home: const SplashScreen(),
+      ),
     );
   }
 }
