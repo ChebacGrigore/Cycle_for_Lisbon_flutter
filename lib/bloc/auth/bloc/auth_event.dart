@@ -41,3 +41,40 @@ class AuthLogOut extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+class AuthProfileUpdate extends AuthEvent {
+  const AuthProfileUpdate({
+    required this.token,
+    required this.userProfile,
+    required this.id,
+  });
+  final String token;
+  final String id;
+  final UserUpdate userProfile;
+  @override
+  List<Object?> get props => [token, userProfile, id];
+}
+
+class AuthPasswordReset extends AuthEvent {
+  const AuthPasswordReset({
+    required this.token,
+    required this.email,
+  });
+  final String token;
+  final String email;
+  @override
+  List<Object?> get props => [token, email];
+}
+
+class AuthPasswordUpdate extends AuthEvent {
+  const AuthPasswordUpdate({
+    required this.token,
+    required this.newPassword,
+    required this.oldPassword,
+  });
+  final String token;
+  final String newPassword;
+  final String oldPassword;
+  @override
+  List<Object?> get props => [token, newPassword, oldPassword];
+}

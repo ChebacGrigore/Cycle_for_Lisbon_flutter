@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:cfl/controller/api_service.dart';
-import 'package:cfl/controller/errors/register_error.dart';
+import 'package:cfl/controller/errors/auth_error.dart';
 import 'package:cfl/models/user.model.dart';
 import 'package:cfl/shared/configs/url_config.dart';
 import 'package:flutter/foundation.dart';
@@ -62,17 +62,13 @@ class AuthService {
 
       if (response.statusCode == 201) {
         final jsonResponse = jsonDecode(response.body);
-        print(jsonResponse);
         return User.fromJson(jsonResponse);
       } else {
         final res = jsonDecode(response.body);
-        print(res['error']);
-        throw RegistrationException(
-            'Registration exception: ${res['error']['message']}');
+        throw RegistrationException('${res['error']['message']}');
       }
     } catch (e) {
-      print(e.toString());
-      throw RegistrationException('Registration exception: $e');
+      throw RegistrationException('$e');
     }
   }
 
@@ -105,6 +101,93 @@ class AuthService {
       }
     } catch (e) {
       throw Exception('$e');
+    }
+  }
+
+  Future<User> updateUser({
+    required String userId,
+    required String accessToken,
+    required UserUpdate userUpdate,
+  }) async {
+    final url = Uri.parse('$baseUrl/users/$userId');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken',
+    };
+    final body = jsonEncode(userUpdate.toJson());
+
+    try {
+      final response = await http.put(url, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        return User.fromJson(jsonResponse);
+      } else {
+        final res = jsonDecode(response.body);
+        throw Exception('${res['error_description']}');
+      }
+    } catch (e) {
+      throw Exception('$e');
+    }
+  }
+
+  Future<bool> updatePassword({
+    required String accessToken,
+    required String newPassword,
+    required String oldPassword,
+  }) async {
+    final url = Uri.parse('$baseUrl/password');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken',
+    };
+    final body = jsonEncode({
+      'new': newPassword,
+      'old': oldPassword,
+    });
+
+    try {
+      final response = await http.put(url, headers: headers, body: body);
+
+      if (response.statusCode == 204) {
+        return true;
+      } else {
+        final jsonResponse = jsonDecode(response.body);
+        final errorMessage =
+            jsonResponse['error']['message'] ?? 'Unknown error';
+        throw UpdatePasswordException(errorMessage);
+      }
+    } catch (e) {
+      throw UpdatePasswordException('$e');
+    }
+  }
+
+  Future<bool> resetPassword({
+    required String accessToken,
+    required String email,
+  }) async {
+    final url = Uri.parse('$baseUrl/password/reset');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $accessToken',
+    };
+    final body = jsonEncode({
+      'email': email,
+    });
+
+    try {
+      final response = await http.put(url, headers: headers, body: body);
+
+      if (response.statusCode == 204) {
+        return true;
+      } else {
+        final jsonResponse = jsonDecode(response.body);
+        final errorMessage =
+            jsonResponse['error']['message'] ?? 'Unknown error';
+        throw ResetPasswordException(errorMessage);
+      }
+    } catch (e) {
+      throw ResetPasswordException('$e');
     }
   }
 }

@@ -26,6 +26,7 @@ class AppAssets {
   static const String shopify = 'assets/images/shopify.svg';
   static const String loom = 'assets/images/loom.svg';
   static const String unsplash = 'assets/images/unsplash.svg';
+  static const String splash = 'assets/images/splash.png';
 
   ///badges
   static const String barBellBadge = 'assets/images/barbell_badge.png';

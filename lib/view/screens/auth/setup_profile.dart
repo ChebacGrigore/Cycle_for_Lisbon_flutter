@@ -1,5 +1,7 @@
-import 'package:cfl/controller/auth/auth.dart';
+import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
+import 'package:cfl/models/user.model.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 
 import 'package:cfl/view/screens/home/layout.dart';
@@ -7,18 +9,19 @@ import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SetupProfile extends ConsumerStatefulWidget {
   const SetupProfile({
-    required this.emai,
-    required this.password,
+    required this.email,
+    required this.id,
     super.key,
   });
-  final String emai;
-  final String password;
+  final String email;
+  final String id;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SetupProfile2State();
 }
@@ -26,7 +29,7 @@ class SetupProfile extends ConsumerStatefulWidget {
 class _SetupProfile2State extends ConsumerState<SetupProfile> {
   @override
   void initState() {
-    email = TextEditingController(text: widget.emai);
+    email = TextEditingController(text: widget.email);
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     super.initState();
   }
@@ -43,141 +46,217 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
   final TextEditingController lName = TextEditingController();
   final TextEditingController nickName = TextEditingController();
   bool isCheked = false;
+  bool isLoading = false;
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(gradient: AppColors.whiteBgGradient),
-        height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          child: SafeArea(
-              child: Padding(
-            padding: const EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 57,
-              bottom: 67,
-            ),
-            child: Column(
-              children: [
-                Text(
-                  'complete_profile_heading'.tr(),
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.dmSans(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-                const SizedBox(height: 32),
-                const CircleAvatar(radius: 40),
-                TextButton(
-                  onPressed: () {},
-                  child: Text('change_avatar'.tr()),
-                ),
-                const SizedBox(height: 32),
-                AppTextField(
-                  hint: 'first_name'.tr(),
-                  controller: fName,
-                ),
-                const SizedBox(height: 16),
-                AppTextField(
-                  hint: 'last_name'.tr(),
-                  controller: lName,
-                ),
-                const SizedBox(height: 16),
-                AppTextField(
-                  hint: 'nickname'.tr(),
-                  controller: nickName,
-                ),
-                const SizedBox(height: 16),
-                AppTextField(
-                  hint: 'email'.tr(),
-                  controller: email,
-                  sufixIcon: const Icon(Icons.check),
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.status.isLoading) {
+            setState(() {
+              isLoading = true;
+            });
+          } else if (state.status.isError) {
+            setState(() {
+              isLoading = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(5),
-                      child: Checkbox(
-                        value: isCheked,
-                        onChanged: (val) {
-                          isCheked = val ?? false;
-                          setState(() {});
-                        },
-                        activeColor: AppColors.accentColor,
-                        checkColor: Colors.white,
-                      ),
+                    const Icon(
+                      Icons.cancel,
+                      color: Colors.red,
                     ),
-                    Flexible(
-                      child: RichText(
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        text: TextSpan(
-                          style: GoogleFonts.dmSans(
-                            color: AppColors.primaryColor,
-                            fontSize: 13,
-                          ),
-                          text: '${'agree'.tr()} ',
-                          children: [
-                            TextSpan(
-                              text: '${'terms'.tr()} ',
-                              style: GoogleFonts.dmSans(
-                                color: AppColors.accentColor,
-                                decoration: TextDecoration.underline,
-                              ),
-                              recognizer: TapGestureRecognizer()..onTap = () {},
-                            ),
-                            TextSpan(
-                              text: '${'and'.tr()} ',
-                            ),
-                            TextSpan(
-                              text: 'privacy'.tr(),
-                              style: GoogleFonts.dmSans(
-                                color: AppColors.accentColor,
-                                decoration: TextDecoration.underline,
-                              ),
-                              recognizer: TapGestureRecognizer()..onTap = () {},
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    Text(state.exception.toString()),
                   ],
                 ),
-                const SizedBox(height: 32),
-                SizedBox(
-                  height: 49,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: AppComponentThemes.elevatedButtonTheme(),
-                    onPressed: () async {
-                      await ref.watch(
-                        registerUserProvider(
-                          email: widget.emai,
-                          password: widget.password,
-                          fName: fName.text,
-                          lName: lName.text,
-                        ),
-                      );
-                      if (context.mounted) {
-                        context.pushReplacement(const Layout());
-                      }
-                    },
-                    child: Text(
-                      'save'.tr(),
-                      style: GoogleFonts.dmSans(
-                        color: AppColors.primaryColor,
-                      ),
+              ),
+            );
+          } else if (state.status.isProfileUpdated) {
+            setState(() {
+              isLoading = false;
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Row(
+                  children: [
+                    Icon(
+                      Icons.done,
+                      color: Colors.green,
                     ),
+                    Text('Profile has been updated'),
+                  ],
+                ),
+              ),
+            );
+            context.push(const Layout());
+          }
+        },
+        builder: (context, state) {
+          return Container(
+            decoration:
+                const BoxDecoration(gradient: AppColors.whiteBgGradient),
+            height: MediaQuery.of(context).size.height,
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: SafeArea(
+                    child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    top: 57,
+                    bottom: 67,
                   ),
-                )
-              ],
+                  child: Column(
+                    children: [
+                      Text(
+                        'complete_profile_heading'.tr(),
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.dmSans(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      const CircleAvatar(radius: 40),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text('change_avatar'.tr()),
+                      ),
+                      const SizedBox(height: 32),
+                      AppTextField(
+                        hint: 'first_name'.tr(),
+                        controller: fName,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'First name is required';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      AppTextField(
+                        hint: 'last_name'.tr(),
+                        controller: lName,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Last name is required';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      AppTextField(
+                        hint: 'nickname'.tr(),
+                        controller: nickName,
+                      ),
+                      const SizedBox(height: 16),
+                      AppTextField(
+                        hint: 'email'.tr(),
+                        controller: email,
+                        sufixIcon: const Icon(Icons.check),
+                        enabled: false,
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Checkbox(
+                              value: isCheked,
+                              onChanged: (val) {
+                                isCheked = val ?? false;
+                                setState(() {});
+                              },
+                              activeColor: AppColors.accentColor,
+                              checkColor: Colors.white,
+                            ),
+                          ),
+                          Flexible(
+                            child: RichText(
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              text: TextSpan(
+                                style: GoogleFonts.dmSans(
+                                  color: AppColors.primaryColor,
+                                  fontSize: 13,
+                                ),
+                                text: '${'agree'.tr()} ',
+                                children: [
+                                  TextSpan(
+                                    text: '${'terms'.tr()} ',
+                                    style: GoogleFonts.dmSans(
+                                      color: AppColors.accentColor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {},
+                                  ),
+                                  TextSpan(
+                                    text: '${'and'.tr()} ',
+                                  ),
+                                  TextSpan(
+                                    text: 'privacy'.tr(),
+                                    style: GoogleFonts.dmSans(
+                                      color: AppColors.accentColor,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {},
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+                      SizedBox(
+                        height: 49,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: AppComponentThemes.elevatedButtonTheme(),
+                          onPressed: isLoading == true
+                              ? () {}
+                              : () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    context.read<AuthBloc>().add(
+                                          AuthProfileUpdate(
+                                            token: accessToken,
+                                            id: widget.id,
+                                            userProfile: UserUpdate(
+                                              birthday: '1999-01-01',
+                                              email: widget.email,
+                                              gender: 'M',
+                                              name: '$fName $lName',
+                                              profilePic: '',
+                                              username: nickName.text,
+                                            ),
+                                          ),
+                                        );
+                                  }
+                                },
+                          child: isLoading == true
+                              ? const CircularProgressIndicator()
+                              : Text(
+                                  'save'.tr(),
+                                  style: GoogleFonts.dmSans(
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                        ),
+                      )
+                    ],
+                  ),
+                )),
+              ),
             ),
-          )),
-        ),
+          );
+        },
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/screens/home/layout.dart';
@@ -56,7 +57,20 @@ class _SignInState extends State<SignIn> {
             });
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.exception.toString()),
+                content: Row(
+                  children: [
+                    const Icon(
+                      Icons.cancel,
+                      color: Colors.red,
+                    ),
+                    Expanded(
+                      child: Text(
+                        state.exception.toString(),
+                        maxLines: 2,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           } else if (state.status.isAuthenticated) {
@@ -271,119 +285,179 @@ class RecoverPasswordDialog extends StatefulWidget {
 
 class _RecoverPasswordDialogState extends State<RecoverPasswordDialog> {
   TextEditingController emailController = TextEditingController();
+  bool isLoading = false;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: MediaQuery.of(context).size.height * 0.1,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: AppColors.white,
-      ),
-      child: Material(
-        color: AppColors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                      color: AppColors.tertiaryColor,
-                      borderRadius: BorderRadius.circular(50)),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      AppAssets.lock,
-                      width: 25,
-                      height: 25,
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.status.isLoading) {
+          setState(() {
+            isLoading = true;
+          });
+        } else if (state.status.isError) {
+          setState(() {
+            isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(
+                    Icons.cancel,
+                    color: Colors.red,
+                  ),
+                  Expanded(
+                    child: Text(
+                      state.exception.toString(),
+                      maxLines: 2,
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Text(
-              'recover_password'.tr(),
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontWeight: FontWeight.w500,
-                fontSize: 22,
-                color: AppColors.primaryColor,
+                ],
               ),
             ),
-            const SizedBox(height: 14),
-            Text(
-              'enter_email_recover'.tr(),
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.primaryColor.withOpacity(0.80),
-              ),
+          );
+        } else if (state.status.isPasswordReset) {
+          setState(() {
+            isLoading = false;
+          });
+          Navigator.of(context).pop();
+          context.showAppDialog(const SuccessDialog());
+        }
+      },
+      builder: (context, state) {
+        return Form(
+          key: _formKey,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+            margin: EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: MediaQuery.of(context).size.height * 0.1,
             ),
-            const SizedBox(height: 16),
-            AppTextField(
-              hint: 'Email',
-              isObsecure: false,
-              controller: emailController,
-              prefixIcon: Icons.email_outlined,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              color: AppColors.white,
             ),
-            const SizedBox(height: 30),
-            SizedBox(
-              width: double.infinity,
-              height: 49,
-              child: ElevatedButton(
-                style: AppComponentThemes.elevatedButtonTheme(
-                  color: AppColors.white,
-                  borderColor: AppColors.secondaryColor,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'back_login'.tr(),
-                  style: GoogleFonts.dmSans(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: AppColors.black,
+            child: Material(
+              color: AppColors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 90,
+                        height: 90,
+                        decoration: BoxDecoration(
+                            color: AppColors.tertiaryColor,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            AppAssets.lock,
+                            width: 25,
+                            height: 25,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 25),
-            SizedBox(
-              width: double.infinity,
-              height: 49,
-              child: ElevatedButton(
-                style: AppComponentThemes.elevatedButtonTheme(
-                  color: AppColors.secondaryColor,
-                  borderColor: Colors.transparent,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  context.showAppDialog(const SuccessDialog());
-                },
-                child: Text(
-                  '${'send'.tr()} Email',
-                  style: GoogleFonts.dmSans(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: AppColors.primaryColor,
+                  const SizedBox(height: 24),
+                  Text(
+                    'recover_password'.tr(),
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.dmSans(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 22,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 14),
+                  Text(
+                    'enter_email_recover'.tr(),
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.dmSans(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: AppColors.primaryColor.withOpacity(0.80),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  AppTextField(
+                    hint: 'Email',
+                    isObsecure: false,
+                    controller: emailController,
+                    prefixIcon: Icons.email_outlined,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Email is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 49,
+                    child: ElevatedButton(
+                      style: AppComponentThemes.elevatedButtonTheme(
+                        color: AppColors.white,
+                        borderColor: AppColors.secondaryColor,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(
+                        'back_login'.tr(),
+                        style: GoogleFonts.dmSans(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          color: AppColors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 49,
+                    child: ElevatedButton(
+                      style: AppComponentThemes.elevatedButtonTheme(
+                        color: AppColors.secondaryColor,
+                        borderColor: Colors.transparent,
+                      ),
+                      onPressed: isLoading == true
+                          ? () {}
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                context.read<AuthBloc>().add(
+                                      AuthPasswordReset(
+                                        token: accessToken,
+                                        email: emailController.text,
+                                      ),
+                                    );
+                              }
+                            },
+                      child: isLoading == true
+                          ? const CircularProgressIndicator()
+                          : Text(
+                              '${'send'.tr()} Email',
+                              style: GoogleFonts.dmSans(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -401,100 +475,154 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
   TextEditingController passController = TextEditingController();
 
   TextEditingController confirmController = TextEditingController();
+  bool isLoading = false;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20.0),
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: MediaQuery.of(context).size.height * 0.1,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: AppColors.white,
-      ),
-      child: Material(
-        color: AppColors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 90,
-                  height: 90,
-                  decoration: BoxDecoration(
-                      color: AppColors.tertiaryColor,
-                      borderRadius: BorderRadius.circular(50)),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      AppAssets.key,
-                      width: 25,
-                      height: 25,
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.status.isLoading) {
+          setState(() {
+            isLoading = true;
+          });
+        } else if (state.status.isError) {
+          setState(() {
+            isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(
+                    Icons.cancel,
+                    color: Colors.red,
+                  ),
+                  Expanded(
+                    child: Text(
+                      state.exception.toString(),
+                      maxLines: 2,
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              "Reset Password",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontWeight: FontWeight.w500,
-                fontSize: 22,
-                color: AppColors.primaryColor,
+                ],
               ),
             ),
-            const SizedBox(height: 14),
-            Text(
-              "Enter your new password below",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.primaryColor.withOpacity(0.80),
-              ),
+          );
+        } else if (state.status.isPasswordUpdated) {
+          setState(() {
+            isLoading = false;
+          });
+          Navigator.of(context).pop();
+        }
+      },
+      builder: (context, state) {
+        return Form(
+          key: _formKey,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20.0),
+            margin: EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: MediaQuery.of(context).size.height * 0.1,
             ),
-            const SizedBox(height: 12),
-            AppTextField(
-              hint: 'New Password',
-              controller: passController,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24),
+              color: AppColors.white,
             ),
-            const SizedBox(height: 12),
-            AppTextField(
-              hint: "Confirm Password",
-              controller: confirmController,
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              height: 49,
-              width: double.infinity,
-              child: ElevatedButton(
-                style: AppComponentThemes.elevatedButtonTheme(
-                  color: AppColors.secondaryColor,
-                  borderColor: Colors.transparent,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  // context.showAppDialog(const SuccessDialog());
-                },
-                child: Text(
-                  'Save',
-                  style: GoogleFonts.dmSans(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: AppColors.primaryColor,
+            child: Material(
+              color: AppColors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 90,
+                        height: 90,
+                        decoration: BoxDecoration(
+                            color: AppColors.tertiaryColor,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            AppAssets.key,
+                            width: 25,
+                            height: 25,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  const SizedBox(height: 12),
+                  Text(
+                    "Reset Password",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.dmSans(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 22,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    "Enter your new password below",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.dmSans(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: AppColors.primaryColor.withOpacity(0.80),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  AppTextField(
+                    hint: 'New Password',
+                    controller: passController,
+                  ),
+                  const SizedBox(height: 12),
+                  AppTextField(
+                    hint: "Confirm Password",
+                    controller: confirmController,
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: 49,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: AppComponentThemes.elevatedButtonTheme(
+                        color: AppColors.secondaryColor,
+                        borderColor: Colors.transparent,
+                      ),
+                      onPressed: isLoading == true
+                          ? () {}
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                context.read<AuthBloc>().add(
+                                      AuthPasswordUpdate(
+                                        token: accessToken,
+                                        oldPassword: passController.text,
+                                        newPassword: confirmController.text,
+                                      ),
+                                    );
+                              }
+                            },
+                      child: isLoading == true
+                          ? const CircularProgressIndicator()
+                          : Text(
+                              'Save',
+                              style: GoogleFonts.dmSans(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

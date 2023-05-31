@@ -1,11 +1,24 @@
 part of 'auth_bloc.dart';
 
-enum AuthStatus { initial, registered, authenticated, error, loading, logout }
+enum AuthStatus {
+  initial,
+  registered,
+  authenticated,
+  error,
+  loading,
+  logout,
+  profileUpdated,
+  passwordRest,
+  passwordUpdated,
+}
 
 extension AuthStatusX on AuthStatus {
   bool get isInitial => this == AuthStatus.initial;
   bool get isRegistered => this == AuthStatus.registered;
   bool get isAuthenticated => this == AuthStatus.authenticated;
+  bool get isProfileUpdated => this == AuthStatus.profileUpdated;
+  bool get isPasswordUpdated => this == AuthStatus.passwordUpdated;
+  bool get isPasswordReset => this == AuthStatus.passwordRest;
   bool get isError => this == AuthStatus.error;
   bool get isLoading => this == AuthStatus.loading;
   bool get isLogout => this == AuthStatus.logout;

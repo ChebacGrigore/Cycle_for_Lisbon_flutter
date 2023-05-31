@@ -19,6 +19,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
@@ -53,7 +54,19 @@ class _SignUpState extends State<SignUp> {
             });
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.exception.toString()),
+                content: Row(
+                  children: [
+                    const Icon(
+                      Icons.cancel,
+                      color: Colors.red,
+                    ),
+                    Expanded(
+                      child: Text(
+                        state.exception.toString(),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           } else if (state.status.isRegistered) {
@@ -62,8 +75,8 @@ class _SignUpState extends State<SignUp> {
             });
             context.pushReplacement(
               SetupProfile(
-                emai: emailController.text,
-                password: passController.text,
+                id: state.user!.id,
+                email: state.user!.email,
               ),
             );
           }
@@ -74,142 +87,161 @@ class _SignUpState extends State<SignUp> {
             decoration:
                 const BoxDecoration(gradient: AppColors.whiteBgGradient),
             child: SingleChildScrollView(
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                AppAssets.logo2Svg,
-                                width: 25,
-                                height: 25,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Cycle for Lisbon'.toUpperCase(),
-                                style: GoogleFonts.dmSans(
-                                  color: AppColors.primaryColor,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w800,
+              child: Form(
+                key: _formKey,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  AppAssets.logo2Svg,
+                                  width: 25,
+                                  height: 25,
                                 ),
-                              )
-                            ],
+                                const SizedBox(width: 8),
+                                Text(
+                                  'Cycle for Lisbon'.toUpperCase(),
+                                  style: GoogleFonts.dmSans(
+                                    color: AppColors.primaryColor,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                )
+                              ],
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                context.pop();
+                              },
+                              icon: const Icon(Icons.close),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 43),
+                        Text(
+                          'Sign Up',
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.primaryColor,
+                            fontSize: 32,
+                            fontWeight: FontWeight.w800,
                           ),
-                          IconButton(
+                        ),
+                        const SizedBox(height: 14),
+                        Text(
+                          'enter_email_sign_up'.tr(),
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.blueGrey,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(height: 33),
+                        AppTextField(
+                          prefixIcon: CFLIcons.mail,
+                          isObsecure: false,
+                          controller: emailController,
+                          hint: 'email'.tr(),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Email is required';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        AppTextField(
+                          isObsecure: obsecure,
+                          prefixIcon: CFLIcons.lock,
+                          sufixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                obsecure = !obsecure;
+                              });
+                            },
+                            child: Icon(
+                              obsecure
+                                  ? CFLIcons.visibilityOff
+                                  : CFLIcons.visibility,
+                            ),
+                          ),
+                          controller: passController,
+                          hint: 'password'.tr(),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Password is required';
+                            } else if (value.length < 8) {
+                              return 'Password cannot be less than 8 characters';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 32),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 52,
+                          child: ElevatedButton(
+                            onPressed: isLoading == true
+                                ? () {}
+                                : () async {
+                                    if (_formKey.currentState!.validate()) {
+                                      context.read<AuthBloc>().add(
+                                            AuthRegister(
+                                                name: '',
+                                                subject: '',
+                                                email: emailController.text,
+                                                password: passController.text),
+                                          );
+                                    }
+                                  },
+                            style: AppComponentThemes.elevatedButtonTheme(),
+                            child: isLoading == true
+                                ? const CircularProgressIndicator()
+                                : Text(
+                                    'continue'.tr(),
+                                    style: GoogleFonts.dmSans(
+                                        color: AppColors.black,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                          ),
+                        ),
+                        const SizedBox(height: 42),
+                        const SocialLogins(color: AppColors.black, fill: false),
+                        const SizedBox(height: 42),
+                        Center(
+                          child: TextButton(
                             onPressed: () {
                               context.pop();
+                              context.showAppDialog(const SignIn());
                             },
-                            icon: const Icon(Icons.close),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 43),
-                      Text(
-                        'Sign Up',
-                        style: GoogleFonts.dmSans(
-                          color: AppColors.primaryColor,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      Text(
-                        'enter_email_sign_up'.tr(),
-                        style: GoogleFonts.dmSans(
-                          color: AppColors.blueGrey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const SizedBox(height: 33),
-                      AppTextField(
-                        prefixIcon: CFLIcons.mail,
-                        isObsecure: false,
-                        controller: emailController,
-                        hint: 'email'.tr(),
-                      ),
-                      const SizedBox(height: 20),
-                      AppTextField(
-                        isObsecure: obsecure,
-                        prefixIcon: CFLIcons.lock,
-                        sufixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              obsecure = !obsecure;
-                            });
-                          },
-                          child: Icon(
-                            obsecure
-                                ? CFLIcons.visibilityOff
-                                : CFLIcons.visibility,
-                          ),
-                        ),
-                        controller: passController,
-                        hint: 'password'.tr(),
-                      ),
-                      const SizedBox(height: 32),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 52,
-                        child: ElevatedButton(
-                          onPressed: isLoading == true
-                              ? () {}
-                              : () async {
-                                  context.read<AuthBloc>().add(
-                                        AuthRegister(
-                                            name: '',
-                                            subject: '',
-                                            email: emailController.text,
-                                            password: passController.text),
-                                      );
-                                },
-                          style: AppComponentThemes.elevatedButtonTheme(),
-                          child: isLoading == true
-                              ? const CircularProgressIndicator()
-                              : Text(
-                                  'continue'.tr(),
-                                  style: GoogleFonts.dmSans(
-                                      color: AppColors.black,
-                                      fontWeight: FontWeight.w700),
+                            child: RichText(
+                              text: TextSpan(
+                                text: '${'already_have_account_sign_in'.tr()} ',
+                                style: GoogleFonts.dmSans(
+                                  color: AppColors.greyish,
                                 ),
-                        ),
-                      ),
-                      const SizedBox(height: 42),
-                      const SocialLogins(color: AppColors.black, fill: false),
-                      const SizedBox(height: 42),
-                      Center(
-                        child: TextButton(
-                          onPressed: () {
-                            context.pop();
-                            context.showAppDialog(const SignIn());
-                          },
-                          child: RichText(
-                            text: TextSpan(
-                              text: '${'already_have_account_sign_in'.tr()} ',
-                              style: GoogleFonts.dmSans(
-                                color: AppColors.greyish,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: 'sign_in'.tr(),
-                                  style: GoogleFonts.dmSans(
-                                    decoration: TextDecoration.underline,
-                                    color: AppColors.accentColor,
-                                    fontWeight: FontWeight.bold,
+                                children: [
+                                  TextSpan(
+                                    text: 'sign_in'.tr(),
+                                    style: GoogleFonts.dmSans(
+                                      decoration: TextDecoration.underline,
+                                      color: AppColors.accentColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -229,6 +261,7 @@ class AppTextField extends StatelessWidget {
     this.prefixIcon,
     this.sufixIcon,
     this.onChanged,
+    this.enabled,
     this.isObsecure = false,
     super.key,
   });
@@ -236,6 +269,7 @@ class AppTextField extends StatelessWidget {
   final IconData? prefixIcon;
   final Widget? sufixIcon;
   final bool isObsecure;
+  final bool? enabled;
   final void Function(String)? onChanged;
   final String? Function(String?)? validator;
 
@@ -253,24 +287,22 @@ class AppTextField extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        SizedBox(
-          height: 46,
-          child: TextFormField(
-            obscureText: isObsecure,
-            controller: controller,
-            onChanged: onChanged,
-            validator: validator,
-            decoration: InputDecoration(
-              prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-              suffixIcon: sufixIcon,
-              hintText: '${'enter'.tr()} $hint',
-              hintStyle: GoogleFonts.dmSans(
-                fontSize: 14,
-                color: AppColors.primaryColor.withOpacity(0.50),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+        TextFormField(
+          enabled: enabled,
+          obscureText: isObsecure,
+          controller: controller,
+          onChanged: onChanged,
+          validator: validator,
+          decoration: InputDecoration(
+            prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+            suffixIcon: sufixIcon,
+            hintText: '${'enter'.tr()} $hint',
+            hintStyle: GoogleFonts.dmSans(
+              fontSize: 14,
+              color: AppColors.primaryColor.withOpacity(0.50),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
         ),

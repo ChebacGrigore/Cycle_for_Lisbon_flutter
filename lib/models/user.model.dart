@@ -29,3 +29,32 @@ class User {
     );
   }
 }
+
+class UserUpdate {
+  final String birthday;
+  final String email;
+  final String gender;
+  final String name;
+  final String profilePic;
+  final String username;
+
+  UserUpdate({
+    required this.birthday,
+    required this.email,
+    required this.gender,
+    required this.name,
+    required this.profilePic,
+    required this.username,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'birthday': birthday,
+      'email': email,
+      'gender': gender,
+      'name': name,
+      'profilepic': profilePic,
+      'username': username,
+    };
+  }
+}
