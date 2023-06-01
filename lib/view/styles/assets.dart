@@ -37,6 +37,7 @@ class AppAssets {
   static const String energySticker = 'assets/images/energy_sticker.png';
   //
   static const String mapPlaceholder = 'assets/images/placeholder_map.png';
+  static const String empty = 'assets/images/empty.svg';
   // icons
   static const String crownIco = 'assets/icons/crown.svg';
   static const String crownIco2 = 'assets/icons/crown2.svg';

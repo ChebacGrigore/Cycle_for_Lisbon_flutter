@@ -10,14 +10,15 @@ class InitiativeService {
     final headers = {
       'Authorization': 'Bearer $accessToken',
     };
-
+    List<Initiative> initiatives = [];
     try {
       final response = await http.get(url, headers: headers);
 
       if (response.statusCode == 200) {
-        final json = jsonDecode(response.body) as List<Map<String, dynamic>>;
-        final initiatives =
-            json.map((initiative) => Initiative.fromJson(initiative)).toList();
+        final json = jsonDecode(response.body);
+        for (final initiative in json) {
+          initiatives.add(Initiative.fromJson(initiative));
+        }
         return initiatives;
       } else {
         final res = jsonDecode(response.body);

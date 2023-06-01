@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
+import 'package:cfl/controller/app/media_service.dart';
 import 'package:cfl/models/user.model.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/shared/global/global_var.dart';
@@ -47,6 +50,7 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
   final TextEditingController nickName = TextEditingController();
   bool isCheked = false;
   bool isLoading = false;
+  String profilePic = '';
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -121,9 +125,21 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
                         ),
                       ),
                       const SizedBox(height: 32),
-                      const CircleAvatar(radius: 40),
+                      profilePic == ''
+                          ? const CircleAvatar(
+                              radius: 40,
+                            )
+                          : CircleAvatar(
+                              radius: 40,
+                              backgroundImage: FileImage(File(profilePic)),
+                            ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final image = await MediaService().pickImage();
+                          setState(() {
+                            profilePic = image!;
+                          });
+                        },
                         child: Text('change_avatar'.tr()),
                       ),
                       const SizedBox(height: 32),
@@ -224,20 +240,58 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
                               ? () {}
                               : () async {
                                   if (_formKey.currentState!.validate()) {
-                                    context.read<AuthBloc>().add(
-                                          AuthProfileUpdate(
-                                            token: accessToken,
-                                            id: widget.id,
-                                            userProfile: UserUpdate(
-                                              birthday: '1999-01-01',
-                                              email: widget.email,
-                                              gender: 'M',
-                                              name: '$fName $lName',
-                                              profilePic: '',
-                                              username: nickName.text,
+                                    if (profilePic == '') {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.warning,
+                                                color: Colors.yellow,
+                                              ),
+                                              Text(
+                                                'Please select a profile pciture',
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      if (isCheked == true) {
+                                        context.read<AuthBloc>().add(
+                                              AuthProfileUpdate(
+                                                token: accessToken,
+                                                id: widget.id,
+                                                userProfile: UserUpdate(
+                                                  birthday: '1999-01-01',
+                                                  email: widget.email,
+                                                  gender: 'M',
+                                                  name: '$fName $lName',
+                                                  profilePic: '',
+                                                  username: nickName.text,
+                                                ),
+                                              ),
+                                            );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.warning,
+                                                  color: Colors.yellow,
+                                                ),
+                                                Text(
+                                                  'Please agree with the terms and condition',
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         );
+                                      }
+                                    }
                                   }
                                 },
                           child: isLoading == true

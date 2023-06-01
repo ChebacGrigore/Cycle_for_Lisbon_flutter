@@ -30,7 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         clientSecret:
             Platform.isAndroid ? androidClientSecret : iosClientSecret,
       );
-
+      accessToken = token;
       emit(state.copyWith(status: AuthStatus.authenticated, token: token));
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));

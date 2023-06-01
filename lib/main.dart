@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'bloc/app/bloc/app_bloc.dart';
 import 'bloc/auth/bloc/auth_bloc.dart';
 
 Future<void> main() async {
@@ -38,8 +39,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => AppBloc())
+      ],
       child: MaterialApp(
         title: 'Cycle For Lisbon',
         localizationsDelegates: context.localizationDelegates,

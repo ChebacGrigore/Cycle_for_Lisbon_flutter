@@ -1,10 +1,14 @@
+import 'package:cfl/bloc/app/bloc/app_bloc.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/home/map.dart';
 import 'package:cfl/view/screens/profile/profile_screen.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +19,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  InitiativeState state = InitiativeState.initial;
+  @override
+  void initState() {
+    super.initState();
+    context.read<AppBloc>().add(AppListOfInitiatives(token: accessToken));
+  }
+
+  InitiativeValue initiativeState = InitiativeValue.initial;
   bool showProfile = false;
   @override
   Widget build(BuildContext context) {
@@ -42,13 +52,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget homeBuilder() {
-    if (state == InitiativeState.initial) {
+    if (initiativeState == InitiativeValue.initial) {
       return _buildInitialInitiative();
     }
-    if (state == InitiativeState.selected) {
+    if (initiativeState == InitiativeValue.selected) {
       return _buildSelectedInitiative();
     }
-    if (state == InitiativeState.completed) {
+    if (initiativeState == InitiativeValue.completed) {
       return _buildCompletedInitiative();
     }
     return const SizedBox();
@@ -105,22 +115,120 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         const SizedBox(height: 24),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: 4,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    state = InitiativeState.completed;
-                    //pass selected initiative
-                  });
-                },
-                child: const InitiativeCard(),
-              ),
+        BlocConsumer<AppBloc, AppState>(
+          listener: (context, state) {
+            if (state.status.isError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Row(
+                    children: [
+                      const Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                      ),
+                      Expanded(
+                        child: Text(
+                          state.exception.toString(),
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            return BlocBuilder<AppBloc, AppState>(
+              builder: (context, state) {
+                if (state.status.isLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state.status.isError) {
+                  return Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 60),
+                        SvgPicture.asset(
+                          AppAssets.empty,
+                          height: 150,
+                        ),
+                        const Center(
+                          child: Text(
+                            'No Initiative added yet!',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (state.status.isAllInitiativesLoaded) {
+                  return state.initiatives.isEmpty
+                      ? Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 60),
+                              SvgPicture.asset(
+                                AppAssets.empty,
+                                height: 150,
+                              ),
+                              const Center(
+                                child: Text(
+                                  'No Initiative added yet!',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 17),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: 4,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    initiativeState = InitiativeValue.completed;
+                                    //pass selected initiative
+                                  });
+                                },
+                                child: const InitiativeCard(),
+                              ),
+                            );
+                          },
+                        );
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 4,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            initiativeState = InitiativeValue.completed;
+                            //pass selected initiative
+                          });
+                        },
+                        child: const InitiativeCard(),
+                      ),
+                    );
+                  },
+                );
+              },
             );
           },
         ),
@@ -253,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: TextButton(
             onPressed: () {
               setState(() {
-                state = InitiativeState.initial;
+                initiativeState = InitiativeValue.initial;
               });
             },
             child: Text(
@@ -344,7 +452,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: GestureDetector(
                 onTap: () {
                   setState(() {
-                    state = InitiativeState.selected;
+                    initiativeState = InitiativeValue.selected;
                     //pass selected initiative
                   });
                 },
@@ -610,7 +718,7 @@ class InitiativeCounter2 extends StatelessWidget {
   }
 }
 
-enum InitiativeState {
+enum InitiativeValue {
   selected,
   completed,
   initial,

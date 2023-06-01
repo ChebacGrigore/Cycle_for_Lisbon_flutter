@@ -13,7 +13,7 @@ class InitiativeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180,
+      height: 185,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       width: double.infinity,
       decoration: BoxDecoration(
