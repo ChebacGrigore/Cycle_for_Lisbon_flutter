@@ -1,3 +1,4 @@
+import 'package:cfl/models/initiative.model.dart';
 import 'package:cfl/view/screens/home/home_screen.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
@@ -7,7 +8,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SingleInitiative extends StatefulWidget {
-  const SingleInitiative({super.key});
+  final Initiative initiative;
+  const SingleInitiative({super.key, required this.initiative});
 
   @override
   State<SingleInitiative> createState() => _SingleInitiativeState();
@@ -54,7 +56,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
               snap: true,
               expandedHeight: 350,
               title: Text(
-                'initiative_name'.tr(),
+                widget.initiative.title,
                 style: GoogleFonts.dmSans(),
               ),
               flexibleSpace: FlexibleSpaceBar(
@@ -77,8 +79,11 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            InitiativeProgress(progress: 0.6),
+                          children: [
+                            InitiativeProgress(
+                              progress: 0.6,
+                              goal: widget.initiative.goal,
+                            ),
                           ],
                         ),
                       ),
@@ -107,8 +112,8 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                             ),
                           ),
                           const SizedBox(height: 14),
-                          Row(
-                            children: const [
+                          const Row(
+                            children: [
                               SizedBox(
                                   width: 48,
                                   height: 48,
@@ -138,7 +143,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                           ),
                           const SizedBox(height: 14),
                           Text(
-                            'Purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor xrhoncus dolor purus non enim praesent elementum facilisis leo.Faucibus faucibus lectus nibh hendrerit. Et fbnrjkeguoenr pgjhir3tejhigneheitngiobn[oehoi]grepgjiop3r4giojog5iejrtijipretijepitjpgeji[rtjhijetihjoi]',
+                            widget.initiative.description,
                             overflow: TextOverflow.ellipsis,
                             maxLines: isFullDesc == true ? 1000 : 5,
                             style: GoogleFonts.dmSans(

@@ -262,6 +262,7 @@ class AppTextField extends StatelessWidget {
     this.sufixIcon,
     this.onChanged,
     this.enabled,
+    this.initialValue,
     this.isObsecure = false,
     super.key,
   });
@@ -270,6 +271,7 @@ class AppTextField extends StatelessWidget {
   final Widget? sufixIcon;
   final bool isObsecure;
   final bool? enabled;
+  final String? initialValue;
   final void Function(String)? onChanged;
   final String? Function(String?)? validator;
 
@@ -293,6 +295,7 @@ class AppTextField extends StatelessWidget {
           controller: controller,
           onChanged: onChanged,
           validator: validator,
+          initialValue: initialValue,
           decoration: InputDecoration(
             prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
             suffixIcon: sufixIcon,

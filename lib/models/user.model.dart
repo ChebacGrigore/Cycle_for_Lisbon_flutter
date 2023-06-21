@@ -1,8 +1,35 @@
+import 'dart:convert';
+
+class Token {
+  final String accessToken;
+  final String refreshToken;
+
+  Token({
+    required this.accessToken,
+    required this.refreshToken,
+  });
+
+  factory Token.fromRawJson(String str) => Token.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Token.fromJson(Map<String, dynamic> json) => Token(
+        accessToken: json["accessToken"],
+        refreshToken: json["refreshToken"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "accessToken": accessToken,
+        "refreshToken": refreshToken,
+      };
+}
+
 class User {
   final String id;
   final DateTime createdAt;
   final DateTime updatedAt;
   final String? username;
+  final String name;
   final String subject;
   final String email;
   final bool verified;
@@ -10,6 +37,7 @@ class User {
   User({
     required this.id,
     required this.createdAt,
+    required this.name,
     required this.updatedAt,
     required this.username,
     required this.subject,
@@ -22,7 +50,8 @@ class User {
       id: json['id'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
-      username: json['username'] ?? '',
+      name: json['name'],
+      username: json['username'] ?? 'N/A',
       subject: json['subject'],
       email: json['email'],
       verified: json['verified'],
@@ -30,13 +59,58 @@ class User {
   }
 }
 
+// class UserProfile {
+//   final String id;
+//   final DateTime createdAt;
+//   final DateTime updatedAt;
+//   final String name;
+//   final String? username;
+//   final DateTime birthday;
+//   final String gender;
+//   final String profilePic;
+//   final String subject;
+//   final String email;
+//   final bool verified;
+
+//   UserProfile({
+//     required this.id,
+//     required this.createdAt,
+//     required this.updatedAt,
+//     required this.name,
+//     this.username,
+//     required this.birthday,
+//     required this.gender,
+//     required this.profilePic,
+//     required this.subject,
+//     required this.email,
+//     required this.verified,
+//   });
+
+//   factory UserProfile.fromJson(Map<String, dynamic> json) {
+//     final username = json['username'] as String?;
+//     return UserProfile(
+//       id: json['id'],
+//       createdAt: DateTime.parse(json['createdAt']),
+//       updatedAt: DateTime.parse(json['updatedAt']),
+//       name: json['name'] ?? 'Unknown',
+//       username: username ?? 'Unknown',
+//       birthday: DateTime.parse(json['birthday']),
+//       gender: json['gender'] ?? 'Unknown',
+//       profilePic: json['profilepic'],
+//       subject: json['subject'],
+//       email: json['email'],
+//       verified: json['verified'],
+//     );
+//   }
+// }
+
 class UserUpdate {
   final String birthday;
   final String email;
   final String gender;
   final String name;
   final String profilePic;
-  final String username;
+  final String? username;
 
   UserUpdate({
     required this.birthday,
@@ -44,7 +118,7 @@ class UserUpdate {
     required this.gender,
     required this.name,
     required this.profilePic,
-    required this.username,
+    this.username,
   });
 
   Map<String, dynamic> toJson() {
@@ -54,7 +128,7 @@ class UserUpdate {
       'gender': gender,
       'name': name,
       'profilepic': profilePic,
-      'username': username,
+      'username': username ?? '',
     };
   }
 }

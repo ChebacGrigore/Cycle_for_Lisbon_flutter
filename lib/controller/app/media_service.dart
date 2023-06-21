@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:image_picker/image_picker.dart';
 
 class MediaService {
@@ -13,4 +15,11 @@ class MediaService {
     }
     return path;
   }
+
+  Future<List<int>> fileToBytes(File file) async {
+    final bytes = await file.readAsBytes();
+    return bytes;
+  }
 }
+
+MediaService mediaService = MediaService();

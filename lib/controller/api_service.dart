@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class ApiService {
   final baseUrl = 'https://api.cycleforlisbon.com/api';
@@ -74,5 +75,10 @@ class ApiService {
     } else {
       throw Exception('Request failed with status code ${response.statusCode}');
     }
+  }
+
+  String decodeToken(String token) {
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    return decodedToken['name'];
   }
 }

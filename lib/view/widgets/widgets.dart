@@ -1,13 +1,16 @@
 //TODO: move later
 
+import 'package:cfl/models/initiative.model.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class InitiativeCard extends StatelessWidget {
+  final Initiative initiative;
   const InitiativeCard({
     super.key,
+    required this.initiative,
   });
 
   @override
@@ -41,7 +44,7 @@ class InitiativeCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Cycling for a better world',
+                  initiative.title,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.dmSans(
                     fontSize: 18,
@@ -51,7 +54,7 @@ class InitiativeCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget augue nec massa volutpat aliquam fringilla.',
+                  initiative.description,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: GoogleFonts.dmSans(
@@ -70,7 +73,7 @@ class InitiativeCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ActvityCount(
-                    count: 13,
+                    count: initiative.goal,
                     title: 'goal'.tr(),
                   ),
                   const SizedBox(height: 4),

@@ -9,7 +9,10 @@ enum AuthStatus {
   logout,
   profileUpdated,
   passwordRest,
+  confirmPasswordRest,
   passwordUpdated,
+  userProfile,
+  profilePicture,
 }
 
 extension AuthStatusX on AuthStatus {
@@ -17,8 +20,11 @@ extension AuthStatusX on AuthStatus {
   bool get isRegistered => this == AuthStatus.registered;
   bool get isAuthenticated => this == AuthStatus.authenticated;
   bool get isProfileUpdated => this == AuthStatus.profileUpdated;
+  bool get isUserProfile => this == AuthStatus.userProfile;
+  bool get isProfilePicture => this == AuthStatus.profilePicture;
   bool get isPasswordUpdated => this == AuthStatus.passwordUpdated;
   bool get isPasswordReset => this == AuthStatus.passwordRest;
+  bool get isConfirmPasswordReset => this == AuthStatus.confirmPasswordRest;
   bool get isError => this == AuthStatus.error;
   bool get isLoading => this == AuthStatus.loading;
   bool get isLogout => this == AuthStatus.logout;
@@ -30,15 +36,18 @@ class AuthState extends Equatable {
     this.user,
     this.exception,
     this.token,
+    this.profilePic,
   });
 
   final User? user;
   final String? token;
   final String? exception;
+  final String? profilePic;
   final AuthStatus status;
 
   AuthState copyWith({
     User? user,
+    String? profilePic,
     AuthStatus? status,
     String? exception,
     String? token,
@@ -48,6 +57,7 @@ class AuthState extends Equatable {
       status: status ?? this.status,
       exception: exception ?? this.exception,
       token: token ?? this.token,
+      profilePic: profilePic ?? this.profilePic,
     );
   }
 

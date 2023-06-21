@@ -1,4 +1,6 @@
+import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/screens/profile/about.dart';
@@ -10,6 +12,7 @@ import 'package:cfl/view/screens/profile/trip_history.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +29,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     super.initState();
+    context
+        .read<AuthBloc>()
+        .add(AuthGetProfile(id: currentUser.id, token: accessToken));
+
   }
 
   @override
@@ -72,31 +79,158 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      CircleAvatar(
-                        radius: 45,
-                        backgroundColor: AppColors.white,
-                        child: Image.asset(
-                          AppAssets.avatar,
-                          width: 62,
-                          height: 62,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Jane Cooper',
-                        style: GoogleFonts.dmSans(
-                          color: AppColors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'jane@email.com',
-                        style: GoogleFonts.dmSans(
-                          color: AppColors.white,
-                          fontSize: 12,
-                        ),
+                      BlocConsumer<AuthBloc, AuthState>(
+                        listener: (context, state) {
+                          if (state.status.isError) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.cancel,
+                                      color: Colors.red,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        state.exception.toString(),
+                                        maxLines: 2,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          return BlocBuilder<AuthBloc, AuthState>(
+                            builder: (context, state) {
+                              if (state.status.isLoading) {
+                                return Column(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 45,
+                                      backgroundColor: AppColors.white,
+                                      child: Image.asset(
+                                        AppAssets.avatar,
+                                        width: 62,
+                                        height: 62,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'loading...',
+                                      style: GoogleFonts.dmSans(
+                                        color: AppColors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'loading...',
+                                      style: GoogleFonts.dmSans(
+                                        color: AppColors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              } else if (state.status.isError) {
+                                return Column(
+                                  children: [
+                                    const CircleAvatar(
+                                      radius: 45,
+                                      backgroundColor: AppColors.white,
+                                      // child: Image.asset(
+                                      //   AppAssets.avatar,
+                                      //   width: 62,
+                                      //   height: 62,
+                                      // ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      '',
+                                      style: GoogleFonts.dmSans(
+                                        color: AppColors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '',
+                                      style: GoogleFonts.dmSans(
+                                        color: AppColors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              } else if (state.status.isUserProfile) {
+                                return Column(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 45,
+                                      backgroundColor: AppColors.white,
+                                      backgroundImage: NetworkImage(
+                                        state.profilePic!,
+
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      state.user!.name,
+                                      style: GoogleFonts.dmSans(
+                                        color: AppColors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      state.user!.email,
+                                      style: GoogleFonts.dmSans(
+                                        color: AppColors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                              return Column(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 45,
+                                    backgroundColor: AppColors.white,
+                                    child: Image.asset(
+                                      AppAssets.avatar,
+                                      width: 62,
+                                      height: 62,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    '',
+                                    style: GoogleFonts.dmSans(
+                                      color: AppColors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '',
+                                    style: GoogleFonts.dmSans(
+                                      color: AppColors.white,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
                       ),
                       const SizedBox(height: 37),
                       Row(

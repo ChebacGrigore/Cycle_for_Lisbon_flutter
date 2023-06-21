@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/profile/leaderboard.dart';
 import 'package:cfl/view/screens/profile/trip_history.dart';
@@ -6,6 +8,9 @@ import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../../shared/global/global_var.dart';
 
 class TripMapScreen extends StatefulWidget {
   const TripMapScreen({Key? key}) : super(key: key);
@@ -15,6 +20,8 @@ class TripMapScreen extends StatefulWidget {
 }
 
 class _TripMapScreenState extends State<TripMapScreen> {
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
   @override
   void initState() {
     super.initState();
@@ -41,9 +48,16 @@ class _TripMapScreenState extends State<TripMapScreen> {
           // ),
           SizedBox(
             width: double.infinity,
-            child: Image.asset(
-              AppAssets.mapPlaceholder,
-              fit: BoxFit.fitWidth,
+            child: GoogleMap(
+              mapType: MapType.normal,
+              initialCameraPosition: CameraPosition(
+                target:
+                    LatLng(currentLocation.latitude, currentLocation.longitude),
+                zoom: 14.4746,
+              ),
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
             ),
           ),
           Align(
@@ -98,8 +112,8 @@ class _TripMapScreenState extends State<TripMapScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Row(
-                      children: const [
+                    const Row(
+                      children: [
                         TripHistoryInfo(
                           icon: Icons.location_on_outlined,
                           text: '3605 Parker Rd.',

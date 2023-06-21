@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cfl/controller/app/trip_service.dart';
 import 'package:cfl/controller/auth/auth.dart';
 import 'package:cfl/models/user.model.dart';
 import 'package:cfl/shared/configs/url_config.dart';
@@ -15,9 +16,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(const AuthState()) {
     on<AuthLogin>(_onLogin);
     on<AuthRegister>(_onRegister);
+    on<AuthGoogle>(_onGoogleSignIn);
+    on<AuthGoogleAuthorization>(_onGoogleSignInAuthorization);
     on<AuthProfileUpdate>(_onUserUpdate);
+    on<AuthGetProfile>(_onUserProfile);
     on<AuthPasswordReset>(_onPasswordReset);
+    on<AuthConfirmPasswordReset>(_onConfirmPasswordReset);
     on<AuthPasswordUpdate>(_onPasswordUpdate);
+    on<AuthProfilePictureUpload>(_onProfilePictureUplaod);
   }
 
   void _onLogin(AuthLogin event, Emitter<AuthState> emit) async {
@@ -30,7 +36,44 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         clientSecret:
             Platform.isAndroid ? androidClientSecret : iosClientSecret,
       );
+
+      final profile = await _auth.getUser(accessToken: token);
       accessToken = token;
+      currentUser = profile;
+      currentLocation = (await TripService().getCurrentLocation())!;
+      emit(state.copyWith(status: AuthStatus.authenticated, token: token));
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
+    }
+  }
+
+  void _onGoogleSignIn(AuthGoogle event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      await _auth.signInWithGoogle(
+        clientId: Platform.isAndroid ? androidClientId : iosClientId,
+      );
+      //emit(state.copyWith(status: AuthStatus.authenticated, token: auth));
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
+    }
+  }
+
+  void _onGoogleSignInAuthorization(
+      AuthGoogleAuthorization event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      final token = await _auth.handleTokenRequest(
+        code: event.code,
+        clientId: Platform.isAndroid ? androidClientId : iosClientId,
+        clientSecret:
+            Platform.isAndroid ? androidClientSecret : iosClientSecret,
+      );
+      await _auth.createUserSocialLogin(identificationToken: token);
+      final profile = await _auth.getUser(accessToken: token);
+      accessToken = token;
+      currentUser = profile;
+      // userId = id;
       emit(state.copyWith(status: AuthStatus.authenticated, token: token));
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
@@ -40,7 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onRegister(AuthRegister event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: AuthStatus.loading));
     try {
-      final user = await _auth.register(
+      await _auth.register(
         email: event.email,
         password: event.password,
         subject: event.subject,
@@ -53,9 +96,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         clientSecret:
             Platform.isAndroid ? androidClientSecret : iosClientSecret,
       );
+      final profile = await _auth.getUser(accessToken: token);
       accessToken = token;
+      currentUser = profile;
       emit(
-        state.copyWith(status: AuthStatus.registered, user: user),
+        state.copyWith(status: AuthStatus.registered, user: profile),
       );
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
@@ -73,6 +118,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       currentUser = user;
       emit(
         state.copyWith(status: AuthStatus.profileUpdated, user: user),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
+    }
+  }
+
+  void _onUserProfile(AuthGetProfile event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      final profile = await _auth.getUser(accessToken: event.token);
+      final profilePic = await _auth.getProfilePictureUrl(
+          id: event.id, accessToken: accessToken);
+      currentUser = profile;
+      currentProfilePic = profilePic.url;
+      emit(
+        state.copyWith(
+            status: AuthStatus.userProfile,
+            user: profile,
+            profilePic: profilePic.url),
       );
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
@@ -101,11 +165,46 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(status: AuthStatus.loading));
     try {
       await _auth.resetPassword(
-        accessToken: event.token,
         email: event.email,
       );
       emit(
         state.copyWith(status: AuthStatus.passwordRest),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
+    }
+  }
+
+  void _onConfirmPasswordReset(
+      AuthConfirmPasswordReset event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      await _auth.confirlResetPassword(
+        code: event.code,
+        newPassword: event.newPassword,
+      );
+      emit(
+        state.copyWith(status: AuthStatus.confirmPasswordRest),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
+    }
+  }
+
+  void _onProfilePictureUplaod(
+      AuthProfilePictureUpload event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      final url = await auth.getUrlToUploadProfilePicture(
+          id: event.id, accessToken: event.token);
+
+      await auth.uploadProfilePicture(
+          url: Uri.parse(url.url), imageBytes: event.imageByte);
+      final picture = await auth.getProfilePictureUrl(
+          id: event.id, accessToken: event.token);
+      emit(
+        state.copyWith(
+            status: AuthStatus.profilePicture, profilePic: picture.url),
       );
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));

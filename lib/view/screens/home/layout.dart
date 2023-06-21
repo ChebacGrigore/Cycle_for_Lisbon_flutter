@@ -15,6 +15,11 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
+  bool _exitDialogInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    onBackPressed(context);
+    return true;
+  }
+
   @override
   void initState() {
     controller = TabController(length: kTempScreens.length, vsync: this);
@@ -22,11 +27,16 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
     super.initState();
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     BackButtonInterceptor.add(myInterceptor);
+    // BackButtonInterceptor.add((stopDefaultButtonEvent, routeInfo) => )
+
+    BackButtonInterceptor.add(_exitDialogInterceptor);
   }
 
   @override
   void dispose() {
     BackButtonInterceptor.remove(myInterceptor);
+    BackButtonInterceptor.remove(_exitDialogInterceptor);
+    // _onBackPressed();
     super.dispose();
   }
 
@@ -250,5 +260,34 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  Future<bool> onBackPressed(BuildContext context) async {
+    // print('Hello...exiting');
+    bool? exit = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmation'),
+          content: const Text('Are you sure you want to exit?'),
+          actions: [
+            TextButton(
+              child: const Text('No'),
+              onPressed: () {
+                Navigator.of(context).pop(false); // Stay in the app
+              },
+            ),
+            TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                Navigator.of(context).pop(true); // Close the app
+                BackButtonInterceptor.remove(_exitDialogInterceptor);
+              },
+            ),
+          ],
+        );
+      },
+    );
+    return exit ?? false;
   }
 }

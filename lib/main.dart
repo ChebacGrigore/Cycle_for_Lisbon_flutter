@@ -1,4 +1,6 @@
-import 'package:cfl/splash.dart';
+import 'package:cfl/bloc/trip/bloc/trip_bloc.dart';
+import 'package:cfl/controller/auth/auth.dart';
+import 'package:cfl/routes/app_route.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'bloc/app/bloc/app_bloc.dart';
 import 'bloc/auth/bloc/auth_bloc.dart';
+// import 'view/screens/auth/signin.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +19,6 @@ Future<void> main() async {
 
   runApp(
     UncontrolledProviderScope(
-      // Our riverpod provider scope container
       container: container,
       child: EasyLocalization(
         supportedLocales: const [
@@ -33,29 +35,44 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  @override
+  void initState() {
+    super.initState();
+    auth.initForgotPasswordDeepLinkHandling();
+    auth.initSocialAuthDeepLinkHandling();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthBloc()),
-        BlocProvider(create: (context) => AppBloc())
+        BlocProvider(create: (context) => AppBloc()),
+        BlocProvider(create: (context) => TripBloc())
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Cycle For Lisbon',
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
+        routerConfig: appRoutes,
         theme: ThemeData(
-            primarySwatch: AppColors.accentColor,
-            fontFamily: 'DmSans',
-            appBarTheme: const AppBarTheme(
-              centerTitle: true,
-            )),
-        home: const Splash(),
+          primarySwatch: AppColors.accentColor,
+          fontFamily: 'DmSans',
+          appBarTheme: const AppBarTheme(
+            centerTitle: true,
+          ),
+        ),
+        // home: const Splash(),
       ),
     );
   }

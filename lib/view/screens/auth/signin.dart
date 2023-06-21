@@ -1,9 +1,10 @@
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
+import 'package:cfl/routes/app_route.dart';
+import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
-import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
-import 'package:cfl/view/screens/home/layout.dart';
+// import 'package:cfl/view/screens/home/layout.dart';
 // import 'package:cfl/view/screens/home/layout.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -13,8 +14,17 @@ import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+class ScreenArguments {
+  final bool? isDeepLink;
+  final String? code;
+
+  ScreenArguments(this.isDeepLink, this.code);
+}
+
 class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+  final bool? isDeepLink;
+  final String? code;
+  const SignIn({super.key, this.isDeepLink = false, this.code});
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -29,8 +39,11 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
-    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     super.initState();
+    FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+    // if (widget.isDeepLink == true && widget.code != null) {
+    //   print('Code Gotten from go router ${widget.code}');
+    // }
   }
 
   @override
@@ -77,7 +90,20 @@ class _SignInState extends State<SignIn> {
             setState(() {
               isLoading = false;
             });
-            context.push(const Layout());
+            appRoutes.pushReplacement(AppRoutePath.home);
+            // Navigator.of(context).pushReplacement(
+            //   MaterialPageRoute(
+            //     builder: (context) => const Layout(),
+            //   ),
+            // );
+          } else if (state.status.isPasswordReset) {
+            setState(() {
+              isLoading = false;
+            });
+          } else if (state.status.isConfirmPasswordReset) {
+            setState(() {
+              isLoading = false;
+            });
           }
         },
         builder: (context, state) {
@@ -238,8 +264,9 @@ class _SignInState extends State<SignIn> {
                         Center(
                           child: TextButton(
                             onPressed: () {
-                              context.pop();
+                              // context.pop();
                               context.showAppDialog(const SignUp());
+                              // context.showAppDialog(const SignUp());
                             },
                             child: RichText(
                               text: TextSpan(
@@ -434,7 +461,6 @@ class _RecoverPasswordDialogState extends State<RecoverPasswordDialog> {
                               if (_formKey.currentState!.validate()) {
                                 context.read<AuthBloc>().add(
                                       AuthPasswordReset(
-                                        token: accessToken,
                                         email: emailController.text,
                                       ),
                                     );
@@ -463,7 +489,9 @@ class _RecoverPasswordDialogState extends State<RecoverPasswordDialog> {
 }
 
 class ResetPasswordDialog extends StatefulWidget {
+  final String? code;
   const ResetPasswordDialog({
+    required this.code,
     super.key,
   });
 
@@ -508,10 +536,11 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
               ),
             ),
           );
-        } else if (state.status.isPasswordUpdated) {
+        } else if (state.status.isConfirmPasswordReset) {
           setState(() {
             isLoading = false;
           });
+          // appRoutes.go('/signin/0?deepLink=true');
           Navigator.of(context).pop();
         }
       },
@@ -575,11 +604,25 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
                   ),
                   const SizedBox(height: 12),
                   AppTextField(
+                    validator: (value) {
+                      if (value!.length < 8) {
+                        return 'Password cannot be less than 8 characters';
+                      }
+                      return null;
+                    },
                     hint: 'New Password',
                     controller: passController,
                   ),
                   const SizedBox(height: 12),
                   AppTextField(
+                    validator: (value) {
+                      if (value!.length < 8) {
+                        return 'Password cannot be less than 8 characters';
+                      } else if (value != passController.text) {
+                        return 'Passwords not matched';
+                      }
+                      return null;
+                    },
                     hint: "Confirm Password",
                     controller: confirmController,
                   ),
@@ -597,9 +640,8 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
                           : () async {
                               if (_formKey.currentState!.validate()) {
                                 context.read<AuthBloc>().add(
-                                      AuthPasswordUpdate(
-                                        token: accessToken,
-                                        oldPassword: passController.text,
+                                      AuthConfirmPasswordReset(
+                                        code: widget.code!,
                                         newPassword: confirmController.text,
                                       ),
                                     );
@@ -700,7 +742,7 @@ class SuccessDialog extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  context.showAppDialog(const ResetPasswordDialog());
+                  // context.showAppDialog(const ResetPasswordDialog());
                 },
                 child: Text(
                   'Continue',

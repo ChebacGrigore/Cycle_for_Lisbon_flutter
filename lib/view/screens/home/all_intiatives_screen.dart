@@ -125,17 +125,20 @@ class _InitiativeScreenState extends State<InitiativeScreen> {
                               ),
                               ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: 4,
+                                itemCount: state.initiatives.length,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
-                                  print(state.initiatives.length);
                                   return Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: GestureDetector(
                                       onTap: () {
-                                        context.push(const SingleInitiative());
+                                        context.push(SingleInitiative(
+                                          initiative: state.initiatives[index],
+                                        ));
                                       },
-                                      child: const InitiativeCard(),
+                                      child: InitiativeCard(
+                                        initiative: state.initiatives[index],
+                                      ),
                                     ),
                                   );
                                 },
@@ -181,9 +184,13 @@ class _InitiativeScreenState extends State<InitiativeScreen> {
                             padding: const EdgeInsets.only(bottom: 10),
                             child: GestureDetector(
                               onTap: () {
-                                context.push(const SingleInitiative());
+                                context.push(SingleInitiative(
+                                  initiative: state.initiatives[index],
+                                ));
                               },
-                              child: const InitiativeCard(),
+                              child: InitiativeCard(
+                                initiative: state.initiatives[index],
+                              ),
                             ),
                           );
                         },

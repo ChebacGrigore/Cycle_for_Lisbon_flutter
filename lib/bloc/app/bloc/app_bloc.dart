@@ -10,6 +10,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final InitiativeService _initiative = InitiativeService();
   AppBloc() : super(const AppState()) {
     on<AppListOfInitiatives>(_onListOfInitiatives);
+    on<AppSelectedInitiative>(_onSelectedInitiative);
+    on<AppCompletedInitiative>(_onCompletedInitiative);
   }
 
   void _onListOfInitiatives(
@@ -23,6 +25,36 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         state.copyWith(
           status: AppStatus.allInitiativesLoaded,
           initiatives: initiatives,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AppStatus.error));
+    }
+  }
+
+  void _onSelectedInitiative(
+      AppSelectedInitiative event, Emitter<AppState> emit) async {
+    emit(state.copyWith(status: AppStatus.loading));
+    try {
+      emit(
+        state.copyWith(
+          status: AppStatus.selectedInitiative,
+          initiative: event.initiative,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AppStatus.error));
+    }
+  }
+
+  void _onCompletedInitiative(
+      AppCompletedInitiative event, Emitter<AppState> emit) async {
+    emit(state.copyWith(status: AppStatus.loading));
+    try {
+      emit(
+        state.copyWith(
+          status: AppStatus.completedInitiative,
+          initiative: event.initiative,
         ),
       );
     } catch (e) {

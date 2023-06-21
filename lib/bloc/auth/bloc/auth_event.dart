@@ -35,6 +35,14 @@ class AuthGoogle extends AuthEvent {
   List<Object?> get props => [];
 }
 
+class AuthGoogleAuthorization extends AuthEvent {
+  const AuthGoogleAuthorization({required this.code});
+  final String code;
+
+  @override
+  List<Object?> get props => [code];
+}
+
 class AuthLogOut extends AuthEvent {
   const AuthLogOut();
 
@@ -55,15 +63,47 @@ class AuthProfileUpdate extends AuthEvent {
   List<Object?> get props => [token, userProfile, id];
 }
 
-class AuthPasswordReset extends AuthEvent {
-  const AuthPasswordReset({
+class AuthProfilePictureUpload extends AuthEvent {
+  const AuthProfilePictureUpload({
     required this.token,
-    required this.email,
+    required this.id,
+    required this.imageByte,
   });
   final String token;
+  final String id;
+  final List<int> imageByte;
+  @override
+  List<Object?> get props => [token, id, imageByte];
+}
+
+
+class AuthGetProfile extends AuthEvent {
+  const AuthGetProfile({
+    required this.id,
+    required this.token,
+  });
+  final String id;
+  final String token;
+  @override
+  List<Object?> get props => [id, token];
+}
+
+class AuthPasswordReset extends AuthEvent {
+  const AuthPasswordReset({
+    required this.email,
+  });
   final String email;
   @override
-  List<Object?> get props => [token, email];
+  List<Object?> get props => [email];
+}
+
+class AuthConfirmPasswordReset extends AuthEvent {
+  const AuthConfirmPasswordReset(
+      {required this.code, required this.newPassword});
+  final String code;
+  final String newPassword;
+  @override
+  List<Object?> get props => [code, newPassword];
 }
 
 class AuthPasswordUpdate extends AuthEvent {

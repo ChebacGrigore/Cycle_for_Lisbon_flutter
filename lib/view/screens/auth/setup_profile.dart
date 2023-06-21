@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/controller/app/media_service.dart';
 import 'package:cfl/models/user.model.dart';
@@ -168,6 +167,12 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
                       AppTextField(
                         hint: 'nickname'.tr(),
                         controller: nickName,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'nickname is required';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 16),
                       AppTextField(
@@ -267,7 +272,8 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
                                                   birthday: '1999-01-01',
                                                   email: widget.email,
                                                   gender: 'M',
-                                                  name: '$fName $lName',
+                                                  name:
+                                                      '${fName.text} ${lName.text}',
                                                   profilePic: '',
                                                   username: nickName.text,
                                                 ),

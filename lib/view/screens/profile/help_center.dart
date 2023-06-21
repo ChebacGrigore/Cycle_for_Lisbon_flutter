@@ -58,8 +58,8 @@ class _HelpCenterState extends State<HelpCenter> {
                 color: appbarColor,
               ),
             ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(children: const <Widget>[
+            flexibleSpace: const FlexibleSpaceBar(
+              background: Stack(children: <Widget>[
                 MyArc(
                   diameter: double.infinity,
                   color: AppColors.primaryColor,
