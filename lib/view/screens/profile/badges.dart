@@ -1,13 +1,17 @@
 import 'package:cfl/shared/app_bar_clip.dart';
+import 'package:cfl/shared/global/global_var.dart';
 
 import 'package:cfl/view/styles/assets.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../../bloc/app/bloc/app_bloc.dart';
 
 class BadgeModel {
   final double value;
@@ -30,7 +34,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
   @override
   void initState() {
     super.initState();
-
+    context.read<AppBloc>().add(AppListOfBadges(token: accessToken));
     FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     scrollController.addListener(() {
       setState(
@@ -112,120 +116,299 @@ class _BadgesScreenState extends State<BadgesScreen> {
                     top: 32,
                     bottom: 100,
                   ),
-                  child: SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'unlcoked_badge_title'.tr(),
-                          style: GoogleFonts.dmSans(
-                            fontSize: 14,
-                            color: AppColors.primaryColor.withOpacity(0.50),
+                  child: BlocConsumer<AppBloc, AppState>(
+                    listener: (context, state) {
+                      if (state.status.isError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              children: [
+                                const Icon(
+                                  Icons.cancel,
+                                  color: Colors.red,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    state.exception.toString(),
+                                    maxLines: 2,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 37),
-                        Text(
-                          'number_of_rides'.tr(),
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16.0),
-                        ),
-                        const SizedBox(height: 18.0),
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 0.9,
-                            crossAxisSpacing: 35.0,
-                            mainAxisSpacing: 24.0,
-                          ),
-                          itemCount: rides.length,
-                          itemBuilder: (context, index) => Badge(
-                            value: rides[index].value,
-                            badgePath: rides[index].badgePath,
-                            badgeName: rides[index].badgeName,
-                          ),
-                        ),
-                        const SizedBox(height: 40.0),
-                        const Text(
-                          "Kilometres",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16.0),
-                        ),
-                        const SizedBox(height: 18.0),
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 0.9,
-                            crossAxisSpacing: 35.0,
-                            mainAxisSpacing: 24.0,
-                          ),
-                          itemCount: kilometers.length,
-                          itemBuilder: (context, index) => Badge(
-                            value: kilometers[index].value,
-                            badgePath: kilometers[index].badgePath,
-                            badgeName: kilometers[index].badgeName,
-                          ),
-                        ),
-                        const SizedBox(height: 50.0),
-                        const Text(
-                          "Supported Initiatives",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16.0),
-                        ),
-                        const SizedBox(height: 18.0),
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 0.9,
-                            crossAxisSpacing: 35.0,
-                            mainAxisSpacing: 24.0,
-                          ),
-                          itemCount: supportedInitiatives.length,
-                          itemBuilder: (context, index) => Badge(
-                            value: supportedInitiatives[index].value,
-                            badgePath: supportedInitiatives[index].badgePath,
-                            badgeName: supportedInitiatives[index].badgeName,
-                          ),
-                        ),
-                        const SizedBox(height: 50.0),
-                        const Text(
-                          "Coins earned",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16.0),
-                        ),
-                        const SizedBox(height: 18.0),
-                        GridView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 0.9,
-                            crossAxisSpacing: 35.0,
-                            mainAxisSpacing: 24.0,
-                          ),
-                          itemCount: coinearned.length,
-                          itemBuilder: (context, index) => Badge(
-                            value: coinearned[index].value,
-                            badgePath: coinearned[index].badgePath,
-                            badgeName: coinearned[index].badgeName,
-                          ),
-                        ),
-                      ],
-                    ),
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      return BlocBuilder<AppBloc, AppState>(
+                        builder: (context, state) {
+                          if (state.status.isLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (state.status.isError) {
+                            return Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    AppAssets.empty,
+                                    height: 150,
+                                  ),
+                                  const Center(
+                                    child: Text(
+                                      'No Badge added yet!',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else if (state.status.isAllBadges) {
+                            int number = state.badges
+                                .map((e) => e.completion == 1)
+                                .toList()
+                                .length;
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'unlcoked_badge_title'
+                                      .tr(args: [number.toString()]),
+                                  style: GoogleFonts.dmSans(
+                                    fontSize: 14,
+                                    color: AppColors.primaryColor
+                                        .withOpacity(0.50),
+                                  ),
+                                ),
+                                const SizedBox(height: 37),
+                                Text(
+                                  'number_of_rides'.tr(),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16.0),
+                                ),
+                                const SizedBox(height: 18.0),
+                                GridView.builder(
+                                  padding: EdgeInsets.zero,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    childAspectRatio: 0.73,
+                                    crossAxisSpacing: 35.0,
+                                    mainAxisSpacing: 24.0,
+                                  ),
+                                  itemCount: state.badges.length,
+                                  itemBuilder: (context, index) => Badge(
+                                    value: state.badges[index].completion,
+                                    badgePath:
+                                        state.badges[index].achievement.image,
+                                    badgeName:
+                                        state.badges[index].achievement.name,
+                                  ),
+                                ),
+                                const SizedBox(height: 40.0),
+                                //       const Text(
+                                //         "Kilometres",
+                                //         style: TextStyle(
+                                //             fontWeight: FontWeight.w700, fontSize: 16.0),
+                                //       ),
+                                //       const SizedBox(height: 18.0),
+                                //       GridView.builder(
+                                //         padding: EdgeInsets.zero,
+                                //         shrinkWrap: true,
+                                //         physics: const NeverScrollableScrollPhysics(),
+                                //         gridDelegate:
+                                //             const SliverGridDelegateWithFixedCrossAxisCount(
+                                //           crossAxisCount: 3,
+                                //           childAspectRatio: 0.9,
+                                //           crossAxisSpacing: 35.0,
+                                //           mainAxisSpacing: 24.0,
+                                //         ),
+                                //         itemCount: kilometers.length,
+                                //         itemBuilder: (context, index) => Badge(
+                                //           value: kilometers[index].value,
+                                //           badgePath: kilometers[index].badgePath,
+                                //           badgeName: kilometers[index].badgeName,
+                                //         ),
+                                //       ),
+                                //       const SizedBox(height: 50.0),
+                                //       const Text(
+                                //         "Supported Initiatives",
+                                //         style: TextStyle(
+                                //             fontWeight: FontWeight.w700, fontSize: 16.0),
+                                //       ),
+                                //       const SizedBox(height: 18.0),
+                                //       GridView.builder(
+                                //         padding: EdgeInsets.zero,
+                                //         shrinkWrap: true,
+                                //         physics: const NeverScrollableScrollPhysics(),
+                                //         gridDelegate:
+                                //             const SliverGridDelegateWithFixedCrossAxisCount(
+                                //           crossAxisCount: 3,
+                                //           childAspectRatio: 0.9,
+                                //           crossAxisSpacing: 35.0,
+                                //           mainAxisSpacing: 24.0,
+                                //         ),
+                                //         itemCount: supportedInitiatives.length,
+                                //         itemBuilder: (context, index) => Badge(
+                                //           value: supportedInitiatives[index].value,
+                                //           badgePath: supportedInitiatives[index].badgePath,
+                                //           badgeName: supportedInitiatives[index].badgeName,
+                                //         ),
+                                //       ),
+                                //       const SizedBox(height: 50.0),
+                                //       const Text(
+                                //         "Coins earned",
+                                //         style: TextStyle(
+                                //             fontWeight: FontWeight.w700, fontSize: 16.0),
+                                //       ),
+                                //       const SizedBox(height: 18.0),
+                                //       GridView.builder(
+                                //         padding: EdgeInsets.zero,
+                                //         shrinkWrap: true,
+                                //         physics: const NeverScrollableScrollPhysics(),
+                                //         gridDelegate:
+                                //             const SliverGridDelegateWithFixedCrossAxisCount(
+                                //           crossAxisCount: 3,
+                                //           childAspectRatio: 0.9,
+                                //           crossAxisSpacing: 35.0,
+                                //           mainAxisSpacing: 24.0,
+                                //         ),
+                                //         itemCount: coinearned.length,
+                                //         itemBuilder: (context, index) => Badge(
+                                //           value: coinearned[index].value,
+                                //           badgePath: coinearned[index].badgePath,
+                                //           badgeName: coinearned[index].badgeName,
+                                //         ),
+                                //       ),
+                              ],
+                            );
+                          }
+                          print(state.status);
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'unlcoked_badge_title'.tr(),
+                                style: GoogleFonts.dmSans(
+                                  fontSize: 14,
+                                  color:
+                                      AppColors.primaryColor.withOpacity(0.50),
+                                ),
+                              ),
+                              const SizedBox(height: 37),
+                              Text(
+                                'number_of_rides'.tr(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16.0),
+                              ),
+                              const SizedBox(height: 18.0),
+                              GridView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  childAspectRatio: 0.9,
+                                  crossAxisSpacing: 35.0,
+                                  mainAxisSpacing: 24.0,
+                                ),
+                                itemCount: rides.length,
+                                itemBuilder: (context, index) => Badge(
+                                  value: rides[index].value,
+                                  badgePath: rides[index].badgePath,
+                                  badgeName: rides[index].badgeName,
+                                ),
+                              ),
+                              const SizedBox(height: 40.0),
+                              //       const Text(
+                              //         "Kilometres",
+                              //         style: TextStyle(
+                              //             fontWeight: FontWeight.w700, fontSize: 16.0),
+                              //       ),
+                              //       const SizedBox(height: 18.0),
+                              //       GridView.builder(
+                              //         padding: EdgeInsets.zero,
+                              //         shrinkWrap: true,
+                              //         physics: const NeverScrollableScrollPhysics(),
+                              //         gridDelegate:
+                              //             const SliverGridDelegateWithFixedCrossAxisCount(
+                              //           crossAxisCount: 3,
+                              //           childAspectRatio: 0.9,
+                              //           crossAxisSpacing: 35.0,
+                              //           mainAxisSpacing: 24.0,
+                              //         ),
+                              //         itemCount: kilometers.length,
+                              //         itemBuilder: (context, index) => Badge(
+                              //           value: kilometers[index].value,
+                              //           badgePath: kilometers[index].badgePath,
+                              //           badgeName: kilometers[index].badgeName,
+                              //         ),
+                              //       ),
+                              //       const SizedBox(height: 50.0),
+                              //       const Text(
+                              //         "Supported Initiatives",
+                              //         style: TextStyle(
+                              //             fontWeight: FontWeight.w700, fontSize: 16.0),
+                              //       ),
+                              //       const SizedBox(height: 18.0),
+                              //       GridView.builder(
+                              //         padding: EdgeInsets.zero,
+                              //         shrinkWrap: true,
+                              //         physics: const NeverScrollableScrollPhysics(),
+                              //         gridDelegate:
+                              //             const SliverGridDelegateWithFixedCrossAxisCount(
+                              //           crossAxisCount: 3,
+                              //           childAspectRatio: 0.9,
+                              //           crossAxisSpacing: 35.0,
+                              //           mainAxisSpacing: 24.0,
+                              //         ),
+                              //         itemCount: supportedInitiatives.length,
+                              //         itemBuilder: (context, index) => Badge(
+                              //           value: supportedInitiatives[index].value,
+                              //           badgePath: supportedInitiatives[index].badgePath,
+                              //           badgeName: supportedInitiatives[index].badgeName,
+                              //         ),
+                              //       ),
+                              //       const SizedBox(height: 50.0),
+                              //       const Text(
+                              //         "Coins earned",
+                              //         style: TextStyle(
+                              //             fontWeight: FontWeight.w700, fontSize: 16.0),
+                              //       ),
+                              //       const SizedBox(height: 18.0),
+                              //       GridView.builder(
+                              //         padding: EdgeInsets.zero,
+                              //         shrinkWrap: true,
+                              //         physics: const NeverScrollableScrollPhysics(),
+                              //         gridDelegate:
+                              //             const SliverGridDelegateWithFixedCrossAxisCount(
+                              //           crossAxisCount: 3,
+                              //           childAspectRatio: 0.9,
+                              //           crossAxisSpacing: 35.0,
+                              //           mainAxisSpacing: 24.0,
+                              //         ),
+                              //         itemCount: coinearned.length,
+                              //         itemBuilder: (context, index) => Badge(
+                              //           value: coinearned[index].value,
+                              //           badgePath: coinearned[index].badgePath,
+                              //           badgeName: coinearned[index].badgeName,
+                              //         ),
+                              //       ),
+                            ],
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
@@ -270,7 +453,7 @@ class Badge extends StatelessWidget {
                     ? AppColors.secondaryColor
                     : AppColors.tertiaryColor,
                 radius: 29,
-                child: SvgPicture.asset(
+                child: SvgPicture.network(
                   badgePath,
                 ),
               ),

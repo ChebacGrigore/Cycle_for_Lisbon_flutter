@@ -23,7 +23,21 @@ class StopTrip extends TripEvent {
 
 class AppListOfTrips extends TripEvent {
   final String token;
-  const AppListOfTrips({required this.token});
+  final DateTime? timeFrom;
+  final DateTime? timeTo;
+  const AppListOfTrips({required this.token, this.timeFrom, this.timeTo});
   @override
   List<Object> get props => [token];
+}
+
+class AppListOfPOI extends TripEvent {
+  final String token;
+  final double maxLat;
+  final double maxLon;
+  final double minLat;
+  final double minLon;
+
+  const AppListOfPOI({required this.token, required this.maxLat, required this.maxLon, required this.minLat, required this.minLon, });
+  @override
+  List<Object> get props => [token, minLat, minLon, maxLon, maxLat];
 }

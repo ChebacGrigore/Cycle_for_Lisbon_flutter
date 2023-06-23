@@ -240,7 +240,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 90,
                             child: ProfileActivityCount(
                               unit: 'h',
-                              count: 3,
+                              count: currentUser.tripCount ?? 0,
                               title: 'total_rides'.tr(),
                               icon: Icons.access_time_outlined,
                             ),
@@ -258,7 +258,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 90,
                             child: ProfileActivityCount(
                               unit: '',
-                              count: 3340,
+                              count: currentUser.totalDist ?? 0,
                               title: 'total_km'.tr(),
                               icon: CFLIcons.roadhz,
                             ),
@@ -276,7 +276,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 90,
                             child: ProfileActivityCount(
                               unit: '',
-                              count: 567,
+                              count: currentUser.credits ?? 0,
                               title: 'total_donations'.tr(),
                               icon: CFLIcons.coin1,
                             ),
@@ -508,7 +508,7 @@ class ProfileActivityCount extends StatelessWidget {
   });
   final IconData icon;
   final String unit;
-  final int count;
+  final dynamic count;
   final String title;
   @override
   Widget build(BuildContext context) {

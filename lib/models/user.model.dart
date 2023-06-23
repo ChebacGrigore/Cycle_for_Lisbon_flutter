@@ -33,6 +33,9 @@ class User {
   final String subject;
   final String email;
   final bool verified;
+  final int? tripCount;
+  final double? totalDist;
+  final double? credits;
 
   User({
     required this.id,
@@ -43,6 +46,9 @@ class User {
     required this.subject,
     required this.email,
     required this.verified,
+    this.credits,
+    this.tripCount,
+    this.totalDist,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -55,6 +61,9 @@ class User {
       subject: json['subject'],
       email: json['email'],
       verified: json['verified'],
+      tripCount: json['tripCount'] ?? 0,
+      totalDist: json['totalDist'].toDouble() ?? 0.0,
+      credits: json['credits'].toDouble() ?? 0.0,
     );
   }
 }

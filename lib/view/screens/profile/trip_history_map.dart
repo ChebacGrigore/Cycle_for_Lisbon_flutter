@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cfl/models/trip.model.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/profile/leaderboard.dart';
 import 'package:cfl/view/screens/profile/trip_history.dart';
@@ -13,51 +14,90 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../shared/global/global_var.dart';
 
 class TripMapScreen extends StatefulWidget {
-  const TripMapScreen({Key? key}) : super(key: key);
+  final TripModel trip;
+  const TripMapScreen({Key? key, required this.trip}) : super(key: key);
 
   @override
   State<TripMapScreen> createState() => _TripMapScreenState();
 }
 
 class _TripMapScreenState extends State<TripMapScreen> {
+  late GoogleMapController mapController;
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
+
+  void check(CameraUpdate u, GoogleMapController c) async {
+    c.animateCamera(u);
+    mapController.animateCamera(u);
+    LatLngBounds l1=await c.getVisibleRegion();
+    LatLngBounds l2=await c.getVisibleRegion();
+    print(l1.toString());
+    print(l2.toString());
+    if(l1.southwest.latitude==-90 ||l2.southwest.latitude==-90)
+      check(u, c);
+  }
+
   @override
   void initState() {
     super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    // LatLng latLng_1 = LatLng(widget.trip.startLat!, widget.trip.startLon!);
+    // LatLng latLng_2 = LatLng(widget.trip.endLat!, widget.trip.endLon!);
+    // LatLngBounds bounds = LatLngBounds(southwest: latLng_1, northeast: latLng_2);
+    List<Marker> markers = [
+      Marker(
+        markerId: const MarkerId('start'),
+        position: LatLng(widget.trip.startLat!, widget.trip.startLon!),
+        infoWindow: const InfoWindow(
+          title: 'Start point',
+          snippet: 'My starting point',
+        ),
+      ),
+      Marker(
+        markerId: const MarkerId('stop'),
+        position: LatLng(widget.trip.endLat!, widget.trip.endLon!),
+        infoWindow: const InfoWindow(
+          title: 'Stop point',
+          snippet: 'My stoping point',
+        ),
+      ),
+    ];
     return Scaffold(
       body: Stack(
         children: [
-          // FlutterMap(
-          //   options: MapOptions(
-          //     center: LatLng(51.509364, -0.128928),
-          //     zoom: 15.2,
-          //   ),
-          //   children: [
-          //     TileLayer(
-          //       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          //       userAgentPackageName: 'com.app.cfl',
-          //       tileBuilder: darkModeTileBuilder,
-          //       backgroundColor: Colors.black54,
-          //     ),
-          //   ],
-          // ),
+
           SizedBox(
             width: double.infinity,
             child: GoogleMap(
               mapType: MapType.normal,
               initialCameraPosition: CameraPosition(
                 target:
-                    LatLng(currentLocation.latitude, currentLocation.longitude),
-                zoom: 14.4746,
+                    LatLng((widget.trip.startLat! + widget.trip.endLat!) /2, (widget.trip.startLon! + widget.trip.endLon!) /2),
+                zoom: 11.4746,
               ),
-              onMapCreated: (GoogleMapController controller) {
+              onMapCreated: (controller) {
+                mapController = controller;
                 _controller.complete(controller);
+
+                LatLng latLng_1 = LatLng(widget.trip.startLat!, widget.trip.startLon!);
+                LatLng latLng_2 = LatLng(widget.trip.endLat!, widget.trip.endLon!);
+                LatLngBounds bounds = LatLngBounds(southwest: latLng_1, northeast: latLng_2);
+
+
+
+                CameraUpdate u2 = CameraUpdate.newLatLngBounds(bounds, widget.trip.distance);
+                mapController.animateCamera(u2).then((void v){
+                  check(u2,mapController);
+                });
+
+                controller.moveCamera(CameraUpdate.newLatLngBounds(bounds, 30.0),);
+
               },
+              markers: Set<Marker>.of(markers),
             ),
           ),
           Align(
@@ -95,7 +135,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                 padding: const EdgeInsets.all(20),
                 margin: const EdgeInsets.all(16),
                 width: double.infinity,
-                height: 118,
+                height: 135,
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -112,22 +152,22 @@ class _TripMapScreenState extends State<TripMapScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    const Row(
+                     Row(
                       children: [
                         TripHistoryInfo(
                           icon: Icons.location_on_outlined,
-                          text: '3605 Parker Rd.',
+                          text: widget.trip.startAddr ?? 'N/A',
                         ),
-                        SizedBox(width: 10),
-                        Icon(
+                        const SizedBox(width: 10),
+                        const Icon(
                           Icons.arrow_forward,
                           size: 18,
                           color: AppColors.accentColor,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         TripHistoryInfo(
                           icon: Icons.flag_outlined,
-                          text: '3890 Poplar Dr.',
+                          text: widget.trip.endAddr ?? 'N/A',
                         ),
                       ],
                     ),
@@ -136,7 +176,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                       children: [
                         LeaderboardActivityCount(
                           showTitle: false,
-                          count: 5,
+                          count: widget.trip.distance.toStringAsFixed(2),
                           title: '',
                           unit: 'km'.tr(),
                           icon: AppAssets.roadIco,
@@ -144,15 +184,15 @@ class _TripMapScreenState extends State<TripMapScreen> {
                         const SizedBox(width: 20),
                         LeaderboardActivityCount(
                           showTitle: false,
-                          count: 2,
+                          count: widget.trip.duration.toStringAsFixed(2),
                           title: '',
                           unit: 'h'.tr(),
                           icon: AppAssets.roadIco,
                         ),
                         const SizedBox(width: 20),
-                        const LeaderboardActivityCount(
+                        LeaderboardActivityCount(
                           showTitle: false,
-                          count: 200,
+                          count: widget.trip.durationInMotion.toStringAsFixed(2),
                           title: '',
                           unit: '',
                           icon: AppAssets.roadIco,

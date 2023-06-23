@@ -156,7 +156,7 @@
   "sustainable_development_goals": "Sustainable Development Goals",
   "initiative_placeholder": "This is a description placeholder. Here you can describe your initiative and how it will impact your community,",
   "institution_placeholder": "This is a description placeholder. Here you can give information about your Institution and its area of work.",
-  "unlcoked_badge_title": "You have Unlocked X Badges out of 12",
+  "unlcoked_badge_title": "You have Unlocked {} Badges out of 12",
   "number_of_rides": "Number of Rides",
   "about_desc": "Cycle for Lisbon aims to be a platform where NGOs and Institutions can share their social projects (known as Initiatives) and get a direct support from the community (the Users). Each Initiative has the support of sponsors, that will convert the in-app coins into real money and donate it to the institutions responsible for the respective initiatives sponsored by them."
 }

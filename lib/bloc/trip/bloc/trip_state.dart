@@ -7,6 +7,7 @@ enum TripStatus {
   error,
   locationStream,
   allTrips,
+  allPoi,
   success,
   start,
   stop,
@@ -16,6 +17,7 @@ extension TripStatusX on TripStatus {
   bool get isInitial => this == TripStatus.initial;
   bool get isLoading => this == TripStatus.loading;
   bool get isAllTrips => this == TripStatus.allTrips;
+  bool get isAllPoi => this == TripStatus.allPoi;
   bool get isError => this == TripStatus.error;
   bool get isSuccess => this == TripStatus.success;
   bool get isLocationStream => this == TripStatus.locationStream;
@@ -32,6 +34,7 @@ class TripState extends Equatable {
     this.longitude,
     this.trip,
     this.trips,
+    this.pois = const [],
   });
 
   final String? token;
@@ -40,15 +43,17 @@ class TripState extends Equatable {
   final double? latitude, longitude;
   final Trip? trip;
   final List<TripModel>? trips;
+  final List<POI>? pois;
 
   TripState copyWith({
     TripStatus? status,
     String? exception,
     String? token,
     double? latitude,
-    longitude,
+    double? longitude,
     Trip? trip,
     List<TripModel>? trips,
+    List<POI>? pois,
   }) {
     return TripState(
       status: status ?? this.status,
@@ -58,6 +63,7 @@ class TripState extends Equatable {
       longitude: longitude ?? this.longitude,
       trip: trip ?? this.trip,
       trips: trips ?? this.trips,
+      pois: pois ?? this.pois,
     );
   }
 

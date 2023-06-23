@@ -19,11 +19,19 @@ class TripHistoryScreen extends StatefulWidget {
   State<TripHistoryScreen> createState() => _TripHistoryScreenState();
 }
 
-class _TripHistoryScreenState extends State<TripHistoryScreen> {
+class _TripHistoryScreenState extends State<TripHistoryScreen> with SingleTickerProviderStateMixin {
+  // late final TabController _tabController;
   @override
   void initState() {
+    // _tabController = TabController(length: 3, vsync: this);
     context.read<TripBloc>().add(AppListOfTrips(token: accessToken));
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -74,6 +82,23 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> {
                               labelStyle: GoogleFonts.dmSans(
                                 fontSize: 13,
                               ),
+                              // controller: _tabController,
+                              onTap: (val){
+                                print(val);
+                                if(val == 0){
+                                  context.read<TripBloc>().add(AppListOfTrips(token: accessToken));
+                                }else if(val ==1){
+                                  DateTime now = DateTime.now();
+                                  DateTime startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+                                  DateTime endOfWeek = startOfWeek.add(const Duration(days: 6));
+                                  context.read<TripBloc>().add(AppListOfTrips(token: accessToken, timeFrom: startOfWeek, timeTo: endOfWeek));
+                                }else{
+                                  DateTime now = DateTime.now();
+                                  DateTime startOfMonth = DateTime(now.year, now.month, 1);
+                                  DateTime endOfMonth = DateTime(now.year, now.month + 1, 0);
+                                  context.read<TripBloc>().add(AppListOfTrips(token: accessToken, timeFrom: startOfMonth, timeTo: endOfMonth));
+                                }
+                              },
                               unselectedLabelColor: AppColors.primaryColor,
                               indicator: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
@@ -142,6 +167,7 @@ class TripHistoryItem extends ConsumerWidget {
         return BlocBuilder<TripBloc, TripState>(
           builder: (context, state) {
             print(state.status);
+            print(state.status);
             if (state.status.isLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -167,7 +193,7 @@ class TripHistoryItem extends ConsumerWidget {
                 ),
               );
             } else if (state.status.isAllTrips) {
-              print(state.status.isAllTrips);
+
               state.trips!.isEmpty
                   ? Center(
                       child: Column(
@@ -191,6 +217,7 @@ class TripHistoryItem extends ConsumerWidget {
                   : ListView.separated(
                       itemCount: state.trips!.length,
                       itemBuilder: (ctx, idx) {
+                        final trip = state.trips![idx];
                         return ListTile(
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,22 +244,22 @@ class TripHistoryItem extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               const SizedBox(height: 10),
-                              const Row(
+                              Row(
                                 children: [
                                   TripHistoryInfo(
                                     icon: Icons.location_on_outlined,
-                                    text: '3605 Parker Rd.',
+                                    text: trip.startAddr ?? 'N/A',
                                   ),
-                                  SizedBox(width: 10),
-                                  Icon(
+                                  const SizedBox(width: 10),
+                                  const Icon(
                                     Icons.arrow_forward,
                                     size: 19,
                                     color: AppColors.accentColor,
                                   ),
-                                  SizedBox(width: 10),
+                                  const SizedBox(width: 10),
                                   TripHistoryInfo(
                                     icon: Icons.flag,
-                                    text: '3890 Poplar Dr.',
+                                    text: trip.endAddr ?? 'N/A',
                                   ),
                                 ],
                               ),
@@ -240,7 +267,7 @@ class TripHistoryItem extends ConsumerWidget {
                                 width: 100,
                                 child: TextButton(
                                   onPressed: () {
-                                    context.push(const TripMapScreen());
+                                    context.push(TripMapScreen(trip: trip,));
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -270,9 +297,11 @@ class TripHistoryItem extends ConsumerWidget {
                       },
                     );
             }
+            print(state.status);
             return ListView.separated(
               itemCount: state.trips!.length,
               itemBuilder: (ctx, idx) {
+                final trip = state.trips![idx];
                 return ListTile(
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -286,7 +315,7 @@ class TripHistoryItem extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        '${state.trips![idx].createdAt.month} ${state.trips![idx].createdAt.day}, ${state.trips![idx].createdAt.year}',
+                        '${trip.createdAt.month} ${trip.createdAt.day}, ${trip.createdAt.year}',
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           color: AppColors.primaryColor.withOpacity(0.60),
@@ -298,22 +327,22 @@ class TripHistoryItem extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       const SizedBox(height: 10),
-                      const Row(
+                       Row(
                         children: [
                           TripHistoryInfo(
                             icon: Icons.location_on_outlined,
-                            text: '3605 Parker Rd.',
+                            text: trip.startAddr ?? 'N/A',
                           ),
-                          SizedBox(width: 10),
-                          Icon(
+                          const SizedBox(width: 10),
+                          const Icon(
                             Icons.arrow_forward,
                             size: 19,
                             color: AppColors.accentColor,
                           ),
-                          SizedBox(width: 10),
+                          const SizedBox(width: 10),
                           TripHistoryInfo(
                             icon: Icons.flag,
-                            text: '3890 Poplar Dr.',
+                            text: trip.endAddr ?? 'N/A',
                           ),
                         ],
                       ),
@@ -321,7 +350,7 @@ class TripHistoryItem extends ConsumerWidget {
                         width: 100,
                         child: TextButton(
                           onPressed: () {
-                            context.push(const TripMapScreen());
+                            context.push(TripMapScreen(trip: trip,));
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cfl/models/trip.model.dart';
 import 'package:cfl/shared/configs/url_config.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -70,11 +71,22 @@ class TripService {
     }
   }
 
-  Future<List<TripModel>> getTrips({required String accessToken}) async {
-    final url = Uri.parse('$baseUrl/trips?orderBy=id%20asc');
+  Future<List<TripModel>> getTrips({required String accessToken, DateTime? timeFrom, DateTime? timeTo}) async {
+    final myUrl = '$baseUrl/trips?orderBy=id%20asc';
     final headers = {
       'Authorization': 'Bearer $accessToken',
     };
+    final formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ssxxx");
+    final formattedTimeFrom = timeFrom != null ? formatter.format(timeFrom) : null;
+    final formattedTimeTo = timeTo != null ? formatter.format(timeTo) : null;
+
+
+
+    final url = Uri.parse(myUrl).replace(queryParameters: {
+      if (formattedTimeFrom != null) 'timeFrom': formattedTimeFrom,
+      if (formattedTimeTo != null) 'timeTo': formattedTimeTo,
+    });
+
     List<TripModel> trips = [];
     try {
       final response = await http.get(url, headers: headers);
@@ -85,6 +97,32 @@ class TripService {
           trips.add(TripModel.fromJson(trip));
         }
         return trips;
+      } else {
+        final res = jsonDecode(response.body);
+        throw Exception('${res['error']['message']}');
+      }
+    } catch (e) {
+      print(e.toString());
+      print(e.toString());
+      throw Exception('$e');
+    }
+  }
+
+  Future<List<POI>> fetchPOIs({required String token, required double maxLat, required double maxLon, required double minLat, required double minLon}) async {
+    try{
+      final url = Uri.parse(
+          '$baseUrl/pois?maxLat=$maxLat&maxLon=$maxLon&minLat=$minLat&minLon=$minLon');
+
+      final headers = {
+        'Authorization': 'Bearer $token',
+      };
+
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body) as List<dynamic>;
+        final pois = jsonData.map((item) => POI.fromJson(item)).toList();
+        return pois;
       } else {
         final res = jsonDecode(response.body);
         throw Exception('${res['error']['message']}');

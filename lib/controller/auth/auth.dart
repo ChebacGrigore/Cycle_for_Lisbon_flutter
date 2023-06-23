@@ -40,7 +40,7 @@ class AuthService {
 
     try {
       final response = await http.post(url, headers: headers, body: body);
-
+      print(response.body);
       if (response.statusCode == 201) {
         return true;
       } else {
@@ -90,30 +90,31 @@ class AuthService {
     }
   }
 
-  Future<bool> createUserSocialLogin(
-      {required String identificationToken}) async {
-    // Create a new user with the identification token
-    try {
-      final url = Uri.parse('$baseUrl/users');
-      final response = await http.post(
-        url,
-        headers: {
-          'Authorization': 'Bearer $identificationToken',
-          'Content-Type': 'application/json',
-        },
-        body: '{"sub": "$identificationToken"}',
-      );
+  // Future<bool> createUserSocialLogin(
+  //     {required String identificationToken}) async {
+  //   // Create a new user with the identification token
+  //   try {
+  //     final url = Uri.parse('$baseUrl/users');
+  //     final response = await http.post(
+  //       url,
+  //       headers: {
+  //         'Authorization': 'Bearer $identificationToken',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: '{"subject": "$identificationToken"}',
+  //     );
+  //     print(response.body);
 
-      if (response.statusCode == 201) {
-        return true;
-      } else {
-        final res = jsonDecode(response.body);
-        throw RegistrationException('${res['error']['message']}');
-      }
-    } catch (e) {
-      throw RegistrationException(e.toString());
-    }
-  }
+  //     if (response.statusCode == 201) {
+  //       return true;
+  //     } else {
+  //       final res = jsonDecode(response.body);
+  //       throw RegistrationException('${res['error']['message']}');
+  //     }
+  //   } catch (e) {
+  //     throw RegistrationException(e.toString());
+  //   }
+  // }
 
   Future<void> signInWithGoogle({required String clientId}) async {
     try {

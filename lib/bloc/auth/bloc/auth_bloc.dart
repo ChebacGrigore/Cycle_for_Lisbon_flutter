@@ -7,6 +7,7 @@ import 'package:cfl/shared/configs/url_config.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -69,7 +70,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         clientSecret:
             Platform.isAndroid ? androidClientSecret : iosClientSecret,
       );
-      await _auth.createUserSocialLogin(identificationToken: token);
+      final data = JwtDecoder.decode(token);
+
+      await _auth.register(
+        subject: token,
+        email: data['email'],
+        password: '123456',
+        name: data['name'],
+      );
       final profile = await _auth.getUser(accessToken: token);
       accessToken = token;
       currentUser = profile;
