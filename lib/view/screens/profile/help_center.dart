@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HelpCenter extends StatefulWidget {
   const HelpCenter({this.showAppBar = true, super.key});
@@ -116,7 +117,9 @@ class _HelpCenterState extends State<HelpCenter> {
                       ),
                       const SizedBox(height: 32),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async{
+                          await launchUrl(Uri.parse('https://dashboard.cycleforlisbon.com/policy'));
+                        },
                         child: Text(
                           'privacy_GDPR'.tr(),
                           style: GoogleFonts.dmSans(
@@ -128,7 +131,9 @@ class _HelpCenterState extends State<HelpCenter> {
                       ),
                       const SizedBox(height: 20),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async{
+                          await launchUrl(Uri.parse('https://dashboard.cycleforlisbon.com/terms-conditions'));
+                        },
                         child: Text(
                           'terms_condition'.tr(),
                           style: GoogleFonts.dmSans(

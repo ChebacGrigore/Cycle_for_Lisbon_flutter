@@ -1,6 +1,8 @@
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/splash.dart';
+// import 'package:cfl/splash.dart';
 import 'package:cfl/view/screens/auth/signin.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
@@ -9,12 +11,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../controller/auth/auth.dart';
 import 'app_route_paths.dart';
 
 final GoRouter appRoutes = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/',
+      // redirect: (_, state){
+      //   if(auth.isTokenExpired(accessToken) == false){
+      //     return AppRoutePath.home;
+      //   }else{
+      //     return '${AppRoutePath.splash}/0';
+      //   }
+      // },
+      // redirect: (_, state) => auth.isTokenExpired(accessToken) == false ? AppRoutePath.home : '${AppRoutePath.splash}/0',
+
       builder: (BuildContext context, GoRouterState state) {
         return const Splash();
       },

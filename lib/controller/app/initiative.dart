@@ -28,4 +28,50 @@ class InitiativeService {
       throw Exception('$e');
     }
   }
+
+  Future<List<EventModel>> getAllEvents({required String token}) async {
+    List<EventModel> events = [];
+    try{
+      final url = Uri.parse('$baseUrl/external?orderBy=id%20asc&type=event');
+      final response = await http.get(url, headers: {'Authorization': 'Bearer $token'});
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = json.decode(response.body);
+        // return jsonList.map((e) => EventModel.fromJson(e)).toList();
+        for (final event in jsonList) {
+          events.add(EventModel.fromJson(event));
+        }
+        return events;
+      } else {
+        final res = jsonDecode(response.body);
+        throw Exception('${res['error']['message']}');
+      }
+    }catch(e){
+      throw Exception('Failed to fetch events ${e.toString()}');
+    }
+  }
+
+  Future<List<NewsModel>> getAllNews({required String token}) async {
+    List<NewsModel> news = [];
+    try{
+      final url = Uri.parse('$baseUrl/external?orderBy=id%20asc&type=news');
+      final response = await http.get(url, headers: {'Authorization': 'Bearer $token'});
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = json.decode(response.body);
+        // return jsonList.map((e) => EventModel.fromJson(e)).toList();
+        for (final event in jsonList) {
+          news.add(NewsModel.fromJson(event));
+        }
+        return news;
+      } else {
+        final res = jsonDecode(response.body);
+        throw Exception('${res['error']['message']}');
+      }
+    }catch(e){
+      throw Exception('Failed to fetch events ${e.toString()}');
+    }
+  }
+
+
 }

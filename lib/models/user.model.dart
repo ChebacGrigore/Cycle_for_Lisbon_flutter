@@ -51,6 +51,9 @@ class User {
     this.totalDist,
   });
 
+  factory User.fromRawJson(String str) => User.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
@@ -61,11 +64,24 @@ class User {
       subject: json['subject'],
       email: json['email'],
       verified: json['verified'],
-      tripCount: json['tripCount'] ?? 0,
+      tripCount: int.parse(json['tripCount'].toString()),
       totalDist: json['totalDist'].toDouble() ?? 0.0,
       credits: json['credits'].toDouble() ?? 0.0,
     );
   }
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "createdAt": createdAt.toIso8601String(),
+    "updatedAt": updatedAt.toIso8601String(),
+    "name": name,
+    "username": username,
+    "subject": subject,
+    "email": email,
+    "verified": verified,
+    "tripCount": tripCount,
+    "totalDist": totalDist,
+    "credits": credits,
+  };
 }
 
 // class UserProfile {

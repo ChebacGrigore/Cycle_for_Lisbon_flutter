@@ -41,3 +41,17 @@ class AppLeaderboard extends AppEvent {
   @override
   List<Object> get props => [token];
 }
+
+class AppNews extends AppEvent {
+  final String token;
+  const AppNews({required this.token});
+  @override
+  List<Object> get props => [token];
+}
+
+class AppEvents extends AppEvent {
+  final String token;
+  const AppEvents({required this.token});
+  @override
+  List<Object> get props => [token];
+}

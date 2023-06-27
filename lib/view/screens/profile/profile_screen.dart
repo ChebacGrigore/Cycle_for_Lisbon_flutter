@@ -108,14 +108,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               if (state.status.isLoading) {
                                 return Column(
                                   children: [
-                                    CircleAvatar(
+                                    const CircleAvatar(
                                       radius: 45,
                                       backgroundColor: AppColors.white,
-                                      child: Image.asset(
-                                        AppAssets.avatar,
-                                        width: 62,
-                                        height: 62,
-                                      ),
+
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
@@ -200,14 +196,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               }
                               return Column(
                                 children: [
-                                  CircleAvatar(
+                                  const CircleAvatar(
                                     radius: 45,
                                     backgroundColor: AppColors.white,
-                                    child: Image.asset(
-                                      AppAssets.avatar,
-                                      width: 62,
-                                      height: 62,
-                                    ),
+
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
@@ -239,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(
                             width: 90,
                             child: ProfileActivityCount(
-                              unit: 'h',
+                              unit: '',
                               count: currentUser.tripCount ?? 0,
                               title: 'total_rides'.tr(),
                               icon: Icons.access_time_outlined,

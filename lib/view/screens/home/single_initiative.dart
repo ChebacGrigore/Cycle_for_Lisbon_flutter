@@ -65,10 +65,10 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                       bottomLeft: Radius.circular(15),
                       bottomRight: Radius.circular(15)),
                   child: Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(
-                          AppAssets.fishBg,
+                        image: NetworkImage(
+                          widget.initiative.presignedImageUrl,
                         ),
                         fit: BoxFit.cover,
                       ),
@@ -81,8 +81,9 @@ class _SingleInitiativeState extends State<SingleInitiative> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             InitiativeProgress(
-                              progress: 0.6,
+                              progress: (widget.initiative.goal / widget.initiative.credits) /10000,
                               goal: widget.initiative.goal,
+                              collected: widget.initiative.credits,
                             ),
                           ],
                         ),

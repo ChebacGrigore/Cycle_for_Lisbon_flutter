@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class TripService {
   final geolocator = GeolocatorPlatform.instance;
@@ -71,25 +72,37 @@ class TripService {
     }
   }
 
+  String getTimeZone(DateTime dateTime) {
+    final timeZoneOffset = dateTime.timeZoneOffset;
+    final sign = timeZoneOffset.isNegative ? '-' : '+';
+    final hours = timeZoneOffset.inHours.abs().toString().padLeft(2, '0');
+    final minutes = timeZoneOffset.inMinutes.remainder(60).abs().toString().padLeft(2, '0');
+
+    return '$sign$hours:$minutes';
+  }
+
   Future<List<TripModel>> getTrips({required String accessToken, DateTime? timeFrom, DateTime? timeTo}) async {
     final myUrl = '$baseUrl/trips?orderBy=id%20asc';
     final headers = {
       'Authorization': 'Bearer $accessToken',
     };
-    final formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ssxxx");
-    final formattedTimeFrom = timeFrom != null ? formatter.format(timeFrom) : null;
-    final formattedTimeTo = timeTo != null ? formatter.format(timeTo) : null;
+    final formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss", "en_US");
+    final formattedTimeFrom = timeFrom != null ? formatter.format(timeFrom) + getTimeZone(timeFrom) : null;
+    final formattedTimeTo = timeTo != null ? formatter.format(timeTo) + getTimeZone(timeTo) : null;
 
 
 
-    final url = Uri.parse(myUrl).replace(queryParameters: {
-      if (formattedTimeFrom != null) 'timeFrom': formattedTimeFrom,
-      if (formattedTimeTo != null) 'timeTo': formattedTimeTo,
-    });
+
+
 
     List<TripModel> trips = [];
     try {
-      final response = await http.get(url, headers: headers);
+      final urlWithFilter = Uri.parse(myUrl).replace(queryParameters: {
+        if (formattedTimeFrom != null) 'timeFrom': formattedTimeFrom,
+        if (formattedTimeTo != null) 'timeTo': formattedTimeTo,
+      });
+      final url = Uri.parse(myUrl);
+      final response = await http.get(timeFrom == null && timeTo == null ? url : urlWithFilter, headers: headers);
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
@@ -102,7 +115,6 @@ class TripService {
         throw Exception('${res['error']['message']}');
       }
     } catch (e) {
-      print(e.toString());
       print(e.toString());
       throw Exception('$e');
     }

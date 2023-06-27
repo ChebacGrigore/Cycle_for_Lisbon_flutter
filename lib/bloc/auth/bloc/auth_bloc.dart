@@ -39,10 +39,42 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
 
       final profile = await _auth.getUser(accessToken: token);
+      await _auth.saveToLocalStorage(key: 'token', value: token);
+      await _auth.saveToLocalStorage(key: 'user', value: profile.toRawJson());
+
       accessToken = token;
       currentUser = profile;
       currentLocation = (await TripService().getCurrentLocation())!;
       emit(state.copyWith(status: AuthStatus.authenticated, token: token));
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
+    }
+  }
+
+  void _onRegister(AuthRegister event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      await _auth.register(
+        email: event.email,
+        password: event.password,
+        subject: event.subject,
+        name: event.name,
+      );
+      final token = await _auth.login(
+        email: event.email,
+        password: event.password,
+        clientId: Platform.isAndroid ? androidClientId : iosClientId,
+        clientSecret:
+        Platform.isAndroid ? androidClientSecret : iosClientSecret,
+      );
+      final profile = await _auth.getUser(accessToken: token);
+      await _auth.saveToLocalStorage(key: 'token', value: token);
+      await _auth.saveToLocalStorage(key: 'user', value: profile.toRawJson());
+      accessToken = token;
+      currentUser = profile;
+      emit(
+        state.copyWith(status: AuthStatus.registered, user: profile),
+      );
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
     }
@@ -83,33 +115,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       currentUser = profile;
       // userId = id;
       emit(state.copyWith(status: AuthStatus.authenticated, token: token));
-    } catch (e) {
-      emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
-    }
-  }
-
-  void _onRegister(AuthRegister event, Emitter<AuthState> emit) async {
-    emit(state.copyWith(status: AuthStatus.loading));
-    try {
-      await _auth.register(
-        email: event.email,
-        password: event.password,
-        subject: event.subject,
-        name: event.name,
-      );
-      final token = await _auth.login(
-        email: event.email,
-        password: event.password,
-        clientId: Platform.isAndroid ? androidClientId : iosClientId,
-        clientSecret:
-            Platform.isAndroid ? androidClientSecret : iosClientSecret,
-      );
-      final profile = await _auth.getUser(accessToken: token);
-      accessToken = token;
-      currentUser = profile;
-      emit(
-        state.copyWith(status: AuthStatus.registered, user: profile),
-      );
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
     }

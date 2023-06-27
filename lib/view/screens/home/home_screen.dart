@@ -34,7 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     context.read<AppBloc>().add(AppListOfInitiatives(token: accessToken));
-    context.read<AuthBloc>().add(AuthGetProfile(id: currentUser.id,token: accessToken));
+    context
+        .read<AuthBloc>()
+        .add(AuthGetProfile(id: currentUser.id, token: accessToken));
     BackButtonInterceptor.add(_exitDialogInterceptor);
   }
 
@@ -80,6 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
               builder: (context, state) {
+                if (state.status.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
                 return Padding(
                   padding: const EdgeInsets.only(
                     left: 20,
@@ -127,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: PillContainer(
                 title: 'total_earned'.tr(),
-                count: 13,
+                count: currentUser.credits ?? 0.0,
                 icon: CFLIcons.coin1,
               ),
             ),
@@ -135,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: PillContainer(
                 title: 'total_km'.tr(),
-                count: 50,
+                count: currentUser.totalDist ?? 0.0,
                 icon: CFLIcons.roadhz,
               ),
             ),
@@ -223,8 +228,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                         initiative: state.initiatives[index],
                                       ),
                                     );
-                                // initiativeState = InitiativeValue.completed;
-                                //pass selected initiative
                               });
                             },
                             child: InitiativeCard(
@@ -250,8 +253,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 initiative: state.initiatives[index],
                               ),
                             );
-                        //initiativeState = InitiativeValue.completed;
-                        //pass selected initiative
                       });
                     },
                     child: InitiativeCard(
@@ -338,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: PillContainer(
                     title: 'total_earned'.tr(),
-                    count: 13,
+                    count: currentUser.credits ?? 0.0,
                     icon: CFLIcons.coin1,
                   ),
                 ),
@@ -346,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: PillContainer(
                     title: 'total_km'.tr(),
-                    count: 50,
+                    count: currentUser.totalDist ?? 0.0,
                     icon: CFLIcons.roadhz,
                   ),
                 ),
@@ -356,6 +357,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SelectedInitiativeCard(
               progress: 0.4,
               goal: selectedInitiative.goal,
+              collected: selectedInitiative.credits,
             ),
             const SizedBox(height: 32),
             Text(
@@ -616,6 +618,7 @@ class _HomeScreenState extends State<HomeScreen> {
         SelectedInitiativeCard(
           progress: 1,
           goal: completedInitiative.goal,
+          collected: completedInitiative.credits,
         ),
         const SizedBox(height: 32),
         RichText(
@@ -770,25 +773,28 @@ class ProfileButton extends StatelessWidget {
             child: BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 print(currentProfilePic);
-                if(state.status.isProfilePicture){
-                  return  CircleAvatar(
+                if (state.status.isProfilePicture) {
+                  return CircleAvatar(
                     radius: 23,
                     backgroundImage: NetworkImage(
                       state.profilePic!,
                     ),
                   );
                 }
-                return currentProfilePic == '' ?   const CircleAvatar(
-                  radius: 23,
-                  backgroundImage: AssetImage(
-                     AppAssets.avatar,
-                  ),
-                ) : CircleAvatar(
-                  radius: 23,
-                  backgroundImage: NetworkImage(
-                    currentProfilePic,
-                  ),
-                );
+                return currentProfilePic == ''
+                    ? const CircleAvatar(
+                        radius: 23,
+                        // backgroundImage: AssetImage(
+                        //   AppAssets.avatar,
+                        // ),
+                        backgroundColor: AppColors.background,
+                      )
+                    : CircleAvatar(
+                        radius: 23,
+                        backgroundImage: NetworkImage(
+                          currentProfilePic,
+                        ),
+                      );
               },
             ),
           ),
@@ -843,10 +849,11 @@ class ContributionCard extends StatelessWidget {
 
 class SelectedInitiativeCard extends StatelessWidget {
   const SelectedInitiativeCard(
-      {required this.progress, required this.goal, Key? key})
+      {required this.progress, required this.goal, required this.collected, Key? key})
       : super(key: key);
-  final double progress;
+  final double progress, collected;
   final int goal;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -875,6 +882,7 @@ class SelectedInitiativeCard extends StatelessWidget {
           InitiativeProgress(
             progress: progress,
             goal: goal,
+            collected: collected,
           ),
         ],
       ),
@@ -887,9 +895,10 @@ class InitiativeProgress extends StatelessWidget {
     super.key,
     required this.progress,
     required this.goal,
+    required this.collected,
   });
 
-  final double progress;
+  final double progress, collected;
   final int goal;
 
   @override
@@ -902,7 +911,7 @@ class InitiativeProgress extends StatelessWidget {
             progress != 1
                 ? InitiativeCounter2(
                     title: 'collected'.tr(),
-                    count: 24,
+                    count: collected.toStringAsFixed(2),
                   )
                 : Row(
                     children: [
@@ -950,7 +959,7 @@ class InitiativeCounter2 extends StatelessWidget {
     super.key,
   });
   final String title;
-  final int count;
+  final dynamic count;
   @override
   Widget build(BuildContext context) {
     return Column(

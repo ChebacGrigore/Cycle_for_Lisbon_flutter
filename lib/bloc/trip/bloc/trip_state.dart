@@ -33,7 +33,7 @@ class TripState extends Equatable {
     this.latitude,
     this.longitude,
     this.trip,
-    this.trips,
+    this.trips = const [],
     this.pois = const [],
   });
 

@@ -20,8 +20,8 @@ class InitiativeCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       width: double.infinity,
       decoration: BoxDecoration(
-        image: const DecorationImage(
-          image: AssetImage(AppAssets.fishBg),
+        image: DecorationImage(
+          image: NetworkImage(initiative.presignedImageUrl),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(20),
@@ -78,7 +78,7 @@ class InitiativeCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   ActvityCount(
-                    count: 13,
+                    count: initiative.credits.toStringAsFixed(2),
                     title: 'collected'.tr(),
                   ),
                 ],
@@ -136,7 +136,7 @@ class ActvityCount extends StatelessWidget {
     required this.title,
     this.color = AppColors.accentColor,
   });
-  final int count;
+  final dynamic count;
   final String title;
   final Color? color;
   @override
@@ -178,13 +178,13 @@ class PillContainer extends StatelessWidget {
     required this.icon,
   });
   final String title;
-  final int count;
+  final double count;
   final IconData icon;
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 25,
+        horizontal: 18,
         vertical: 7,
       ),
       decoration: BoxDecoration(

@@ -17,6 +17,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AppCompletedInitiative>(_onCompletedInitiative);
     on<AppListOfBadges>(_onListOfBadges);
     on<AppLeaderboard>(_onLeaderboard);
+    on<AppNews>(_onNews);
+    on<AppEvents>(_onEvents);
   }
 
   void _onListOfInitiatives(
@@ -69,6 +71,44 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           status: AppStatus.allEntries,
           entries: leader.entries,
           userPosition: leader.userPosition,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AppStatus.error));
+    }
+  }
+
+  void _onNews(
+      AppNews event, Emitter<AppState> emit) async {
+    emit(state.copyWith(status: AppStatus.loading));
+    try {
+      final news = await _initiative.getAllNews(
+        token: event.token,
+      );
+      print('News from bloc >>> ${news.length}');
+      emit(
+        state.copyWith(
+          status: AppStatus.allNews,
+          news: news,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AppStatus.error));
+    }
+  }
+
+  void _onEvents(
+      AppEvents event, Emitter<AppState> emit) async {
+    emit(state.copyWith(status: AppStatus.loading));
+    try {
+      final events = await _initiative.getAllEvents(
+        token: event.token,
+      );
+      print('Events from bloc >>> ${events.length}');
+      emit(
+        state.copyWith(
+          status: AppStatus.allEvents,
+          events: events,
         ),
       );
     } catch (e) {

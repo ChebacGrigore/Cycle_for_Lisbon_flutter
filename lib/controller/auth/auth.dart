@@ -8,19 +8,9 @@ import 'package:cfl/routes/app_route.dart';
 import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/configs/url_config.dart';
 import 'package:http/http.dart' as http;
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-Future<void> saveTokensToLocalStorage(String token) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString('token', token);
-}
-
-Future<String?> getTokenFromLocalStorage() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? token = prefs.getString('token');
-  return token;
-}
 
 class AuthService {
   Future<bool> register({
@@ -40,7 +30,7 @@ class AuthService {
 
     try {
       final response = await http.post(url, headers: headers, body: body);
-      print(response.body);
+      // print(response.body);
       if (response.statusCode == 201) {
         return true;
       } else {
@@ -74,12 +64,9 @@ class AuthService {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         final accessToken = json['access_token'] as String;
-        final refreshToken = json['refresh_token'] as String;
-        final token =
-            Token(accessToken: accessToken, refreshToken: refreshToken);
-        saveTokensToLocalStorage(
-          token.toRawJson(),
-        );
+        // final refreshToken = json['refresh_token'] as String;
+        // final token =
+        //     Token(accessToken: accessToken, refreshToken: refreshToken);
         return accessToken;
       } else {
         final res = jsonDecode(response.body);
@@ -156,16 +143,13 @@ class AuthService {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         final accessToken = json['access_token'] as String;
-        final refreshToken = json['refresh_token'] as String;
-        final token =
-            Token(accessToken: accessToken, refreshToken: refreshToken);
-        saveTokensToLocalStorage(
-          token.toRawJson(),
-        );
+        // final refreshToken = json['refresh_token'] as String;
+        // final token =
+        //     Token(accessToken: accessToken, refreshToken: refreshToken);
+
         return accessToken;
       } else {
         final res = jsonDecode(response.body);
-        print(res['error_description']);
         throw Exception('${res['error_description']}');
       }
     } catch (e) {
@@ -305,7 +289,11 @@ class AuthService {
           subject: jsonBody['subject'],
           username: jsonBody['username'] ?? 'N/A',
           verified: jsonBody['verified'],
+          tripCount: int.parse(jsonBody['tripCount'].toString()),
+          totalDist: double.parse(jsonBody['totalDist'].toString()) ?? 0.0,
+          credits: double.parse(jsonBody['credits'].toString()) ?? 0.0,
         );
+
         return user;
       } else {
         if (response.statusCode == 401) {
@@ -319,6 +307,7 @@ class AuthService {
         }
       }
     } catch (e) {
+      print(e);
       throw Exception('$e');
     }
   }
@@ -427,6 +416,24 @@ class AuthService {
       String? code = uri.split('code=')[1].split('&')[0];
       appRoutes.go('${AppRoutePath.splash}/$code?redirect=true');
     }
+  }
+
+  Future<void> saveToLocalStorage({required String key, required String value}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(key, value);
+  }
+
+  Future<String?> getFromLocalStorage({required String value}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(value);
+  }
+
+  bool isTokenExpired(String token) {
+    final Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    final int expirationTimestamp = decodedToken['exp'] * 1000; // Convert seconds to milliseconds
+    final DateTime expirationDate = DateTime.fromMillisecondsSinceEpoch(expirationTimestamp);
+
+    return expirationDate.isBefore(DateTime.now());
   }
 }
 

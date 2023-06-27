@@ -166,8 +166,7 @@ class TripHistoryItem extends ConsumerWidget {
       builder: (context, state) {
         return BlocBuilder<TripBloc, TripState>(
           builder: (context, state) {
-            print(state.status);
-            print(state.status);
+
             if (state.status.isLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -297,7 +296,6 @@ class TripHistoryItem extends ConsumerWidget {
                       },
                     );
             }
-            print(state.status);
             return ListView.separated(
               itemCount: state.trips!.length,
               itemBuilder: (ctx, idx) {
