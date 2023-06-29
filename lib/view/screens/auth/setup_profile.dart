@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SetupProfile extends ConsumerStatefulWidget {
   const SetupProfile({
@@ -95,6 +96,10 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
               ),
             );
             context.push(const Layout());
+          }else if (state.status.isProfilePicture) {
+            setState(() {
+              isLoading = false;
+            });
           }
         },
         builder: (context, state) {
@@ -124,20 +129,53 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
                         ),
                       ),
                       const SizedBox(height: 32),
-                      profilePic == ''
-                          ? const CircleAvatar(
-                              radius: 40,
-                            )
-                          : CircleAvatar(
-                              radius: 40,
-                              backgroundImage: FileImage(File(profilePic)),
+                      BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+                        if (state.status.isLoading) {
+                          return const CircleAvatar(
+                            radius: 85,
+                            child: Center(
+                              child: CircularProgressIndicator(),
                             ),
+                          );
+                        } else if (state.status.isError) {
+                          return const CircleAvatar(
+                            radius: 85,
+                          );
+                        } else if (state.status.isProfilePicture) {
+                          CircleAvatar(
+                            radius: 85,
+                            backgroundImage:
+                            FileImage(File(profilePic)),
+                          );
+                        }
+                        return profilePic == ''
+                            ? const CircleAvatar(
+                          radius: 40,
+                          backgroundColor: AppColors.white,
+                          backgroundImage: AssetImage(AppAssets.placeholder),
+                        )
+                            : CircleAvatar(
+                          radius: 40,
+                          backgroundImage: FileImage(File(profilePic)),
+                        );
+                      }),
                       TextButton(
                         onPressed: () async {
-                          final image = await MediaService().pickImage();
+                          final imagePath =
+                          await mediaService.pickImage();
                           setState(() {
-                            profilePic = image!;
+                            profilePic = imagePath!;
                           });
+                          final imageBytes = await mediaService
+                              .fileToBytes(File(imagePath!));
+
+                          context.read<AuthBloc>().add(
+                            AuthProfilePictureUpload(
+                              token: accessToken,
+                              id: currentUser.id,
+                              imageByte: imageBytes,
+                            ),
+                          );
                         },
                         child: Text('change_avatar'.tr()),
                       ),
@@ -215,7 +253,10 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
                                       decoration: TextDecoration.underline,
                                     ),
                                     recognizer: TapGestureRecognizer()
-                                      ..onTap = () {},
+                                      ..onTap = () async{
+
+                                        await launchUrl(Uri.parse('https://dashboard.cycleforlisbon.com/terms-conditions'));
+                                      },
                                   ),
                                   TextSpan(
                                     text: '${'and'.tr()} ',
@@ -227,7 +268,9 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
                                       decoration: TextDecoration.underline,
                                     ),
                                     recognizer: TapGestureRecognizer()
-                                      ..onTap = () {},
+                                      ..onTap = () async{
+                                        await launchUrl(Uri.parse('https://dashboard.cycleforlisbon.com/policy'));
+                                      },
                                   ),
                                 ],
                               ),

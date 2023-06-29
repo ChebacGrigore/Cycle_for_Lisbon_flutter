@@ -5,6 +5,8 @@ import 'package:cfl/models/initiative.model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../models/acheivement.model.dart';
+import '../../../models/user.model.dart';
+import '../../../shared/global/global_var.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
@@ -19,6 +21,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AppLeaderboard>(_onLeaderboard);
     on<AppNews>(_onNews);
     on<AppEvents>(_onEvents);
+    on<AppSupportInitiative>(_onSupportInitiative);
   }
 
   void _onListOfInitiatives(
@@ -28,11 +31,30 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       final initiatives = await _initiative.getInitiatives(
         accessToken: event.token,
       );
+
       emit(
         state.copyWith(
           status: AppStatus.allInitiativesLoaded,
           initiatives: initiatives,
         ),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AppStatus.error));
+    }
+  }
+
+  void _onSupportInitiative(AppSupportInitiative event, Emitter<AppState> emit) async {
+    emit(state.copyWith(status: AppStatus.loading));
+    try {
+      final user = await _initiative.supportInitiative(
+        user: event.userProfile,
+        userId: event.userId,
+        initiativeId: event.initiativeId,
+        accessToken: event.token,
+      );
+      currentUser = user;
+      emit(
+        state.copyWith(status: AppStatus.supportInitiative),
       );
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AppStatus.error));
@@ -46,13 +68,27 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       final badges = await allAchievements(
         token: event.token,
       );
-      print('Badges from bloc >>> ${badges.length}');
-      emit(
-        state.copyWith(
-          status: AppStatus.allBadges,
-          badges: badges,
-        ),
-      );
+      if(badges.isEmpty){
+        final achievements = await getAllAchievements(
+          token: event.token,
+        );
+        emit(
+          state.copyWith(
+            status: AppStatus.allBadges,
+            badges: [],
+            achievements: achievements,
+          ),
+        );
+      }else{
+        emit(
+          state.copyWith(
+            status: AppStatus.allBadges,
+            badges: badges,
+            achievements: [],
+          ),
+        );
+      }
+
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AppStatus.error));
     }
@@ -85,7 +121,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       final news = await _initiative.getAllNews(
         token: event.token,
       );
-      print('News from bloc >>> ${news.length}');
       emit(
         state.copyWith(
           status: AppStatus.allNews,
@@ -104,7 +139,6 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       final events = await _initiative.getAllEvents(
         token: event.token,
       );
-      print('Events from bloc >>> ${events.length}');
       emit(
         state.copyWith(
           status: AppStatus.allEvents,

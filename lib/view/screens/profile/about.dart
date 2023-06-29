@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});
@@ -109,11 +110,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '''Lorem ipsum dolor sit amet consectetur. Aliquam vulputate massa id lacus gravida enim pretium sit. Sollicitudin fermentum duis ullamcorper gravida enim phasellus consectetur. Sapien sed varius fermentum dictumst varius pellentesque. Dui aliquam feugiat enim lectus. 
-
-Maecenas magna orci ut sit ultricies. Imperdiet neque libero at euismod. Tincidunt ut ac nibh amet posuere non nisl. Enim at dui in et ullamcorper. Risus tempus rhoncus tristique aliquam interdum. 
-
-Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed tortor. Pellentesque vel cras nunc quis volutpat dictumst mauris. Scelerisque leo id eu nunc pretium viverra. Ornare id diam sagittis in ornare hendrerit dolor leo. Nec amet non mauris tincidunt mauris eget mauris.''',
+                          'about_desc'.tr(),
                           textAlign: TextAlign.start,
                           style: GoogleFonts.dmSans(
                             fontSize: 14,
@@ -176,7 +173,9 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                         const SizedBox(height: 32),
                         const Divider(),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: ()  async{
+                            await launchUrl(Uri.parse('https://dashboard.cycleforlisbon.com/policy'));
+                          },
                           child: Text(
                             'privacy_GDPR'.tr(),
                             style: GoogleFonts.dmSans(
@@ -188,7 +187,9 @@ Elit mattis consectetur ullamcorper consectetur feugiat tempor aliquam sed torto
                         ),
                         // const SizedBox(height: 20),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () async{
+                            await launchUrl(Uri.parse('https://dashboard.cycleforlisbon.com/terms-conditions'));
+                          },
                           child: Text(
                             'terms_condition'.tr(),
                             style: GoogleFonts.dmSans(

@@ -1,15 +1,19 @@
 import 'dart:async';
+// import 'dart:math';
 
 import 'package:cfl/models/trip.model.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/profile/leaderboard.dart';
 import 'package:cfl/view/screens/profile/trip_history.dart';
 import 'package:cfl/view/styles/assets.dart';
+import 'package:cfl/view/styles/cfl_icons.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
 class TripMapScreen extends StatefulWidget {
   final TripModel trip;
@@ -23,16 +27,16 @@ class _TripMapScreenState extends State<TripMapScreen> {
   late GoogleMapController mapController;
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
+  // Set<Polyline> polylines = {};
 
   void check(CameraUpdate u, GoogleMapController c) async {
     c.animateCamera(u);
     mapController.animateCamera(u);
     LatLngBounds l1 = await c.getVisibleRegion();
     LatLngBounds l2 = await c.getVisibleRegion();
-    print(l1.toString());
-    print(l2.toString());
-    if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90)
+    if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90) {
       check(u, c);
+    }
   }
 
   @override
@@ -76,8 +80,9 @@ class _TripMapScreenState extends State<TripMapScreen> {
                     (widget.trip.startLon! + widget.trip.endLon!) / 2),
                 zoom: 11.4746,
               ),
-              onMapCreated: (controller) {
+              onMapCreated: (controller) async{
                 mapController = controller;
+                //await getDirections(start: LatLng(widget.trip.startLat!, widget.trip.startLon!),stop: LatLng(widget.trip.endLat!, widget.trip.endLon!));
                 _controller.complete(controller);
 
                 LatLng latLng_1 =
@@ -96,8 +101,17 @@ class _TripMapScreenState extends State<TripMapScreen> {
                 controller.moveCamera(
                   CameraUpdate.newLatLngBounds(bounds, 30.0),
                 );
+
               },
               markers: Set<Marker>.of(markers),
+              polylines: <Polyline>{
+                Polyline(
+                  polylineId: const PolylineId('line'),
+                  color: Colors.yellow,
+                  width: 5,
+                  points: [LatLng(widget.trip.startLat!, widget.trip.startLon!), LatLng(widget.trip.endLat!, widget.trip.endLon!)],
+                ),
+              },
             ),
           ),
           Align(
@@ -176,7 +190,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                       children: [
                         LeaderboardActivityCount(
                           showTitle: false,
-                          count: widget.trip.distance.toStringAsFixed(2),
+                          count: widget.trip.distance.round(),
                           title: '',
                           unit: 'km'.tr(),
                           icon: AppAssets.roadIco,
@@ -184,10 +198,10 @@ class _TripMapScreenState extends State<TripMapScreen> {
                         const SizedBox(width: 20),
                         LeaderboardActivityCount(
                           showTitle: false,
-                          count: widget.trip.duration.toStringAsFixed(2),
+                          count: widget.trip.duration.round(),
                           title: '',
                           unit: 'h'.tr(),
-                          icon: AppAssets.roadIco,
+                          icon: AppAssets.clockIco,
                         ),
                         const SizedBox(width: 20),
                         LeaderboardActivityCount(
@@ -196,7 +210,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                               widget.trip.durationInMotion.toStringAsFixed(2),
                           title: '',
                           unit: '',
-                          icon: AppAssets.roadIco,
+                          icon: AppAssets.coinIco,
                         ),
                       ],
                     ),
@@ -209,4 +223,93 @@ class _TripMapScreenState extends State<TripMapScreen> {
       ),
     );
   }
+  // Future<void> getDirections({required LatLng start, required LatLng stop}) async {
+  //   // Send request to Google Directions API to get route
+  //   String apiUrl = 'https://maps.googleapis.com/maps/api/directions/json?';
+  //   String apiKey = 'AIzaSyBzw5hV5835icFv_9ycjcKG8eJ1EVCM8Qk';
+  //   String origin = '${start.latitude},${start.longitude}'; // Starting point
+  //   String destination = '${stop.latitude},${stop.longitude}'; // Ending point
+  //
+  //   Uri url = Uri.parse(
+  //     '${apiUrl}origin=$origin&destination=$destination&key=$apiKey',
+  //   );
+  //
+  //   http.Response response = await http.get(url);
+  //   if (response.statusCode == 200) {
+  //     // Parse the JSON response
+  //     var decoded = jsonDecode(response.body);
+  //     print(decoded);
+  //     List<LatLng> points = _decodePolyline(decoded['routes'][0]['overview_polyline']['points']);
+  //
+  //     // Draw route polyline on the map
+  //     setState(() {
+  //       polylines.add(
+  //         Polyline(
+  //           polylineId: PolylineId('route'),
+  //           color: Colors.blue,
+  //           width: 5,
+  //           points: points,
+  //         ),
+  //       );
+  //     });
+  //
+  //     // Adjust camera position to show entire route
+  //     LatLngBounds bounds = _getBoundsFromLatLngList(points);
+  //     mapController?.animateCamera(
+  //       CameraUpdate.newLatLngBounds(bounds, 50.0),
+  //     );
+  //   } else {
+  //     print('Error: ${response.reasonPhrase}');
+  //   }
+  // }
+  //
+  // List<LatLng> _decodePolyline(String encoded) {
+  //   List<LatLng> points = [];
+  //   int index = 0, len = encoded.length;
+  //   int lat = 0, lng = 0;
+  //
+  //   while (index < len) {
+  //     int b, shift = 0, result = 0;
+  //     do {
+  //       b = encoded.codeUnitAt(index++) - 63;
+  //       result |= (b & 0x1F) << shift;
+  //       shift += 5;
+  //     } while (b >= 0x20);
+  //     int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+  //     lat += dlat;
+  //
+  //     shift = 0;
+  //     result = 0;
+  //     do {
+  //       b = encoded.codeUnitAt(index++) - 63;
+  //       result |= (b & 0x1F) << shift;
+  //       shift += 5;
+  //     } while (b >= 0x20);
+  //     int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+  //     lng += dlng;
+  //
+  //     points.add(LatLng(lat / 1E5, lng / 1E5));
+  //   }
+  //
+  //   return points;
+  // }
+  //
+  // LatLngBounds _getBoundsFromLatLngList(List<LatLng> latLngList) {
+  //   double minLat = double.infinity;
+  //   double maxLat = -double.infinity;
+  //   double minLng = double.infinity;
+  //   double maxLng = -double.infinity;
+  //
+  //   for (LatLng latLng in latLngList) {
+  //     minLat = min(minLat, latLng.latitude);
+  //     maxLat = max(maxLat, latLng.latitude);
+  //     minLng = min(minLng, latLng.longitude);
+  //     maxLng = max(maxLng, latLng.longitude);
+  //   }
+  //
+  //   LatLng sw = LatLng(minLat, minLng);
+  //   LatLng ne = LatLng(maxLat, maxLng);
+  //
+  //   return LatLngBounds(southwest: sw, northeast: ne);
+  // }
 }

@@ -174,13 +174,28 @@ class AuthService {
       final response = await http.put(url, headers: headers, body: body);
 
       if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        return User.fromJson(jsonResponse);
+        final jsonBody = jsonDecode(response.body);
+        return User(
+          createdAt: DateTime.parse(jsonBody['createdAt']),
+          updatedAt: DateTime.parse(jsonBody['updatedAt']),
+          email: jsonBody['email'],
+          id: jsonBody['id'],
+          name: jsonBody['name'] ?? '',
+          subject: jsonBody['subject'],
+          username: jsonBody['username'] ?? 'N/A',
+          verified: jsonBody['verified'],
+          tripCount: int.parse(jsonBody['tripCount'].toString()),
+          totalDist: double.parse(jsonBody['totalDist'].toString()) ?? 0.0,
+          credits: double.parse(jsonBody['credits'].toString()) ?? 0.0,
+          gender: jsonBody['gender'] ?? '',
+          birthday: jsonBody['birthday'] ?? '',
+        );
       } else {
         final res = jsonDecode(response.body);
         throw Exception('${res['error_description']}');
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print('Stack trace: $stackTrace');
       throw Exception('$e');
     }
   }
@@ -279,8 +294,66 @@ class AuthService {
       final response = await http.get(url, headers: headers);
 
       if (response.statusCode == 200) {
-        final jsonBody = json.decode(response.body);
-        final user = User(
+        final jsonBody = json.decode(response.body) as Map<String, dynamic>;
+        print(jsonBody.containsKey('initiative'));
+        if (jsonBody.containsKey('initiative')) {
+            return User.fromJson(jsonBody);
+        }else{
+          return User(
+            createdAt: DateTime.parse(jsonBody['createdAt']),
+            updatedAt: DateTime.parse(jsonBody['updatedAt']),
+            email: jsonBody['email'],
+            id: jsonBody['id'],
+            name: jsonBody['name'] ?? '',
+            subject: jsonBody['subject'],
+            username: jsonBody['username'] ?? 'N/A',
+            verified: jsonBody['verified'],
+            tripCount: int.parse(jsonBody['tripCount'].toString()),
+            totalDist: double.parse(jsonBody['totalDist'].toString()) ?? 0.0,
+            credits: double.parse(jsonBody['credits'].toString()) ?? 0.0,
+            gender: jsonBody['gender'] ?? '',
+            birthday: jsonBody['birthday'] ?? '',
+          );
+        }
+
+
+        // return user;
+      } else {
+        if (response.statusCode == 401) {
+          final jsonResponse = jsonDecode(response.body);
+          final errorMessage = jsonResponse['error']['message'];
+          throw Exception('$errorMessage');
+        } else {
+          final jsonResponse = jsonDecode(response.body);
+          final errorMessage = jsonResponse['error']['message'];
+          throw Exception('$errorMessage');
+        }
+      }
+    } catch (e, stackTrace) {
+      print(e);
+      print('Stack trace: $stackTrace');
+      throw Exception('$e');
+
+    }
+  }
+
+  Future<User> getUserByInitiative({required String accessToken, re}) async {
+    final url = Uri.parse('$baseUrl/users/current');
+    final headers = {
+      'Authorization': 'Bearer $accessToken',
+      'accept': 'application/json',
+    };
+
+    try {
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        final jsonBody = json.decode(response.body) as Map<String, dynamic>;
+        // if (jsonBody.containsKey('initiative') &&
+        //     jsonBody.containsKey('initiativeId')) {
+        //     return User.fromJson(jsonBody);
+        // }else{
+        return User(
           createdAt: DateTime.parse(jsonBody['createdAt']),
           updatedAt: DateTime.parse(jsonBody['updatedAt']),
           email: jsonBody['email'],
@@ -292,9 +365,13 @@ class AuthService {
           tripCount: int.parse(jsonBody['tripCount'].toString()),
           totalDist: double.parse(jsonBody['totalDist'].toString()) ?? 0.0,
           credits: double.parse(jsonBody['credits'].toString()) ?? 0.0,
+          gender: jsonBody['gender'] ?? '',
+          birthday: jsonBody['birthday'] ?? '',
         );
+        // }
 
-        return user;
+
+        // return user;
       } else {
         if (response.statusCode == 401) {
           final jsonResponse = jsonDecode(response.body);
@@ -418,7 +495,8 @@ class AuthService {
     }
   }
 
-  Future<void> saveToLocalStorage({required String key, required String value}) async {
+  Future<void> saveToLocalStorage(
+      {required String key, required String value}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(key, value);
   }
@@ -428,10 +506,17 @@ class AuthService {
     return prefs.getString(value);
   }
 
+  Future<void> clearLocalStorage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
   bool isTokenExpired(String token) {
     final Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    final int expirationTimestamp = decodedToken['exp'] * 1000; // Convert seconds to milliseconds
-    final DateTime expirationDate = DateTime.fromMillisecondsSinceEpoch(expirationTimestamp);
+    final int expirationTimestamp =
+        decodedToken['exp'] * 1000; // Convert seconds to milliseconds
+    final DateTime expirationDate =
+        DateTime.fromMillisecondsSinceEpoch(expirationTimestamp);
 
     return expirationDate.isBefore(DateTime.now());
   }

@@ -2,7 +2,6 @@ import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/view/screens/auth/setup_profile.dart';
 import 'package:cfl/view/screens/auth/signin.dart';
-import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         const SizedBox(height: 43),
                         Text(
-                          'Sign Up',
+                          'sign_up'.tr(),
                           style: GoogleFonts.dmSans(
                             color: AppColors.primaryColor,
                             fontSize: 32,
@@ -212,8 +211,8 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         const SizedBox(height: 42),
-                        const SocialLogins(color: AppColors.black, fill: false),
-                        const SizedBox(height: 42),
+                        // const SocialLogins(color: AppColors.black, fill: false),
+                        // const SizedBox(height: 42),
                         Center(
                           child: TextButton(
                             onPressed: () {

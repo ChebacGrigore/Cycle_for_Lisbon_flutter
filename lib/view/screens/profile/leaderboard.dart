@@ -93,12 +93,11 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               backgroundColor: AppColors.white,
                               backgroundImage: NetworkImage(
                                 currentProfilePic,
-
                               ),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'you'.tr(),
+                              currentUser.name,
                               style: GoogleFonts.dmSans(
                                 color: AppColors.white,
                                 fontSize: 16,
@@ -124,7 +123,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   LeaderboardActivityCount(
-                                    count: currentUser.totalDist ?? 0,
+                                    count: currentUser.totalDist!.toStringAsFixed(1) ?? 0,
                                     title: 'total_km'.tr(),
                                     unit: 'km',
                                     icon: AppAssets.roadHz,
@@ -138,7 +137,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.credits ?? 0,
+                                    count: currentUser.credits!.toStringAsFixed(1) ?? 0,
                                     title: 'total_earned'.tr(),
                                     unit: '',
                                     icon: AppAssets.handCoins,
@@ -240,7 +239,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'you'.tr(),
+                              currentUser.name,
                               style: GoogleFonts.dmSans(
                                 color: AppColors.white,
                                 fontSize: 16,
@@ -266,7 +265,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   LeaderboardActivityCount(
-                                    count: currentUser.totalDist ?? 0,
+                                    count: currentUser.totalDist!.toStringAsFixed(1) ?? 0,
                                     title: 'total_km'.tr(),
                                     unit: 'km',
                                     icon: AppAssets.roadHz,
@@ -280,7 +279,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.credits ?? 0,
+                                    count: currentUser.credits!.toStringAsFixed(1) ?? 0,
                                     title: 'total_earned'.tr(),
                                     unit: '',
                                     icon: AppAssets.handCoins,
@@ -400,7 +399,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'you'.tr(),
+                              currentUser.name,
                               style: GoogleFonts.dmSans(
                                 color: AppColors.white,
                                 fontSize: 16,
@@ -426,7 +425,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   LeaderboardActivityCount(
-                                    count: currentUser.totalDist ?? 0,
+                                    count: currentUser.totalDist!.toStringAsFixed(1) ?? 0,
                                     title: 'total_km'.tr(),
                                     unit: 'km',
                                     icon: AppAssets.roadHz,
@@ -440,7 +439,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.credits ?? 0,
+                                    count: currentUser.credits!.toStringAsFixed(1) ?? 0,
                                     title: 'total_earned'.tr(),
                                     unit: '',
                                     icon: AppAssets.handCoins,
@@ -529,7 +528,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                         children: [
                                           LeaderboardActivityCount(
                                             showTitle: false,
-                                            count: entry.totalDist.toStringAsFixed(2),
+                                            count: entry.totalDist.toStringAsFixed(1),
                                             title: '',
                                             unit: 'km'.tr(),
                                             icon: AppAssets.roadHz,
@@ -545,7 +544,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                           const SizedBox(width: 20),
                                           LeaderboardActivityCount(
                                             showTitle: false,
-                                            count: entry.credits.toStringAsFixed(2),
+                                            count: entry.credits.toStringAsFixed(1),
                                             title: '',
                                             unit: '',
                                             icon: AppAssets.handCoins,
@@ -625,7 +624,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'you'.tr(),
+                            currentUser.name,
                             style: GoogleFonts.dmSans(
                               color: AppColors.white,
                               fontSize: 16,
@@ -650,7 +649,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 LeaderboardActivityCount(
-                                  count: currentUser.totalDist ?? 0,
+                                  count: currentUser.totalDist!.toStringAsFixed(1) ?? 0,
                                   title: 'total_km'.tr(),
                                   unit: 'km',
                                   icon: AppAssets.roadHz,
@@ -664,7 +663,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                 ),
                                 const SizedBox(width: 6),
                                 LeaderboardActivityCount(
-                                  count: currentUser.credits ?? 0,
+                                  count: currentUser.credits!.toStringAsFixed(1) ?? 0,
                                   title: 'total_earned'.tr(),
                                   unit: '',
                                   icon: AppAssets.handCoins,
@@ -752,7 +751,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     children: [
                                       LeaderboardActivityCount(
                                         showTitle: false,
-                                        count: state.entries[idx].totalDist.toStringAsFixed(2),
+                                        count: state.entries[idx].totalDist.toStringAsFixed(1),
                                         title: '',
                                         unit: 'km'.tr(),
                                         icon: AppAssets.roadHz,
@@ -760,7 +759,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                       const SizedBox(width: 20),
                                       LeaderboardActivityCount(
                                         showTitle: false,
-                                        count: state.entries[idx].tripCount.toStringAsFixed(2),
+                                        count: state.entries[idx].tripCount.toStringAsFixed(1),
                                         title: 'rides'.tr(),
                                         unit: 'x',
                                         icon: AppAssets.bicycle,
@@ -768,7 +767,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                       const SizedBox(width: 20),
                                        LeaderboardActivityCount(
                                         showTitle: false,
-                                        count: state.entries[idx].credits.toStringAsFixed(2),
+                                        count: state.entries[idx].credits.toStringAsFixed(1),
                                         title: '',
                                         unit: '',
                                         icon: AppAssets.handCoins,

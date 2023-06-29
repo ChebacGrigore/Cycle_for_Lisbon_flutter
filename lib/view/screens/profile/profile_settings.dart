@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../models/user.model.dart';
+
 // import '../../../controller/app/media_service.dart';
 
 class ProfileSettings extends StatefulWidget {
@@ -27,9 +29,13 @@ class ProfileSettings extends StatefulWidget {
 class _ProfileSettingsState extends State<ProfileSettings> {
   ScrollController scrollController = ScrollController();
   TextEditingController email = TextEditingController();
-  TextEditingController fName = TextEditingController();
-  TextEditingController lName = TextEditingController();
+  TextEditingController name = TextEditingController();
+
   TextEditingController nickName = TextEditingController();
+  TextEditingController oldPass = TextEditingController();
+  TextEditingController newPass = TextEditingController();
+  TextEditingController confirmPass = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   Color appbarColor = AppColors.white;
   bool isLoading = false;
   String profilePic = '';
@@ -37,8 +43,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   void initState() {
     super.initState();
     setState(() {
-      fName = TextEditingController(text: currentUser.name.split(' ')[0]);
-      lName = TextEditingController(text: currentUser.name.split(' ')[1]);
+      name = TextEditingController(text: currentUser.name);
+      // lName = TextEditingController(text: currentUser.name.split(' ')[1]);
       nickName = TextEditingController(text: currentUser.username);
     });
     scrollController.addListener(() {
@@ -98,116 +104,298 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ),
               ),
             );
-            fName.clear();
-            lName.clear();
+            name.clear();
+            // lName.clear();
             nickName.clear();
 
             context
                 .read<AuthBloc>()
                 .add(AuthGetProfile(id: currentUser.id, token: accessToken));
             context.pop();
-          }else if (state.status.isProfilePicture) {
+          } else if (state.status.isProfilePicture) {
             setState(() {
               isLoading = false;
             });
+          } else if (state.status.isPasswordUpdated) {
+            setState(() {
+              isLoading = false;
+            });
+            oldPass.clear();
+            newPass.clear();
+            confirmPass.clear();
           }
         },
         builder: (context, state) {
-          return CustomScrollView(
-            controller: scrollController,
-            slivers: [
-              SliverAppBar(
-                backgroundColor: AppColors.background,
-                foregroundColor: appbarColor,
-                floating: true,
-                pinned: true,
-                snap: true,
-                centerTitle: true,
-                expandedHeight: 175,
-                title: Text(
-                  'profile_settings'.tr(),
-                  style: GoogleFonts.dmSans(),
-                ),
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Stack(
-                    children: <Widget>[
-                      const MyArc(
-                        diameter: double.infinity,
-                        color: AppColors.primaryColor,
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: SizedBox(
-                          width: 108,
-                          height: 108,
-                          child: Stack(
-                            children: [
-                              // profilePic == ''
-                              //     ? const CircleAvatar(
-                              //         radius: 85,
-                              //       )
-                              //     :
-                              BlocBuilder<AuthBloc, AuthState>(
-                                builder: (context, state) {
-                                  if (state.status.isLoading) {
-                                    return const CircleAvatar(
-                                      radius: 85,
-                                      child: Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    );
-                                  } else if (state.status.isError) {
-                                    return const CircleAvatar(
-                                      radius: 85,
-                                    );
-                                  } else if (state.status.isProfilePicture) {
-                                    CircleAvatar(
-                                      radius: 85,
-                                      backgroundImage:
-                                      FileImage(File(profilePic)),
-                                    );
-                                  }
-                                  return profilePic == '' ?  CircleAvatar(
-                                    radius: 85,
-                                      backgroundImage:
-                                      NetworkImage(state.profilePic!)
-                                  )
-                                      : CircleAvatar(
-                                    radius: 85,
-                                    backgroundImage:
-                                        FileImage(File(profilePic)),
-                                  );
-                                },
-                              ),
-                              GestureDetector(
-                                onTap: () async {
-                                  final imagePath =
-                                      await mediaService.pickImage();
-                                  setState(() {
-                                    profilePic = imagePath!;
-                                  });
-                                  final imageBytes = await mediaService
-                                      .fileToBytes(File(imagePath!));
-
-                                  context.read<AuthBloc>().add(
-                                        AuthProfilePictureUpload(
-                                          token: accessToken,
-                                          id: currentUser.id,
-                                          imageByte: imageBytes,
+          return Form(
+            key: _formKey,
+            child: CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                SliverAppBar(
+                  backgroundColor: AppColors.background,
+                  foregroundColor: appbarColor,
+                  floating: true,
+                  pinned: true,
+                  snap: true,
+                  centerTitle: true,
+                  expandedHeight: 175,
+                  title: Text(
+                    'profile_settings'.tr(),
+                    style: GoogleFonts.dmSans(),
+                  ),
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Stack(
+                      children: <Widget>[
+                        const MyArc(
+                          diameter: double.infinity,
+                          color: AppColors.primaryColor,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: SizedBox(
+                            width: 108,
+                            height: 108,
+                            child: Stack(
+                              children: [
+                                // profilePic == ''
+                                //     ? const CircleAvatar(
+                                //         radius: 85,
+                                //       )
+                                //     :
+                                BlocBuilder<AuthBloc, AuthState>(
+                                  builder: (context, state) {
+                                    if (state.status.isLoading) {
+                                      return const CircleAvatar(
+                                        radius: 85,
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
                                         ),
                                       );
-                                },
-                                child: const Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: CircleAvatar(
-                                    backgroundColor: AppColors.secondaryColor,
-                                    child: Icon(
-                                      Icons.photo_camera_outlined,
-                                      color: AppColors.primaryColor,
+                                    } else if (state.status.isError) {
+                                      return CircleAvatar(
+                                        radius: 85,
+                                        child: SizedBox(
+                                          height: 64,
+                                          width: 64,
+                                          child: Image.asset(
+                                              AppAssets.placeholder),
+                                        ),
+                                      );
+                                    } else if (state.status.isProfilePicture) {
+                                      CircleAvatar(
+                                        radius: 85,
+                                        backgroundImage:
+                                            FileImage(File(profilePic)),
+                                      );
+                                    }
+                                    return currentProfilePic == ''
+                                        ? CircleAvatar(
+                                            radius: 40,
+                                            backgroundColor: AppColors.white,
+                                            child: SizedBox(
+                                              width: 64,
+                                              height: 65,
+                                              child: Image.asset(
+                                                  AppAssets.placeholder),
+                                            ),
+                                          )
+                                        : profilePic == ''
+                                            ? CircleAvatar(
+                                                radius: 85,
+                                                backgroundImage: NetworkImage(
+                                                    state.profilePic!))
+                                            : CircleAvatar(
+                                                radius: 85,
+                                                backgroundImage:
+                                                    FileImage(File(profilePic)),
+                                              );
+                                  },
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    final imagePath =
+                                        await mediaService.pickImage();
+                                    setState(() {
+                                      profilePic = imagePath!;
+                                    });
+                                    final imageBytes = await mediaService
+                                        .fileToBytes(File(imagePath!));
+
+                                    context.read<AuthBloc>().add(
+                                          AuthProfilePictureUpload(
+                                            token: accessToken,
+                                            id: currentUser.id,
+                                            imageByte: imageBytes,
+                                          ),
+                                        );
+                                  },
+                                  child: const Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: CircleAvatar(
+                                      backgroundColor: AppColors.secondaryColor,
+                                      child: Icon(
+                                        Icons.photo_camera_outlined,
+                                        color: AppColors.primaryColor,
+                                      ),
                                     ),
                                   ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: SingleChildScrollView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 42),
+                              AppTextField(
+                                hint: 'Name'.tr(),
+                                controller: name,
+                                // initialValue: currentUser.name.split(' ')[0],
+                              ),
+                              // const SizedBox(height: 19),
+                              // AppTextField(
+                              //   hint: 'last_name'.tr(),
+                              //   controller: lName,
+                              //   // initialValue: currentUser.name.split(' ')[1],
+                              // ),
+                              const SizedBox(height: 19),
+                              AppTextField(
+                                hint: 'nickname'.tr(),
+                                controller: nickName,
+                                // initialValue: currentUser.username,
+                              ),
+                              const SizedBox(height: 19),
+                              AppTextField(
+                                hint: currentUser.email,
+                                controller: email,
+                                enabled: false,
+                              ),
+                              const SizedBox(height: 29),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Divider(
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.10),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Text(
+                                    'change_password'.tr().toUpperCase(),
+                                    style: GoogleFonts.dmSans(
+                                      color: AppColors.primaryColor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Divider(
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.10),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 29),
+                              AppTextField(
+                                hint: 'old_password'.tr(),
+                                controller: oldPass,
+                              ),
+                              const SizedBox(height: 19),
+                              AppTextField(
+                                hint: 'new_password'.tr(),
+                                controller: newPass,
+                                validator: (val) {
+                                  if (val!.isEmpty) {
+                                    return 'New password is required';
+                                  } else if (val.length < 8) {
+                                    return 'New password less than 8 characters';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 19),
+                              AppTextField(
+                                hint: 'confirm_password'.tr(),
+                                controller: confirmPass,
+                                validator: (val) {
+                                  if (val!.isEmpty) {
+                                    return 'Confirm password is required';
+                                  } else if (val.length < 8) {
+                                    return 'Confirm password less than 8 characters';
+                                  } else if (val != newPass.text) {
+                                    return 'Password not matched';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 44),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 49,
+                                child: ElevatedButton(
+                                  style:
+                                      AppComponentThemes.elevatedButtonTheme(),
+                                  onPressed: isLoading == true
+                                      ? () {}
+                                      : () async {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            if (name.text != currentUser.name ||
+                                                nickName.text != currentUser.username) {
+                                              context.read<AuthBloc>().add(
+                                                    AuthProfileUpdate(
+                                                      token: accessToken,
+                                                      userProfile: UserUpdate(
+                                                        birthday: '1999-01-01',
+                                                        email:
+                                                            currentUser.email,
+                                                        gender: 'M',
+                                                        name:
+                                                            '${name.text == '' ? currentUser.name : name.text}',
+                                                        profilePic: '',
+                                                        username:
+                                                            nickName.text == ''
+                                                                ? currentUser
+                                                                    .username
+                                                                : nickName.text,
+                                                      ),
+                                                      id: currentUser.id,
+                                                    ),
+                                                  );
+                                            }
+                                            if (newPass.text != '' &&
+                                                oldPass.text != '') {
+                                              context.read<AuthBloc>().add(
+                                                    AuthPasswordUpdate(
+                                                      token: accessToken,
+                                                      newPassword: newPass.text,
+                                                      oldPassword: oldPass.text,
+                                                    ),
+                                                  );
+                                            }
+                                          }
+                                        },
+                                  child: isLoading == false
+                                      ? Text(
+                                          'save_changes'.tr(),
+                                        )
+                                      : const CircularProgressIndicator(),
                                 ),
-                              )
+                              ),
+                              const SizedBox(height: 44),
                             ],
                           ),
                         ),
@@ -215,131 +403,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     ],
                   ),
                 ),
-              ),
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: SingleChildScrollView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 42),
-                            AppTextField(
-                              hint: 'first_name'.tr(),
-                              controller: fName,
-                              // initialValue: currentUser.name.split(' ')[0],
-                            ),
-                            const SizedBox(height: 19),
-                            AppTextField(
-                              hint: 'last_name'.tr(),
-                              controller: lName,
-                              // initialValue: currentUser.name.split(' ')[1],
-                            ),
-                            const SizedBox(height: 19),
-                            AppTextField(
-                              hint: 'nickname'.tr(),
-                              controller: nickName,
-                              // initialValue: currentUser.username,
-                            ),
-                            const SizedBox(height: 19),
-                            AppTextField(
-                              hint: currentUser.email,
-                              controller: email,
-                              enabled: false,
-                            ),
-                            const SizedBox(height: 29),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Divider(
-                                    color: AppColors.primaryColor
-                                        .withOpacity(0.10),
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                Text(
-                                  'change_password'.tr().toUpperCase(),
-                                  style: GoogleFonts.dmSans(
-                                    color: AppColors.primaryColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Divider(
-                                    color: AppColors.primaryColor
-                                        .withOpacity(0.10),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 29),
-                            AppTextField(
-                              hint: 'old_password'.tr(),
-                              controller: TextEditingController(),
-                            ),
-                            const SizedBox(height: 19),
-                            AppTextField(
-                              hint: 'new_password'.tr(),
-                              controller: TextEditingController(),
-                            ),
-                            const SizedBox(height: 19),
-                            AppTextField(
-                              hint: 'confirm_password'.tr(),
-                              controller: TextEditingController(),
-                            ),
-                            const SizedBox(height: 44),
-                            SizedBox(
-                              width: double.infinity,
-                              height: 49,
-                              child: ElevatedButton(
-                                style: AppComponentThemes.elevatedButtonTheme(),
-                                onPressed: isLoading == true
-                                    ? () {}
-                                    : () async {
-                                        if (profilePic != '') {
-                                          final imageBytes = await mediaService
-                                              .fileToBytes(File(profilePic));
-                                          print(imageBytes);
-                                        }
-                                        // print(profilePic);
-                                        // context.read<AuthBloc>().add(
-                                        //       AuthProfileUpdate(
-                                        //         token: accessToken,
-                                        //         userProfile: UserUpdate(
-                                        //           birthday: '1999-01-01',
-                                        //           email: currentUser.email,
-                                        //           gender: 'M',
-                                        //           name:
-                                        //               '${fName.text == '' ? currentUser.name.split(' ')[0] : fName.text} ${lName.text == '' ? currentUser.name.split(' ')[1] : lName.text}',
-                                        //           profilePic: '',
-                                        //           username: nickName.text == ''
-                                        //               ? currentUser.username
-                                        //               : nickName.text,
-                                        //         ),
-                                        //         id: currentUser.id,
-                                        //       ),
-                                        //     );
-                                      },
-                                child: isLoading == false
-                                    ? Text(
-                                        'save_changes'.tr(),
-                                      )
-                                    : const CircularProgressIndicator(),
-                              ),
-                            ),
-                            const SizedBox(height: 44),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

@@ -300,6 +300,7 @@ class TripHistoryItem extends ConsumerWidget {
               itemCount: state.trips!.length,
               itemBuilder: (ctx, idx) {
                 final trip = state.trips![idx];
+                final dateFormat = DateFormat('MMMM d, yyyy');
                 return ListTile(
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -313,7 +314,7 @@ class TripHistoryItem extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        '${trip.createdAt.month} ${trip.createdAt.day}, ${trip.createdAt.year}',
+                        dateFormat.format(trip.createdAt),
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           color: AppColors.primaryColor.withOpacity(0.60),

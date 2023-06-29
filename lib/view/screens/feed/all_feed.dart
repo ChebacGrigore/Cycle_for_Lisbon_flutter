@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AllFeedScreen extends ConsumerStatefulWidget {
   const AllFeedScreen({super.key});
@@ -69,25 +70,30 @@ class _AllFeedScreenState extends ConsumerState<AllFeedScreen> {
                   child: Column(
                     children: [
                       TabBar(
-                        onTap: (val){
-                          if(val == 0){
-                            context.read<AppBloc>().add(AppNews(token: accessToken));
-                          }else if(val == 1){
-                            context.read<AppBloc>().add(AppEvents(token: accessToken));
+                        onTap: (val) {
+                          if (val == 0) {
+                            context
+                                .read<AppBloc>()
+                                .add(AppNews(token: accessToken));
+                          } else if (val == 1) {
+                            context
+                                .read<AppBloc>()
+                                .add(AppEvents(token: accessToken));
                           }
                         },
-                          unselectedLabelColor: AppColors.primaryColor,
-                          indicator: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: AppColors.secondaryColor),
-                          tabs: [
-                            Tab(
-                              text: 'news'.tr(),
-                            ),
-                            Tab(
-                              text: 'events'.tr(),
-                            ),
-                          ],),
+                        unselectedLabelColor: AppColors.primaryColor,
+                        indicator: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: AppColors.secondaryColor),
+                        tabs: [
+                          Tab(
+                            text: 'news'.tr(),
+                          ),
+                          Tab(
+                            text: 'events'.tr(),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -167,8 +173,7 @@ class _NewsFeedsState extends ConsumerState<NewsFeeds> {
                 const Center(
                   child: Text(
                     'No News added yet!',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 17),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   ),
                 ),
               ],
@@ -177,118 +182,119 @@ class _NewsFeedsState extends ConsumerState<NewsFeeds> {
         } else if (state.status.isNews) {
           return state.news!.isNotEmpty
               ? SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height,
-            child: ListView.builder(
-              padding: const EdgeInsets.only(
-                left: 20,
-                right: 20,
-                bottom: 120,
-              ),
-              itemCount: state.news.length,
-              itemBuilder: (context, index) {
-                final news = state.news[index];
-                final dateFormat = DateFormat('MMMM d, yyyy');
-                return GestureDetector(
-                  onTap: () {
-                    context.push(const SingleNewsFeed());
-                  },
-                  child: Container(
-                    // height: 380,
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(bottom: 16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: AppColors.background,
-                      border: Border.all(
-                        color: AppColors.tertiaryColor,
-                        width: 1.5,
-                      ),
+                  height: MediaQuery.of(context).size.height,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                      bottom: 120,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
+                    itemCount: state.news.length,
+                    itemBuilder: (context, index) {
+                      final news = state.news[index];
+                      final dateFormat = DateFormat('MMMM d, yyyy');
+                      return GestureDetector(
+                        onTap: () async {
+                          await launchUrl(Uri.parse(news.articleUrl));
+                        },
+                        child: Container(
+                          // height: 380,
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: AppColors.background,
+                            border: Border.all(
+                              color: AppColors.tertiaryColor,
+                              width: 1.5,
+                            ),
                           ),
-                          child: Image.network(
-                            news.imageUrl,
-                            height: 160,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                // '${'mar'.tr()} 13, 2023',
-                                dateFormat.format(news.date),
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 12,
-                                  color: AppColors.primaryColor.withOpacity(
-                                      0.60),
+                              ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                ),
+                                child: Image.network(
+                                  news.imageUrl,
+                                  height: 160,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, object, stackTrace) =>
+                                      SizedBox(
+                                    height: 185,
+                                    width: double.infinity,
+                                    child: Image.asset(AppAssets.placeholder),
+                                  ),
                                 ),
                               ),
-                              const SizedBox(height: 10),
-                              Text(
-                                news.title,
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.primaryColor,
+                              Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      // '${'mar'.tr()} 13, 2023',
+                                      dateFormat.format(news.date),
+                                      style: GoogleFonts.dmSans(
+                                        fontSize: 12,
+                                        color: AppColors.primaryColor
+                                            .withOpacity(0.60),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      news.title,
+                                      style: GoogleFonts.dmSans(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      news.subtitle,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 4,
+                                      style: GoogleFonts.dmSans(
+                                        fontSize: 14,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                news.subtitle,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 4,
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 14,
-                                  color: AppColors.primaryColor,
-                                ),
-                              ),
+                              )
                             ],
                           ),
-                        )
-                      ],
-                    ),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              : Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        AppAssets.empty,
+                        height: 150,
+                      ),
+                      const Center(
+                        child: Text(
+                          'No News added yet!',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 17),
+                        ),
+                      ),
+                    ],
                   ),
                 );
-              },
-            ),
-          ) : Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  AppAssets.empty,
-                  height: 150,
-                ),
-                const Center(
-                  child: Text(
-                    'No News added yet!',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 17),
-                  ),
-                ),
-              ],
-            ),
-          );
         }
         return SizedBox(
-          height: MediaQuery
-              .of(context)
-              .size
-              .height,
+          height: MediaQuery.of(context).size.height,
           child: ListView.builder(
             padding: const EdgeInsets.only(
               left: 20,
@@ -388,6 +394,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
   Widget build(BuildContext context) {
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, state) {
+        print(state.status);
         if (state.status.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -405,153 +412,157 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                 const Center(
                   child: Text(
                     'No Events added yet!',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 17),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   ),
                 ),
               ],
             ),
           );
-        }else if(state.status.isEvents){
-            state.events.isNotEmpty ?
-            ListView.builder(
-              padding: const EdgeInsets.only(
-                left: 20,
-                right: 20,
-                bottom: 120,
-              ),
-              itemCount: state.events.length,
-              itemBuilder: (context, index) {
-                final event = state.events[index];
-                return GestureDetector(
-                  onTap: () {
-                    context.push(const SingleEventFeed());
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: AppColors.background,
-                      border: Border.all(
-                        color: AppColors.tertiaryColor,
-                        width: 1.5,
-                      ),
-                    ),
-                    height: 333,
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(bottom: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                          child: Image.network(
-                            event.imageUrl,
-                            height: 160,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
+        } else if (state.status.isEvents) {
+          state.events.isNotEmpty
+              ? ListView.builder(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    bottom: 120,
+                  ),
+                  itemCount: state.events.length,
+                  itemBuilder: (context, index) {
+                    final event = state.events[index];
+                    return GestureDetector(
+                      onTap: () async {
+                        await launchUrl(Uri.parse(event.articleUrl));
+                        // context.push(const SingleEventFeed());
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: AppColors.background,
+                          border: Border.all(
+                            color: AppColors.tertiaryColor,
+                            width: 1.5,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                event.period,
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 12,
-                                  color: AppColors.primaryColor.withOpacity(0.60),
-                                ),
+                        height: 333,
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(bottom: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
                               ),
-                              const SizedBox(height: 10),
-                              Text(
-                                event.title,
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.normal,
-                                  color: AppColors.primaryColor,
-                                ),
+                              child: Image.network(
+                                event.imageUrl,
+                                height: 160,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
                               ),
-                              const SizedBox(height: 4),
-                              Text(
-                                event.subtitle,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 4,
-                                style: GoogleFonts.dmSans(
-                                  fontSize: 14,
-                                  color: AppColors.primaryColor.withOpacity(0.80),
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text(
+                                    event.period,
+                                    style: GoogleFonts.dmSans(
+                                      fontSize: 12,
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.60),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    event.title,
+                                    style: GoogleFonts.dmSans(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    event.subtitle,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 4,
+                                    style: GoogleFonts.dmSans(
+                                      fontSize: 14,
+                                      color: AppColors.primaryColor
+                                          .withOpacity(0.80),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      const Icon(Icons.access_time,
-                                          color: AppColors.accentColor),
-                                      const SizedBox(width: 6),
-                                      Text(
-                                        '12:00 pm',
-                                        style: GoogleFonts.dmSans(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 17),
-                                  Flexible(
-                                    child: Row(
-                                      children: [
-                                        const Icon(Icons.location_on_outlined,
-                                            color: AppColors.accentColor),
-                                        const SizedBox(width: 6),
-                                        Flexible(
-                                          child: Text(
-                                            'Elgin St. Celina, Delaware',
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
+                                      Row(
+                                        children: [
+                                          const Icon(Icons.access_time,
+                                              color: AppColors.accentColor),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            '12:00 pm',
                                             style: GoogleFonts.dmSans(
                                               fontWeight: FontWeight.w500,
                                               fontSize: 14,
                                             ),
                                           ),
+                                        ],
+                                      ),
+                                      const SizedBox(width: 17),
+                                      Flexible(
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                                Icons.location_on_outlined,
+                                                color: AppColors.accentColor),
+                                            const SizedBox(width: 6),
+                                            Flexible(
+                                              child: Text(
+                                                'Elgin St. Celina, Delaware',
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: GoogleFonts.dmSans(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        AppAssets.empty,
+                        height: 150,
+                      ),
+                      const Center(
+                        child: Text(
+                          'No Events added yet!',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 17),
+                        ),
+                      ),
+                    ],
                   ),
                 );
-              },
-            ): Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    AppAssets.empty,
-                    height: 150,
-                  ),
-                  const Center(
-                    child: Text(
-                      'No Events added yet!',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 17),
-                    ),
-                  ),
-                ],
-              ),
-            );
         }
         return ListView.builder(
           padding: const EdgeInsets.only(
@@ -563,8 +574,9 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
           itemBuilder: (context, index) {
             final event = state.events[index];
             return GestureDetector(
-              onTap: () {
-                context.push(const SingleEventFeed());
+              onTap: () async {
+                await launchUrl(Uri.parse(event.articleUrl));
+                // context.push(const SingleEventFeed());
               },
               child: Container(
                 decoration: BoxDecoration(

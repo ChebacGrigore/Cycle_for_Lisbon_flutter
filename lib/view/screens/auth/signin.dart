@@ -258,8 +258,8 @@ class _SignInState extends State<SignIn> {
                                   ),
                           ),
                         ),
-                        const SizedBox(height: 42),
-                        const SocialLogins(color: AppColors.black, fill: false),
+                        // const SizedBox(height: 42),
+                        // const SocialLogins(color: AppColors.black, fill: false),
                         const SizedBox(height: 42),
                         Center(
                           child: TextButton(
@@ -712,24 +712,25 @@ class SuccessDialog extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              "Your Email has been",
+              "email_success".tr(),
               textAlign: TextAlign.center,
+              maxLines: 2,
               style: GoogleFonts.dmSans(
                 fontWeight: FontWeight.w500,
                 fontSize: 22,
                 color: AppColors.primaryColor,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              "Sucessfully submitted",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.dmSans(
-                fontWeight: FontWeight.w500,
-                fontSize: 22,
-                color: AppColors.primaryColor,
-              ),
-            ),
+            // const SizedBox(height: 8),
+            // Text(
+            //   "Sucessfully submitted",
+            //   textAlign: TextAlign.center,
+            //   style: GoogleFonts.dmSans(
+            //     fontWeight: FontWeight.w500,
+            //     fontSize: 22,
+            //     color: AppColors.primaryColor,
+            //   ),
+            // ),
             const SizedBox(height: 14),
             const SizedBox(height: 25),
             SizedBox(

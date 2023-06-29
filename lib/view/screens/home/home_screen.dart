@@ -4,6 +4,7 @@ import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_state.dart';
 import 'package:cfl/models/initiative.model.dart';
+import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
@@ -16,6 +17,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cfl/view/screens/home/single_initiative.dart';
+
+import '../../../routes/app_route.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,6 +29,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool? isChangeInitiative;
+  // String? initiativeId;
   bool _exitDialogInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     onBackPressed(context);
     return true;
@@ -92,7 +98,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     top: 40,
                     bottom: 100,
                   ),
-                  child: homeBuilder(state),
+                  child: isChangeInitiative == null
+                      ? homeBuilder(state)
+                      : _buildInitialInitiative(),
                 );
               },
             ),
@@ -103,12 +111,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget homeBuilder(AppState state) {
-    if (state.status.isAllInitiativesLoaded) {
+
+    if (currentUser.initiativeId == null) {
       return _buildInitialInitiative();
-    } else if (state.status.isSelectedInitiative) {
-      return _buildSelectedInitiative(selectedInitiative: state.initiative!);
-    } else if (state.status.isCompletedInitiative) {
-      return _buildCompletedInitiative(completedInitiative: state.initiative!);
+    } else if (currentUser.initiativeId != null) {
+      return currentUser.initiative!.credits ==
+          currentUser.initiative!.goal ?_buildCompletedInitiative(completedInitiative: currentUser.initiative!) : _buildSelectedInitiative(
+          selectedInitiative: currentUser.initiative!);
+    } else if (state.status.isSupportInitiative) {
+      return currentUser.initiative!.credits ==
+          currentUser.initiative!.goal ?_buildCompletedInitiative(completedInitiative: currentUser.initiative!) : _buildSelectedInitiative(
+          selectedInitiative: currentUser.initiative!);
     }
     return const SizedBox();
   }
@@ -119,9 +132,10 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         ProfileButton(
           onTap: () {
-            context.push(const ProfileScreen(
-              key: Key('profile'),
-            ));
+            appRoutes.go(AppRoutePath.profile);
+            // context.push(const ProfileScreen(
+            //   key: Key('profile'),
+            // ));
           },
           greeting: 'hello'.tr(),
         ),
@@ -132,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: PillContainer(
                 title: 'total_earned'.tr(),
-                count: currentUser.credits ?? 0.0,
+                count: currentUser.credits.round() ?? 0,
                 icon: CFLIcons.coin1,
               ),
             ),
@@ -140,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: PillContainer(
                 title: 'total_km'.tr(),
-                count: currentUser.totalDist ?? 0.0,
+                count: currentUser.totalDist.round() ?? 0,
                 icon: CFLIcons.roadhz,
               ),
             ),
@@ -223,11 +237,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                context.read<AppBloc>().add(
-                                      AppSelectedInitiative(
-                                        initiative: state.initiatives[index],
-                                      ),
-                                    );
+                                if (state.initiatives[index].credits == 0.0) {
+                                  context.push(SingleInitiative(
+                                    initiative: state.initiatives[index],
+                                  ));
+                                } else if (state.initiatives[index].credits ==
+                                    state.initiatives[index].goal) {
+                                  context.read<AppBloc>().add(
+                                        AppCompletedInitiative(
+                                          initiative: state.initiatives[index],
+                                        ),
+                                      );
+                                } else {
+                                  context.push(SingleInitiative(
+                                    initiative: state.initiatives[index],
+                                  ));
+                                }
                               });
                             },
                             child: InitiativeCard(
@@ -248,11 +273,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        context.read<AppBloc>().add(
-                              AppSelectedInitiative(
-                                initiative: state.initiatives[index],
-                              ),
-                            );
+                        context.push(SingleInitiative(
+                          initiative: state.initiatives[index],
+                        ));
                       });
                     },
                     child: InitiativeCard(
@@ -328,7 +351,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             ProfileButton(
               onTap: () {
-                context.push(const ProfileScreen());
+                appRoutes.go(AppRoutePath.profile);
               },
               greeting: 'welcome_back'.tr(),
             ),
@@ -339,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: PillContainer(
                     title: 'total_earned'.tr(),
-                    count: currentUser.credits ?? 0.0,
+                    count: currentUser.credits!.round() ?? 0,
                     icon: CFLIcons.coin1,
                   ),
                 ),
@@ -347,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: PillContainer(
                     title: 'total_km'.tr(),
-                    count: currentUser.totalDist ?? 0.0,
+                    count: currentUser.totalDist!.round() ?? 0,
                     icon: CFLIcons.roadhz,
                   ),
                 ),
@@ -355,7 +378,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 42),
             SelectedInitiativeCard(
-              progress: 0.4,
+              name: selectedInitiative.title,
+              progress: selectedInitiative.credits == 0.0
+                  ? 0
+                  : (selectedInitiative.credits / selectedInitiative.goal),
               goal: selectedInitiative.goal,
               collected: selectedInitiative.credits,
             ),
@@ -371,9 +397,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const ContributionCard(
+                ContributionCard(
                   icon: CFLIcons.roadhz,
-                  count: 12,
+                  count: currentUser.totalDist.round(),
                   title: 'km',
                 ),
                 const ContributionCard(
@@ -383,7 +409,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 ContributionCard(
                   icon: CFLIcons.coin1,
-                  count: 20,
+                  count: currentUser.credits.round(),
                   title: 'coins'.tr(),
                 ),
               ],
@@ -533,9 +559,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: TextButton(
                 onPressed: () {
                   setState(() {
-                    context
-                        .read<AppBloc>()
-                        .add(AppListOfInitiatives(token: accessToken));
+                    isChangeInitiative = true;
+                    // context
+                    //     .read<AppBloc>()
+                    //     .add(AppListOfInitiatives(token: accessToken));
                     // initiativeState = InitiativeValue.initial;
                   });
                 },
@@ -600,7 +627,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: PillContainer(
                 title: 'total_earned'.tr(),
-                count: 13,
+                count: currentUser.credits.round(),
                 icon: CFLIcons.coin1,
               ),
             ),
@@ -608,7 +635,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: PillContainer(
                 title: 'total_km'.tr(),
-                count: 50,
+                count: currentUser.totalDist.round(),
                 icon: CFLIcons.roadhz,
               ),
             ),
@@ -619,6 +646,7 @@ class _HomeScreenState extends State<HomeScreen> {
           progress: 1,
           goal: completedInitiative.goal,
           collected: completedInitiative.credits,
+          name: completedInitiative.title,
         ),
         const SizedBox(height: 32),
         RichText(
@@ -650,29 +678,112 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         const SizedBox(height: 24),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: 4,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    context.read<AppBloc>().add(
-                          AppSelectedInitiative(
-                            initiative: completedInitiative,
-                          ),
-                        );
-                    // initiativeState = InitiativeValue.selected;
-                    //pass selected initiative
-                  });
-                },
-                child: InitiativeCard(
-                  initiative: completedInitiative,
+        BlocBuilder<AppBloc, AppState>(
+          builder: (context, state) {
+            if (state.status.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state.status.isError) {
+              return Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 60),
+                    SvgPicture.asset(
+                      AppAssets.empty,
+                      height: 150,
+                    ),
+                    const Center(
+                      child: Text(
+                        'No Initiative added yet!',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+              );
+            } else if (state.status.isAllInitiativesLoaded) {
+              return state.initiatives.isEmpty
+                  ? Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 60),
+                    SvgPicture.asset(
+                      AppAssets.empty,
+                      height: 150,
+                    ),
+                    const Center(
+                      child: Text(
+                        'No Initiative added yet!',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+                  : ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.initiatives.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (state.initiatives[index].credits == 0.0) {
+                            context.push(SingleInitiative(
+                              initiative: state.initiatives[index],
+                            ));
+                          } else if (state.initiatives[index].credits ==
+                              state.initiatives[index].goal) {
+                            context.read<AppBloc>().add(
+                              AppCompletedInitiative(
+                                initiative: state.initiatives[index],
+                              ),
+                            );
+                          } else {
+                            context.push(SingleInitiative(
+                              initiative: state.initiatives[index],
+                            ));
+                          }
+                        });
+                      },
+                      child: InitiativeCard(
+                        initiative: state.initiatives[index],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+            return ListView.builder(
+              shrinkWrap: true,
+              itemCount: 4,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        context.push(SingleInitiative(
+                          initiative: state.initiatives[index],
+                        ));
+                      });
+                    },
+                    child: InitiativeCard(
+                      initiative: state.initiatives[index],
+                    ),
+                  ),
+                );
+              },
             );
           },
         ),
@@ -814,7 +925,7 @@ class ContributionCard extends StatelessWidget {
   final IconData icon;
 
   final String title;
-  final int count;
+  final dynamic count;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -849,10 +960,15 @@ class ContributionCard extends StatelessWidget {
 
 class SelectedInitiativeCard extends StatelessWidget {
   const SelectedInitiativeCard(
-      {required this.progress, required this.goal, required this.collected, Key? key})
+      {required this.progress,
+      required this.goal,
+      required this.collected,
+      required this.name,
+      Key? key})
       : super(key: key);
   final double progress, collected;
   final int goal;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
@@ -871,7 +987,7 @@ class SelectedInitiativeCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Name of cause',
+            name,
             style: GoogleFonts.dmSans(
               color: AppColors.white,
               fontWeight: FontWeight.bold,
@@ -911,7 +1027,7 @@ class InitiativeProgress extends StatelessWidget {
             progress != 1
                 ? InitiativeCounter2(
                     title: 'collected'.tr(),
-                    count: collected.toStringAsFixed(2),
+                    count: collected.round(),
                   )
                 : Row(
                     children: [

@@ -28,6 +28,21 @@ class AppCompletedInitiative extends AppEvent {
   List<Object> get props => [initiative];
 }
 
+class AppSupportInitiative extends AppEvent {
+  const AppSupportInitiative({
+    required this.token,
+    required this.userProfile,
+    required this.userId,
+    required this.initiativeId,
+  });
+  final String token;
+  final String userId;
+  final String initiativeId;
+  final User userProfile;
+  // @override
+  // List<Object?> get props => [token, userProfile, userId, initiativeId];
+}
+
 class AppListOfBadges extends AppEvent {
   final String token;
   const AppListOfBadges({required this.token});

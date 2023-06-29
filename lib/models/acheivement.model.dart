@@ -38,15 +38,17 @@ class Badge {
 
 class Achievement {
   final String code;
-  final String image;
+  final String imageUri;
   final String name;
   final String desc;
+  final String image;
 
   Achievement({
     required this.code,
-    required this.image,
+    required this.imageUri,
     required this.name,
     required this.desc,
+    required this.image,
   });
 
   factory Achievement.fromRawJson(String str) => Achievement.fromJson(json.decode(str));
@@ -55,18 +57,21 @@ class Achievement {
 
   factory Achievement.fromJson(Map<String, dynamic> json) => Achievement(
     code: json["code"],
-    image: json["image"],
+    imageUri: json["imageURI"],
     name: json["name"],
     desc: json["desc"],
+    image: json["image"],
   );
 
   Map<String, dynamic> toJson() => {
     "code": code,
-    "image": image,
+    "imageURI": imageUri,
     "name": name,
     "desc": desc,
+    "image": image,
   };
 }
+
 
 class Leaderboard {
   List<Entry> entries;

@@ -1,4 +1,6 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
+import 'package:cfl/routes/app_route.dart';
+import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/shared.dart';
 import 'package:cfl/view/styles/assets.dart';
 
@@ -16,7 +18,13 @@ class Layout extends StatefulWidget {
 
 class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
   bool _exitDialogInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    onBackPressed(context);
+    print(appRoutes.location);
+    if(appRoutes.location == AppRoutePath.home){
+      onBackPressed(context);
+
+    }else{
+      Navigator.pop(context);
+    }
     return true;
   }
 

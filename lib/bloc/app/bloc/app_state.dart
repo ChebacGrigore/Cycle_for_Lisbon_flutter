@@ -7,6 +7,7 @@ enum AppStatus {
   allInitiativesLoaded,
   selectedInitiative,
   completedInitiative,
+  supportInitiative,
   allBadges,
   allEntries,
   allNews,
@@ -24,6 +25,7 @@ extension AppStatusX on AppStatus {
   bool get isAllInitiativesLoaded => this == AppStatus.allInitiativesLoaded;
   bool get isSelectedInitiative => this == AppStatus.selectedInitiative;
   bool get isCompletedInitiative => this == AppStatus.completedInitiative;
+  bool get isSupportInitiative => this == AppStatus.supportInitiative;
 }
 
 class AppState extends Equatable {
@@ -31,9 +33,11 @@ class AppState extends Equatable {
     this.status = AppStatus.initial,
     this.initiatives = const [],
     this.badges = const [],
+
     this.entries = const [],
     this.news = const [],
     this.events = const [],
+    this.achievements = const [],
     this.initiative,
     this.exception,
     this.token,
@@ -48,6 +52,7 @@ class AppState extends Equatable {
   final List<EventModel> events;
   final int? userPosition;
   final List<Badge> badges;
+  final List<Achievement> achievements;
   final Initiative? initiative;
   final AppStatus status;
 
@@ -58,6 +63,7 @@ class AppState extends Equatable {
     AppStatus? status,
     Initiative? initiative,
     List<Badge>? badges,
+    List<Achievement>? achievements,
     List<NewsModel>? news,
     List<EventModel>? events,
     String? exception,
@@ -74,6 +80,7 @@ class AppState extends Equatable {
       userPosition: userPosition ?? this.userPosition,
       news: news ?? this.news,
       events: events ?? this.events,
+      achievements: achievements ?? this.achievements,
     );
   }
 

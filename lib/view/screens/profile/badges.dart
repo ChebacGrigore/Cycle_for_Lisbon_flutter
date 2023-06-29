@@ -169,16 +169,19 @@ class _BadgesScreenState extends State<BadgesScreen> {
                               ),
                             );
                           } else if (state.status.isAllBadges) {
-                            int number = state.badges
-                                .map((e) => e.completion == 1)
-                                .toList()
-                                .length;
+                            List<int> completed = [];
+                            for(var badge in state.badges){
+                              if(badge.completion == 1){
+                                completed.add(1);
+                              }
+                            }
+
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
                                   'unlcoked_badge_title'
-                                      .tr(args: [number.toString()]),
+                                      .tr(args: [completed.length.toString()]),
                                   style: GoogleFonts.dmSans(
                                     fontSize: 14,
                                     color: AppColors.primaryColor
@@ -193,26 +196,49 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                       fontSize: 16.0),
                                 ),
                                 const SizedBox(height: 18.0),
-                                GridView.builder(
-                                  padding: EdgeInsets.zero,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    childAspectRatio: 0.73,
-                                    crossAxisSpacing: 35.0,
-                                    mainAxisSpacing: 24.0,
-                                  ),
-                                  itemCount: state.badges.length,
-                                  itemBuilder: (context, index) => Badge(
-                                    value: state.badges[index].completion,
-                                    badgePath:
-                                        state.badges[index].achievement.image,
-                                    badgeName:
-                                        state.badges[index].achievement.name,
-                                  ),
-                                ),
+                                state.badges.isEmpty
+                                    ? GridView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                          childAspectRatio: 0.73,
+                                          crossAxisSpacing: 35.0,
+                                          mainAxisSpacing: 24.0,
+                                        ),
+                                        itemCount: state.achievements.length,
+                                        itemBuilder: (context, index) => Badge(
+                                          value: 0,
+                                          badgePath: state
+                                              .achievements[index].image,
+                                          badgeName: state
+                                              .achievements[index].name,
+                                        ),
+                                      )
+                                    : GridView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                          childAspectRatio: 0.73,
+                                          crossAxisSpacing: 35.0,
+                                          mainAxisSpacing: 24.0,
+                                        ),
+                                        itemCount: state.badges.length,
+                                        itemBuilder: (context, index) => Badge(
+                                          value: state.badges[index].completion,
+                                          badgePath: state
+                                              .badges[index].achievement.image,
+                                          badgeName: state
+                                              .badges[index].achievement.name,
+                                        ),
+                                      ),
                                 const SizedBox(height: 40.0),
                                 //       const Text(
                                 //         "Kilometres",

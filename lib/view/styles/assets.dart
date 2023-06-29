@@ -57,6 +57,9 @@ class AppAssets {
   static const String roadIco = 'assets/icons/road.svg';
   static const String roadIco2 = 'assets/icons/road2.svg';
   static const String roadHz = 'assets/icons/road_hz.svg';
+  static const String coinIco = 'assets/icons/Coins.png';
+  static const String clockIco = 'assets/icons/Clock.png';
+
 
   static const String targetIco = 'assets/icons/target.svg';
   static const String targetIco2 = 'assets/icons/target2.svg';
@@ -84,7 +87,7 @@ class AppAssets {
 
   static const String share = 'assets/icons/share.png';
   //
-  static const String avatar = 'assets/images/avatar.png';
+  static const String placeholder = 'assets/images/cfl-placeholder.png';
   //
   static const String medal = 'assets/icons/medal.svg';
   static const String bicycle = 'assets/icons/bicycle.svg';

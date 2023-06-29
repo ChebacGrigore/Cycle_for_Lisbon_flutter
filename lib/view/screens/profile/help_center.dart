@@ -17,6 +17,17 @@ class HelpCenter extends StatefulWidget {
 class _HelpCenterState extends State<HelpCenter> {
   ScrollController scrollController = ScrollController();
   Color appbarColor = AppColors.white;
+  void _launchSocial(String url, String fallbackUrl) async {
+    try {
+      bool launched =
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalNonBrowserApplication);
+      if (!launched) {
+        await launchUrl(Uri.parse(fallbackUrl));
+      }
+    } catch (e) {
+      await launchUrl(Uri.parse(fallbackUrl));
+    }
+  }
 
   @override
   void initState() {
@@ -85,35 +96,49 @@ class _HelpCenterState extends State<HelpCenter> {
                         isPrimary: true,
                         icon: AppAssets.envelope,
                         title: 'cyclelisbon@email.com',
-                        onTap: () {},
+                        onTap: () {
+                          final Uri params = Uri(
+                            scheme: 'mailto',
+                            path: 'cycleforlisbon.pensarmais@gmail.com',
+                          );
+                          _launchSocial(params.toString(), '');
+                        },
                       ),
                       const SizedBox(height: 21),
                       HelpCenterListTile(
                         isPrimary: false,
                         icon: AppAssets.globe,
                         title: 'Website',
-                        onTap: () {},
+                        onTap: () {
+                          _launchSocial('https://www.lisboa.pt/', '');
+                        },
                       ),
                       const SizedBox(height: 21),
                       HelpCenterListTile(
                         isPrimary: false,
                         icon: AppAssets.facebook2,
                         title: 'Facebook',
-                        onTap: () {},
+                        onTap: () {
+                          _launchSocial('https://www.facebook.com/camaradelisboa', '');
+                        },
                       ),
                       const SizedBox(height: 21),
                       HelpCenterListTile(
                         isPrimary: false,
                         icon: AppAssets.twitter,
                         title: 'Twitter',
-                        onTap: () {},
+                        onTap: () {
+                          _launchSocial('https://twitter.com/CamaraLisboa', '');
+                        },
                       ),
                       const SizedBox(height: 21),
                       HelpCenterListTile(
                         isPrimary: false,
                         icon: AppAssets.instagram,
                         title: 'Instagram',
-                        onTap: () {},
+                        onTap: () {
+                          _launchSocial('https://www.instagram.com/camara_municipal_lisboa/', '');
+                        },
                       ),
                       const SizedBox(height: 32),
                       GestureDetector(

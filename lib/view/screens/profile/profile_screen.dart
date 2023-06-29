@@ -1,4 +1,7 @@
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
+import 'package:cfl/controller/auth/auth.dart';
+import 'package:cfl/routes/app_route.dart';
+import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
@@ -32,7 +35,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     context
         .read<AuthBloc>()
         .add(AuthGetProfile(id: currentUser.id, token: accessToken));
-
   }
 
   @override
@@ -111,7 +113,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     const CircleAvatar(
                                       radius: 45,
                                       backgroundColor: AppColors.white,
-
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
@@ -135,14 +136,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               } else if (state.status.isError) {
                                 return Column(
                                   children: [
-                                    const CircleAvatar(
+                                    CircleAvatar(
                                       radius: 45,
                                       backgroundColor: AppColors.white,
-                                      // child: Image.asset(
-                                      //   AppAssets.avatar,
-                                      //   width: 62,
-                                      //   height: 62,
-                                      // ),
+                                      child: Image.asset(
+                                        AppAssets.placeholder,
+                                        width: 62,
+                                        height: 62,
+                                      ),
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
@@ -171,7 +172,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       backgroundColor: AppColors.white,
                                       backgroundImage: NetworkImage(
                                         state.profilePic!,
-
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      state.user!.name,
+                                      style: GoogleFonts.dmSans(
+                                        color: AppColors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      state.user!.email,
+                                      style: GoogleFonts.dmSans(
+                                        color: AppColors.white,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              } else if (state.status.isProfilePicture) {
+                                return Column(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 45,
+                                      backgroundColor: AppColors.white,
+                                      backgroundImage: NetworkImage(
+                                        state.profilePic!,
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -196,10 +225,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               }
                               return Column(
                                 children: [
-                                  const CircleAvatar(
-                                    radius: 45,
+                                  CircleAvatar(
+                                    radius: 40,
                                     backgroundColor: AppColors.white,
-
+                                    child: SizedBox(
+                                      child: Image.asset(AppAssets.placeholder),
+                                    ),
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
@@ -250,7 +281,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 90,
                             child: ProfileActivityCount(
                               unit: '',
-                              count: currentUser.totalDist ?? 0,
+                              count:
+                                  currentUser.totalDist!.round() ??
+                                      0,
                               title: 'total_km'.tr(),
                               icon: CFLIcons.roadhz,
                             ),
@@ -268,7 +301,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 90,
                             child: ProfileActivityCount(
                               unit: '',
-                              count: currentUser.credits ?? 0,
+                              count:
+                                  currentUser.credits!.round() ?? 0,
                               title: 'total_donations'.tr(),
                               icon: CFLIcons.coin1,
                             ),
@@ -325,7 +359,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'leaderboard'.tr(),
                           icon: AppAssets.crown3,
                           onTap: () {
-                            context.push(const LeaderboardScreen());
+                            appRoutes.go(AppRoutePath.leaderBoard);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),
@@ -334,7 +368,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'trip_history'.tr(),
                           icon: AppAssets.roadHz,
                           onTap: () {
-                            context.push(const TripHistoryScreen());
+                            appRoutes.go(AppRoutePath.tripHistory);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),
@@ -343,7 +377,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'help_center'.tr(),
                           icon: AppAssets.help,
                           onTap: () {
-                            context.push(const HelpCenter());
+                            appRoutes.go(AppRoutePath.helpCenter);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),
@@ -352,7 +386,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'about'.tr(),
                           icon: AppAssets.info,
                           onTap: () {
-                            context.push(const AboutScreen());
+                            appRoutes.go(AppRoutePath.about);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),
@@ -397,7 +431,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               declineTitle: 'no_delete'.tr(),
                               title: 'sure_logout'.tr(),
                               description: 'logout_desc'.tr(),
-                              onAccept: () {
+                              onAccept: () async {
+                                await auth.clearLocalStorage();
                                 context.push(const SplashScreen());
                               },
                               onDecline: () {

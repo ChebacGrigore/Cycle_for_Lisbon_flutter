@@ -25,8 +25,8 @@ class _SplashState extends State<Splash> {
     super.initState();
     TripService().getCurrentLocation().then((value) {
       currentLocation = value!;
-      getStoredData();
-      // context.go("${AppRoutePath.splash}/0?redirect=false");
+      // getStoredData();
+      context.go("${AppRoutePath.splash}/0?redirect=false");
     });
     //Timer(const Duration(seconds: 2), () {});
   }
@@ -34,24 +34,21 @@ class _SplashState extends State<Splash> {
   Future<void> getStoredData() async {
     final token = await auth.getFromLocalStorage(value: 'token');
     final user = await auth.getFromLocalStorage(value: 'user');
-    if(token == null || user == null){
+    if (token == null || user == null) {
       context.go("${AppRoutePath.splash}/0?redirect=false");
-    }else{
-      if(auth.isTokenExpired(token) == false){
+    } else {
+      if (auth.isTokenExpired(token) == false) {
         accessToken = token;
         currentUser = User.fromRawJson(user);
         context.go(AppRoutePath.home);
-      }else{
+      } else {
         context.go("${AppRoutePath.splash}/0?redirect=false");
       }
     }
 
-
     // print(accessToken);
 
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -59,7 +56,7 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       body: Image.asset(
         AppAssets.splash,
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
         height: double.infinity,
         width: double.infinity,
       ),
