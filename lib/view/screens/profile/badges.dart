@@ -189,13 +189,6 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                   ),
                                 ),
                                 const SizedBox(height: 37),
-                                Text(
-                                  'number_of_rides'.tr(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16.0),
-                                ),
-                                const SizedBox(height: 18.0),
                                 state.badges.isEmpty
                                     ? GridView.builder(
                                         padding: EdgeInsets.zero,
@@ -236,7 +229,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                           badgePath: state
                                               .badges[index].achievement.image,
                                           badgeName: state
-                                              .badges[index].achievement.name,
+                                              .badges[index].achievement.name.tr(),
                                         ),
                                       ),
                                 const SizedBox(height: 40.0),
@@ -317,12 +310,17 @@ class _BadgesScreenState extends State<BadgesScreen> {
                               ],
                             );
                           }
-                          print(state.status);
+                          List<int> completed = [];
+                          for(var badge in state.badges){
+                            if(badge.completion == 1){
+                              completed.add(1);
+                            }
+                          }
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'unlcoked_badge_title'.tr(),
+                                'unlcoked_badge_title'.tr(args: [completed.length.toString()]),
                                 style: GoogleFonts.dmSans(
                                   fontSize: 14,
                                   color:
@@ -330,13 +328,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                 ),
                               ),
                               const SizedBox(height: 37),
-                              Text(
-                                'number_of_rides'.tr(),
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16.0),
-                              ),
-                              const SizedBox(height: 18.0),
+
                               GridView.builder(
                                 padding: EdgeInsets.zero,
                                 shrinkWrap: true,
@@ -352,7 +344,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                 itemBuilder: (context, index) => Badge(
                                   value: rides[index].value,
                                   badgePath: rides[index].badgePath,
-                                  badgeName: rides[index].badgeName,
+                                  badgeName: rides[index].badgeName.tr(),
                                 ),
                               ),
                               const SizedBox(height: 40.0),

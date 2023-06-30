@@ -21,21 +21,6 @@ import 'app_route_paths.dart';
 
 final GoRouter appRoutes = GoRouter(
   routes: <RouteBase>[
-    // GoRoute(
-    //   path: '/',
-    //   // redirect: (_, state){
-    //   //   if(auth.isTokenExpired(accessToken) == false){
-    //   //     return AppRoutePath.home;
-    //   //   }else{
-    //   //     return '${AppRoutePath.splash}/0';
-    //   //   }
-    //   // },
-    //   // redirect: (_, state) => auth.isTokenExpired(accessToken) == false ? AppRoutePath.home : '${AppRoutePath.splash}/0',
-
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return const Splash();
-    //   },
-    // ),
     GoRoute(
       path: '/',
       // redirect: (_, state){
@@ -48,9 +33,24 @@ final GoRouter appRoutes = GoRouter(
       // redirect: (_, state) => auth.isTokenExpired(accessToken) == false ? AppRoutePath.home : '${AppRoutePath.splash}/0',
 
       builder: (BuildContext context, GoRouterState state) {
-        return const SplashScreen();
+        return const Splash();
       },
     ),
+    // GoRoute(
+    //   path: '/',
+    //   // redirect: (_, state){
+    //   //   if(auth.isTokenExpired(accessToken) == false){
+    //   //     return AppRoutePath.home;
+    //   //   }else{
+    //   //     return '${AppRoutePath.splash}/0';
+    //   //   }
+    //   // },
+    //   // redirect: (_, state) => auth.isTokenExpired(accessToken) == false ? AppRoutePath.home : '${AppRoutePath.splash}/0',
+    //
+    //   builder: (BuildContext context, GoRouterState state) {
+    //     return const SplashScreen();
+    //   },
+    // ),
     GoRoute(
       path: '${AppRoutePath.splash}/:code',
       builder: (BuildContext context, GoRouterState state) {

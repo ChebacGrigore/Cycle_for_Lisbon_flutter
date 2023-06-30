@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../bloc/app/bloc/app_bloc.dart';
 
@@ -53,11 +54,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   expandedHeight: 340,
                   backgroundColor: AppColors.primaryColor,
                   actions: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      width: 40,
-                      height: 40,
-                      child: Image.asset(AppAssets.share),
+                    GestureDetector(
+                      onTap: () => Share.share('Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},', subject: 'Leaderboard for @${currentUser.username}'),
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 20),
+                        width: 40,
+                        height: 40,
+                        child: Image.asset(AppAssets.share),
+                      ),
                     ),
                   ],
                   iconTheme: const IconThemeData(color: AppColors.white),
@@ -123,7 +127,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   LeaderboardActivityCount(
-                                    count: currentUser.totalDist!.toStringAsFixed(1) ?? 0,
+                                    count: currentUser.totalDist!.round() ?? 0,
                                     title: 'total_km'.tr(),
                                     unit: 'km',
                                     icon: AppAssets.roadHz,
@@ -137,7 +141,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.credits!.toStringAsFixed(1) ?? 0,
+                                    count: currentUser.credits!.round() ?? 0,
                                     title: 'total_earned'.tr(),
                                     unit: '',
                                     icon: AppAssets.handCoins,
@@ -194,11 +198,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   expandedHeight: 340,
                   backgroundColor: AppColors.primaryColor,
                   actions: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      width: 40,
-                      height: 40,
-                      child: Image.asset(AppAssets.share),
+                    GestureDetector(
+                      onTap: () => Share.share('Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},', subject: 'Leaderboard for @${currentUser.username}'),
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 20),
+                        width: 40,
+                        height: 40,
+                        child: Image.asset(AppAssets.share),
+                      ),
                     ),
                   ],
                   iconTheme: const IconThemeData(color: AppColors.white),
@@ -234,7 +241,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               backgroundColor: AppColors.white,
                               backgroundImage: NetworkImage(
                                 currentProfilePic,
-
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -265,7 +271,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   LeaderboardActivityCount(
-                                    count: currentUser.totalDist!.toStringAsFixed(1) ?? 0,
+                                    count: currentUser.totalDist!.round() ?? 0,
                                     title: 'total_km'.tr(),
                                     unit: 'km',
                                     icon: AppAssets.roadHz,
@@ -354,11 +360,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   expandedHeight: 340,
                   backgroundColor: AppColors.primaryColor,
                   actions: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      width: 40,
-                      height: 40,
-                      child: Image.asset(AppAssets.share),
+                    GestureDetector(
+                      onTap: () => Share.share('Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},', subject: 'Leaderboard for @${currentUser.username}'),
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 20),
+                        width: 40,
+                        height: 40,
+                        child: Image.asset(AppAssets.share),
+                      ),
                     ),
                   ],
                   iconTheme: const IconThemeData(color: AppColors.white),
@@ -580,11 +589,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 expandedHeight: 340,
                 backgroundColor: AppColors.primaryColor,
                 actions: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 20),
-                    width: 40,
-                    height: 40,
-                    child: Image.asset(AppAssets.share),
+                  GestureDetector(
+                    onTap: () => Share.share('Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},', subject: 'Leaderboard for @${currentUser.username}'),
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 20),
+                      width: 40,
+                      height: 40,
+                      child: Image.asset(AppAssets.share),
+                    ),
                   ),
                 ],
                 iconTheme: const IconThemeData(color: AppColors.white),

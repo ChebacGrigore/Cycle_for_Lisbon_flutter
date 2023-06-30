@@ -26,6 +26,9 @@
   "change_password":"Change Password",
   "old_password":"Old Password",
   "new_password":"New Password",
+  "old_password_hint":"Enter old password",
+  "new_password_hint":"Enter new password",
+  "confirm_password_hint": "Enter confirm password",
   "recover_password": "Forgot your Password",
   "enter_email_recover":"Enter your email below to reset your password",
   "change_avatar": "Change Avatar",
@@ -62,9 +65,7 @@
   "continue": "Continue",
   "completed": "Completed",
   "sponsors": "Sponsors",
-  "begginer": "Begginer",
-  "traveler": "Traveler",
-  "pro": "Pro",
+
   "and": "and",
   "position": "Position",
   "see_map": "See Map",
@@ -73,15 +74,18 @@
   "portugues": "Português",
 
   "number_km": "Number of Km",
-  "training_wheels": "Training Wheels",
-  "steady_rider": "Steady Rider",
-  "road_champion": "Road Champion",
-  "good_kid": "Good Kid",
-  "heart_of_gold": "Heart of Gold",
-  "philanthropist": "Philanthropist",
-  "gatherer": "Gatherer",
-  "goarder": "Hoarder",
-  "treasure_master": "Treasure Master",
+  "Training Wheels": "Training Wheels",
+  "Steady Rider": "Steady Rider",
+  "Road Champion": "Road Champion",
+  "Good Kid": "Good Kid",
+  "Heart of Gold": "Heart of Gold",
+  "Philanthropist": "Philanthropist",
+  "Gatherer": "Gatherer",
+  "Hoarder": "Hoarder",
+  "Treasure Master": "Treasure Master",
+  "Begginer": "Begginer",
+  "Traveler": "Traveler",
+  "Pro": "Pro",
 
   "login_to_account": "Login to your Cycle for Lisbon account",
 
@@ -159,5 +163,6 @@
   "unlcoked_badge_title": "You have Unlocked {} Badges out of 12",
   "number_of_rides": "Number of Rides",
   "about_desc": "Cycle for Lisbon aims to be a platform where NGOs and Institutions can share their social projects (known as Initiatives) and get a direct support from the community (the Users). Each Initiative has the support of sponsors, that will convert the in-app coins into real money and donate it to the institutions responsible for the respective initiatives sponsored by them.",
-  "email_success": "Your email has been successfully submitted."
+  "email_success": "Your email has been successfully submitted.",
+  "picture_select_message": "Please select a profile picture"
 }

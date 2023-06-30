@@ -25,7 +25,7 @@ class _SplashState extends State<Splash> {
     super.initState();
     TripService().getCurrentLocation().then((value) {
       currentLocation = value!;
-      // getStoredData();
+      getStoredData();
       context.go("${AppRoutePath.splash}/0?redirect=false");
     });
     //Timer(const Duration(seconds: 2), () {});

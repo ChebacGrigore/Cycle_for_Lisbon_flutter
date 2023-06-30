@@ -8,6 +8,7 @@ import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
+import 'package:cfl/view/screens/home/layout.dart';
 import 'package:cfl/view/screens/home/map.dart';
 import 'package:cfl/view/screens/profile/profile_screen.dart';
 import 'package:cfl/view/styles/styles.dart';
@@ -20,6 +21,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cfl/view/screens/home/single_initiative.dart';
 
 import '../../../routes/app_route.dart';
+import 'all_intiatives_screen.dart';
+bool? isChangeInitiative;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -29,7 +32,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool? isChangeInitiative;
+
   // String? initiativeId;
   bool _exitDialogInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     onBackPressed(context);
@@ -59,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Container(
+      body: isChangeInitiative == true ? const InitiativeScreen() : Container(
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(gradient: AppColors.whiteBg4Gradient),
         child: SingleChildScrollView(
@@ -111,17 +114,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget homeBuilder(AppState state) {
-
     if (currentUser.initiativeId == null) {
       return _buildInitialInitiative();
     } else if (currentUser.initiativeId != null) {
-      return currentUser.initiative!.credits ==
-          currentUser.initiative!.goal ?_buildCompletedInitiative(completedInitiative: currentUser.initiative!) : _buildSelectedInitiative(
-          selectedInitiative: currentUser.initiative!);
+      return currentUser.initiative!.credits == currentUser.initiative!.goal
+          ? _buildCompletedInitiative(
+              completedInitiative: currentUser.initiative!)
+          : _buildSelectedInitiative(
+              selectedInitiative: currentUser.initiative!);
     } else if (state.status.isSupportInitiative) {
-      return currentUser.initiative!.credits ==
-          currentUser.initiative!.goal ?_buildCompletedInitiative(completedInitiative: currentUser.initiative!) : _buildSelectedInitiative(
-          selectedInitiative: currentUser.initiative!);
+      return currentUser.initiative!.credits == currentUser.initiative!.goal
+          ? _buildCompletedInitiative(
+              completedInitiative: currentUser.initiative!)
+          : _buildSelectedInitiative(
+              selectedInitiative: currentUser.initiative!);
     }
     return const SizedBox();
   }
@@ -132,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         ProfileButton(
           onTap: () {
-            appRoutes.go(AppRoutePath.profile);
+            appRoutes.push(AppRoutePath.profile);
             // context.push(const ProfileScreen(
             //   key: Key('profile'),
             // ));
@@ -351,7 +357,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             ProfileButton(
               onTap: () {
-                appRoutes.go(AppRoutePath.profile);
+                appRoutes.push(AppRoutePath.profile);
               },
               greeting: 'welcome_back'.tr(),
             ),
@@ -559,6 +565,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: TextButton(
                 onPressed: () {
                   setState(() {
+                    // setState(() {
+                    //   selectedIndex = 1;
+                    // });
+                    tabController.animateTo(1);
                     isChangeInitiative = true;
                     // context
                     //     .read<AppBloc>()
@@ -616,7 +626,7 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         ProfileButton(
           onTap: () {
-            context.push(const ProfileScreen());
+            appRoutes.push(AppRoutePath.profile);
           },
           greeting: 'hello'.tr(),
         ),
@@ -708,60 +718,60 @@ class _HomeScreenState extends State<HomeScreen> {
             } else if (state.status.isAllInitiativesLoaded) {
               return state.initiatives.isEmpty
                   ? Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 60),
-                    SvgPicture.asset(
-                      AppAssets.empty,
-                      height: 150,
-                    ),
-                    const Center(
-                      child: Text(
-                        'No Initiative added yet!',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 60),
+                          SvgPicture.asset(
+                            AppAssets.empty,
+                            height: 150,
+                          ),
+                          const Center(
+                            child: Text(
+                              'No Initiative added yet!',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 17),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              )
+                    )
                   : ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.initiatives.length,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          if (state.initiatives[index].credits == 0.0) {
-                            context.push(SingleInitiative(
+                      shrinkWrap: true,
+                      itemCount: state.initiatives.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (state.initiatives[index].credits == 0.0) {
+                                  context.push(SingleInitiative(
+                                    initiative: state.initiatives[index],
+                                  ));
+                                } else if (state.initiatives[index].credits ==
+                                    state.initiatives[index].goal) {
+                                  context.read<AppBloc>().add(
+                                        AppCompletedInitiative(
+                                          initiative: state.initiatives[index],
+                                        ),
+                                      );
+                                } else {
+                                  context.push(SingleInitiative(
+                                    initiative: state.initiatives[index],
+                                  ));
+                                }
+                              });
+                            },
+                            child: InitiativeCard(
                               initiative: state.initiatives[index],
-                            ));
-                          } else if (state.initiatives[index].credits ==
-                              state.initiatives[index].goal) {
-                            context.read<AppBloc>().add(
-                              AppCompletedInitiative(
-                                initiative: state.initiatives[index],
-                              ),
-                            );
-                          } else {
-                            context.push(SingleInitiative(
-                              initiative: state.initiatives[index],
-                            ));
-                          }
-                        });
+                            ),
+                          ),
+                        );
                       },
-                      child: InitiativeCard(
-                        initiative: state.initiatives[index],
-                      ),
-                    ),
-                  );
-                },
-              );
+                    );
             }
             return ListView.builder(
               shrinkWrap: true,

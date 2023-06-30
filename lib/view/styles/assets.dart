@@ -57,8 +57,8 @@ class AppAssets {
   static const String roadIco = 'assets/icons/road.svg';
   static const String roadIco2 = 'assets/icons/road2.svg';
   static const String roadHz = 'assets/icons/road_hz.svg';
-  static const String coinIco = 'assets/icons/Coins.png';
-  static const String clockIco = 'assets/icons/Clock.png';
+  static const String coinIco = 'assets/icons/Coins.svg';
+  static const String clockIco = 'assets/icons/Clock.svg';
 
 
   static const String targetIco = 'assets/icons/target.svg';

@@ -130,6 +130,7 @@ class TripService {
       };
 
       final response = await http.get(url, headers: headers);
+      print(response.body);
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body) as List<dynamic>;

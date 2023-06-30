@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cfl/controller/app/trip_service.dart';
 import 'package:cfl/shared/global/global_var.dart';
@@ -46,12 +47,13 @@ class TripBloc extends Bloc<TripEvent, TripState> {
   void _onListOfPois(AppListOfPOI event, Emitter<TripState> emit) async {
     emit(state.copyWith(status: TripStatus.loading));
     try {
+      print(event.maxLat);
       final pois = await _trip.fetchPOIs(
         token: event.token,
-        maxLat: currentLocation.latitude + 1,
-        maxLon: currentLocation.longitude + 1,
-        minLat: currentLocation.latitude -2,
-        minLon: currentLocation.longitude -2,
+        maxLat: event.maxLat,
+        maxLon: event.maxLon,
+        minLat: event.minLat,
+        minLon: event.minLon,
       );
       emit(
         state.copyWith(
@@ -59,7 +61,8 @@ class TripBloc extends Bloc<TripEvent, TripState> {
           pois: pois,
         ),
       );
-    } catch (e) {
+    } catch (e, sta) {
+      print(sta);
       emit(state.copyWith(exception: e.toString(), status: TripStatus.error));
     }
   }

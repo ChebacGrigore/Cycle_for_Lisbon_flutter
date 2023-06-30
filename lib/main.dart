@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // tokenFuture = auth.getFromLocalStorage(value: 'token');
+    tokenFuture = auth.getFromLocalStorage(value: 'token');
     auth.initForgotPasswordDeepLinkHandling();
     auth.initSocialAuthDeepLinkHandling();
   }

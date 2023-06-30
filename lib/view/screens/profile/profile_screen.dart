@@ -55,6 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             pinned: true,
             snap: true,
             centerTitle: true,
+            leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: ()=> appRoutes.pop(),),
             expandedHeight: 330,
             backgroundColor: AppColors.primaryColor,
             iconTheme: const IconThemeData(color: AppColors.white),
@@ -368,7 +369,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'trip_history'.tr(),
                           icon: AppAssets.roadHz,
                           onTap: () {
-                            appRoutes.go(AppRoutePath.tripHistory);
+                            appRoutes.push(AppRoutePath.tripHistory);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),
@@ -377,7 +378,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'help_center'.tr(),
                           icon: AppAssets.help,
                           onTap: () {
-                            appRoutes.go(AppRoutePath.helpCenter);
+                            appRoutes.push(AppRoutePath.helpCenter);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),
@@ -386,7 +387,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'about'.tr(),
                           icon: AppAssets.info,
                           onTap: () {
-                            appRoutes.go(AppRoutePath.about);
+                            appRoutes.push(AppRoutePath.about);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),

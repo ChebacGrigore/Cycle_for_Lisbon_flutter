@@ -2,12 +2,16 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cfl/routes/app_route.dart';
 import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/shared.dart';
+import 'package:cfl/view/screens/home/home_screen.dart';
 import 'package:cfl/view/styles/assets.dart';
 
 import 'package:cfl/view/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:flutter_svg/svg.dart';
+
+int selectedIndex = 0;
+late TabController tabController;
 
 class Layout extends StatefulWidget {
   const Layout({super.key});
@@ -17,12 +21,12 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
+
   bool _exitDialogInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     print(appRoutes.location);
-    if(appRoutes.location == AppRoutePath.home){
+    if (appRoutes.location == AppRoutePath.home) {
       onBackPressed(context);
-
-    }else{
+    } else {
       Navigator.pop(context);
     }
     return true;
@@ -30,12 +34,11 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    controller = TabController(length: kTempScreens.length, vsync: this);
+    tabController = TabController(length: kTempScreens.length, vsync: this);
 
     super.initState();
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     BackButtonInterceptor.add(myInterceptor);
-    // BackButtonInterceptor.add((stopDefaultButtonEvent, routeInfo) => )
 
     BackButtonInterceptor.add(_exitDialogInterceptor);
   }
@@ -49,10 +52,10 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
   }
 
   bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    if (_selectedIndex != 0) {
+    if (selectedIndex != 0) {
       setState(() {
-        _selectedIndex = 0;
-        controller.animateTo(0);
+        selectedIndex = 0;
+        tabController.animateTo(0);
         FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
         homeIco = AppAssets.homeIco2;
         targetIco = AppAssets.targetIco;
@@ -69,9 +72,6 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
     return true;
   }
 
-  int _selectedIndex = 0;
-  late TabController controller;
-
   String homeIco = AppAssets.homeIco2;
   String crownIco = AppAssets.crownIco;
   String mapIco = AppAssets.mapIco;
@@ -86,7 +86,7 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
       backgroundColor: AppColors.background,
       body: Stack(
         children: [
-          kTempScreens[_selectedIndex],
+          kTempScreens[selectedIndex],
           Align(
             alignment: Alignment.bottomCenter,
             child: SafeArea(
@@ -112,12 +112,13 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
                       ],
                     ),
                     child: TabBar(
-                      controller: controller,
+                      controller: tabController,
                       padding: EdgeInsets.zero,
                       indicatorPadding: EdgeInsets.zero,
                       onTap: (x) {
                         setState(() {
-                          _selectedIndex = x;
+                          isChangeInitiative = null;
+                          selectedIndex = x;
 
                           switch (x) {
                             case 0:

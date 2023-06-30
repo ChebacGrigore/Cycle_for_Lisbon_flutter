@@ -51,7 +51,7 @@ class InitiativeCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Kayaku',
+                    initiative.institution.name,
                     style: GoogleFonts.dmSans(
                       fontSize: 10,
                       color: AppColors.white.withOpacity(0.80),

@@ -291,15 +291,15 @@ class _SetupProfile2State extends ConsumerState<SetupProfile> {
                                     if (profilePic == '') {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
-                                        const SnackBar(
+                                         SnackBar(
                                           content: Row(
                                             children: [
-                                              Icon(
+                                              const Icon(
                                                 Icons.warning,
                                                 color: Colors.yellow,
                                               ),
                                               Text(
-                                                'Please select a profile pciture',
+                                                'picture_select_message'.tr(),
                                               ),
                                             ],
                                           ),

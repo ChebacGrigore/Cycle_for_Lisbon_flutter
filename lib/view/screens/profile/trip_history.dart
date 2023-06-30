@@ -12,6 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../routes/app_route.dart';
+
 class TripHistoryScreen extends StatefulWidget {
   const TripHistoryScreen({super.key});
 
@@ -44,6 +46,7 @@ class _TripHistoryScreenState extends State<TripHistoryScreen> with SingleTicker
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
+              leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: ()=> appRoutes.pop(),),
               backgroundColor: AppColors.background,
               floating: true,
               pinned: true,

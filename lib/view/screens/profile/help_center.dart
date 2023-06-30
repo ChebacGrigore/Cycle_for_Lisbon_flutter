@@ -95,7 +95,7 @@ class _HelpCenterState extends State<HelpCenter> {
                       HelpCenterListTile(
                         isPrimary: true,
                         icon: AppAssets.envelope,
-                        title: 'cyclelisbon@email.com',
+                        title: 'Email',
                         onTap: () {
                           final Uri params = Uri(
                             scheme: 'mailto',

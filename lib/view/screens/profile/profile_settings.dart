@@ -35,7 +35,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   TextEditingController oldPass = TextEditingController();
   TextEditingController newPass = TextEditingController();
   TextEditingController confirmPass = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   Color appbarColor = AppColors.white;
   bool isLoading = false;
   String profilePic = '';
@@ -127,7 +126,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         },
         builder: (context, state) {
           return Form(
-            key: _formKey,
             child: CustomScrollView(
               controller: scrollController,
               slivers: [
@@ -311,35 +309,22 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               const SizedBox(height: 29),
                               AppTextField(
                                 hint: 'old_password'.tr(),
+                                hint2: 'old_password_hint'.tr(),
                                 controller: oldPass,
                               ),
                               const SizedBox(height: 19),
                               AppTextField(
                                 hint: 'new_password'.tr(),
+                                hint2: 'new_password_hint'.tr(),
                                 controller: newPass,
-                                validator: (val) {
-                                  if (val!.isEmpty) {
-                                    return 'New password is required';
-                                  } else if (val.length < 8) {
-                                    return 'New password less than 8 characters';
-                                  }
-                                  return null;
-                                },
+
                               ),
                               const SizedBox(height: 19),
                               AppTextField(
                                 hint: 'confirm_password'.tr(),
+                                hint2: 'confirm_password_hint'.tr(),
                                 controller: confirmPass,
-                                validator: (val) {
-                                  if (val!.isEmpty) {
-                                    return 'Confirm password is required';
-                                  } else if (val.length < 8) {
-                                    return 'Confirm password less than 8 characters';
-                                  } else if (val != newPass.text) {
-                                    return 'Password not matched';
-                                  }
-                                  return null;
-                                },
+
                               ),
                               const SizedBox(height: 44),
                               SizedBox(
@@ -351,8 +336,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   onPressed: isLoading == true
                                       ? () {}
                                       : () async {
-                                          if (_formKey.currentState!
-                                              .validate()) {
+
                                             if (name.text != currentUser.name ||
                                                 nickName.text != currentUser.username) {
                                               context.read<AuthBloc>().add(
@@ -375,7 +359,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                                       id: currentUser.id,
                                                     ),
                                                   );
-                                            }
+
                                             if (newPass.text != '' &&
                                                 oldPass.text != '') {
                                               context.read<AuthBloc>().add(

@@ -746,7 +746,7 @@ class SuccessDialog extends StatelessWidget {
                   // context.showAppDialog(const ResetPasswordDialog());
                 },
                 child: Text(
-                  'Continue',
+                  'continue'.tr(),
                   style: GoogleFonts.dmSans(
                     fontWeight: FontWeight.w500,
                     fontSize: 14,

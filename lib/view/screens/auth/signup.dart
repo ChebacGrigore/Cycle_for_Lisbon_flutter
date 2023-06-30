@@ -256,6 +256,7 @@ class AppTextField extends StatelessWidget {
   const AppTextField({
     required this.hint,
     required this.controller,
+    this.hint2,
     this.validator,
     this.prefixIcon,
     this.sufixIcon,
@@ -266,6 +267,7 @@ class AppTextField extends StatelessWidget {
     super.key,
   });
   final String hint;
+  final String? hint2;
   final IconData? prefixIcon;
   final Widget? sufixIcon;
   final bool isObsecure;
@@ -298,7 +300,7 @@ class AppTextField extends StatelessWidget {
           decoration: InputDecoration(
             prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
             suffixIcon: sufixIcon,
-            hintText: '${'enter'.tr()} $hint',
+            hintText: hint2 ?? '${'enter'.tr()} $hint',
             hintStyle: GoogleFonts.dmSans(
               fontSize: 14,
               color: AppColors.primaryColor.withOpacity(0.50),
