@@ -5,7 +5,7 @@ enum AppStatus {
   error,
   loading,
   allInitiativesLoaded,
-  selectedInitiative,
+  changeInitiative,
   completedInitiative,
   supportInitiative,
   allBadges,
@@ -23,7 +23,7 @@ extension AppStatusX on AppStatus {
   bool get isNews => this == AppStatus.allNews;
   bool get isEvents => this == AppStatus.allEvents;
   bool get isAllInitiativesLoaded => this == AppStatus.allInitiativesLoaded;
-  bool get isSelectedInitiative => this == AppStatus.selectedInitiative;
+  bool get isChangeInitiative => this == AppStatus.changeInitiative;
   bool get isCompletedInitiative => this == AppStatus.completedInitiative;
   bool get isSupportInitiative => this == AppStatus.supportInitiative;
 }
@@ -33,7 +33,6 @@ class AppState extends Equatable {
     this.status = AppStatus.initial,
     this.initiatives = const [],
     this.badges = const [],
-
     this.entries = const [],
     this.news = const [],
     this.events = const [],

@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
+import 'package:hex/hex.dart';
 import 'package:path_provider/path_provider.dart';
 
 
@@ -76,13 +77,13 @@ class TripService {
     }
   }
 
-  Future<String> downloadGpxFile(String url, String token) async {
+  Future<String> downloadGpxFile(String id, String token) async {
     var headers = {
       'Authorization': 'Bearer $token',
     };
 
     try{
-      final response = await http.get(Uri.parse(url), headers: headers);
+      final response = await http.get(Uri.parse('$baseUrl/trips/$id/file'), headers: headers);
 
       if (response.statusCode == 200) {
         // Use path package to get the correct file path
@@ -98,7 +99,9 @@ class TripService {
         File file = File(filePath);
 
         String fileContent = await file.readAsString();
-        return fileContent;
+        List<int> bytes = HEX.decode(fileContent.replaceAll(r'\x', ''));
+        String xmlContent = utf8.decode(bytes);
+        return xmlContent;
       } else {
         print('Error downloading GPX file. Status code: ${response.statusCode}');
         final res = jsonDecode(response.body);
@@ -112,18 +115,19 @@ class TripService {
 
   List<LatLng> extractWaypoints(String gpxContent) {
     List<LatLng> waypoints = [];
-
     xml.XmlDocument document = xml.XmlDocument.parse(gpxContent);
     xml.XmlElement gpxElement = document.rootElement;
 
+    for (var wptElement in gpxElement.findAllElements('trkpt')) {
+      double lat = double.parse(wptElement.getAttribute('lat')!);
+      double lon = double.parse(wptElement.getAttribute('lon')!);
+      waypoints.add(LatLng(lat, lon));
+    }
     for (var wptElement in gpxElement.findAllElements('wpt')) {
       double lat = double.parse(wptElement.getAttribute('lat')!);
       double lon = double.parse(wptElement.getAttribute('lon')!);
-
-      // waypoints.add({'lat': lat, 'lon': lon});
       waypoints.add(LatLng(lat, lon));
     }
-
     return waypoints;
   }
 

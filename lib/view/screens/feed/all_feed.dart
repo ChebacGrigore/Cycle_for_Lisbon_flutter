@@ -443,7 +443,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                             width: 1.5,
                           ),
                         ),
-                        height: 333,
+                        height: 310,
                         width: double.infinity,
                         margin: const EdgeInsets.only(bottom: 16),
                         child: Column(
@@ -459,6 +459,9 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                                 height: 160,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
+                                  errorBuilder: (context, u, e) => Image.asset(AppAssets.placeholder, height: 160,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,)
                               ),
                             ),
                             Padding(
@@ -494,47 +497,47 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                                           .withOpacity(0.80),
                                     ),
                                   ),
-                                  const SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Icon(Icons.access_time,
-                                              color: AppColors.accentColor),
-                                          const SizedBox(width: 6),
-                                          Text(
-                                            '12:00 pm',
-                                            style: GoogleFonts.dmSans(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(width: 17),
-                                      Flexible(
-                                        child: Row(
-                                          children: [
-                                            const Icon(
-                                                Icons.location_on_outlined,
-                                                color: AppColors.accentColor),
-                                            const SizedBox(width: 6),
-                                            Flexible(
-                                              child: Text(
-                                                'Elgin St. Celina, Delaware',
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: GoogleFonts.dmSans(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                  // const SizedBox(height: 20),
+                                  // Row(
+                                  //   children: [
+                                  //     Row(
+                                  //       children: [
+                                  //         const Icon(Icons.access_time,
+                                  //             color: AppColors.accentColor),
+                                  //         const SizedBox(width: 6),
+                                  //         Text(
+                                  //           '12:00 pm',
+                                  //           style: GoogleFonts.dmSans(
+                                  //             fontWeight: FontWeight.w500,
+                                  //             fontSize: 14,
+                                  //           ),
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //     const SizedBox(width: 17),
+                                  //     Flexible(
+                                  //       child: Row(
+                                  //         children: [
+                                  //           const Icon(
+                                  //               Icons.location_on_outlined,
+                                  //               color: AppColors.accentColor),
+                                  //           const SizedBox(width: 6),
+                                  //           Flexible(
+                                  //             child: Text(
+                                  //               'Elgin St. Celina, Delaware',
+                                  //               overflow: TextOverflow.ellipsis,
+                                  //               maxLines: 1,
+                                  //               style: GoogleFonts.dmSans(
+                                  //                 fontWeight: FontWeight.w500,
+                                  //                 fontSize: 14,
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             )
@@ -587,7 +590,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                     width: 1.5,
                   ),
                 ),
-                height: 333,
+                height: 310,
                 width: double.infinity,
                 margin: const EdgeInsets.only(bottom: 16),
                 child: Column(
@@ -603,6 +606,9 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                         height: 160,
                         width: double.infinity,
                         fit: BoxFit.cover,
+                        errorBuilder: (context, u, e) => Image.asset(AppAssets.placeholder, height: 160,
+                          width: double.infinity,
+                          fit: BoxFit.cover,),
                       ),
                     ),
                     Padding(
@@ -636,46 +642,46 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                               color: AppColors.primaryColor.withOpacity(0.80),
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Row(
-                                children: [
-                                  const Icon(Icons.access_time,
-                                      color: AppColors.accentColor),
-                                  const SizedBox(width: 6),
-                                  Text(
-                                    '12:00 pm',
-                                    style: GoogleFonts.dmSans(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 17),
-                              Flexible(
-                                child: Row(
-                                  children: [
-                                    const Icon(Icons.location_on_outlined,
-                                        color: AppColors.accentColor),
-                                    const SizedBox(width: 6),
-                                    Flexible(
-                                      child: Text(
-                                        'Elgin St. Celina, Delaware',
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: GoogleFonts.dmSans(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                          // const SizedBox(height: 20),
+                          // Row(
+                          //   children: [
+                          //     Row(
+                          //       children: [
+                          //         const Icon(Icons.access_time,
+                          //             color: AppColors.accentColor),
+                          //         const SizedBox(width: 6),
+                          //         Text(
+                          //           '12:00 pm',
+                          //           style: GoogleFonts.dmSans(
+                          //             fontWeight: FontWeight.w500,
+                          //             fontSize: 14,
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //     const SizedBox(width: 17),
+                          //     Flexible(
+                          //       child: Row(
+                          //         children: [
+                          //           const Icon(Icons.location_on_outlined,
+                          //               color: AppColors.accentColor),
+                          //           const SizedBox(width: 6),
+                          //           Flexible(
+                          //             child: Text(
+                          //               'Elgin St. Celina, Delaware',
+                          //               overflow: TextOverflow.ellipsis,
+                          //               maxLines: 1,
+                          //               style: GoogleFonts.dmSans(
+                          //                 fontWeight: FontWeight.w500,
+                          //                 fontSize: 14,
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                     )

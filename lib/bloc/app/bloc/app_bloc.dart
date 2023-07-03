@@ -15,7 +15,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   final InitiativeService _initiative = InitiativeService();
   AppBloc() : super(const AppState()) {
     on<AppListOfInitiatives>(_onListOfInitiatives);
-    on<AppSelectedInitiative>(_onSelectedInitiative);
+    on<AppChangeInitiative>(_onSelectedInitiative);
     on<AppCompletedInitiative>(_onCompletedInitiative);
     on<AppListOfBadges>(_onListOfBadges);
     on<AppLeaderboard>(_onLeaderboard);
@@ -151,13 +151,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   }
 
   void _onSelectedInitiative(
-      AppSelectedInitiative event, Emitter<AppState> emit) async {
-    emit(state.copyWith(status: AppStatus.loading));
+      AppChangeInitiative event, Emitter<AppState> emit) async {
+
     try {
       emit(
         state.copyWith(
-          status: AppStatus.selectedInitiative,
-          initiative: event.initiative,
+          status: AppStatus.changeInitiative
         ),
       );
     } catch (e) {

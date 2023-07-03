@@ -6,12 +6,8 @@ import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
-import 'package:cfl/view/screens/profile/about.dart';
 import 'package:cfl/view/screens/profile/badges.dart';
-import 'package:cfl/view/screens/profile/help_center.dart';
-import 'package:cfl/view/screens/profile/leaderboard.dart';
 import 'package:cfl/view/screens/profile/profile_settings.dart';
-import 'package:cfl/view/screens/profile/trip_history.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +51,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             pinned: true,
             snap: true,
             centerTitle: true,
-            leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: ()=> appRoutes.pop(),),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => appRoutes.pop(),
+            ),
             expandedHeight: 330,
             backgroundColor: AppColors.primaryColor,
             iconTheme: const IconThemeData(color: AppColors.white),
@@ -264,7 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 90,
                             child: ProfileActivityCount(
                               unit: '',
-                              count: currentUser.tripCount ?? 0,
+                              count: currentUser.tripCount,
                               title: 'total_rides'.tr(),
                               icon: Icons.access_time_outlined,
                             ),
@@ -282,9 +281,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 90,
                             child: ProfileActivityCount(
                               unit: '',
-                              count:
-                                  currentUser.totalDist!.round() ??
-                                      0,
+                              count: currentUser.totalDist.round(),
                               title: 'total_km'.tr(),
                               icon: CFLIcons.roadhz,
                             ),
@@ -302,8 +299,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 90,
                             child: ProfileActivityCount(
                               unit: '',
-                              count:
-                                  currentUser.credits!.round() ?? 0,
+                              count: currentUser.credits.round(),
                               title: 'total_donations'.tr(),
                               icon: CFLIcons.coin1,
                             ),

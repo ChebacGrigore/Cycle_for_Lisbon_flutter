@@ -39,7 +39,6 @@ class InitiativeService {
     };
     try {
       final response = await http.get(url, headers: headers);
-      print(response.body);
       if (response.statusCode == 200) {
         final jsonBody = json.decode(response.body) as Map<String, dynamic>;
         return Initiative.fromJson(jsonBody);

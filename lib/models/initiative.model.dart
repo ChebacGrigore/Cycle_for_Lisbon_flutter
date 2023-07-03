@@ -246,24 +246,43 @@ class EventModel {
     required this.language,
   });
 
-  factory EventModel.fromJson(Map<String, dynamic> json) {
-    return EventModel(
-      id: json['id'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
-      type: json['type'],
-      state: json['state'],
-      title: json['title'],
-      subtitle: json['subtitle'],
-      imageUrl: json['imageUrl'],
-      articleUrl: json['articleUrl'],
-      subject: json['subject'],
-      description: json['description'],
-      period: json['period'],
-      languageCode: json['languageCode'],
-      language: Language.fromJson(json['language']),
-    );
-  }
+  factory EventModel.fromRawJson(String str) => EventModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
+    id: json["id"],
+    createdAt: DateTime.parse(json["createdAt"]),
+    updatedAt: DateTime.parse(json["updatedAt"]),
+    type: json["type"],
+    state: json["state"],
+    title: json["title"],
+    subtitle: json["subtitle"],
+    imageUrl: json["imageUrl"],
+    articleUrl: json["articleUrl"],
+    subject: json["subject"],
+    description: json["description"],
+    period: json["period"],
+    languageCode: json["languageCode"],
+    language: Language.fromJson(json["language"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "createdAt": createdAt.toIso8601String(),
+    "updatedAt": updatedAt.toIso8601String(),
+    "type": type,
+    "state": state,
+    "title": title,
+    "subtitle": subtitle,
+    "imageUrl": imageUrl,
+    "articleUrl": articleUrl,
+    "subject": subject,
+    "description": description,
+    "period": period,
+    "languageCode": languageCode,
+    "language": language.toJson(),
+  };
 }
 
 class NewsModel {

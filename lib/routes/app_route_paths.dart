@@ -7,6 +7,7 @@ class AppRoutePath {
   static const String badges = '/badges';
   static const String leaderBoard = '/leaderboard';
   static const String tripHistory = '/trip-history';
+  static const String singleHistory = '/single-history';
   static const String helpCenter = '/help-center';
   static const String about = '/about';
 }

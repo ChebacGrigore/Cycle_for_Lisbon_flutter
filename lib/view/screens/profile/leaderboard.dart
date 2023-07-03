@@ -434,7 +434,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   LeaderboardActivityCount(
-                                    count: currentUser.totalDist!.toStringAsFixed(1) ?? 0,
+                                    count: currentUser.totalDist!.round() ?? 0,
                                     title: 'total_km'.tr(),
                                     unit: 'km',
                                     icon: AppAssets.roadHz,
@@ -448,7 +448,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.credits!.toStringAsFixed(1) ?? 0,
+                                    count: currentUser.credits!.round() ?? 0,
                                     title: 'total_earned'.tr(),
                                     unit: '',
                                     icon: AppAssets.handCoins,
@@ -485,7 +485,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                         child: ListView.separated(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: state.entries.length,
+                          itemCount: 5,
                           itemBuilder: (ctx, idx) {
                             final entry = state.entries[idx];
                             return ListTile(
@@ -537,7 +537,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                         children: [
                                           LeaderboardActivityCount(
                                             showTitle: false,
-                                            count: entry.totalDist.toStringAsFixed(1),
+                                            count: entry.totalDist.round(),
                                             title: '',
                                             unit: 'km'.tr(),
                                             icon: AppAssets.roadHz,
@@ -553,7 +553,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                           const SizedBox(width: 20),
                                           LeaderboardActivityCount(
                                             showTitle: false,
-                                            count: entry.credits.toStringAsFixed(1),
+                                            count: entry.credits.round(),
                                             title: '',
                                             unit: '',
                                             icon: AppAssets.handCoins,
@@ -661,7 +661,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 LeaderboardActivityCount(
-                                  count: currentUser.totalDist!.toStringAsFixed(1) ?? 0,
+                                  count: currentUser.totalDist!.round() ?? 0,
                                   title: 'total_km'.tr(),
                                   unit: 'km',
                                   icon: AppAssets.roadHz,
@@ -675,7 +675,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                 ),
                                 const SizedBox(width: 6),
                                 LeaderboardActivityCount(
-                                  count: currentUser.credits!.toStringAsFixed(1) ?? 0,
+                                  count: currentUser.credits!.round() ?? 0,
                                   title: 'total_earned'.tr(),
                                   unit: '',
                                   icon: AppAssets.handCoins,
@@ -711,9 +711,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     child: ListView.separated(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.entries.length,
+                      itemCount: 5,
                       itemBuilder: (ctx, idx) {
-                        print(state.entries[idx].position);
                         return ListTile(
                           title: Row(
                             children: [
@@ -763,7 +762,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     children: [
                                       LeaderboardActivityCount(
                                         showTitle: false,
-                                        count: state.entries[idx].totalDist.toStringAsFixed(1),
+                                        count: state.entries[idx].totalDist.round(),
                                         title: '',
                                         unit: 'km'.tr(),
                                         icon: AppAssets.roadHz,
@@ -771,7 +770,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                       const SizedBox(width: 20),
                                       LeaderboardActivityCount(
                                         showTitle: false,
-                                        count: state.entries[idx].tripCount.toStringAsFixed(1),
+                                        count: state.entries[idx].tripCount,
                                         title: 'rides'.tr(),
                                         unit: 'x',
                                         icon: AppAssets.bicycle,
@@ -779,7 +778,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                       const SizedBox(width: 20),
                                        LeaderboardActivityCount(
                                         showTitle: false,
-                                        count: state.entries[idx].credits.toStringAsFixed(1),
+                                        count: state.entries[idx].credits.round(),
                                         title: '',
                                         unit: '',
                                         icon: AppAssets.handCoins,

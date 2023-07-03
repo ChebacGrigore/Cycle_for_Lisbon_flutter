@@ -71,7 +71,7 @@ class TripBloc extends Bloc<TripEvent, TripState> {
   void _onListOfPoints(GetPoints event, Emitter<TripState> emit) async {
     emit(state.copyWith(status: TripStatus.loading));
     try {
-      final gpxContent = await _trip.downloadGpxFile(event.token, event.id);
+      final gpxContent = await _trip.downloadGpxFile(event.id, event.token);
       final points = _trip.extractWaypoints(gpxContent);
       emit(
         state.copyWith(

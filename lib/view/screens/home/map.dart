@@ -100,73 +100,105 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         builder: (context, state) {
           return BlocBuilder<TripBloc, TripState>(
             builder: (context, state) {
-
               if(state.status.isLoading){
                 return const Center(child: CircularProgressIndicator(),);
               }
               if (state.status.isAllPoi) {
-                locationMarkerIcon().then((value){
-                  _markers = state.pois!
-                      .map(
-                        (point) => Marker(
-                      markerId: MarkerId('Marker ${Random().nextInt(100)}'),
-                      position: LatLng(point.lat, point.lon),
-                      infoWindow: InfoWindow(title: point.name),
-                      icon: iconPickup,
-                    ),
-                  )
-                      .toSet();
-                });
+                // locationMarkerIcon().then((value){
+                //
+                //   _markers = ;
+                //   // setState(() {});
+                // });
 
-                return Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 55),
-                  child: GoogleMap(
-                    mapType: MapType.normal,
-                    initialCameraPosition: CameraPosition(
-                      target: const LatLng(38.7223, -9.1393),
-                      zoom: zoomLevel,
-                    ),
-                    myLocationEnabled: true,
-                    compassEnabled: true,
-                    onMapCreated: (GoogleMapController controller) {
-                      if(!_controller.isCompleted){
-                        _controller.complete(controller);
-                      }
-                      // getMarkers();
-                    },
-                    markers: _markers,
+                return FutureBuilder<BitmapDescriptor>(
+                  future: BitmapDescriptor.fromAssetImage(
+                    const ImageConfiguration(size: Size(
+                        20, 20)),
+                    AppAssets.location,
                   ),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return const Center(child: Text('Error loading icon'));
+                    }
+                    final BitmapDescriptor icon = snapshot.data!;
+                    return Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(bottom: 55),
+                      child: GoogleMap(
+                        mapType: MapType.normal,
+                        initialCameraPosition: CameraPosition(
+                          target: const LatLng(38.7223, -9.1393),
+                          zoom: zoomLevel,
+                        ),
+                        myLocationEnabled: true,
+                        compassEnabled: true,
+                        onMapCreated: (GoogleMapController controller) {
+                          if(!_controller.isCompleted){
+                            _controller.complete(controller);
+                          }
+                          // getMarkers();
+                        },
+                        markers: state.pois!
+                            .map(
+                              (point) => Marker(
+                            markerId: MarkerId('Marker ${Random().nextInt(100)}'),
+                            position: LatLng(point.lat, point.lon),
+                            infoWindow: InfoWindow(title: point.name),
+                            icon: icon,
+                          ),
+                        )
+                            .toSet(),
+                      ),
+                    );
+                  }
                 );
               }
-              locationMarkerIcon().then((value){
-                _markers = state.pois!
-                    .map(
-                      (point) => Marker(
-                    markerId: MarkerId('Marker ${Random().nextInt(100)}'),
-                    position: LatLng(point.lat, point.lon),
-                    infoWindow: InfoWindow(title: point.name),
-                    icon: iconPickup,
+
+              return FutureBuilder<BitmapDescriptor>(
+                  future: BitmapDescriptor.fromAssetImage(
+                    const ImageConfiguration(size: Size(
+                        20, 20)),
+                    AppAssets.location,
                   ),
-                )
-                    .toSet();
-              });
-              return Container(
-                width: double.infinity,
-                margin: const EdgeInsets.only(bottom: 55),
-                child: GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: const CameraPosition(
-                    target: LatLng(38.7223, -9.1393),
-                    zoom: 14.4746,
-                  ),
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                    // getMarkers();
-                  },
-                  // onCameraMoveStarted: () async {},
-                  markers: _markers,
-                ),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return const Center(child: Text('Error loading icon'));
+                    }
+                    final BitmapDescriptor icon = snapshot.data!;
+                    return Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(bottom: 55),
+                      child: GoogleMap(
+                        mapType: MapType.normal,
+                        initialCameraPosition: CameraPosition(
+                          target: const LatLng(38.7223, -9.1393),
+                          zoom: zoomLevel,
+                        ),
+                        myLocationEnabled: true,
+                        compassEnabled: true,
+                        onMapCreated: (GoogleMapController controller) {
+                          if(!_controller.isCompleted){
+                            _controller.complete(controller);
+                          }
+                          // getMarkers();
+                        },
+                        markers: state.pois!
+                            .map(
+                              (point) => Marker(
+                            markerId: MarkerId('Marker ${Random().nextInt(100)}'),
+                            position: LatLng(point.lat, point.lon),
+                            infoWindow: InfoWindow(title: point.name),
+                            icon: icon,
+                          ),
+                        )
+                            .toSet(),
+                      ),
+                    );
+                  }
               );
             },
           );

@@ -1,9 +1,8 @@
 import 'package:cfl/bloc/trip/bloc/trip_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_state.dart';
+import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/app_bar_clip.dart';
-import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/shared/global/global_var.dart';
-import 'package:cfl/view/screens/profile/trip_history_map.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -195,7 +194,6 @@ class TripHistoryItem extends ConsumerWidget {
                 ),
               );
             } else if (state.status.isAllTrips) {
-
               state.trips!.isEmpty
                   ? Center(
                       child: Column(
@@ -225,7 +223,7 @@ class TripHistoryItem extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'initiative_name'.tr(),
+                                trip.initiativeName!.tr(),
                                 style: GoogleFonts.dmSans(
                                   fontSize: 16,
                                   color: AppColors.primaryColor,
@@ -269,7 +267,8 @@ class TripHistoryItem extends ConsumerWidget {
                                 width: 100,
                                 child: TextButton(
                                   onPressed: () {
-                                    context.push(TripMapScreen(trip: trip,));
+                                    appRoutes.push(AppRoutePath.singleHistory, extra: trip);
+                                    // context.push(TripMapScreen(trip: trip,));
                                   },
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -352,7 +351,8 @@ class TripHistoryItem extends ConsumerWidget {
                         width: 100,
                         child: TextButton(
                           onPressed: () {
-                            context.push(TripMapScreen(trip: trip,));
+                            appRoutes.push(AppRoutePath.singleHistory, extra: trip);
+                            //context.push(TripMapScreen(trip: trip,));
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,

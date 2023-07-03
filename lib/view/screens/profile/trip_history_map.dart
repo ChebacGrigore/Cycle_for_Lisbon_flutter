@@ -15,6 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../../bloc/trip/bloc/trip_state.dart';
+import '../../../routes/app_route.dart';
+import '../../../routes/app_route_paths.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
 
@@ -72,7 +76,12 @@ class _TripMapScreenState extends State<TripMapScreen> {
       ),
     ];
     return Scaffold(
-      body: Stack(
+      body: BlocBuilder<TripBloc, TripState>(
+  builder: (context, state) {
+    if(state.status.isLoading){
+      return const Center(child: CircularProgressIndicator(),);
+    }
+    return Stack(
         children: [
           SizedBox(
             width: double.infinity,
@@ -113,7 +122,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                   polylineId: const PolylineId('line'),
                   color: Colors.yellow,
                   width: 5,
-                  points: [LatLng(widget.trip.trip.startLat!, widget.trip.trip.startLon!), LatLng(widget.trip.trip.endLat!, widget.trip.trip.endLon!)],
+                  points: state.points!,
                 ),
               },
             ),
@@ -125,7 +134,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                 children: [
                   IconButton(
                     color: AppColors.white,
-                    onPressed: () => context.pop(),
+                    onPressed: () => appRoutes.pop(),
                     icon: const Icon(
                       Icons.arrow_back,
                       size: 32,
@@ -224,7 +233,9 @@ class _TripMapScreenState extends State<TripMapScreen> {
             ),
           ),
         ],
-      ),
+      );
+  },
+),
     );
   }
   // Future<void> getDirections({required LatLng start, required LatLng stop}) async {

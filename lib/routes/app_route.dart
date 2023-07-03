@@ -1,6 +1,6 @@
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
+import 'package:cfl/models/trip.model.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
-import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/splash.dart';
 // import 'package:cfl/splash.dart';
 import 'package:cfl/view/screens/auth/signin.dart';
@@ -12,6 +12,7 @@ import 'package:cfl/view/screens/profile/badges.dart';
 import 'package:cfl/view/screens/profile/help_center.dart';
 import 'package:cfl/view/screens/profile/leaderboard.dart';
 import 'package:cfl/view/screens/profile/trip_history.dart';
+import 'package:cfl/view/screens/profile/trip_history_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -123,6 +124,14 @@ final GoRouter appRoutes = GoRouter(
       },
     ),
     GoRoute(
+      path: AppRoutePath.singleHistory,
+      builder: (BuildContext context, GoRouterState state) {
+        final history = state.extra as TripHistory;
+        print(history.initiativeName);
+        return TripMapScreen(trip: history);
+      },
+    ),
+    GoRoute(
       path: AppRoutePath.helpCenter,
       builder: (BuildContext context, GoRouterState state) {
         return const HelpCenter();
@@ -134,7 +143,5 @@ final GoRouter appRoutes = GoRouter(
         return const AboutScreen();
       },
     ),
-
-
   ],
 );

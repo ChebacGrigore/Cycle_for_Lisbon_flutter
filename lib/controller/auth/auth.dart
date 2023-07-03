@@ -185,8 +185,8 @@ class AuthService {
           username: jsonBody['username'] ?? 'N/A',
           verified: jsonBody['verified'],
           tripCount: int.parse(jsonBody['tripCount'].toString()),
-          totalDist: double.parse(jsonBody['totalDist'].toString()) ?? 0.0,
-          credits: double.parse(jsonBody['credits'].toString()) ?? 0.0,
+          totalDist: double.parse(jsonBody['totalDist'].toString()),
+          credits: double.parse(jsonBody['credits'].toString()),
           gender: jsonBody['gender'] ?? '',
           birthday: jsonBody['birthday'] ?? '',
         );
@@ -194,8 +194,7 @@ class AuthService {
         final res = jsonDecode(response.body);
         throw Exception('${res['error_description']}');
       }
-    } catch (e, stackTrace) {
-      print('Stack trace: $stackTrace');
+    } catch (e) {
       throw Exception('$e');
     }
   }
@@ -297,8 +296,8 @@ class AuthService {
         final jsonBody = json.decode(response.body) as Map<String, dynamic>;
         print(jsonBody.containsKey('initiative'));
         if (jsonBody.containsKey('initiative')) {
-            return User.fromJson(jsonBody);
-        }else{
+          return User.fromJson(jsonBody);
+        } else {
           return User(
             createdAt: DateTime.parse(jsonBody['createdAt']),
             updatedAt: DateTime.parse(jsonBody['updatedAt']),
@@ -309,13 +308,12 @@ class AuthService {
             username: jsonBody['username'] ?? 'N/A',
             verified: jsonBody['verified'],
             tripCount: int.parse(jsonBody['tripCount'].toString()),
-            totalDist: double.parse(jsonBody['totalDist'].toString()) ?? 0.0,
-            credits: double.parse(jsonBody['credits'].toString()) ?? 0.0,
+            totalDist: double.parse(jsonBody['totalDist'].toString()),
+            credits: double.parse(jsonBody['credits'].toString()),
             gender: jsonBody['gender'] ?? '',
             birthday: jsonBody['birthday'] ?? '',
           );
         }
-
 
         // return user;
       } else {
@@ -333,7 +331,6 @@ class AuthService {
       print(e);
       print('Stack trace: $stackTrace');
       throw Exception('$e');
-
     }
   }
 
@@ -363,13 +360,12 @@ class AuthService {
           username: jsonBody['username'] ?? 'N/A',
           verified: jsonBody['verified'],
           tripCount: int.parse(jsonBody['tripCount'].toString()),
-          totalDist: double.parse(jsonBody['totalDist'].toString()) ?? 0.0,
-          credits: double.parse(jsonBody['credits'].toString()) ?? 0.0,
+          totalDist: double.parse(jsonBody['totalDist'].toString()),
+          credits: double.parse(jsonBody['credits'].toString()),
           gender: jsonBody['gender'] ?? '',
           birthday: jsonBody['birthday'] ?? '',
         );
         // }
-
 
         // return user;
       } else {

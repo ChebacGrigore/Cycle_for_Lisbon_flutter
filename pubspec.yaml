@@ -45,6 +45,7 @@ dependencies:
   cached_network_image: ^3.2.3
   share_plus: ^7.0.2
   xml: ^6.3.0
+  hex: ^0.2.0
   
   
 

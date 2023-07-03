@@ -14,11 +14,10 @@ class AppListOfInitiatives extends AppEvent {
   List<Object> get props => [token];
 }
 
-class AppSelectedInitiative extends AppEvent {
-  final Initiative initiative;
-  const AppSelectedInitiative({required this.initiative});
+class AppChangeInitiative extends AppEvent {
+  const AppChangeInitiative();
   @override
-  List<Object> get props => [initiative];
+  List<Object> get props => [];
 }
 
 class AppCompletedInitiative extends AppEvent {
