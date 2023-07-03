@@ -22,15 +22,15 @@ class Layout extends StatefulWidget {
 
 class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
 
-  bool _exitDialogInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    print(appRoutes.location);
-    if (appRoutes.location == AppRoutePath.home) {
-      onBackPressed(context);
-    } else {
-      Navigator.pop(context);
-    }
-    return true;
-  }
+  // bool _exitDialogInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+  //   print(appRoutes.location);
+  //   if (appRoutes.location == AppRoutePath.home) {
+  //     onBackPressed(context);
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  //   return true;
+  // }
 
   @override
   void initState() {
@@ -40,13 +40,13 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
     BackButtonInterceptor.add(myInterceptor);
 
-    BackButtonInterceptor.add(_exitDialogInterceptor);
+    // BackButtonInterceptor.add(_exitDialogInterceptor);
   }
 
   @override
   void dispose() {
     BackButtonInterceptor.remove(myInterceptor);
-    BackButtonInterceptor.remove(_exitDialogInterceptor);
+    // BackButtonInterceptor.remove(_exitDialogInterceptor);
     // _onBackPressed();
     super.dispose();
   }
@@ -290,7 +290,7 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
               child: const Text('Yes'),
               onPressed: () {
                 Navigator.of(context).pop(true); // Close the app
-                BackButtonInterceptor.remove(_exitDialogInterceptor);
+                // BackButtonInterceptor.remove(_exitDialogInterceptor);
               },
             ),
           ],

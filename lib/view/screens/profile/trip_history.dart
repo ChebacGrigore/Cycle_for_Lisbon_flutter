@@ -233,7 +233,7 @@ class TripHistoryItem extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                '${state.trips![idx].createdAt.month} ${state.trips![idx].createdAt.day}, ${state.trips![idx].createdAt.year}',
+                                '${state.trips![idx].trip.createdAt.month} ${state.trips![idx].trip.createdAt.day}, ${state.trips![idx].trip.createdAt.year}',
                                 style: GoogleFonts.dmSans(
                                   fontSize: 12,
                                   color:
@@ -250,7 +250,7 @@ class TripHistoryItem extends ConsumerWidget {
                                 children: [
                                   TripHistoryInfo(
                                     icon: Icons.location_on_outlined,
-                                    text: trip.startAddr ?? 'N/A',
+                                    text: trip.trip.startAddr ?? 'N/A',
                                   ),
                                   const SizedBox(width: 10),
                                   const Icon(
@@ -261,7 +261,7 @@ class TripHistoryItem extends ConsumerWidget {
                                   const SizedBox(width: 10),
                                   TripHistoryInfo(
                                     icon: Icons.flag,
-                                    text: trip.endAddr ?? 'N/A',
+                                    text: trip.trip.endAddr ?? 'N/A',
                                   ),
                                 ],
                               ),
@@ -309,7 +309,7 @@ class TripHistoryItem extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'initiative_name'.tr(),
+                        trip.initiativeName!.tr(),
                         style: GoogleFonts.dmSans(
                           fontSize: 16,
                           color: AppColors.primaryColor,
@@ -317,7 +317,7 @@ class TripHistoryItem extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        dateFormat.format(trip.createdAt),
+                        dateFormat.format(trip.trip.createdAt),
                         style: GoogleFonts.dmSans(
                           fontSize: 12,
                           color: AppColors.primaryColor.withOpacity(0.60),
@@ -333,7 +333,7 @@ class TripHistoryItem extends ConsumerWidget {
                         children: [
                           TripHistoryInfo(
                             icon: Icons.location_on_outlined,
-                            text: trip.startAddr ?? 'N/A',
+                            text: trip.trip.startAddr ?? 'N/A',
                           ),
                           const SizedBox(width: 10),
                           const Icon(
@@ -344,7 +344,7 @@ class TripHistoryItem extends ConsumerWidget {
                           const SizedBox(width: 10),
                           TripHistoryInfo(
                             icon: Icons.flag,
-                            text: trip.endAddr ?? 'N/A',
+                            text: trip.trip.endAddr ?? 'N/A',
                           ),
                         ],
                       ),

@@ -23,12 +23,12 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    TripService().getCurrentLocation().then((value) {
-      currentLocation = value!;
+    // TripService().getCurrentLocation().then((value) {
+    //   currentLocation = value!;
       getStoredData();
-      context.go("${AppRoutePath.splash}/0?redirect=false");
-    });
-    //Timer(const Duration(seconds: 2), () {});
+      // context.go("${AppRoutePath.splash}/0?redirect=false");
+    // });
+    //Timesr(const Duration(seconds: 2), () {});
   }
 
   Future<void> getStoredData() async {

@@ -86,6 +86,7 @@ class AppAssets {
   static const String medal3 = 'assets/icons/medal3.png';
 
   static const String share = 'assets/icons/share.png';
+  static const String location = 'assets/images/app-location.png';
   //
   static const String placeholder = 'assets/images/cfl-placeholder.png';
   //

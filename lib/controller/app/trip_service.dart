@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:cfl/controller/app/initiative.dart';
 import 'package:cfl/models/trip.model.dart';
 import 'package:cfl/shared/configs/url_config.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
+import 'package:xml/xml.dart' as xml;
+import 'package:path_provider/path_provider.dart';
+
 
 class TripService {
   final geolocator = GeolocatorPlatform.instance;
@@ -72,6 +76,57 @@ class TripService {
     }
   }
 
+  Future<String> downloadGpxFile(String url, String token) async {
+    var headers = {
+      'Authorization': 'Bearer $token',
+    };
+
+    try{
+      final response = await http.get(Uri.parse(url), headers: headers);
+
+      if (response.statusCode == 200) {
+        // Use path package to get the correct file path
+        // String fullPath = path.join(filePath, 'file.gpx');
+        final directory = await getApplicationDocumentsDirectory();
+        final fileName = 'location_${DateTime.now().millisecondsSinceEpoch}.gpx';
+        final filePath = '${directory.path}/$fileName';
+
+        await File(filePath).writeAsBytes(response.bodyBytes);
+        print('GPX file downloaded successfully.');
+
+        // Read the content of the file
+        File file = File(filePath);
+
+        String fileContent = await file.readAsString();
+        return fileContent;
+      } else {
+        print('Error downloading GPX file. Status code: ${response.statusCode}');
+        final res = jsonDecode(response.body);
+        throw Exception('${res['error']['message']}');
+      }
+    }catch (e){
+      print(e.toString());
+      throw Exception('$e');
+    }
+  }
+
+  List<LatLng> extractWaypoints(String gpxContent) {
+    List<LatLng> waypoints = [];
+
+    xml.XmlDocument document = xml.XmlDocument.parse(gpxContent);
+    xml.XmlElement gpxElement = document.rootElement;
+
+    for (var wptElement in gpxElement.findAllElements('wpt')) {
+      double lat = double.parse(wptElement.getAttribute('lat')!);
+      double lon = double.parse(wptElement.getAttribute('lon')!);
+
+      // waypoints.add({'lat': lat, 'lon': lon});
+      waypoints.add(LatLng(lat, lon));
+    }
+
+    return waypoints;
+  }
+
   String getTimeZone(DateTime dateTime) {
     final timeZoneOffset = dateTime.timeZoneOffset;
     final sign = timeZoneOffset.isNegative ? '-' : '+';
@@ -81,7 +136,7 @@ class TripService {
     return '$sign$hours:$minutes';
   }
 
-  Future<List<TripModel>> getTrips({required String accessToken, DateTime? timeFrom, DateTime? timeTo}) async {
+  Future<List<TripHistory>> getTrips({required String accessToken, DateTime? timeFrom, DateTime? timeTo}) async {
     final myUrl = '$baseUrl/trips?orderBy=id%20asc';
     final headers = {
       'Authorization': 'Bearer $accessToken',
@@ -90,12 +145,7 @@ class TripService {
     final formattedTimeFrom = timeFrom != null ? formatter.format(timeFrom) + getTimeZone(timeFrom) : null;
     final formattedTimeTo = timeTo != null ? formatter.format(timeTo) + getTimeZone(timeTo) : null;
 
-
-
-
-
-
-    List<TripModel> trips = [];
+    List<TripHistory> trips = [];
     try {
       final urlWithFilter = Uri.parse(myUrl).replace(queryParameters: {
         if (formattedTimeFrom != null) 'timeFrom': formattedTimeFrom,
@@ -107,7 +157,13 @@ class TripService {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         for (final trip in json) {
-          trips.add(TripModel.fromJson(trip));
+          final tripModel = TripModel.fromJson(trip);
+          if(tripModel.initiativeId != null){
+            final initiative = await InitiativeService().getSingleInitiative(accessToken: accessToken, id: tripModel.initiativeId!);
+            trips.add(TripHistory(trip: tripModel, initiativeName: initiative.title));
+          }else{
+            trips.add(TripHistory(trip: tripModel, initiativeName: ''));
+          }
         }
         return trips;
       } else {

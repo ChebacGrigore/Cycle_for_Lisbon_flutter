@@ -391,36 +391,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),
-                        const Divider(),
-                        AppListTile(
-                          title: 'notifications'.tr(),
-                          icon: AppAssets.bell,
-                          onTap: () {},
-                          trailing: Switch(
-                            onChanged: (val) {
-                              setState(() {
-                                isNotify = val;
-                              });
-                            },
-                            value: isNotify,
-                            trackColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                                    (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.disabled)) {
-                                return AppColors.greyish.withOpacity(.48);
-                              }
-                              return AppColors.greyish;
-                            }),
-                            thumbColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                                    (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.disabled)) {
-                                return AppColors.accentColor.withOpacity(.48);
-                              }
-                              return AppColors.accentColor;
-                            }),
-                          ),
-                        ),
+                        // const Divider(),
+                        // AppListTile(
+                        //   title: 'notifications'.tr(),
+                        //   icon: AppAssets.bell,
+                        //   onTap: () {},
+                        //   trailing: Switch(
+                        //     onChanged: (val) {
+                        //       setState(() {
+                        //         isNotify = val;
+                        //       });
+                        //     },
+                        //     value: isNotify,
+                        //     trackColor:
+                        //         MaterialStateProperty.resolveWith<Color>(
+                        //             (Set<MaterialState> states) {
+                        //       if (states.contains(MaterialState.disabled)) {
+                        //         return AppColors.greyish.withOpacity(.48);
+                        //       }
+                        //       return AppColors.greyish;
+                        //     }),
+                        //     thumbColor:
+                        //         MaterialStateProperty.resolveWith<Color>(
+                        //             (Set<MaterialState> states) {
+                        //       if (states.contains(MaterialState.disabled)) {
+                        //         return AppColors.accentColor.withOpacity(.48);
+                        //       }
+                        //       return AppColors.accentColor;
+                        //     }),
+                        //   ),
+                        // ),
                         const Divider(),
                         AppListTile(
                           title: 'log_out'.tr(),

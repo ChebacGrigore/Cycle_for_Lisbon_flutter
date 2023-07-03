@@ -208,7 +208,7 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                           badgePath: state
                                               .achievements[index].image,
                                           badgeName: state
-                                              .achievements[index].name,
+                                              .achievements[index].name.tr(),
                                         ),
                                       )
                                     : GridView.builder(

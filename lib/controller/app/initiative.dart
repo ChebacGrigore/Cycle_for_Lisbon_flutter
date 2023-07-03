@@ -31,6 +31,36 @@ class InitiativeService {
     }
   }
 
+  Future<Initiative> getSingleInitiative({required String accessToken, required String id}) async {
+    final url = Uri.parse('$baseUrl/initiatives/$id');
+    final headers = {
+      'Authorization': 'Bearer $accessToken',
+      'accept': 'application/json',
+    };
+    try {
+      final response = await http.get(url, headers: headers);
+      print(response.body);
+      if (response.statusCode == 200) {
+        final jsonBody = json.decode(response.body) as Map<String, dynamic>;
+        return Initiative.fromJson(jsonBody);
+      } else {
+        if (response.statusCode == 401) {
+          final jsonResponse = jsonDecode(response.body);
+          final errorMessage = jsonResponse['error']['message'];
+          throw Exception('$errorMessage');
+        } else {
+          final jsonResponse = jsonDecode(response.body);
+          final errorMessage = jsonResponse['error']['message'];
+          throw Exception('$errorMessage');
+        }
+      }
+    } catch (e) {
+      print(e);
+      throw Exception('$e');
+    }
+  }
+
+
   Future<List<EventModel>> getAllEvents({required String token}) async {
     List<EventModel> events = [];
     try{
@@ -115,6 +145,4 @@ class InitiativeService {
       throw Exception('$e');
     }
   }
-
-
 }

@@ -22,6 +22,7 @@ class TripBloc extends Bloc<TripEvent, TripState> {
     on<StopTrip>(_onTripStop);
     on<AppListOfTrips>(_onListOfTrips);
     on<AppListOfPOI>(_onListOfPois);
+    on<GetPoints>(_onListOfPoints);
   }
 
   void _onListOfTrips(AppListOfTrips event, Emitter<TripState> emit) async {
@@ -59,6 +60,23 @@ class TripBloc extends Bloc<TripEvent, TripState> {
         state.copyWith(
           status: TripStatus.allPoi,
           pois: pois,
+        ),
+      );
+    } catch (e, sta) {
+      print(sta);
+      emit(state.copyWith(exception: e.toString(), status: TripStatus.error));
+    }
+  }
+
+  void _onListOfPoints(GetPoints event, Emitter<TripState> emit) async {
+    emit(state.copyWith(status: TripStatus.loading));
+    try {
+      final gpxContent = await _trip.downloadGpxFile(event.token, event.id);
+      final points = _trip.extractWaypoints(gpxContent);
+      emit(
+        state.copyWith(
+          status: TripStatus.allPoi,
+          points: points,
         ),
       );
     } catch (e, sta) {

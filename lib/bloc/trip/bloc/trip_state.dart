@@ -1,5 +1,6 @@
 import 'package:cfl/models/trip.model.dart';
 import 'package:equatable/equatable.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 enum TripStatus {
   initial,
@@ -8,6 +9,7 @@ enum TripStatus {
   locationStream,
   allTrips,
   allPoi,
+  allPoints,
   success,
   start,
   stop,
@@ -18,6 +20,7 @@ extension TripStatusX on TripStatus {
   bool get isLoading => this == TripStatus.loading;
   bool get isAllTrips => this == TripStatus.allTrips;
   bool get isAllPoi => this == TripStatus.allPoi;
+  bool get isAllPoints => this == TripStatus.allPoints;
   bool get isError => this == TripStatus.error;
   bool get isSuccess => this == TripStatus.success;
   bool get isLocationStream => this == TripStatus.locationStream;
@@ -35,6 +38,7 @@ class TripState extends Equatable {
     this.trip,
     this.trips = const [],
     this.pois = const [],
+    this.points = const [],
   });
 
   final String? token;
@@ -42,8 +46,9 @@ class TripState extends Equatable {
   final TripStatus status;
   final double? latitude, longitude;
   final Trip? trip;
-  final List<TripModel>? trips;
+  final List<TripHistory>? trips;
   final List<POI>? pois;
+  final List<LatLng>? points;
 
   TripState copyWith({
     TripStatus? status,
@@ -52,8 +57,9 @@ class TripState extends Equatable {
     double? latitude,
     double? longitude,
     Trip? trip,
-    List<TripModel>? trips,
+    List<TripHistory>? trips,
     List<POI>? pois,
+    final List<LatLng>? points,
   }) {
     return TripState(
       status: status ?? this.status,
@@ -64,9 +70,10 @@ class TripState extends Equatable {
       trip: trip ?? this.trip,
       trips: trips ?? this.trips,
       pois: pois ?? this.pois,
+      points: points ?? this.points
     );
   }
 
   @override
-  List<Object?> get props => [exception, status, token, latitude, longitude];
+  List<Object?> get props => [exception, status, token, latitude, longitude, points];
 }

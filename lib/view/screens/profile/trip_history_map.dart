@@ -1,8 +1,10 @@
 import 'dart:async';
 // import 'dart:math';
 
+import 'package:cfl/bloc/trip/bloc/trip_bloc.dart';
 import 'package:cfl/models/trip.model.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/profile/leaderboard.dart';
 import 'package:cfl/view/screens/profile/trip_history.dart';
 import 'package:cfl/view/styles/assets.dart';
@@ -10,13 +12,14 @@ import 'package:cfl/view/styles/cfl_icons.dart';
 import 'package:cfl/view/styles/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
 
 class TripMapScreen extends StatefulWidget {
-  final TripModel trip;
+  final TripHistory trip;
   const TripMapScreen({Key? key, required this.trip}) : super(key: key);
 
   @override
@@ -42,6 +45,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
   @override
   void initState() {
     super.initState();
+    context.read<TripBloc>().add(GetPoints(token: accessToken, id: widget.trip.trip.id));
   }
 
   @override
@@ -52,7 +56,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
     List<Marker> markers = [
       Marker(
         markerId: const MarkerId('start'),
-        position: LatLng(widget.trip.startLat!, widget.trip.startLon!),
+        position: LatLng(widget.trip.trip.startLat!, widget.trip.trip.startLon!),
         infoWindow: const InfoWindow(
           title: 'Start point',
           snippet: 'My starting point',
@@ -60,7 +64,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
       ),
       Marker(
         markerId: const MarkerId('stop'),
-        position: LatLng(widget.trip.endLat!, widget.trip.endLon!),
+        position: LatLng(widget.trip.trip.endLat!, widget.trip.trip.endLon!),
         infoWindow: const InfoWindow(
           title: 'Stop point',
           snippet: 'My stoping point',
@@ -76,8 +80,8 @@ class _TripMapScreenState extends State<TripMapScreen> {
               mapType: MapType.normal,
               initialCameraPosition: CameraPosition(
                 target: LatLng(
-                    (widget.trip.startLat! + widget.trip.endLat!) / 2,
-                    (widget.trip.startLon! + widget.trip.endLon!) / 2),
+                    (widget.trip.trip.startLat! + widget.trip.trip.endLat!) / 2,
+                    (widget.trip.trip.startLon! + widget.trip.trip.endLon!) / 2),
                 zoom: 11.4746,
               ),
               onMapCreated: (controller) async{
@@ -86,14 +90,14 @@ class _TripMapScreenState extends State<TripMapScreen> {
                 _controller.complete(controller);
 
                 LatLng latLng_1 =
-                    LatLng(widget.trip.startLat!, widget.trip.startLon!);
+                    LatLng(widget.trip.trip.startLat!, widget.trip.trip.startLon!);
                 LatLng latLng_2 =
-                    LatLng(widget.trip.endLat!, widget.trip.endLon!);
+                    LatLng(widget.trip.trip.endLat!, widget.trip.trip.endLon!);
                 LatLngBounds bounds =
                     LatLngBounds(southwest: latLng_1, northeast: latLng_2);
 
                 CameraUpdate u2 =
-                    CameraUpdate.newLatLngBounds(bounds, widget.trip.distance);
+                    CameraUpdate.newLatLngBounds(bounds, widget.trip.trip.distance);
                 mapController.animateCamera(u2).then((void v) {
                   check(u2, mapController);
                 });
@@ -109,7 +113,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                   polylineId: const PolylineId('line'),
                   color: Colors.yellow,
                   width: 5,
-                  points: [LatLng(widget.trip.startLat!, widget.trip.startLon!), LatLng(widget.trip.endLat!, widget.trip.endLon!)],
+                  points: [LatLng(widget.trip.trip.startLat!, widget.trip.trip.startLon!), LatLng(widget.trip.trip.endLat!, widget.trip.trip.endLon!)],
                 ),
               },
             ),
@@ -129,7 +133,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                   ),
                   const Spacer(),
                   Text(
-                    'initiative_name'.tr(),
+                    widget.trip.initiativeName!.tr(),
                     style: GoogleFonts.dmSans(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -170,7 +174,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                       children: [
                         TripHistoryInfo(
                           icon: Icons.location_on_outlined,
-                          text: widget.trip.startAddr ?? 'N/A',
+                          text: widget.trip.trip.startAddr ?? 'N/A',
                         ),
                         const SizedBox(width: 10),
                         const Icon(
@@ -181,7 +185,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                         const SizedBox(width: 10),
                         TripHistoryInfo(
                           icon: Icons.flag_outlined,
-                          text: widget.trip.endAddr ?? 'N/A',
+                          text: widget.trip.trip.endAddr ?? 'N/A',
                         ),
                       ],
                     ),
@@ -190,7 +194,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                       children: [
                         LeaderboardActivityCount(
                           showTitle: false,
-                          count: widget.trip.distance.round(),
+                          count: widget.trip.trip.distance.round(),
                           title: '',
                           unit: 'km'.tr(),
                           icon: AppAssets.roadIco,
@@ -198,7 +202,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                         const SizedBox(width: 20),
                         LeaderboardActivityCount(
                           showTitle: false,
-                          count: widget.trip.duration.round(),
+                          count: widget.trip.trip.duration.round(),
                           title: '',
                           unit: 'h'.tr(),
                           icon: AppAssets.clockIco,
@@ -207,7 +211,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                         LeaderboardActivityCount(
                           showTitle: false,
                           count:
-                              widget.trip.durationInMotion.toStringAsFixed(2),
+                              widget.trip.trip.durationInMotion.toStringAsFixed(2),
                           title: '',
                           unit: '',
                           icon: AppAssets.coinIco,

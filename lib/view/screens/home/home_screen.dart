@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:cfl/bloc/app/bloc/app_bloc.dart';
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
@@ -9,8 +11,6 @@ import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/screens/home/layout.dart';
-import 'package:cfl/view/screens/home/map.dart';
-import 'package:cfl/view/screens/profile/profile_screen.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -19,6 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cfl/view/screens/home/single_initiative.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../routes/app_route.dart';
 import 'all_intiatives_screen.dart';
@@ -32,10 +33,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final Completer<GoogleMapController> _controller =
+  Completer<GoogleMapController>();
 
   // String? initiativeId;
   bool _exitDialogInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    onBackPressed(context);
+    context.pop();
+    // onBackPressed(context);
     return true;
   }
 
@@ -438,7 +442,30 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: const MapScreen()),
+                  child:GoogleMap(
+                    mapType: MapType.normal,
+                    initialCameraPosition: const CameraPosition(
+                      target: LatLng(38.7223, -9.1393),
+                      zoom: 14.4746,
+                    ),
+                    myLocationEnabled: true,
+                    compassEnabled: true,
+                    onMapCreated: (GoogleMapController controller) {
+                      if(!_controller.isCompleted){
+                        _controller.complete(controller);
+                      }
+
+                    },
+                    // onCameraMoveStarted: () async{
+                    //   final controller = await _controller!.future;
+                    //   final visibleRegion = await controller.getVisibleRegion();
+                    //   _maxLat =  visibleRegion.northeast.latitude;
+                    //   _maxLon = visibleRegion.northeast.longitude;
+                    //   _minLat = visibleRegion.southwest.latitude;
+                    //   _minLon = visibleRegion.southwest.longitude;
+                    //   context.read<TripBloc>().add(AppListOfPOI(token: accessToken, maxLat: _maxLat, maxLon: _maxLon , minLat: _minLat, minLon: _minLon));
+                    //   },
+                  ),),
             ),
             const SizedBox(height: 32),
             Row(

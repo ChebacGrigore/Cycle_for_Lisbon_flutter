@@ -32,6 +32,16 @@ class Trip {
   }
 }
 
+class TripHistory {
+  final String? initiativeName;
+  final TripModel trip;
+
+  TripHistory({
+    this.initiativeName,
+    required this.trip,
+  });
+}
+
 class TripModel {
   final String id;
   final DateTime createdAt;
@@ -54,62 +64,63 @@ class TripModel {
     required this.id,
     required this.createdAt,
     required this.updatedAt,
-     this.startLat,
-     this.startLon,
-     this.endLat,
-     this.endLon,
-     this.startAddr,
-     this.endAddr,
+    this.startLat,
+    this.startLon,
+    this.endLat,
+    this.endLon,
+    this.startAddr,
+    this.endAddr,
     required this.isValid,
     required this.distance,
     required this.credits,
     required this.duration,
     required this.durationInMotion,
     required this.userId,
-     this.initiativeId,
+    this.initiativeId,
   });
 
-  factory TripModel.fromRawJson(String str) => TripModel.fromJson(json.decode(str));
+  factory TripModel.fromRawJson(String str) =>
+      TripModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory TripModel.fromJson(Map<String, dynamic> json) => TripModel(
-    id: json["id"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    startLat: json["startLat"]?.toDouble() ?? 0.0,
-    startLon: json["startLon"]?.toDouble() ?? 0.0,
-    endLat: json["endLat"]?.toDouble() ?? 0.0,
-    endLon: json["endLon"]?.toDouble() ?? 0.0,
-    startAddr: json["startAddr"] ?? 'N/A',
-    endAddr: json["endAddr"] ?? 'N/A',
-    isValid: json["isValid"],
-    distance: json["distance"]?.toDouble(),
-    credits: json["credits"]?.toDouble(),
-    duration: json["duration"]?.toDouble(),
-    durationInMotion: json["durationInMotion"]?.toDouble(),
-    userId: json["userId"],
-    initiativeId: json["initiativeId"] ?? 'N/A',
-  );
+        id: json["id"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        startLat: json["startLat"]?.toDouble() ?? 0.0,
+        startLon: json["startLon"]?.toDouble() ?? 0.0,
+        endLat: json["endLat"]?.toDouble() ?? 0.0,
+        endLon: json["endLon"]?.toDouble() ?? 0.0,
+        startAddr: json["startAddr"] ?? 'N/A',
+        endAddr: json["endAddr"] ?? 'N/A',
+        isValid: json["isValid"],
+        distance: json["distance"]?.toDouble(),
+        credits: json["credits"]?.toDouble(),
+        duration: json["duration"]?.toDouble(),
+        durationInMotion: json["durationInMotion"]?.toDouble(),
+        userId: json["userId"],
+        initiativeId: json["initiativeId"] ?? 'N/A',
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-    "startLat": startLat,
-    "startLon": startLon,
-    "endLat": endLat,
-    "endLon": endLon,
-    "startAddr": startAddr,
-    "endAddr": endAddr,
-    "isValid": isValid,
-    "distance": distance,
-    "credits": credits,
-    "duration": duration,
-    "durationInMotion": durationInMotion,
-    "userId": userId,
-    "initiativeId": initiativeId,
-  };
+        "id": id,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "startLat": startLat,
+        "startLon": startLon,
+        "endLat": endLat,
+        "endLon": endLon,
+        "startAddr": startAddr,
+        "endAddr": endAddr,
+        "isValid": isValid,
+        "distance": distance,
+        "credits": credits,
+        "duration": duration,
+        "durationInMotion": durationInMotion,
+        "userId": userId,
+        "initiativeId": initiativeId,
+      };
 }
 
 class POI {
