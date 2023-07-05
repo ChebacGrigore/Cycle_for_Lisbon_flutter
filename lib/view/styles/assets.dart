@@ -60,7 +60,6 @@ class AppAssets {
   static const String coinIco = 'assets/icons/Coins.svg';
   static const String clockIco = 'assets/icons/Clock.svg';
 
-
   static const String targetIco = 'assets/icons/target.svg';
   static const String targetIco2 = 'assets/icons/target2.svg';
   //
@@ -87,6 +86,7 @@ class AppAssets {
 
   static const String share = 'assets/icons/share.png';
   static const String location = 'assets/images/app-location.png';
+  static const String endLocation = 'assets/images/end-location.png';
   //
   static const String placeholder = 'assets/images/cfl-placeholder.png';
   //

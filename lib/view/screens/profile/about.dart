@@ -44,6 +44,7 @@ class _AboutScreenState extends State<AboutScreen> {
           SliverAppBar(
             foregroundColor: appbarColor,
             backgroundColor: AppColors.background,
+            automaticallyImplyLeading: true,
             floating: true,
             pinned: true,
             snap: true,
@@ -173,8 +174,9 @@ class _AboutScreenState extends State<AboutScreen> {
                         const SizedBox(height: 32),
                         const Divider(),
                         TextButton(
-                          onPressed: ()  async{
-                            await launchUrl(Uri.parse('https://dashboard.cycleforlisbon.com/policy'));
+                          onPressed: () async {
+                            await launchUrl(Uri.parse(
+                                'https://dashboard.cycleforlisbon.com/policy'));
                           },
                           child: Text(
                             'privacy_GDPR'.tr(),
@@ -187,8 +189,9 @@ class _AboutScreenState extends State<AboutScreen> {
                         ),
                         // const SizedBox(height: 20),
                         TextButton(
-                          onPressed: () async{
-                            await launchUrl(Uri.parse('https://dashboard.cycleforlisbon.com/terms-conditions'));
+                          onPressed: () async {
+                            await launchUrl(Uri.parse(
+                                'https://dashboard.cycleforlisbon.com/terms-conditions'));
                           },
                           child: Text(
                             'terms_condition'.tr(),

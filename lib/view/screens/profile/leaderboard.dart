@@ -22,6 +22,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
     context.read<AppBloc>().add(AppLeaderboard(token: accessToken));
     super.initState();
   }
+
   String _buildMedal(int position) {
     switch (position) {
       case 1:
@@ -47,6 +48,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
               slivers: [
                 SliverAppBar(
                   automaticallyImplyLeading: widget.showAppBar ? true : false,
+                  leading: widget.showAppBar
+                      ? IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () => Navigator.pop(context),
+                        )
+                      : null,
                   centerTitle: true,
                   stretch: true,
                   floating: true,
@@ -55,7 +62,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   backgroundColor: AppColors.primaryColor,
                   actions: [
                     GestureDetector(
-                      onTap: () => Share.share('Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},', subject: 'Leaderboard for @${currentUser.username}'),
+                      onTap: () => Share.share(
+                          'Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},',
+                          subject: 'Leaderboard for @${currentUser.username}'),
                       child: Container(
                         margin: const EdgeInsets.only(right: 20),
                         width: 40,
@@ -127,21 +136,21 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   LeaderboardActivityCount(
-                                    count: currentUser.totalDist!.round() ?? 0,
+                                    count: currentUser.totalDist.round(),
                                     title: 'total_km'.tr(),
                                     unit: 'km',
                                     icon: AppAssets.roadHz,
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.tripCount ?? 0,
+                                    count: currentUser.tripCount,
                                     title: 'total_rides'.tr(),
                                     unit: 'x',
                                     icon: AppAssets.bicycle,
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.credits!.round() ?? 0,
+                                    count: currentUser.credits.round(),
                                     title: 'total_earned'.tr(),
                                     unit: '',
                                     icon: AppAssets.handCoins,
@@ -175,7 +184,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                             topLeft: Radius.circular(24),
                             topRight: Radius.circular(24),
                           ),
-
                         ),
                         child: const Center(
                           child: CircularProgressIndicator(),
@@ -191,6 +199,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
               slivers: [
                 SliverAppBar(
                   automaticallyImplyLeading: widget.showAppBar ? true : false,
+                  leading: widget.showAppBar
+                      ? IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () => Navigator.pop(context),
+                        )
+                      : null,
                   centerTitle: true,
                   stretch: true,
                   floating: true,
@@ -199,7 +213,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   backgroundColor: AppColors.primaryColor,
                   actions: [
                     GestureDetector(
-                      onTap: () => Share.share('Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},', subject: 'Leaderboard for @${currentUser.username}'),
+                      onTap: () => Share.share(
+                          'Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},',
+                          subject: 'Leaderboard for @${currentUser.username}'),
                       child: Container(
                         margin: const EdgeInsets.only(right: 20),
                         width: 40,
@@ -268,24 +284,24 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               padding: const EdgeInsets.all(20),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   LeaderboardActivityCount(
-                                    count: currentUser.totalDist!.round() ?? 0,
+                                    count: currentUser.totalDist.round(),
                                     title: 'total_km'.tr(),
                                     unit: 'km',
                                     icon: AppAssets.roadHz,
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.tripCount ?? 0,
+                                    count: currentUser.tripCount,
                                     title: 'total_rides'.tr(),
                                     unit: 'x',
                                     icon: AppAssets.bicycle,
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.credits!.toStringAsFixed(1) ?? 0,
+                                    count: currentUser.credits.round(),
                                     title: 'total_earned'.tr(),
                                     unit: '',
                                     icon: AppAssets.handCoins,
@@ -318,9 +334,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                             topLeft: Radius.circular(24),
                             topRight: Radius.circular(24),
                           ),
-
                         ),
-                        child:Center(
+                        child: Center(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -347,12 +362,17 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 )
               ],
             );
-
-          } else if(state.status.isEntries){
+          } else if (state.status.isEntries) {
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
                   automaticallyImplyLeading: widget.showAppBar ? true : false,
+                  leading: widget.showAppBar
+                      ? IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () => Navigator.pop(context),
+                        )
+                      : null,
                   centerTitle: true,
                   stretch: true,
                   floating: true,
@@ -361,7 +381,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                   backgroundColor: AppColors.primaryColor,
                   actions: [
                     GestureDetector(
-                      onTap: () => Share.share('Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},', subject: 'Leaderboard for @${currentUser.username}'),
+                      onTap: () => Share.share(
+                          'Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},',
+                          subject: 'Leaderboard for @${currentUser.username}'),
                       child: Container(
                         margin: const EdgeInsets.only(right: 20),
                         width: 40,
@@ -403,7 +425,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               backgroundColor: AppColors.white,
                               backgroundImage: NetworkImage(
                                 currentProfilePic,
-
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -431,24 +452,24 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               padding: const EdgeInsets.all(20),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   LeaderboardActivityCount(
-                                    count: currentUser.totalDist!.round() ?? 0,
+                                    count: currentUser.totalDist.round(),
                                     title: 'total_km'.tr(),
                                     unit: 'km',
                                     icon: AppAssets.roadHz,
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.tripCount ?? 0,
+                                    count: currentUser.tripCount,
                                     title: 'total_rides'.tr(),
                                     unit: 'x',
                                     icon: AppAssets.bicycle,
                                   ),
                                   const SizedBox(width: 6),
                                   LeaderboardActivityCount(
-                                    count: currentUser.credits!.round() ?? 0,
+                                    count: currentUser.credits.round(),
                                     title: 'total_earned'.tr(),
                                     unit: '',
                                     icon: AppAssets.handCoins,
@@ -493,23 +514,25 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                 children: [
                                   entry.position <= 3
                                       ? Image.asset(
-                                    _buildMedal(entry.position),
-                                    width: 48,
-                                    height: 48,
-                                  )
+                                          _buildMedal(entry.position),
+                                          width: 48,
+                                          height: 48,
+                                        )
                                       : CircleAvatar(
-                                    radius: 23,
-                                    backgroundColor: AppColors.tertiaryColor,
-                                    child: Text(
-                                      _buildMedal(entry.position),
-                                      style: GoogleFonts.dmSans(
-                                        color: AppColors.accentColor,
-                                      ),
-                                    ),
-                                  ),
+                                          radius: 23,
+                                          backgroundColor:
+                                              AppColors.tertiaryColor,
+                                          child: Text(
+                                            _buildMedal(entry.position),
+                                            style: GoogleFonts.dmSans(
+                                              color: AppColors.accentColor,
+                                            ),
+                                          ),
+                                        ),
                                   const SizedBox(width: 10),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       RichText(
                                         text: TextSpan(
@@ -533,7 +556,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                       ),
                                       const SizedBox(height: 8),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           LeaderboardActivityCount(
                                             showTitle: false,
@@ -570,7 +594,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                             return const Divider();
                           },
                         ),
-
                       ),
                     ],
                   ),
@@ -582,6 +605,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             slivers: [
               SliverAppBar(
                 automaticallyImplyLeading: widget.showAppBar ? true : false,
+                leading: widget.showAppBar
+                    ? IconButton(
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () => Navigator.pop(context),
+                      )
+                    : null,
                 centerTitle: true,
                 stretch: true,
                 floating: true,
@@ -590,7 +619,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 backgroundColor: AppColors.primaryColor,
                 actions: [
                   GestureDetector(
-                    onTap: () => Share.share('Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},', subject: 'Leaderboard for @${currentUser.username}'),
+                    onTap: () => Share.share(
+                        'Total km ${currentUser.totalDist.round()}, Total Rides ${currentUser.tripCount}, Total Earned ${currentUser.credits.round()}, Position ${state.userPosition},',
+                        subject: 'Leaderboard for @${currentUser.username}'),
                     child: Container(
                       margin: const EdgeInsets.only(right: 20),
                       width: 40,
@@ -661,21 +692,21 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 LeaderboardActivityCount(
-                                  count: currentUser.totalDist!.round() ?? 0,
+                                  count: currentUser.totalDist.round(),
                                   title: 'total_km'.tr(),
                                   unit: 'km',
                                   icon: AppAssets.roadHz,
                                 ),
                                 const SizedBox(width: 6),
                                 LeaderboardActivityCount(
-                                  count: currentUser.tripCount ?? 0,
+                                  count: currentUser.tripCount,
                                   title: 'total_rides'.tr(),
                                   unit: 'x',
                                   icon: AppAssets.bicycle,
                                 ),
                                 const SizedBox(width: 6),
                                 LeaderboardActivityCount(
-                                  count: currentUser.credits!.round() ?? 0,
+                                  count: currentUser.credits.round(),
                                   title: 'total_earned'.tr(),
                                   unit: '',
                                   icon: AppAssets.handCoins,
@@ -726,7 +757,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                       radius: 23,
                                       backgroundColor: AppColors.tertiaryColor,
                                       child: Text(
-                                        _buildMedal(state.entries[idx].position),
+                                        _buildMedal(
+                                            state.entries[idx].position),
                                         style: GoogleFonts.dmSans(
                                           color: AppColors.accentColor,
                                         ),
@@ -741,7 +773,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                       text: state.entries[idx].name ?? 'N/A',
                                       children: [
                                         TextSpan(
-                                          text: '@${state.entries[idx].username ?? 'N/A'}',
+                                          text:
+                                              '@${state.entries[idx].username ?? 'N/A'}',
                                           style: GoogleFonts.dmSans(
                                             fontSize: 12,
                                             color: AppColors.primaryColor
@@ -762,7 +795,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                     children: [
                                       LeaderboardActivityCount(
                                         showTitle: false,
-                                        count: state.entries[idx].totalDist.round(),
+                                        count: state.entries[idx].totalDist
+                                            .round(),
                                         title: '',
                                         unit: 'km'.tr(),
                                         icon: AppAssets.roadHz,
@@ -776,9 +810,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                         icon: AppAssets.bicycle,
                                       ),
                                       const SizedBox(width: 20),
-                                       LeaderboardActivityCount(
+                                      LeaderboardActivityCount(
                                         showTitle: false,
-                                        count: state.entries[idx].credits.round(),
+                                        count:
+                                            state.entries[idx].credits.round(),
                                         title: '',
                                         unit: '',
                                         icon: AppAssets.handCoins,
@@ -795,7 +830,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                         return const Divider();
                       },
                     ),
-
                   ),
                 ]),
               ),

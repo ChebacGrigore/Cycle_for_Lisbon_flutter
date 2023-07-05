@@ -9,9 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
-import 'package:hex/hex.dart';
 import 'package:path_provider/path_provider.dart';
-
 
 class TripService {
   final geolocator = GeolocatorPlatform.instance;
@@ -82,14 +80,16 @@ class TripService {
       'Authorization': 'Bearer $token',
     };
 
-    try{
-      final response = await http.get(Uri.parse('$baseUrl/trips/$id/file'), headers: headers);
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/trips/$id/file'),
+          headers: headers);
 
       if (response.statusCode == 200) {
         // Use path package to get the correct file path
         // String fullPath = path.join(filePath, 'file.gpx');
         final directory = await getApplicationDocumentsDirectory();
-        final fileName = 'location_${DateTime.now().millisecondsSinceEpoch}.gpx';
+        final fileName =
+            'location_${DateTime.now().millisecondsSinceEpoch}.gpx';
         final filePath = '${directory.path}/$fileName';
 
         await File(filePath).writeAsBytes(response.bodyBytes);
@@ -99,15 +99,16 @@ class TripService {
         File file = File(filePath);
 
         String fileContent = await file.readAsString();
-        List<int> bytes = HEX.decode(fileContent.replaceAll(r'\x', ''));
-        String xmlContent = utf8.decode(bytes);
-        return xmlContent;
+        // List<int> bytes = HEX.decode(fileContent.replaceAll(r'\x', ''));
+        // String xmlContent = utf8.decode(bytes);
+        return fileContent;
       } else {
-        print('Error downloading GPX file. Status code: ${response.statusCode}');
+        print(
+            'Error downloading GPX file. Status code: ${response.statusCode}');
         final res = jsonDecode(response.body);
         throw Exception('${res['error']['message']}');
       }
-    }catch (e){
+    } catch (e) {
       print(e.toString());
       throw Exception('$e');
     }
@@ -135,19 +136,26 @@ class TripService {
     final timeZoneOffset = dateTime.timeZoneOffset;
     final sign = timeZoneOffset.isNegative ? '-' : '+';
     final hours = timeZoneOffset.inHours.abs().toString().padLeft(2, '0');
-    final minutes = timeZoneOffset.inMinutes.remainder(60).abs().toString().padLeft(2, '0');
+    final minutes =
+        timeZoneOffset.inMinutes.remainder(60).abs().toString().padLeft(2, '0');
 
     return '$sign$hours:$minutes';
   }
 
-  Future<List<TripHistory>> getTrips({required String accessToken, DateTime? timeFrom, DateTime? timeTo}) async {
+  Future<List<TripHistory>> getTrips(
+      {required String accessToken,
+      DateTime? timeFrom,
+      DateTime? timeTo}) async {
     final myUrl = '$baseUrl/trips?orderBy=id%20asc';
     final headers = {
       'Authorization': 'Bearer $accessToken',
     };
     final formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss", "en_US");
-    final formattedTimeFrom = timeFrom != null ? formatter.format(timeFrom) + getTimeZone(timeFrom) : null;
-    final formattedTimeTo = timeTo != null ? formatter.format(timeTo) + getTimeZone(timeTo) : null;
+    final formattedTimeFrom = timeFrom != null
+        ? formatter.format(timeFrom) + getTimeZone(timeFrom)
+        : null;
+    final formattedTimeTo =
+        timeTo != null ? formatter.format(timeTo) + getTimeZone(timeTo) : null;
 
     List<TripHistory> trips = [];
     try {
@@ -156,16 +164,20 @@ class TripService {
         if (formattedTimeTo != null) 'timeTo': formattedTimeTo,
       });
       final url = Uri.parse(myUrl);
-      final response = await http.get(timeFrom == null && timeTo == null ? url : urlWithFilter, headers: headers);
+      final response = await http.get(
+          timeFrom == null && timeTo == null ? url : urlWithFilter,
+          headers: headers);
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         for (final trip in json) {
           final tripModel = TripModel.fromJson(trip);
-          if(tripModel.initiativeId != null){
-            final initiative = await InitiativeService().getSingleInitiative(accessToken: accessToken, id: tripModel.initiativeId!);
-            trips.add(TripHistory(trip: tripModel, initiativeName: initiative.title));
-          }else{
+          if (tripModel.initiativeId != null) {
+            final initiative = await InitiativeService().getSingleInitiative(
+                accessToken: accessToken, id: tripModel.initiativeId!);
+            trips.add(
+                TripHistory(trip: tripModel, initiativeName: initiative.title));
+          } else {
             trips.add(TripHistory(trip: tripModel, initiativeName: ''));
           }
         }
@@ -180,8 +192,13 @@ class TripService {
     }
   }
 
-  Future<List<POI>> fetchPOIs({required String token, required double maxLat, required double maxLon, required double minLat, required double minLon}) async {
-    try{
+  Future<List<POI>> fetchPOIs(
+      {required String token,
+      required double maxLat,
+      required double maxLon,
+      required double minLat,
+      required double minLon}) async {
+    try {
       final url = Uri.parse(
           '$baseUrl/pois?maxLat=$maxLat&maxLon=$maxLon&minLat=$minLat&minLon=$minLon');
 

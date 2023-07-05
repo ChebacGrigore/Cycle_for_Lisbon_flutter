@@ -22,6 +22,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AppNews>(_onNews);
     on<AppEvents>(_onEvents);
     on<AppSupportInitiative>(_onSupportInitiative);
+    on<AppSelectedInitiativeStats>(_onStatsInitiative);
   }
 
   void _onListOfInitiatives(
@@ -43,7 +44,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  void _onSupportInitiative(AppSupportInitiative event, Emitter<AppState> emit) async {
+  void _onSupportInitiative(
+      AppSupportInitiative event, Emitter<AppState> emit) async {
     emit(state.copyWith(status: AppStatus.loading));
     try {
       final user = await _initiative.supportInitiative(
@@ -61,14 +63,28 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  void _onListOfBadges(
-      AppListOfBadges event, Emitter<AppState> emit) async {
+  void _onStatsInitiative(
+      AppSelectedInitiativeStats event, Emitter<AppState> emit) async {
+    emit(state.copyWith(status: AppStatus.loading));
+    try {
+      final stats = await _initiative.getSelectedInitiativeStats(
+        accessToken: event.token,
+      );
+      emit(
+        state.copyWith(status: AppStatus.statsInitiative, stats: stats),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AppStatus.error));
+    }
+  }
+
+  void _onListOfBadges(AppListOfBadges event, Emitter<AppState> emit) async {
     emit(state.copyWith(status: AppStatus.loading));
     try {
       final badges = await allAchievements(
         token: event.token,
       );
-      if(badges.isEmpty){
+      if (badges.isEmpty) {
         final achievements = await getAllAchievements(
           token: event.token,
         );
@@ -79,7 +95,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
             achievements: achievements,
           ),
         );
-      }else{
+      } else {
         emit(
           state.copyWith(
             status: AppStatus.allBadges,
@@ -88,14 +104,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           ),
         );
       }
-
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AppStatus.error));
     }
   }
 
-  void _onLeaderboard(
-      AppLeaderboard event, Emitter<AppState> emit) async {
+  void _onLeaderboard(AppLeaderboard event, Emitter<AppState> emit) async {
     emit(state.copyWith(status: AppStatus.loading));
     try {
       final leader = await leaderboard(
@@ -114,8 +128,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  void _onNews(
-      AppNews event, Emitter<AppState> emit) async {
+  void _onNews(AppNews event, Emitter<AppState> emit) async {
     emit(state.copyWith(status: AppStatus.loading));
     try {
       final news = await _initiative.getAllNews(
@@ -132,8 +145,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     }
   }
 
-  void _onEvents(
-      AppEvents event, Emitter<AppState> emit) async {
+  void _onEvents(AppEvents event, Emitter<AppState> emit) async {
     emit(state.copyWith(status: AppStatus.loading));
     try {
       final events = await _initiative.getAllEvents(
@@ -152,12 +164,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
   void _onSelectedInitiative(
       AppChangeInitiative event, Emitter<AppState> emit) async {
-
     try {
       emit(
-        state.copyWith(
-          status: AppStatus.changeInitiative
-        ),
+        state.copyWith(status: AppStatus.changeInitiative),
       );
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AppStatus.error));

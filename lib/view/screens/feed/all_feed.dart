@@ -1,7 +1,6 @@
 import 'package:cfl/bloc/app/bloc/app_bloc.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/shared/shared.dart';
-import 'package:cfl/view/screens/feed/single_event.dart';
 import 'package:cfl/view/screens/feed/single_news_feed.dart';
 import 'package:cfl/view/styles/assets.dart';
 import 'package:cfl/view/styles/colors.dart';
@@ -180,7 +179,7 @@ class _NewsFeedsState extends ConsumerState<NewsFeeds> {
             ),
           );
         } else if (state.status.isNews) {
-          return state.news!.isNotEmpty
+          return state.news.isNotEmpty
               ? SizedBox(
                   height: MediaQuery.of(context).size.height,
                   child: ListView.builder(
@@ -394,7 +393,6 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
   Widget build(BuildContext context) {
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, state) {
-        print(state.status);
         if (state.status.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -443,7 +441,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                             width: 1.5,
                           ),
                         ),
-                        height: 310,
+                        height: 290,
                         width: double.infinity,
                         margin: const EdgeInsets.only(bottom: 16),
                         child: Column(
@@ -454,15 +452,16 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                                 topLeft: Radius.circular(12),
                                 topRight: Radius.circular(12),
                               ),
-                              child: Image.network(
-                                event.imageUrl,
-                                height: 160,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                                  errorBuilder: (context, u, e) => Image.asset(AppAssets.placeholder, height: 160,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,)
-                              ),
+                              child: Image.network(event.imageUrl,
+                                  height: 160,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, u, e) => Image.asset(
+                                        AppAssets.placeholder,
+                                        height: 160,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                      )),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(16),
@@ -482,7 +481,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                                     event.title,
                                     style: GoogleFonts.dmSans(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.normal,
+                                      fontWeight: FontWeight.bold,
                                       color: AppColors.primaryColor,
                                     ),
                                   ),
@@ -590,7 +589,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                     width: 1.5,
                   ),
                 ),
-                height: 310,
+                height: 290,
                 width: double.infinity,
                 margin: const EdgeInsets.only(bottom: 16),
                 child: Column(
@@ -606,9 +605,12 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                         height: 160,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, u, e) => Image.asset(AppAssets.placeholder, height: 160,
+                        errorBuilder: (context, u, e) => Image.asset(
+                          AppAssets.placeholder,
+                          height: 160,
                           width: double.infinity,
-                          fit: BoxFit.cover,),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Padding(
@@ -628,7 +630,7 @@ class _EventsFeedState extends ConsumerState<EventsFeed> {
                             event.title,
                             style: GoogleFonts.dmSans(
                               fontSize: 16,
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.bold,
                               color: AppColors.primaryColor,
                             ),
                           ),

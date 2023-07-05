@@ -4,10 +4,8 @@ import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_state.dart';
 import 'package:cfl/models/initiative.model.dart';
-import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/shared/global/global_var.dart';
-import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -19,6 +17,7 @@ import 'package:cfl/view/screens/home/single_initiative.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../routes/app_route.dart';
+import '../profile/profile_screen.dart';
 // bool? isChangeInitiative;
 
 class HomeScreen extends StatefulWidget {
@@ -40,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     context
         .read<AuthBloc>()
         .add(AuthGetProfile(id: currentUser.id, token: accessToken));
+    context.read<AppBloc>().add(AppSelectedInitiativeStats(token: accessToken));
   }
 
   @override
@@ -127,10 +127,8 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         ProfileButton(
           onTap: () {
-            appRoutes.push(AppRoutePath.profile);
-            // context.push(const ProfileScreen(
-            //   key: Key('profile'),
-            // ));
+            // appRoutes.push(AppRoutePath.profile);
+            context.push(const ProfileScreen());
           },
           greeting: 'hello'.tr(),
         ),
@@ -346,7 +344,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             ProfileButton(
               onTap: () {
-                appRoutes.push(AppRoutePath.profile);
+                // appRoutes.push(AppRoutePath.profile);
+                context.push(const ProfileScreen());
               },
               greeting: 'welcome_back'.tr(),
             ),
@@ -357,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: PillContainer(
                     title: 'total_earned'.tr(),
-                    count: currentUser.credits!.round() ?? 0,
+                    count: currentUser.credits.round(),
                     icon: CFLIcons.coin1,
                   ),
                 ),
@@ -365,7 +364,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: PillContainer(
                     title: 'total_km'.tr(),
-                    count: currentUser.totalDist!.round() ?? 0,
+                    count: currentUser.totalDist.round(),
                     icon: CFLIcons.roadhz,
                   ),
                 ),
@@ -389,25 +388,93 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 14),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ContributionCard(
-                  icon: CFLIcons.roadhz,
-                  count: currentUser.totalDist.round(),
-                  title: 'km',
-                ),
-                const ContributionCard(
-                  icon: CFLIcons.clock,
-                  count: 5,
-                  title: 'h',
-                ),
-                ContributionCard(
-                  icon: CFLIcons.coin1,
-                  count: currentUser.credits.round(),
-                  title: 'coins'.tr(),
-                ),
-              ],
+            BlocBuilder<AppBloc, AppState>(
+              builder: (context, state) {
+                if (state.status.isLoading) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const ContributionCard(
+                        icon: CFLIcons.roadhz,
+                        count: 0,
+                        title: 'km',
+                      ),
+                      const ContributionCard(
+                        icon: CFLIcons.clock,
+                        count: 0,
+                        title: 'h',
+                      ),
+                      ContributionCard(
+                        icon: CFLIcons.coin1,
+                        count: 0,
+                        title: 'coins'.tr(),
+                      ),
+                    ],
+                  );
+                } else if (state.status.isError) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const ContributionCard(
+                        icon: CFLIcons.roadhz,
+                        count: 0,
+                        title: 'km',
+                      ),
+                      const ContributionCard(
+                        icon: CFLIcons.clock,
+                        count: 0,
+                        title: 'h',
+                      ),
+                      ContributionCard(
+                        icon: CFLIcons.coin1,
+                        count: 0,
+                        title: 'coins'.tr(),
+                      ),
+                    ],
+                  );
+                } else if (state.status.isStatsInitiative) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ContributionCard(
+                        icon: CFLIcons.roadhz,
+                        count: state.stats!.totalDist.round(),
+                        title: 'km',
+                      ),
+                      ContributionCard(
+                        icon: CFLIcons.clock,
+                        count: state.stats!.totalDurationInMotion.round(),
+                        title: 'h',
+                      ),
+                      ContributionCard(
+                        icon: CFLIcons.coin1,
+                        count: state.stats!.totalCredits.round(),
+                        title: 'coins'.tr(),
+                      ),
+                    ],
+                  );
+                }
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ContributionCard(
+                      icon: CFLIcons.roadhz,
+                      count: state.stats!.totalDist.round(),
+                      title: 'km',
+                    ),
+                    ContributionCard(
+                      icon: CFLIcons.clock,
+                      count: state.stats!.totalDurationInMotion.round(),
+                      title: 'h',
+                    ),
+                    ContributionCard(
+                      icon: CFLIcons.coin1,
+                      count: state.stats!.totalCredits.round(),
+                      title: 'coins'.tr(),
+                    ),
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 32),
             Text(
@@ -602,42 +669,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<bool> onBackPressed(BuildContext context) async {
-    // print('Hello...exiting');
-    bool? exit = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Confirmation'),
-          content: const Text('Are you sure you want to exit?'),
-          actions: [
-            TextButton(
-              child: const Text('No'),
-              onPressed: () {
-                Navigator.of(context).pop(false); // Stay in the app
-              },
-            ),
-            TextButton(
-              child: const Text('Yes'),
-              onPressed: () {
-                context.pushReplacement(const SplashScreen()); // Close the app
-                // BackButtonInterceptor.remove(_exitDialogInterceptor);
-              },
-            ),
-          ],
-        );
-      },
-    );
-    return exit ?? false;
-  }
-
   Widget _buildCompletedInitiative({required Initiative completedInitiative}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProfileButton(
           onTap: () {
-            appRoutes.push(AppRoutePath.profile);
+            // appRoutes.push(AppRoutePath.profile);
+            context.push(const ProfileScreen());
           },
           greeting: 'hello'.tr(),
         ),

@@ -18,7 +18,6 @@ class InitiativeService {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         for (final initiative in json) {
-
           initiatives.add(Initiative.fromJson(initiative));
         }
         return initiatives;
@@ -26,12 +25,13 @@ class InitiativeService {
         final res = jsonDecode(response.body);
         throw Exception('${res['error']['message']}');
       }
-    } catch (e, stack) {
+    } catch (e) {
       throw Exception('$e');
     }
   }
 
-  Future<Initiative> getSingleInitiative({required String accessToken, required String id}) async {
+  Future<Initiative> getSingleInitiative(
+      {required String accessToken, required String id}) async {
     final url = Uri.parse('$baseUrl/initiatives/$id');
     final headers = {
       'Authorization': 'Bearer $accessToken',
@@ -59,12 +59,48 @@ class InitiativeService {
     }
   }
 
+  Future<StatsModel> getSelectedInitiativeStats(
+      {required String accessToken}) async {
+    final url = Uri.parse('$baseUrl/users/initiative');
+    final headers = {
+      'Authorization': 'Bearer $accessToken',
+      'accept': 'application/json',
+    };
+    try {
+      final response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        final jsonBody = json.decode(response.body) as Map<String, dynamic>;
+        return StatsModel(
+            tripCount: jsonBody['tripCount'],
+            totalDist: double.parse(jsonBody['totalDist'].toString()),
+            totalCredits: double.parse(jsonBody['totalCredits'].toString()),
+            totalDuration: double.parse(jsonBody['totalDuration'].toString()),
+            totalDurationInMotion:
+                double.parse(jsonBody['totalDurationInMotion'].toString()));
+      } else {
+        if (response.statusCode == 401) {
+          final jsonResponse = jsonDecode(response.body);
+          final errorMessage = jsonResponse['error']['message'];
+          throw Exception('$errorMessage');
+        } else {
+          final jsonResponse = jsonDecode(response.body);
+          final errorMessage = jsonResponse['error']['message'];
+          throw Exception('$errorMessage');
+        }
+      }
+    } catch (e, s) {
+      print(s);
+      throw Exception('$e');
+    }
+  }
 
   Future<List<EventModel>> getAllEvents({required String token}) async {
     List<EventModel> events = [];
-    try{
+    try {
       final url = Uri.parse('$baseUrl/external?orderBy=id%20asc&type=event');
-      final response = await http.get(url, headers: {'Authorization': 'Bearer $token'});
+      final response =
+          await http.get(url, headers: {'Authorization': 'Bearer $token'});
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = json.decode(response.body);
@@ -77,16 +113,17 @@ class InitiativeService {
         final res = jsonDecode(response.body);
         throw Exception('${res['error']['message']}');
       }
-    }catch(e){
+    } catch (e) {
       throw Exception('Failed to fetch events ${e.toString()}');
     }
   }
 
   Future<List<NewsModel>> getAllNews({required String token}) async {
     List<NewsModel> news = [];
-    try{
+    try {
       final url = Uri.parse('$baseUrl/external?orderBy=id%20asc&type=news');
-      final response = await http.get(url, headers: {'Authorization': 'Bearer $token'});
+      final response =
+          await http.get(url, headers: {'Authorization': 'Bearer $token'});
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = json.decode(response.body);
@@ -99,7 +136,7 @@ class InitiativeService {
         final res = jsonDecode(response.body);
         throw Exception('${res['error']['message']}');
       }
-    }catch(e){
+    } catch (e) {
       throw Exception('Failed to fetch events ${e.toString()}');
     }
   }
@@ -116,16 +153,14 @@ class InitiativeService {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $accessToken',
     };
-    final body = jsonEncode(
-        {
-          "birthday": user.birthday,
-          "email": user.email,
-          "gender": user.gender,
-          "name": user.name,
-          "username": user.username,
-          "initiativeId": initiativeId,
-        }
-    );
+    final body = jsonEncode({
+      "birthday": user.birthday,
+      "email": user.email,
+      "gender": user.gender,
+      "name": user.name,
+      "username": user.username,
+      "initiativeId": initiativeId,
+    });
 
     try {
       final response = await http.put(url, headers: headers, body: body);

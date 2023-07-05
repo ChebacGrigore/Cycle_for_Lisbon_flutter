@@ -131,6 +131,7 @@ class _SingleInitiativeState extends State<SingleInitiative> {
               controller: scrollController,
               slivers: [
                 SliverAppBar(
+                  automaticallyImplyLeading: true,
                   foregroundColor: appbarColor,
                   backgroundColor: AppColors.white,
                   floating: true,

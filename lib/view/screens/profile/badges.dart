@@ -170,8 +170,8 @@ class _BadgesScreenState extends State<BadgesScreen> {
                             );
                           } else if (state.status.isAllBadges) {
                             List<int> completed = [];
-                            for(var badge in state.badges){
-                              if(badge.completion == 1){
+                            for (var badge in state.badges) {
+                              if (badge.completion == 1) {
                                 completed.add(1);
                               }
                             }
@@ -205,10 +205,11 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                         itemCount: state.achievements.length,
                                         itemBuilder: (context, index) => Badge(
                                           value: 0,
-                                          badgePath: state
-                                              .achievements[index].image,
+                                          badgePath:
+                                              state.achievements[index].image,
                                           badgeName: state
-                                              .achievements[index].name.tr(),
+                                              .achievements[index].name
+                                              .tr(),
                                         ),
                                       )
                                     : GridView.builder(
@@ -229,7 +230,8 @@ class _BadgesScreenState extends State<BadgesScreen> {
                                           badgePath: state
                                               .badges[index].achievement.image,
                                           badgeName: state
-                                              .badges[index].achievement.name.tr(),
+                                              .badges[index].achievement.name
+                                              .tr(),
                                         ),
                                       ),
                                 const SizedBox(height: 40.0),
@@ -237,8 +239,8 @@ class _BadgesScreenState extends State<BadgesScreen> {
                             );
                           }
                           List<int> completed = [];
-                          for(var badge in state.badges){
-                            if(badge.completion == 1){
+                          for (var badge in state.badges) {
+                            if (badge.completion == 1) {
                               completed.add(1);
                             }
                           }
@@ -246,7 +248,8 @@ class _BadgesScreenState extends State<BadgesScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'unlcoked_badge_title'.tr(args: [completed.length.toString()]),
+                                'unlcoked_badge_title'
+                                    .tr(args: [completed.length.toString()]),
                                 style: GoogleFonts.dmSans(
                                   fontSize: 14,
                                   color:
@@ -408,10 +411,11 @@ class Badge extends StatelessWidget {
         Text(
           badgeName,
           textAlign: TextAlign.center,
+          maxLines: 2,
           style: GoogleFonts.dmSans(
             fontWeight: FontWeight.w500,
             color: AppColors.primaryColor,
-            fontSize: 12,
+            fontSize: 10,
           ),
         ),
       ],

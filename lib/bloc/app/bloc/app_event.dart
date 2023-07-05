@@ -42,6 +42,13 @@ class AppSupportInitiative extends AppEvent {
   // List<Object?> get props => [token, userProfile, userId, initiativeId];
 }
 
+class AppSelectedInitiativeStats extends AppEvent {
+  const AppSelectedInitiativeStats({
+    required this.token,
+  });
+  final String token;
+}
+
 class AppListOfBadges extends AppEvent {
   final String token;
   const AppListOfBadges({required this.token});

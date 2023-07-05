@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cfl/controller/app/trip_service.dart';
-import 'package:cfl/shared/global/global_var.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_state.dart';
 import 'package:equatable/equatable.dart';
@@ -93,17 +91,22 @@ class TripBloc extends Bloc<TripEvent, TripState> {
     );
     try {
       _positionSubscription?.cancel();
-      _positionSubscription = Geolocator.getPositionStream(locationSettings: locationSettings).listen(
-            (position) {
-              final waypoint = Wpt(
-                lat: position.latitude,
-                lon: position.longitude,
-                ele: position.altitude,
-                time: DateTime.now(),
-              );
-              print(waypoint);
-              gpx.wpts.add(waypoint);
-          emit(state.copyWith(status: TripStatus.locationStream,latitude: position.latitude, longitude: position.longitude));
+      _positionSubscription =
+          Geolocator.getPositionStream(locationSettings: locationSettings)
+              .listen(
+        (position) {
+          final waypoint = Wpt(
+            lat: position.latitude,
+            lon: position.longitude,
+            ele: position.altitude,
+            time: DateTime.now(),
+          );
+          print(waypoint);
+          gpx.wpts.add(waypoint);
+          emit(state.copyWith(
+              status: TripStatus.locationStream,
+              latitude: position.latitude,
+              longitude: position.longitude));
         },
       );
       // await for (Position position

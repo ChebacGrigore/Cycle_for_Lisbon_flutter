@@ -1,13 +1,16 @@
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/controller/auth/auth.dart';
 import 'package:cfl/routes/app_route.dart';
-import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
+import 'package:cfl/view/screens/profile/about.dart';
 import 'package:cfl/view/screens/profile/badges.dart';
+import 'package:cfl/view/screens/profile/help_center.dart';
+import 'package:cfl/view/screens/profile/leaderboard.dart';
 import 'package:cfl/view/screens/profile/profile_settings.dart';
+import 'package:cfl/view/screens/profile/trip_history.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -356,7 +359,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'leaderboard'.tr(),
                           icon: AppAssets.crown3,
                           onTap: () {
-                            appRoutes.go(AppRoutePath.leaderBoard);
+                            context.push(const LeaderboardScreen());
+                            // appRoutes.go(AppRoutePath.leaderBoard);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),
@@ -365,7 +369,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'trip_history'.tr(),
                           icon: AppAssets.roadHz,
                           onTap: () {
-                            appRoutes.push(AppRoutePath.tripHistory);
+                            context.push(const TripHistoryScreen());
+                            // appRoutes.push(AppRoutePath.tripHistory);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),
@@ -374,7 +379,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'help_center'.tr(),
                           icon: AppAssets.help,
                           onTap: () {
-                            appRoutes.push(AppRoutePath.helpCenter);
+                            context.push(const HelpCenter());
+                            // appRoutes.push(AppRoutePath.helpCenter);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),
@@ -383,7 +389,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'about'.tr(),
                           icon: AppAssets.info,
                           onTap: () {
-                            appRoutes.push(AppRoutePath.about);
+                            context.push(const AboutScreen());
+                            // appRoutes.push(AppRoutePath.about);
                           },
                           trailing: const Icon(Icons.chevron_right_outlined),
                         ),

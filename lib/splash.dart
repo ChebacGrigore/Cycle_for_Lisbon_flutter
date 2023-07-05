@@ -2,7 +2,6 @@
 
 // import 'package:cfl/shared/buildcontext_ext.dart';
 // import 'package:cfl/view/screens/auth/splash.dart';
-import 'package:cfl/controller/app/trip_service.dart';
 import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/styles/assets.dart';
@@ -25,8 +24,8 @@ class _SplashState extends State<Splash> {
     super.initState();
     // TripService().getCurrentLocation().then((value) {
     //   currentLocation = value!;
-      getStoredData();
-      // context.go("${AppRoutePath.splash}/0?redirect=false");
+    getStoredData();
+    // context.go("${AppRoutePath.splash}/0?redirect=false");
     // });
     //Timesr(const Duration(seconds: 2), () {});
   }

@@ -8,6 +8,7 @@ enum AppStatus {
   changeInitiative,
   completedInitiative,
   supportInitiative,
+  statsInitiative,
   allBadges,
   allEntries,
   allNews,
@@ -26,6 +27,7 @@ extension AppStatusX on AppStatus {
   bool get isChangeInitiative => this == AppStatus.changeInitiative;
   bool get isCompletedInitiative => this == AppStatus.completedInitiative;
   bool get isSupportInitiative => this == AppStatus.supportInitiative;
+  bool get isStatsInitiative => this == AppStatus.statsInitiative;
 }
 
 class AppState extends Equatable {
@@ -41,6 +43,7 @@ class AppState extends Equatable {
     this.exception,
     this.token,
     this.userPosition,
+    this.stats,
   });
 
   final String? token;
@@ -53,10 +56,12 @@ class AppState extends Equatable {
   final List<Badge> badges;
   final List<Achievement> achievements;
   final Initiative? initiative;
+  final StatsModel? stats;
   final AppStatus status;
 
   AppState copyWith({
     List<Initiative>? initiatives,
+    StatsModel? stats,
     List<Entry>? entries,
     int? userPosition,
     AppStatus? status,
@@ -70,6 +75,7 @@ class AppState extends Equatable {
   }) {
     return AppState(
       initiatives: initiatives ?? this.initiatives,
+      stats: stats ?? this.stats,
       status: status ?? this.status,
       exception: exception ?? this.exception,
       token: token ?? this.token,
