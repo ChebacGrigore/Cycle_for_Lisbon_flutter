@@ -1,4 +1,5 @@
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
+import 'package:cfl/models/initiative.model.dart';
 import 'package:cfl/models/trip.model.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/splash.dart';
@@ -7,6 +8,7 @@ import 'package:cfl/view/screens/auth/signin.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
 import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/view/screens/home/layout.dart';
+import 'package:cfl/view/screens/home/single_initiative.dart';
 import 'package:cfl/view/screens/profile/about.dart';
 import 'package:cfl/view/screens/profile/badges.dart';
 import 'package:cfl/view/screens/profile/help_center.dart';
@@ -91,6 +93,14 @@ final GoRouter appRoutes = GoRouter(
       path: AppRoutePath.signup,
       builder: (BuildContext context, GoRouterState state) {
         return const SignUp();
+      },
+    ),
+    GoRoute(
+      path: AppRoutePath.singleInitiative,
+      name: 'sample',
+      builder: (context, state) {
+        Initiative initiative = state.extra as Initiative;
+        return SingleInitiative(initiative: initiative);
       },
     ),
     GoRoute(

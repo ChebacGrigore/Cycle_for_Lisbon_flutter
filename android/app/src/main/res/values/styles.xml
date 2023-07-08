@@ -19,4 +19,15 @@
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
+    <string name="asset_statements">
+        [{
+            "relation": ["delegate_permission/common.handle_all_urls"],
+            "target": {
+                "namespace": "android_app",
+                "package_name": "com.app.cfl",
+                "sha256_cert_fingerprints": ["30:48:86:74:19:48:82:CF:8E:64:B7:DA:E5:76:00:69:E9:9E:56:78:23:63:05:4A:E3:4D:93:4A:07:09:D8:8D"]
+            }
+        }]
+    </string>
+
 </resources>

@@ -131,6 +131,7 @@ class InitiativeService {
         for (final event in jsonList) {
           news.add(NewsModel.fromJson(event));
         }
+        news.sort((a, b) => b.date.compareTo(a.date));
         return news;
       } else {
         final res = jsonDecode(response.body);

@@ -249,7 +249,8 @@ class _TripMapScreenState extends State<TripMapScreen> {
                                         LeaderboardActivityCount(
                                           showTitle: false,
                                           count:
-                                              widget.trip.trip.duration.round(),
+                                              (widget.trip.trip.duration / 3600)
+                                                  .round(),
                                           title: '',
                                           unit: 'h'.tr(),
                                           icon: AppAssets.clockIco,
@@ -257,9 +258,8 @@ class _TripMapScreenState extends State<TripMapScreen> {
                                         const SizedBox(width: 20),
                                         LeaderboardActivityCount(
                                           showTitle: false,
-                                          count: widget
-                                              .trip.trip.durationInMotion
-                                              .toStringAsFixed(2),
+                                          count:
+                                              widget.trip.trip.credits.round(),
                                           title: '',
                                           unit: '',
                                           icon: AppAssets.coinIco,

@@ -77,8 +77,7 @@ class TripBloc extends Bloc<TripEvent, TripState> {
           points: points,
         ),
       );
-    } catch (e, sta) {
-      print(sta);
+    } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: TripStatus.error));
     }
   }
@@ -95,31 +94,23 @@ class TripBloc extends Bloc<TripEvent, TripState> {
           Geolocator.getPositionStream(locationSettings: locationSettings)
               .listen(
         (position) {
-          final waypoint = Wpt(
+          final trkSegment = Trkseg();
+          final trkPoint = Wpt(
             lat: position.latitude,
             lon: position.longitude,
             ele: position.altitude,
-            time: DateTime.now(),
           );
-          print(waypoint);
-          gpx.wpts.add(waypoint);
+          trkSegment.trkpts.add(trkPoint);
+
+          final trk = Trk();
+          trk.trksegs.add(trkSegment);
+          gpx.trks.add(trk);
           emit(state.copyWith(
               status: TripStatus.locationStream,
               latitude: position.latitude,
               longitude: position.longitude));
         },
       );
-      // await for (Position position
-      //     in Geolocator.getPositionStream(locationSettings: locationSettings)) {
-      //   final waypoint = Wpt(
-      //     lat: position.latitude,
-      //     lon: position.longitude,
-      //     ele: position.altitude,
-      //     time: DateTime.now(),
-      //   );
-      //   gpx.wpts.add(waypoint);
-      //   print(waypoint);
-      // }
     } catch (e) {
       emit(state.copyWith(status: TripStatus.error, exception: e.toString()));
     }
@@ -127,8 +118,8 @@ class TripBloc extends Bloc<TripEvent, TripState> {
 
   void _onTripStop(StopTrip event, Emitter<TripState> emit) async {
     _positionSubscription?.cancel();
-    emit(state.copyWith(status: TripStatus.loading));
     emit(state.copyWith(status: TripStatus.stop));
+    emit(state.copyWith(status: TripStatus.loading));
     try {
       final directory = await getApplicationDocumentsDirectory();
       final fileName = 'location_${DateTime.now().millisecondsSinceEpoch}.gpx';

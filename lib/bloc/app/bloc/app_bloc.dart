@@ -23,6 +23,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     on<AppEvents>(_onEvents);
     on<AppSupportInitiative>(_onSupportInitiative);
     on<AppSelectedInitiativeStats>(_onStatsInitiative);
+    on<AppSingleInitiative>(_onSingleInitiative);
   }
 
   void _onListOfInitiatives(
@@ -72,6 +73,23 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       );
       emit(
         state.copyWith(status: AppStatus.statsInitiative, stats: stats),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AppStatus.error));
+    }
+  }
+
+  void _onSingleInitiative(
+      AppSingleInitiative event, Emitter<AppState> emit) async {
+    emit(state.copyWith(status: AppStatus.loading));
+    try {
+      final initiative = await _initiative.getSingleInitiative(
+        accessToken: event.token,
+        id: event.id,
+      );
+      emit(
+        state.copyWith(
+            status: AppStatus.singleInitiative, singleInitiative: initiative),
       );
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AppStatus.error));

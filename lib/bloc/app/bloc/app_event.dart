@@ -14,6 +14,14 @@ class AppListOfInitiatives extends AppEvent {
   List<Object> get props => [token];
 }
 
+class AppSingleInitiative extends AppEvent {
+  final String token;
+  final String id;
+  const AppSingleInitiative({required this.token, required this.id});
+  @override
+  List<Object> get props => [token, id];
+}
+
 class AppChangeInitiative extends AppEvent {
   const AppChangeInitiative();
   @override

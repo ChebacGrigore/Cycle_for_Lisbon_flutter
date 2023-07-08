@@ -26,13 +26,40 @@ class Layout extends StatefulWidget {
 
 class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
   bool _exitDialogInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    if (appRoutes.location == AppRoutePath.home) {
+    print('kSelectedScreen ${kTempScreens[selectedIndex]}');
+    if ((appRoutes.location == AppRoutePath.home) && (selectedIndex == 0)) {
       // appRoutes.pop(context);
-      exit(0);
-      // Navigator.pop(context);
-      // onBackPressed(context);
+      // exit(0);
+      onBackPressed(context);
+    } else if (selectedIndex != 0 &&
+        appRoutes.location != AppRoutePath.profile &&
+        appRoutes.location != AppRoutePath.singleInitiative) {
+      setState(() {
+        selectedIndex = 0;
+        tabController.animateTo(0);
+        FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
+        homeIco = AppAssets.homeIco2;
+        targetIco = AppAssets.targetIco;
+        crownIco = AppAssets.crownIco;
+        mapIco = AppAssets.mapIco;
+        newsIco = AppAssets.newsIco;
+        phoneIco = AppAssets.phoneIco;
+        roadIco = AppAssets.roadIco;
+      });
+    } else if ((appRoutes.location == AppRoutePath.profile) ||
+        (appRoutes.location == AppRoutePath.singleInitiative)) {
+      appRoutes.pop(context);
     } else {
-      Navigator.pop(context);
+      print(
+          'appRoutes.configuration.routes.length ${appRoutes.configuration.routes}');
+      if (appRoutes.configuration.routes.length > 1) {
+        // If there are pages left in the navigation stack, allow the back button event
+        // Navigator.pop(context);
+        return false;
+      } else {
+        // If there are no pages left, prevent the back button event
+        return false;
+      }
     }
     return true;
   }
@@ -43,7 +70,7 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
 
     super.initState();
     FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-    BackButtonInterceptor.add(myInterceptor);
+    // BackButtonInterceptor.add(myInterceptor);
     // BackButtonInterceptor.add((stopDefaultButtonEvent, q) {
     //   if (appRoutes.configuration.routes.length > 1) {
     //     // If there are pages left in the navigation stack, allow the back button event
@@ -58,7 +85,7 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    BackButtonInterceptor.remove(myInterceptor);
+    // BackButtonInterceptor.remove(myInterceptor);
     BackButtonInterceptor.remove(_exitDialogInterceptor);
     // _onBackPressed();
     super.dispose();
@@ -67,11 +94,11 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
   bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     if (selectedIndex != 0) {
       setState(() {
-        selectedIndex = 0;
-        tabController.animateTo(0);
+        selectedIndex = selectedIndex;
+        tabController.animateTo(selectedIndex);
         FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
-        homeIco = AppAssets.homeIco2;
-        targetIco = AppAssets.targetIco;
+        homeIco = AppAssets.homeIco;
+        targetIco = AppAssets.targetIco2;
         crownIco = AppAssets.crownIco;
         mapIco = AppAssets.mapIco;
         newsIco = AppAssets.newsIco;
@@ -679,9 +706,9 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
     );
   }
 
-  Future<bool> onBackPressed(BuildContext context) async {
+  Future<void> onBackPressed(BuildContext context) async {
     // print('Hello...exiting');
-    bool? exit = await showDialog(
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -698,13 +725,13 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
               child: const Text('Yes'),
               onPressed: () {
                 Navigator.of(context).pop(true); // Close the app
-                // BackButtonInterceptor.remove(_exitDialogInterceptor);
+                BackButtonInterceptor.remove(_exitDialogInterceptor);
+                exit(0);
               },
             ),
           ],
         );
       },
     );
-    return exit ?? false;
   }
 }

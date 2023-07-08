@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cfl/bloc/app/bloc/app_bloc.dart';
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_state.dart';
+import 'package:cfl/controller/app/initiative.dart';
 import 'package:cfl/models/initiative.model.dart';
-import 'package:cfl/shared/buildcontext_ext.dart';
+import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/styles/styles.dart';
 import 'package:cfl/view/widgets/widgets.dart';
@@ -13,11 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cfl/view/screens/home/single_initiative.dart';
+// import 'package:cfl/view/screens/home/single_initiative.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../routes/app_route.dart';
-import '../profile/profile_screen.dart';
 // bool? isChangeInitiative;
 
 class HomeScreen extends StatefulWidget {
@@ -82,7 +83,14 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               builder: (context, state) {
                 if (state.status.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.40,
+                      ),
+                      const Center(child: CircularProgressIndicator()),
+                    ],
+                  );
                 }
                 return Padding(
                   padding: const EdgeInsets.only(
@@ -127,8 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         ProfileButton(
           onTap: () {
-            // appRoutes.push(AppRoutePath.profile);
-            context.push(const ProfileScreen());
+            appRoutes.push(AppRoutePath.profile);
+            // context.push(const ProfileScreen());
           },
           greeting: 'hello'.tr(),
         ),
@@ -139,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: PillContainer(
                 title: 'total_earned'.tr(),
-                count: currentUser.credits.round() ?? 0,
+                count: currentUser.credits.round(),
                 icon: CFLIcons.coin1,
               ),
             ),
@@ -147,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: PillContainer(
                 title: 'total_km'.tr(),
-                count: currentUser.totalDist.round() ?? 0,
+                count: currentUser.totalDist.round(),
                 icon: CFLIcons.roadhz,
               ),
             ),
@@ -231,9 +239,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: () {
                               setState(() {
                                 if (state.initiatives[index].credits == 0.0) {
-                                  context.push(SingleInitiative(
-                                    initiative: state.initiatives[index],
-                                  ));
+                                  // context.push(SingleInitiative(
+                                  //   initiative: state.initiatives[index],
+                                  // ));
+                                  appRoutes.push(AppRoutePath.singleInitiative,
+                                      extra: state.initiatives[index]);
                                 } else if (state.initiatives[index].credits ==
                                     state.initiatives[index].goal) {
                                   context.read<AppBloc>().add(
@@ -242,9 +252,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       );
                                 } else {
-                                  context.push(SingleInitiative(
-                                    initiative: state.initiatives[index],
-                                  ));
+                                  // context.push(SingleInitiative(
+                                  //   initiative: state.initiatives[index],
+                                  // ));
+                                  appRoutes.push(AppRoutePath.singleInitiative,
+                                      extra: state.initiatives[index]);
                                 }
                               });
                             },
@@ -266,9 +278,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        context.push(SingleInitiative(
-                          initiative: state.initiatives[index],
-                        ));
+                        // context.push(SingleInitiative(
+                        //   initiative: state.initiatives[index],
+                        // ));
+                        appRoutes.push(AppRoutePath.singleInitiative,
+                            extra: state.initiatives[index]);
                       });
                     },
                     child: InitiativeCard(
@@ -344,8 +358,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             ProfileButton(
               onTap: () {
-                // appRoutes.push(AppRoutePath.profile);
-                context.push(const ProfileScreen());
+                appRoutes.push(AppRoutePath.profile);
+                // context.push(const ProfileScreen());
               },
               greeting: 'welcome_back'.tr(),
             ),
@@ -371,14 +385,39 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const SizedBox(height: 42),
-            SelectedInitiativeCard(
-              name: selectedInitiative.title,
-              progress: selectedInitiative.credits == 0.0
-                  ? 0
-                  : (selectedInitiative.credits / selectedInitiative.goal),
-              goal: selectedInitiative.goal,
-              collected: selectedInitiative.credits,
-            ),
+            FutureBuilder<Initiative>(
+                future: InitiativeService().getSingleInitiative(
+                    accessToken: accessToken, id: selectedInitiative.id),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError || !snapshot.hasData) {
+                    return SelectedInitiativeCard(
+                      name: selectedInitiative.id,
+                      progress: selectedInitiative.credits == 0.0
+                          ? 0
+                          : (selectedInitiative.credits /
+                              selectedInitiative.goal),
+                      goal: selectedInitiative.goal,
+                      collected: selectedInitiative.credits,
+                      image:
+                          'https://cutewallpaper.org/24/image-placeholder-png/croppedplaceholderpng-%E2%80%93-osa-grappling.png',
+                    );
+                  }
+                  final initiative = snapshot.data!;
+                  return SelectedInitiativeCard(
+                    name: initiative.title,
+                    progress: initiative.credits == 0.0
+                        ? 0
+                        : (initiative.credits / initiative.goal),
+                    goal: initiative.goal,
+                    collected: initiative.credits,
+                    image: initiative.presignedImageUrl ??
+                        'https://cutewallpaper.org/24/image-placeholder-png/croppedplaceholderpng-%E2%80%93-osa-grappling.png',
+                  );
+                }),
             const SizedBox(height: 32),
             Text(
               '${'contributions'.tr()}: ',
@@ -443,7 +482,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       ContributionCard(
                         icon: CFLIcons.clock,
-                        count: state.stats!.totalDurationInMotion.round(),
+                        count:
+                            (state.stats!.totalDurationInMotion / 3600).round(),
                         title: 'h',
                       ),
                       ContributionCard(
@@ -464,7 +504,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     ContributionCard(
                       icon: CFLIcons.clock,
-                      count: state.stats!.totalDurationInMotion.round(),
+                      count:
+                          (state.stats!.totalDurationInMotion / 3600).round(),
                       title: 'h',
                     ),
                     ContributionCard(
@@ -675,8 +716,8 @@ class _HomeScreenState extends State<HomeScreen> {
       children: [
         ProfileButton(
           onTap: () {
-            // appRoutes.push(AppRoutePath.profile);
-            context.push(const ProfileScreen());
+            appRoutes.push(AppRoutePath.profile);
+            // context.push(const ProfileScreen());
           },
           greeting: 'hello'.tr(),
         ),
@@ -702,12 +743,34 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         const SizedBox(height: 42),
-        SelectedInitiativeCard(
-          progress: 1,
-          goal: completedInitiative.goal,
-          collected: completedInitiative.credits,
-          name: completedInitiative.title,
-        ),
+        FutureBuilder<Initiative>(
+            future: InitiativeService().getSingleInitiative(
+                accessToken: accessToken, id: completedInitiative.id),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError || !snapshot.hasData) {
+                return SelectedInitiativeCard(
+                  name: completedInitiative.id,
+                  progress: 1,
+                  goal: completedInitiative.goal,
+                  collected: completedInitiative.credits,
+                  image:
+                      'https://cutewallpaper.org/24/image-placeholder-png/croppedplaceholderpng-%E2%80%93-osa-grappling.png',
+                );
+              }
+              final initiative = snapshot.data!;
+              return SelectedInitiativeCard(
+                name: initiative.title,
+                progress: 1,
+                goal: initiative.goal,
+                collected: initiative.credits,
+                image: initiative.presignedImageUrl ??
+                    'https://cutewallpaper.org/24/image-placeholder-png/croppedplaceholderpng-%E2%80%93-osa-grappling.png',
+              );
+            }),
         const SizedBox(height: 32),
         RichText(
           text: TextSpan(
@@ -798,9 +861,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: () {
                               setState(() {
                                 if (state.initiatives[index].credits == 0.0) {
-                                  context.push(SingleInitiative(
-                                    initiative: state.initiatives[index],
-                                  ));
+                                  // context.push(SingleInitiative(
+                                  //   initiative: state.initiatives[index],
+                                  // ));
+                                  appRoutes.push(AppRoutePath.singleInitiative,
+                                      extra: state.initiatives[index]);
                                 } else if (state.initiatives[index].credits ==
                                     state.initiatives[index].goal) {
                                   context.read<AppBloc>().add(
@@ -809,9 +874,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       );
                                 } else {
-                                  context.push(SingleInitiative(
-                                    initiative: state.initiatives[index],
-                                  ));
+                                  // context.push(SingleInitiative(
+                                  //   initiative: state.initiatives[index],
+                                  // ));
+                                  appRoutes.push(AppRoutePath.singleInitiative,
+                                      extra: state.initiatives[index]);
                                 }
                               });
                             },
@@ -833,9 +900,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        context.push(SingleInitiative(
-                          initiative: state.initiatives[index],
-                        ));
+                        // context.push(SingleInitiative(
+                        //   initiative: state.initiatives[index],
+                        // ));
+                        appRoutes.push(AppRoutePath.singleInitiative,
+                            extra: state.initiatives[index]);
                       });
                     },
                     child: InitiativeCard(
@@ -885,7 +954,7 @@ class ProfileButton extends StatelessWidget {
                       builder: (context, state) {
                         if (state.status.isProfileUpdated) {
                           return Text(
-                            state.user!.username ?? 'N/A',
+                            state.user!.username,
                             style: GoogleFonts.dmSans(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -894,7 +963,7 @@ class ProfileButton extends StatelessWidget {
                           );
                         }
                         return Text(
-                          currentUser.username ?? 'N/A',
+                          currentUser.username,
                           style: GoogleFonts.dmSans(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -919,7 +988,7 @@ class ProfileButton extends StatelessWidget {
                       builder: (context, state) {
                         if (state.status.isProfileUpdated) {
                           return Text(
-                            state.user!.username ?? 'N/A',
+                            state.user!.username,
                             style: GoogleFonts.dmSans(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -928,7 +997,7 @@ class ProfileButton extends StatelessWidget {
                           );
                         }
                         return Text(
-                          currentUser.username ?? 'N/A',
+                          currentUser.username,
                           style: GoogleFonts.dmSans(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -943,7 +1012,7 @@ class ProfileButton extends StatelessWidget {
             onTap: onTap,
             child: BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
-                print(currentProfilePic);
+                print(state.status);
                 if (state.status.isProfilePicture) {
                   return CircleAvatar(
                     radius: 23,
@@ -951,19 +1020,44 @@ class ProfileButton extends StatelessWidget {
                       state.profilePic!,
                     ),
                   );
+                } else if (state.status.isLoading) {
+                  return const CircleAvatar(
+                    radius: 23,
+                    backgroundImage: AssetImage(
+                      AppAssets.placeholder,
+                    ),
+                  );
                 }
                 return currentProfilePic == ''
                     ? const CircleAvatar(
                         radius: 23,
-                        // backgroundImage: AssetImage(
-                        //   AppAssets.avatar,
-                        // ),
+                        backgroundImage: AssetImage(
+                          AppAssets.placeholder,
+                        ),
                         backgroundColor: AppColors.background,
                       )
-                    : CircleAvatar(
-                        radius: 23,
-                        backgroundImage: NetworkImage(
-                          currentProfilePic,
+                    : CachedNetworkImage(
+                        imageUrl: currentProfilePic,
+                        imageBuilder: (context, image) {
+                          return CircleAvatar(
+                            radius: 23,
+                            backgroundImage: image,
+                          );
+                        },
+                        errorWidget: (context, url, error) =>
+                            const CircleAvatar(
+                          radius: 23,
+                          backgroundImage: AssetImage(
+                            AppAssets.placeholder,
+                          ),
+                          backgroundColor: AppColors.background,
+                        ),
+                        placeholder: (context, i) => const CircleAvatar(
+                          radius: 23,
+                          backgroundImage: AssetImage(
+                            AppAssets.placeholder,
+                          ),
+                          backgroundColor: AppColors.background,
                         ),
                       );
               },
@@ -1024,43 +1118,60 @@ class SelectedInitiativeCard extends StatelessWidget {
       required this.goal,
       required this.collected,
       required this.name,
+      required this.image,
       Key? key})
       : super(key: key);
   final double progress, collected;
   final int goal;
-  final String name;
+  final String name, image;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 180,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        image: const DecorationImage(
-          image: AssetImage(AppAssets.bg01Png),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            name,
-            style: GoogleFonts.dmSans(
-              color: AppColors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
+    return CachedNetworkImage(
+      imageUrl: image,
+      imageBuilder: (context, imageProvider) {
+        return Container(
+          width: double.infinity,
+          height: 180,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
             ),
           ),
-          const Spacer(),
-          InitiativeProgress(
-            progress: progress,
-            goal: goal,
-            collected: collected,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name,
+                style: GoogleFonts.dmSans(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              const Spacer(),
+              InitiativeProgress(
+                progress: progress,
+                goal: goal,
+                collected: collected,
+              ),
+            ],
           ),
-        ],
+        );
+      },
+      errorWidget: (context, url, error) => SizedBox(
+        height: 185,
+        width: double.infinity,
+        child: Image.asset(AppAssets.placeholder),
+      ),
+      placeholder: (context, i) => Container(
+        height: 185,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        width: double.infinity,
+        child: const Center(child: CircularProgressIndicator()),
       ),
     );
   }

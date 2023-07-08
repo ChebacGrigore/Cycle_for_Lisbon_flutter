@@ -9,6 +9,7 @@ enum AppStatus {
   completedInitiative,
   supportInitiative,
   statsInitiative,
+  singleInitiative,
   allBadges,
   allEntries,
   allNews,
@@ -26,6 +27,7 @@ extension AppStatusX on AppStatus {
   bool get isAllInitiativesLoaded => this == AppStatus.allInitiativesLoaded;
   bool get isChangeInitiative => this == AppStatus.changeInitiative;
   bool get isCompletedInitiative => this == AppStatus.completedInitiative;
+  bool get isSingleInitiative => this == AppStatus.singleInitiative;
   bool get isSupportInitiative => this == AppStatus.supportInitiative;
   bool get isStatsInitiative => this == AppStatus.statsInitiative;
 }
@@ -40,6 +42,7 @@ class AppState extends Equatable {
     this.events = const [],
     this.achievements = const [],
     this.initiative,
+    this.singleInitiative,
     this.exception,
     this.token,
     this.userPosition,
@@ -56,6 +59,7 @@ class AppState extends Equatable {
   final List<Badge> badges;
   final List<Achievement> achievements;
   final Initiative? initiative;
+  final Initiative? singleInitiative;
   final StatsModel? stats;
   final AppStatus status;
 
@@ -66,6 +70,7 @@ class AppState extends Equatable {
     int? userPosition,
     AppStatus? status,
     Initiative? initiative,
+    Initiative? singleInitiative,
     List<Badge>? badges,
     List<Achievement>? achievements,
     List<NewsModel>? news,
@@ -80,6 +85,7 @@ class AppState extends Equatable {
       exception: exception ?? this.exception,
       token: token ?? this.token,
       initiative: initiative ?? this.initiative,
+      singleInitiative: singleInitiative ?? this.singleInitiative,
       badges: badges ?? this.badges,
       entries: entries ?? this.entries,
       userPosition: userPosition ?? this.userPosition,
@@ -90,6 +96,14 @@ class AppState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [initiatives, exception, status, token, initiative, badges, entries];
+  List<Object?> get props => [
+        initiatives,
+        exception,
+        status,
+        token,
+        initiative,
+        badges,
+        entries,
+        singleInitiative
+      ];
 }

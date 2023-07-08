@@ -346,10 +346,7 @@ class AuthService {
 
       if (response.statusCode == 200) {
         final jsonBody = json.decode(response.body) as Map<String, dynamic>;
-        // if (jsonBody.containsKey('initiative') &&
-        //     jsonBody.containsKey('initiativeId')) {
-        //     return User.fromJson(jsonBody);
-        // }else{
+
         return User(
           createdAt: DateTime.parse(jsonBody['createdAt']),
           updatedAt: DateTime.parse(jsonBody['updatedAt']),
@@ -365,9 +362,6 @@ class AuthService {
           gender: jsonBody['gender'] ?? '',
           birthday: jsonBody['birthday'] ?? '',
         );
-        // }
-
-        // return user;
       } else {
         if (response.statusCode == 401) {
           final jsonResponse = jsonDecode(response.body);
@@ -477,7 +471,7 @@ class AuthService {
 
   void handleDeepLink(String? uri) {
     if (uri != null &&
-        uri.contains('api.cycleforlisbon.com') &&
+        uri.contains('https://api.cycleforlisbon.com') &&
         uri.contains('/api/password/redirect-reset')) {
       String? code = uri.split('code=')[1];
       appRoutes.go('${AppRoutePath.signin}/$code?deepLink=true');
