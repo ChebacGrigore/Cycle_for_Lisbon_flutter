@@ -14,7 +14,18 @@ import 'package:path_provider/path_provider.dart';
 class TripService {
   final geolocator = GeolocatorPlatform.instance;
 
-  Future<LatLng?> getCurrentLocation() async {}
+  Future<LatLng?> getCurrentLocation() async {
+    LatLng? latLng;
+    final permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      final position = await geolocator.getCurrentPosition();
+      latLng = LatLng(position.latitude, position.longitude);
+    } else {
+      getCurrentLocation();
+    }
+    return latLng;
+  }
 
   Stream<Position> getLocationStream() {
     const LocationSettings locationSettings = LocationSettings(
@@ -103,7 +114,23 @@ class TripService {
     }
   }
 
-  List<LatLng> extractWaypoints(String gpxContent) {}
+  List<LatLng> extractWaypoints(String gpxContent) {
+    List<LatLng> waypoints = [];
+    xml.XmlDocument document = xml.XmlDocument.parse(gpxContent);
+    xml.XmlElement gpxElement = document.rootElement;
+
+    for (var wptElement in gpxElement.findAllElements('trkpt')) {
+      double lat = double.parse(wptElement.getAttribute('lat')!);
+      double lon = double.parse(wptElement.getAttribute('lon')!);
+      waypoints.add(LatLng(lat, lon));
+    }
+    for (var wptElement in gpxElement.findAllElements('wpt')) {
+      double lat = double.parse(wptElement.getAttribute('lat')!);
+      double lon = double.parse(wptElement.getAttribute('lon')!);
+      waypoints.add(LatLng(lat, lon));
+    }
+    return waypoints;
+  }
 
   String getTimeZone(DateTime dateTime) {
     final timeZoneOffset = dateTime.timeZoneOffset;
