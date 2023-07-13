@@ -25,6 +25,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthConfirmPasswordReset>(_onConfirmPasswordReset);
     on<AuthPasswordUpdate>(_onPasswordUpdate);
     on<AuthProfilePictureUpload>(_onProfilePictureUplaod);
+    on<AuthDeleteAccount>(_onDeleteAccount);
   }
 
   void _onLogin(AuthLogin event, Emitter<AuthState> emit) async {
@@ -65,7 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
         clientId: Platform.isAndroid ? androidClientId : iosClientId,
         clientSecret:
-        Platform.isAndroid ? androidClientSecret : iosClientSecret,
+            Platform.isAndroid ? androidClientSecret : iosClientSecret,
       );
       final profile = await _auth.getUser(accessToken: token);
       await _auth.saveToLocalStorage(key: 'token', value: token);
@@ -150,6 +151,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             status: AuthStatus.userProfile,
             user: profile,
             profilePic: profilePic.url),
+      );
+    } catch (e) {
+      emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));
+    }
+  }
+
+  void _onDeleteAccount(
+      AuthDeleteAccount event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      await _auth.deleteUser(accessToken: event.token, id: event.id);
+
+      emit(
+        state.copyWith(
+          status: AuthStatus.deleteAccount,
+        ),
       );
     } catch (e) {
       emit(state.copyWith(exception: e.toString(), status: AuthStatus.error));

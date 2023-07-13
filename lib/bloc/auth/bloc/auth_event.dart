@@ -76,9 +76,19 @@ class AuthProfilePictureUpload extends AuthEvent {
   List<Object?> get props => [token, id, imageByte];
 }
 
-
 class AuthGetProfile extends AuthEvent {
   const AuthGetProfile({
+    required this.id,
+    required this.token,
+  });
+  final String id;
+  final String token;
+  @override
+  List<Object?> get props => [id, token];
+}
+
+class AuthDeleteAccount extends AuthEvent {
+  const AuthDeleteAccount({
     required this.id,
     required this.token,
   });

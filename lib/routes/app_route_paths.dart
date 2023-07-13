@@ -4,6 +4,7 @@ class AppRoutePath {
   static const String home = '/home';
   static const String splash = '/splash';
   static const String profile = '/profile';
+  static const String settings = '/settings';
   static const String singleInitiative = '/single-initiative';
   static const String badges = '/badges';
   static const String leaderBoard = '/leaderboard';

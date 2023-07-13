@@ -13,6 +13,7 @@ import 'package:cfl/view/screens/profile/about.dart';
 import 'package:cfl/view/screens/profile/badges.dart';
 import 'package:cfl/view/screens/profile/help_center.dart';
 import 'package:cfl/view/screens/profile/leaderboard.dart';
+import 'package:cfl/view/screens/profile/profile_settings.dart';
 import 'package:cfl/view/screens/profile/trip_history.dart';
 import 'package:cfl/view/screens/profile/trip_history_map.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +114,12 @@ final GoRouter appRoutes = GoRouter(
       path: AppRoutePath.profile,
       builder: (BuildContext context, GoRouterState state) {
         return const ProfileScreen();
+      },
+    ),
+    GoRoute(
+      path: AppRoutePath.settings,
+      builder: (BuildContext context, GoRouterState state) {
+        return const ProfileSettings();
       },
     ),
     GoRoute(

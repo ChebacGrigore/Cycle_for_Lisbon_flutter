@@ -299,6 +299,27 @@ class AuthService {
     }
   }
 
+  Future<bool> deleteUser(
+      {required String accessToken, required String id}) async {
+    final url = Uri.parse('$baseUrl/users/$id');
+    final headers = {
+      'Authorization': 'Bearer $accessToken',
+      'accept': 'application/json',
+    };
+    try {
+      final response = await http.delete(url, headers: headers);
+      if (response.statusCode == 204) {
+        return true;
+      } else {
+        final jsonResponse = jsonDecode(response.body);
+        final errorMessage = jsonResponse['error']['message'];
+        throw Exception('$errorMessage');
+      }
+    } catch (e) {
+      throw Exception('$e');
+    }
+  }
+
   Future<User> getUserByInitiative({required String accessToken, re}) async {
     final url = Uri.parse('$baseUrl/users/current');
     final headers = {
@@ -430,14 +451,7 @@ class AuthService {
   }
 
   void handleRedirect(String? uri) {
-    print(uri);
-    if (uri != null && uri.startsWith('cfl://login-callback')) {
-      String? code = uri.split('code=')[1].split('&')[0];
-      appRoutes.go('${AppRoutePath.splash}/$code?redirect=true');
-    }
-    if (uri != null &&
-        uri.contains('api.cycleforlisbon.com') &&
-        uri.contains('/api/password/redirect-reset')) {
+    if (uri != null && uri.startsWith('cfl://password-reset')) {
       String? code = uri.split('code=')[1];
       appRoutes.go('${AppRoutePath.signin}/$code?deepLink=true');
     }

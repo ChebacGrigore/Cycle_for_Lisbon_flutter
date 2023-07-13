@@ -13,6 +13,7 @@ enum AuthStatus {
   passwordUpdated,
   userProfile,
   profilePicture,
+  deleteAccount,
 }
 
 extension AuthStatusX on AuthStatus {
@@ -25,6 +26,7 @@ extension AuthStatusX on AuthStatus {
   bool get isPasswordUpdated => this == AuthStatus.passwordUpdated;
   bool get isPasswordReset => this == AuthStatus.passwordRest;
   bool get isConfirmPasswordReset => this == AuthStatus.confirmPasswordRest;
+  bool get isDeleteAccount => this == AuthStatus.deleteAccount;
   bool get isError => this == AuthStatus.error;
   bool get isLoading => this == AuthStatus.loading;
   bool get isLogout => this == AuthStatus.logout;

@@ -1,7 +1,3 @@
-// import 'dart:async';
-
-// import 'package:cfl/shared/buildcontext_ext.dart';
-// import 'package:cfl/view/screens/auth/splash.dart';
 import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/styles/assets.dart';
@@ -22,12 +18,7 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    // TripService().getCurrentLocation().then((value) {
-    //   currentLocation = value!;
     getStoredData();
-    // context.go("${AppRoutePath.splash}/0?redirect=false");
-    // });
-    //Timesr(const Duration(seconds: 2), () {});
   }
 
   Future<void> getStoredData() async {
@@ -38,16 +29,12 @@ class _SplashState extends State<Splash> {
     } else {
       if (auth.isTokenExpired(token) == false) {
         accessToken = token;
-        print(user);
         currentUser = User.fromRawJson(user);
         context.pushReplacement(AppRoutePath.home);
       } else {
         context.go("${AppRoutePath.splash}/0?redirect=false");
       }
     }
-
-    // print(accessToken);
-
     setState(() {});
   }
 

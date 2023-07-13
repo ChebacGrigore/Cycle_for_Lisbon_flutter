@@ -1,6 +1,7 @@
 import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/controller/auth/auth.dart';
 import 'package:cfl/routes/app_route.dart';
+import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/buildcontext_ext.dart';
 import 'package:cfl/shared/global/global_var.dart';
 import 'package:cfl/view/screens/auth/signup.dart';
@@ -315,166 +316,191 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Container(
-                  padding: const EdgeInsets.only(
-                    top: 53,
-                    right: 20,
-                    left: 20,
-                    bottom: 63,
-                  ),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24),
-                    ),
-                    color: AppColors.white,
-                  ),
-                  child: SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppListTile(
-                          title: 'profile_settings'.tr(),
-                          icon: AppAssets.settings,
-                          onTap: () {
-                            context.push(const ProfileSettings());
-                          },
-                          trailing: const Icon(Icons.chevron_right_outlined),
+          BlocConsumer<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if (state.status.isDeleteAccount) {
+                auth.clearLocalStorage().then((value) {
+                  context.pushReplacement(const SplashScreen());
+                });
+              }
+            },
+            builder: (context, state) {
+              return SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Container(
+                      padding: const EdgeInsets.only(
+                        top: 53,
+                        right: 20,
+                        left: 20,
+                        bottom: 63,
+                      ),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
                         ),
-                        const Divider(),
-                        AppListTile(
-                          title: 'badges'.tr(),
-                          icon: AppAssets.badges,
-                          onTap: () {
-                            context.push(const BadgesScreen());
-                          },
-                          trailing: const Icon(Icons.chevron_right_outlined),
-                        ),
-                        const Divider(),
-                        AppListTile(
-                          title: 'leaderboard'.tr(),
-                          icon: AppAssets.crown3,
-                          onTap: () {
-                            context.push(const LeaderboardScreen());
-                            // appRoutes.go(AppRoutePath.leaderBoard);
-                          },
-                          trailing: const Icon(Icons.chevron_right_outlined),
-                        ),
-                        const Divider(),
-                        AppListTile(
-                          title: 'trip_history'.tr(),
-                          icon: AppAssets.roadHz,
-                          onTap: () {
-                            context.push(const TripHistoryScreen());
-                            // appRoutes.push(AppRoutePath.tripHistory);
-                          },
-                          trailing: const Icon(Icons.chevron_right_outlined),
-                        ),
-                        const Divider(),
-                        AppListTile(
-                          title: 'help_center'.tr(),
-                          icon: AppAssets.help,
-                          onTap: () {
-                            context.push(const HelpCenter());
-                            // appRoutes.push(AppRoutePath.helpCenter);
-                          },
-                          trailing: const Icon(Icons.chevron_right_outlined),
-                        ),
-                        const Divider(),
-                        AppListTile(
-                          title: 'about'.tr(),
-                          icon: AppAssets.info,
-                          onTap: () {
-                            context.push(const AboutScreen());
-                            // appRoutes.push(AppRoutePath.about);
-                          },
-                          trailing: const Icon(Icons.chevron_right_outlined),
-                        ),
-                        // const Divider(),
-                        // AppListTile(
-                        //   title: 'notifications'.tr(),
-                        //   icon: AppAssets.bell,
-                        //   onTap: () {},
-                        //   trailing: Switch(
-                        //     onChanged: (val) {
-                        //       setState(() {
-                        //         isNotify = val;
-                        //       });
-                        //     },
-                        //     value: isNotify,
-                        //     trackColor:
-                        //         MaterialStateProperty.resolveWith<Color>(
-                        //             (Set<MaterialState> states) {
-                        //       if (states.contains(MaterialState.disabled)) {
-                        //         return AppColors.greyish.withOpacity(.48);
-                        //       }
-                        //       return AppColors.greyish;
-                        //     }),
-                        //     thumbColor:
-                        //         MaterialStateProperty.resolveWith<Color>(
-                        //             (Set<MaterialState> states) {
-                        //       if (states.contains(MaterialState.disabled)) {
-                        //         return AppColors.accentColor.withOpacity(.48);
-                        //       }
-                        //       return AppColors.accentColor;
-                        //     }),
-                        //   ),
-                        // ),
-                        const Divider(),
-                        AppListTile(
-                          title: 'log_out'.tr(),
-                          icon: AppAssets.exit,
-                          onTap: () {
-                            context.showAppDialog(AppDialog(
-                              icon: Icons.logout_outlined,
-                              acceptTitle: 'yes_logout'.tr(),
-                              declineTitle: 'no_delete'.tr(),
-                              title: 'sure_logout'.tr(),
-                              description: 'logout_desc'.tr(),
-                              onAccept: () async {
-                                await auth.clearLocalStorage();
-                                context.push(const SplashScreen());
+                        color: AppColors.white,
+                      ),
+                      child: SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppListTile(
+                              title: 'profile_settings'.tr(),
+                              icon: AppAssets.settings,
+                              onTap: () {
+                                appRoutes.push(AppRoutePath.settings);
+                                // context.push(const ProfileSettings());
                               },
-                              onDecline: () {
-                                context.pop();
+                              trailing:
+                                  const Icon(Icons.chevron_right_outlined),
+                            ),
+                            const Divider(),
+                            AppListTile(
+                              title: 'badges'.tr(),
+                              icon: AppAssets.badges,
+                              onTap: () {
+                                appRoutes.push(AppRoutePath.badges);
+                                // context.push(const BadgesScreen());
                               },
-                            ));
-                          },
+                              trailing:
+                                  const Icon(Icons.chevron_right_outlined),
+                            ),
+                            const Divider(),
+                            AppListTile(
+                              title: 'leaderboard'.tr(),
+                              icon: AppAssets.crown3,
+                              onTap: () {
+                                appRoutes.push(AppRoutePath.leaderBoard);
+                                // context.push(const LeaderboardScreen());
+                                // appRoutes.go(AppRoutePath.leaderBoard);
+                              },
+                              trailing:
+                                  const Icon(Icons.chevron_right_outlined),
+                            ),
+                            const Divider(),
+                            AppListTile(
+                              title: 'trip_history'.tr(),
+                              icon: AppAssets.roadHz,
+                              onTap: () {
+                                appRoutes.push(AppRoutePath.tripHistory);
+                                // context.push(const TripHistoryScreen());
+                                // appRoutes.push(AppRoutePath.tripHistory);
+                              },
+                              trailing:
+                                  const Icon(Icons.chevron_right_outlined),
+                            ),
+                            const Divider(),
+                            AppListTile(
+                              title: 'help_center'.tr(),
+                              icon: AppAssets.help,
+                              onTap: () {
+                                // context.push(const HelpCenter());
+                                appRoutes.push(AppRoutePath.helpCenter);
+                              },
+                              trailing:
+                                  const Icon(Icons.chevron_right_outlined),
+                            ),
+                            const Divider(),
+                            AppListTile(
+                              title: 'about'.tr(),
+                              icon: AppAssets.info,
+                              onTap: () {
+                                // context.push(const AboutScreen());
+                                appRoutes.push(AppRoutePath.about);
+                              },
+                              trailing:
+                                  const Icon(Icons.chevron_right_outlined),
+                            ),
+                            // const Divider(),
+                            // AppListTile(
+                            //   title: 'notifications'.tr(),
+                            //   icon: AppAssets.bell,
+                            //   onTap: () {},
+                            //   trailing: Switch(
+                            //     onChanged: (val) {
+                            //       setState(() {
+                            //         isNotify = val;
+                            //       });
+                            //     },
+                            //     value: isNotify,
+                            //     trackColor:
+                            //         MaterialStateProperty.resolveWith<Color>(
+                            //             (Set<MaterialState> states) {
+                            //       if (states.contains(MaterialState.disabled)) {
+                            //         return AppColors.greyish.withOpacity(.48);
+                            //       }
+                            //       return AppColors.greyish;
+                            //     }),
+                            //     thumbColor:
+                            //         MaterialStateProperty.resolveWith<Color>(
+                            //             (Set<MaterialState> states) {
+                            //       if (states.contains(MaterialState.disabled)) {
+                            //         return AppColors.accentColor.withOpacity(.48);
+                            //       }
+                            //       return AppColors.accentColor;
+                            //     }),
+                            //   ),
+                            // ),
+                            const Divider(),
+                            AppListTile(
+                              title: 'log_out'.tr(),
+                              icon: AppAssets.exit,
+                              onTap: () {
+                                context.showAppDialog(AppDialog(
+                                  icon: Icons.logout_outlined,
+                                  acceptTitle: 'yes_logout'.tr(),
+                                  declineTitle: 'no_delete'.tr(),
+                                  title: 'sure_logout'.tr(),
+                                  description: 'logout_desc'.tr(),
+                                  onAccept: () async {
+                                    await auth.clearLocalStorage();
+                                    context
+                                        .pushReplacement(const SplashScreen());
+                                  },
+                                  onDecline: () {
+                                    context.pop();
+                                  },
+                                ));
+                              },
+                            ),
+                            const Divider(),
+                            AppListTile(
+                              title: 'delete_account'.tr(),
+                              icon: AppAssets.delete,
+                              color: AppColors.tomatoRed,
+                              onTap: () {
+                                context.showAppDialog(
+                                  AppDialog(
+                                    icon: Icons.delete_outline_rounded,
+                                    acceptTitle: 'yes_delete'.tr(),
+                                    declineTitle: 'no_delete'.tr(),
+                                    title: 'sure_delete_account'.tr(),
+                                    description: 'delete_acount_desc'.tr(),
+                                    onAccept: () {
+                                      context.read<AuthBloc>().add(
+                                          AuthDeleteAccount(
+                                              id: currentUser.id,
+                                              token: accessToken));
+                                    },
+                                    onDecline: () {
+                                      context.pop();
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                            const Divider(),
+                          ],
                         ),
-                        const Divider(),
-                        AppListTile(
-                          title: 'delete_account'.tr(),
-                          icon: AppAssets.delete,
-                          color: AppColors.tomatoRed,
-                          onTap: () {
-                            context.showAppDialog(
-                              AppDialog(
-                                icon: Icons.delete_outline_rounded,
-                                acceptTitle: 'yes_delete'.tr(),
-                                declineTitle: 'no_delete'.tr(),
-                                title: 'sure_delete_account'.tr(),
-                                description: 'delete_acount_desc'.tr(),
-                                onAccept: () {
-                                  context.popUntil(const SignUp());
-                                },
-                                onDecline: () {
-                                  context.pop();
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                        const Divider(),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
         ],
       ),
