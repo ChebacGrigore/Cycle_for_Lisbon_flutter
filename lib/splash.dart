@@ -38,6 +38,7 @@ class _SplashState extends State<Splash> {
     } else {
       if (auth.isTokenExpired(token) == false) {
         accessToken = token;
+        print(user);
         currentUser = User.fromRawJson(user);
         context.pushReplacement(AppRoutePath.home);
       } else {

@@ -30,6 +30,15 @@ class GetPoints extends TripEvent {
   List<Object> get props => [token];
 }
 
+class GetLastRide extends TripEvent {
+  final String token;
+  final String id;
+  // final String filePath;
+  const GetLastRide({required this.token, required this.id});
+  @override
+  List<Object> get props => [token];
+}
+
 class AppListOfTrips extends TripEvent {
   final String token;
   final DateTime? timeFrom;

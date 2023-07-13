@@ -108,10 +108,13 @@ class InitiativeCard extends StatelessWidget {
           ),
         );
       },
-      errorWidget: (context, url, error) => SizedBox(
+      errorWidget: (context, url, error) => Container(
         height: 185,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         width: double.infinity,
-        child: Image.asset(AppAssets.placeholder),
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.asset(AppAssets.initiativePlaceholder)),
       ),
       placeholder: (context, i) => Container(
         height: 185,

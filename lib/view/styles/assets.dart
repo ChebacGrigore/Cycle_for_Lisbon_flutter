@@ -89,6 +89,7 @@ class AppAssets {
   static const String endLocation = 'assets/images/end-location.png';
   //
   static const String placeholder = 'assets/images/cfl-placeholder.png';
+  static const String initiativePlaceholder = 'assets/images/cfl-placeholder-initiatives.png';
   //
   static const String medal = 'assets/icons/medal.svg';
   static const String bicycle = 'assets/icons/bicycle.svg';

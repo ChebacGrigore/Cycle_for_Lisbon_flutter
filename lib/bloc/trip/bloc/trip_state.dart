@@ -13,6 +13,8 @@ enum TripStatus {
   success,
   start,
   stop,
+  tripUploading,
+  lastRide,
 }
 
 extension TripStatusX on TripStatus {
@@ -26,6 +28,8 @@ extension TripStatusX on TripStatus {
   bool get isLocationStream => this == TripStatus.locationStream;
   bool get isStart => this == TripStatus.start;
   bool get isStop => this == TripStatus.stop;
+  bool get isTripUploading => this == TripStatus.tripUploading;
+  bool get isLastRide => this == TripStatus.lastRide;
 }
 
 class TripState extends Equatable {
@@ -39,6 +43,7 @@ class TripState extends Equatable {
     this.trips = const [],
     this.pois = const [],
     this.points = const [],
+    this.lastRide,
   });
 
   final String? token;
@@ -49,6 +54,7 @@ class TripState extends Equatable {
   final List<TripHistory>? trips;
   final List<POI>? pois;
   final List<LatLng>? points;
+  final LastRide? lastRide;
 
   TripState copyWith({
     TripStatus? status,
@@ -59,7 +65,8 @@ class TripState extends Equatable {
     Trip? trip,
     List<TripHistory>? trips,
     List<POI>? pois,
-    final List<LatLng>? points,
+    List<LatLng>? points,
+    LastRide? lastRide,
   }) {
     return TripState(
       status: status ?? this.status,
@@ -70,10 +77,11 @@ class TripState extends Equatable {
       trip: trip ?? this.trip,
       trips: trips ?? this.trips,
       pois: pois ?? this.pois,
-      points: points ?? this.points
+      points: points ?? this.points,
+      lastRide: lastRide ?? this.lastRide,
     );
   }
 
   @override
-  List<Object?> get props => [exception, status, token, latitude, longitude, points];
+  List<Object?> get props => [exception, status, token, latitude, longitude, points, lastRide];
 }

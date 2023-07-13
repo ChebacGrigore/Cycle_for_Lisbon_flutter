@@ -33,43 +33,44 @@ class UserBasic {
     required this.credits,
   });
 
-  factory UserBasic.fromRawJson(String str) => UserBasic.fromJson(json.decode(str));
+  factory UserBasic.fromRawJson(String str) =>
+      UserBasic.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory UserBasic.fromJson(Map<String, dynamic> json) => UserBasic(
-    id: json["id"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    name: json["name"],
-    username: json["username"],
-    gender: json["gender"],
-    birthday: DateTime.parse(json["birthday"]),
-    subject: json["subject"],
-    email: json["email"],
-    verified: json["verified"],
-    tripCount: json["tripCount"],
-    totalDist: json["totalDist"]?.toDouble(),
-    credits: json["credits"]?.toDouble(),
-  );
+        id: json["id"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        name: json["name"],
+        username: json["username"],
+        gender: json["gender"],
+        birthday: DateTime.parse(json["birthday"]),
+        subject: json["subject"],
+        email: json["email"],
+        verified: json["verified"],
+        tripCount: json["tripCount"],
+        totalDist: json["totalDist"]?.toDouble(),
+        credits: json["credits"]?.toDouble(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-    "name": name,
-    "username": username,
-    "gender": gender,
-    "birthday": "${birthday.year.toString().padLeft(4, '0')}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}",
-    "subject": subject,
-    "email": email,
-    "verified": verified,
-    "tripCount": tripCount,
-    "totalDist": totalDist,
-    "credits": credits,
-  };
+        "id": id,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "name": name,
+        "username": username,
+        "gender": gender,
+        "birthday":
+            "${birthday.year.toString().padLeft(4, '0')}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}",
+        "subject": subject,
+        "email": email,
+        "verified": verified,
+        "tripCount": tripCount,
+        "totalDist": totalDist,
+        "credits": credits,
+      };
 }
-
 
 // // class User {
 // //   final String id;
@@ -219,8 +220,8 @@ class User {
   final int tripCount;
   final double totalDist;
   final double credits;
-  final String? initiativeId;
-  final Initiative? initiative;
+  final dynamic initiativeId;
+  final dynamic initiative;
 
   User({
     required this.id,
@@ -236,7 +237,7 @@ class User {
     required this.tripCount,
     required this.totalDist,
     required this.credits,
-     this.initiativeId,
+    this.initiativeId,
     this.initiative,
   });
 
@@ -245,38 +246,40 @@ class User {
   String toRawJson() => json.encode(toJson());
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    name: json["name"],
-    username: json["username"],
-    gender: json["gender"],
-    birthday: json["birthday"],
-    subject: json["subject"],
-    email: json["email"],
-    verified: json["verified"],
-    tripCount: json["tripCount"],
-    totalDist: json["totalDist"]?.toDouble(),
-    credits: json["credits"]?.toDouble(),
-    initiativeId: json["initiativeId"],
-    initiative: Initiative.fromJson(json["initiative"]),
-  );
+        id: json["id"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        name: json["name"],
+        username: json["username"],
+        gender: json["gender"],
+        birthday: json["birthday"],
+        subject: json["subject"],
+        email: json["email"],
+        verified: json["verified"],
+        tripCount: json["tripCount"],
+        totalDist: json["totalDist"]?.toDouble(),
+        credits: json["credits"]?.toDouble(),
+        initiativeId: json["initiativeId"],
+        initiative: json["initiative"] == null
+            ? null
+            : Initiative.fromJson(json["initiative"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-    "name": name,
-    "username": username,
-    "gender": gender,
-    "birthday": birthday,
-    "subject": subject,
-    "email": email,
-    "verified": verified,
-    "tripCount": tripCount,
-    "totalDist": totalDist,
-    "credits": credits,
-    "initiativeId": initiativeId,
-    "initiative": initiative,
-  };
+        "id": id,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "name": name,
+        "username": username,
+        "gender": gender,
+        "birthday": birthday,
+        "subject": subject,
+        "email": email,
+        "verified": verified,
+        "tripCount": tripCount,
+        "totalDist": totalDist,
+        "credits": credits,
+        "initiativeId": initiativeId,
+        "initiative": initiative,
+      };
 }

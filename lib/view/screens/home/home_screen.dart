@@ -5,6 +5,7 @@ import 'package:cfl/bloc/auth/bloc/auth_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_state.dart';
 import 'package:cfl/controller/app/initiative.dart';
+import 'package:cfl/controller/app/trip_service.dart';
 import 'package:cfl/models/initiative.model.dart';
 import 'package:cfl/routes/app_route_paths.dart';
 import 'package:cfl/shared/global/global_var.dart';
@@ -15,11 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:cfl/view/screens/home/single_initiative.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../controller/auth/auth.dart';
 import '../../../routes/app_route.dart';
-// bool? isChangeInitiative;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -29,18 +29,51 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late GoogleMapController mapController;
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
+  void check(CameraUpdate u, GoogleMapController c) async {
+    c.animateCamera(u);
+    mapController.animateCamera(u);
+    LatLngBounds l1 = await c.getVisibleRegion();
+    LatLngBounds l2 = await c.getVisibleRegion();
+    if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90) {
+      check(u, c);
+    }
+  }
+
+  bool hasLastRide = false;
+  bool startTripLocationStream = false;
+  late Future<Initiative> singleInitiative;
 
   @override
   void initState() {
     super.initState();
-    print(appRoutes.location);
-    context.read<AppBloc>().add(AppListOfInitiatives(token: accessToken));
-    context
-        .read<AuthBloc>()
-        .add(AuthGetProfile(id: currentUser.id, token: accessToken));
-    context.read<AppBloc>().add(AppSelectedInitiativeStats(token: accessToken));
+    if (currentUser.initiative != null) {
+      singleInitiative = InitiativeService().getSingleInitiative(
+          accessToken: accessToken, id: currentUser.initiativeId!);
+      context
+          .read<AppBloc>()
+          .add(AppSelectedInitiativeStats(token: accessToken));
+      auth.getFromLocalStorage(value: 'tripId').then((value) {
+        if (value != null) {
+          context
+              .read<TripBloc>()
+              .add(GetLastRide(token: accessToken, id: value));
+          setState(() {
+            hasLastRide = true;
+          });
+        }
+      });
+      context
+          .read<AuthBloc>()
+          .add(AuthGetProfile(id: currentUser.id, token: accessToken));
+    } else {
+      context
+          .read<AuthBloc>()
+          .add(AuthGetProfile(id: currentUser.id, token: accessToken));
+      context.read<AppBloc>().add(AppListOfInitiatives(token: accessToken));
+    }
   }
 
   @override
@@ -278,9 +311,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        // context.push(SingleInitiative(
-                        //   initiative: state.initiatives[index],
-                        // ));
                         appRoutes.push(AppRoutePath.singleInitiative,
                             extra: state.initiatives[index]);
                       });
@@ -300,11 +330,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildSelectedInitiative({required Initiative selectedInitiative}) {
     bool isLoading = false;
+    bool isUploading = false;
     return BlocConsumer<TripBloc, TripState>(
       listener: (context, state) {
         if (state.status.isLoading) {
           setState(() {
             isLoading = true;
+          });
+        } else if (state.status.isTripUploading) {
+          setState(() {
+            isUploading = true;
           });
         } else if (state.status.isError) {
           setState(() {
@@ -332,6 +367,16 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             isLoading = false;
           });
+          auth.getFromLocalStorage(value: 'tripId').then((value) {
+            if (value != null) {
+              context
+                  .read<TripBloc>()
+                  .add(GetLastRide(token: accessToken, id: value));
+              setState(() {
+                hasLastRide = true;
+              });
+            }
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Row(
@@ -342,7 +387,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Expanded(
                     child: Text(
-                      'Your total distance is ${state.trip!.distance} in ${state.trip!.duration}',
+                      'Your total distance is ${state.trip!.distance.round()} in ${(state.trip!.durationInMotion / 60).round()} min',
                       maxLines: 2,
                     ),
                   ),
@@ -359,7 +404,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ProfileButton(
               onTap: () {
                 appRoutes.push(AppRoutePath.profile);
-                // context.push(const ProfileScreen());
               },
               greeting: 'welcome_back'.tr(),
             ),
@@ -386,8 +430,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 42),
             FutureBuilder<Initiative>(
-                future: InitiativeService().getSingleInitiative(
-                    accessToken: accessToken, id: selectedInitiative.id),
+                future: singleInitiative,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -461,7 +504,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const ContributionCard(
                         icon: CFLIcons.clock,
-                        count: 0,
+                        count: "00:00",
                         title: 'h',
                       ),
                       ContributionCard(
@@ -483,8 +526,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ContributionCard(
                         icon: CFLIcons.clock,
                         count:
-                            (state.stats!.totalDurationInMotion / 3600).round(),
-                        title: 'h',
+                            '${(state.stats!.totalDurationInMotion.round() ~/ 3600).toString().padLeft(2, '0')}:${(state.stats!.totalDurationInMotion.round() ~/ 60).toString().padLeft(2, '0')}',
+                        title: 'h'.tr(),
                       ),
                       ContributionCard(
                         icon: CFLIcons.coin1,
@@ -505,8 +548,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ContributionCard(
                       icon: CFLIcons.clock,
                       count:
-                          (state.stats!.totalDurationInMotion / 3600).round(),
-                      title: 'h',
+                          '${(state.stats!.totalDurationInMotion.round() ~/ 3600).toString().padLeft(2, '0')}:${(state.stats!.totalDurationInMotion.round() ~/ 60).toString().padLeft(2, '0')}',
+                      title: 'h'.tr(),
                     ),
                     ContributionCard(
                       icon: CFLIcons.coin1,
@@ -518,100 +561,374 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             const SizedBox(height: 32),
-            Text(
-              '${'you_last_ride'.tr()}: ',
-              style: GoogleFonts.dmSans(
-                color: AppColors.primaryColor,
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 14),
-            Container(
-              width: double.infinity,
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: AppColors.black.withOpacity(.05),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: const CameraPosition(
-                    target: LatLng(38.7223, -9.1393),
-                    zoom: 14.4746,
-                  ),
-                  myLocationEnabled: true,
-                  compassEnabled: true,
-                  onMapCreated: (GoogleMapController controller) {
-                    if (!_controller.isCompleted) {
-                      _controller.complete(controller);
+            hasLastRide == false
+                ? Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          AppAssets.empty,
+                          height: 130,
+                        ),
+                        const Center(
+                          child: Text(
+                            'No Last ride yet!',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : BlocBuilder<TripBloc, TripState>(builder: (context, state) {
+                    if (state.status.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state.status.isLastRide) {
+                      final lastRide = state.lastRide!;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${'you_last_ride'.tr()}: ',
+                            style: GoogleFonts.dmSans(
+                              color: AppColors.primaryColor,
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          Container(
+                            width: double.infinity,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColors.black.withOpacity(.05),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: FutureBuilder<BitmapDescriptor>(
+                                  future: BitmapDescriptor.fromAssetImage(
+                                    const ImageConfiguration(),
+                                    AppAssets.location,
+                                  ),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    } else if (snapshot.hasError) {
+                                      return const Center(
+                                          child: Text('Error loading icon'));
+                                    }
+                                    final BitmapDescriptor startIcon =
+                                        snapshot.data!;
+                                    return FutureBuilder<BitmapDescriptor>(
+                                        future: BitmapDescriptor.fromAssetImage(
+                                          const ImageConfiguration(),
+                                          AppAssets.endLocation,
+                                        ),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          } else if (snapshot.hasError) {
+                                            return const Center(
+                                                child:
+                                                    Text('Error loading icon'));
+                                          }
+                                          final BitmapDescriptor endIcon =
+                                              snapshot.data!;
+                                          return SizedBox(
+                                            width: double.infinity,
+                                            child: GoogleMap(
+                                              mapType: MapType.normal,
+                                              initialCameraPosition:
+                                                  CameraPosition(
+                                                target: LatLng(
+                                                    (lastRide.trip.startLat! +
+                                                            lastRide
+                                                                .trip.endLat!) /
+                                                        2,
+                                                    (lastRide.trip.startLon! +
+                                                            lastRide
+                                                                .trip.endLon!) /
+                                                        2),
+                                                zoom: 11.4746,
+                                              ),
+                                              onMapCreated: (controller) async {
+                                                mapController = controller;
+                                                //await getDirections(start: LatLng(widget.trip.startLat!, widget.trip.startLon!),stop: LatLng(widget.trip.endLat!, widget.trip.endLon!));
+                                                _controller
+                                                    .complete(controller);
+
+                                                LatLng latLng_1 = LatLng(
+                                                    lastRide.trip.startLat!,
+                                                    lastRide.trip.startLon!);
+                                                LatLng latLng_2 = LatLng(
+                                                    lastRide.trip.endLat!,
+                                                    lastRide.trip.endLon!);
+                                                LatLngBounds bounds =
+                                                    LatLngBounds(
+                                                        southwest: latLng_1,
+                                                        northeast: latLng_2);
+
+                                                CameraUpdate u2 = CameraUpdate
+                                                    .newLatLngBounds(bounds,
+                                                        lastRide.trip.distance);
+                                                mapController
+                                                    .animateCamera(u2)
+                                                    .then((void v) {
+                                                  check(u2, mapController);
+                                                });
+
+                                                controller.moveCamera(
+                                                  CameraUpdate.newLatLngBounds(
+                                                      bounds, 30.0),
+                                                );
+                                              },
+                                              markers: <Marker>{
+                                                Marker(
+                                                  markerId:
+                                                      const MarkerId('start'),
+                                                  position: LatLng(
+                                                      lastRide.trip.startLat!,
+                                                      lastRide.trip.startLon!),
+                                                  infoWindow: const InfoWindow(
+                                                    title: 'Start point',
+                                                    snippet:
+                                                        'My starting point',
+                                                  ),
+                                                  icon: startIcon,
+                                                ),
+                                                Marker(
+                                                  markerId:
+                                                      const MarkerId('stop'),
+                                                  position: LatLng(
+                                                      lastRide.trip.endLat!,
+                                                      lastRide.trip.endLon!),
+                                                  infoWindow: const InfoWindow(
+                                                    title: 'Stop point',
+                                                    snippet: 'My stoping point',
+                                                  ),
+                                                  icon: endIcon,
+                                                ),
+                                              },
+                                              polylines: <Polyline>{
+                                                Polyline(
+                                                  polylineId:
+                                                      const PolylineId('line'),
+                                                  color: Colors.yellow,
+                                                  width: 5,
+                                                  points: lastRide.points,
+                                                ),
+                                              },
+                                            ),
+                                          );
+                                        });
+                                  }),
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ContributionCard(
+                                icon: CFLIcons.roadhz,
+                                count: lastRide.trip.distance.round(),
+                                title: 'km'.tr(),
+                              ),
+                              ContributionCard(
+                                icon: CFLIcons.clock,
+                                count:
+                                    '${(lastRide.trip.durationInMotion.round() ~/ 3600).toString().padLeft(2, '0')}:${(lastRide.trip.durationInMotion.round() ~/ 60).toString().padLeft(2, '0')}',
+                                title: 'h'.tr(),
+                              ),
+                              ContributionCard(
+                                icon: CFLIcons.coin1,
+                                count: lastRide.trip.credits.round(),
+                                title: 'coins'.tr(),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
                     }
-                  },
-                  // onCameraMoveStarted: () async{
-                  //   final controller = await _controller!.future;
-                  //   final visibleRegion = await controller.getVisibleRegion();
-                  //   _maxLat =  visibleRegion.northeast.latitude;
-                  //   _maxLon = visibleRegion.northeast.longitude;
-                  //   _minLat = visibleRegion.southwest.latitude;
-                  //   _minLon = visibleRegion.southwest.longitude;
-                  //   context.read<TripBloc>().add(AppListOfPOI(token: accessToken, maxLat: _maxLat, maxLon: _maxLon , minLat: _minLat, minLon: _minLon));
-                  //   },
-                ),
-              ),
-            ),
-            const SizedBox(height: 32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ContributionCard(
-                  icon: CFLIcons.roadhz,
-                  count: 12,
-                  title: 'km'.tr(),
-                ),
-                ContributionCard(
-                  icon: CFLIcons.clock,
-                  count: 5,
-                  title: 'h'.tr(),
-                ),
-                ContributionCard(
-                  icon: CFLIcons.coin1,
-                  count: 20,
-                  title: 'coins'.tr(),
-                ),
-              ],
-            ),
+                    final lastRide = state.lastRide!;
+                    return Column(
+                      children: [
+                        Text(
+                          '${'you_last_ride'.tr()}: ',
+                          style: GoogleFonts.dmSans(
+                            color: AppColors.primaryColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        Container(
+                          width: double.infinity,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: AppColors.black.withOpacity(.05),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: FutureBuilder<BitmapDescriptor>(
+                                future: BitmapDescriptor.fromAssetImage(
+                                  const ImageConfiguration(),
+                                  AppAssets.location,
+                                ),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (snapshot.hasError) {
+                                    return const Center(
+                                        child: Text('Error loading icon'));
+                                  }
+                                  final BitmapDescriptor startIcon =
+                                      snapshot.data!;
+                                  return FutureBuilder<BitmapDescriptor>(
+                                      future: BitmapDescriptor.fromAssetImage(
+                                        const ImageConfiguration(),
+                                        AppAssets.endLocation,
+                                      ),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        } else if (snapshot.hasError) {
+                                          return const Center(
+                                              child:
+                                                  Text('Error loading icon'));
+                                        }
+                                        final BitmapDescriptor endIcon =
+                                            snapshot.data!;
+                                        return SizedBox(
+                                          width: double.infinity,
+                                          child: GoogleMap(
+                                            mapType: MapType.normal,
+                                            initialCameraPosition:
+                                                CameraPosition(
+                                              target: LatLng(
+                                                  (lastRide.trip.startLat! +
+                                                          lastRide
+                                                              .trip.endLat!) /
+                                                      2,
+                                                  (lastRide.trip.startLon! +
+                                                          lastRide
+                                                              .trip.endLon!) /
+                                                      2),
+                                              zoom: 11.4746,
+                                            ),
+                                            onMapCreated: (controller) async {
+                                              mapController = controller;
+                                              //await getDirections(start: LatLng(widget.trip.startLat!, widget.trip.startLon!),stop: LatLng(widget.trip.endLat!, widget.trip.endLon!));
+                                              _controller.complete(controller);
+
+                                              LatLng latLng_1 = LatLng(
+                                                  lastRide.trip.startLat!,
+                                                  lastRide.trip.startLon!);
+                                              LatLng latLng_2 = LatLng(
+                                                  lastRide.trip.endLat!,
+                                                  lastRide.trip.endLon!);
+                                              LatLngBounds bounds =
+                                                  LatLngBounds(
+                                                      southwest: latLng_1,
+                                                      northeast: latLng_2);
+
+                                              CameraUpdate u2 =
+                                                  CameraUpdate.newLatLngBounds(
+                                                      bounds,
+                                                      lastRide.trip.distance);
+                                              mapController
+                                                  .animateCamera(u2)
+                                                  .then((void v) {
+                                                check(u2, mapController);
+                                              });
+
+                                              controller.moveCamera(
+                                                CameraUpdate.newLatLngBounds(
+                                                    bounds, 30.0),
+                                              );
+                                            },
+                                            markers: <Marker>{
+                                              Marker(
+                                                markerId:
+                                                    const MarkerId('start'),
+                                                position: LatLng(
+                                                    lastRide.trip.startLat!,
+                                                    lastRide.trip.startLon!),
+                                                infoWindow: const InfoWindow(
+                                                  title: 'Start point',
+                                                  snippet: 'My starting point',
+                                                ),
+                                                icon: startIcon,
+                                              ),
+                                              Marker(
+                                                markerId:
+                                                    const MarkerId('stop'),
+                                                position: LatLng(
+                                                    lastRide.trip.endLat!,
+                                                    lastRide.trip.endLon!),
+                                                infoWindow: const InfoWindow(
+                                                  title: 'Stop point',
+                                                  snippet: 'My stoping point',
+                                                ),
+                                                icon: endIcon,
+                                              ),
+                                            },
+                                            polylines: <Polyline>{
+                                              Polyline(
+                                                polylineId:
+                                                    const PolylineId('line'),
+                                                color: Colors.yellow,
+                                                width: 5,
+                                                points: state.points!,
+                                              ),
+                                            },
+                                          ),
+                                        );
+                                      });
+                                }),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ContributionCard(
+                              icon: CFLIcons.roadhz,
+                              count: lastRide.trip.distance.round(),
+                              title: 'km'.tr(),
+                            ),
+                            ContributionCard(
+                              icon: CFLIcons.clock,
+                              count:
+                                  '${(lastRide.trip.durationInMotion / 3600).round()}:${(lastRide.trip.durationInMotion / 60).round()}',
+                              title: 'h'.tr(),
+                            ),
+                            ContributionCard(
+                              icon: CFLIcons.coin1,
+                              count: lastRide.trip.credits.round(),
+                              title: 'coins'.tr(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  }),
             const SizedBox(height: 42),
             BlocBuilder<TripBloc, TripState>(
               builder: (context, state) {
-                if (state.status.isStart ||
-                    state.status.isError ||
-                    state.status.isLocationStream) {
-                  return SizedBox(
-                    width: double.infinity,
-                    height: 49,
-                    child: ElevatedButton(
-                      style: AppComponentThemes.elevatedButtonTheme(
-                        color: AppColors.tomatoRed,
-                      ),
-                      onPressed: () {
-                        context
-                            .read<TripBloc>()
-                            .add(StopTrip(token: accessToken));
-                      },
-                      child: isLoading == true
-                          ? const CircularProgressIndicator(
-                              color: Colors.red,
-                            )
-                          : Text(
-                              '${'start'.tr()}/${'stop'.tr()}',
-                              style: GoogleFonts.dmSans(
-                                color: AppColors.white,
-                              ),
-                            ),
-                    ),
-                  );
-                } else if (state.status.isStop || state.status.isSuccess) {
+                if (state.status.isTripUploading) {
                   return SizedBox(
                     width: double.infinity,
                     height: 49,
@@ -619,42 +936,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: AppComponentThemes.elevatedButtonTheme(
                         color: AppColors.cabbageGreen,
                       ),
-                      onPressed: () {
-                        context.read<TripBloc>().add(const StartTrip());
-                      },
-                      child: isLoading == true
-                          ? const CircularProgressIndicator(
-                              color: Colors.green,
-                            )
-                          : Text(
-                              '${'start'.tr()}/${'stop'.tr()}',
-                              style: GoogleFonts.dmSans(
-                                color: AppColors.white,
-                              ),
-                            ),
-                    ),
-                  );
-                } else if (state.status.isSuccess) {
-                  return SizedBox(
-                    width: double.infinity,
-                    height: 49,
-                    child: ElevatedButton(
-                      style: AppComponentThemes.elevatedButtonTheme(
-                        color: AppColors.cabbageGreen,
+                      onPressed: () {},
+                      child: const CircularProgressIndicator(
+                        color: Colors.green,
                       ),
-                      onPressed: () {
-                        context.read<TripBloc>().add(const StartTrip());
-                      },
-                      child: isLoading == true
-                          ? const CircularProgressIndicator(
-                              color: Colors.green,
-                            )
-                          : Text(
-                              '${'start'.tr()}/${'stop'.tr()}',
-                              style: GoogleFonts.dmSans(
-                                color: AppColors.white,
-                              ),
-                            ),
                     ),
                   );
                 }
@@ -663,13 +948,32 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 49,
                   child: ElevatedButton(
                     style: AppComponentThemes.elevatedButtonTheme(
-                      color: AppColors.cabbageGreen,
+                      color: startTripLocationStream == false
+                          ? AppColors.cabbageGreen
+                          : AppColors.tomatoRed,
                     ),
-                    onPressed: () {
-                      context.read<TripBloc>().add(const StartTrip());
-                    },
-                    child: state.status.isLoading
-                        ? const CircularProgressIndicator()
+                    onPressed: startTripLocationStream == false
+                        ? () {
+                            setState(() {
+                              startTripLocationStream = true;
+                            });
+                            tripService.getLocationStream();
+                          }
+                        : isUploading == true
+                            ? () {}
+                            : () {
+                                setState(() {
+                                  startTripLocationStream = false;
+                                });
+                                tripService.positionSubscription!.cancel();
+                                context
+                                    .read<TripBloc>()
+                                    .add(StopTrip(token: accessToken));
+                              },
+                    child: isUploading == true
+                        ? const CircularProgressIndicator(
+                            color: Colors.green,
+                          )
                         : Text(
                             '${'start'.tr()}/${'stop'.tr()}',
                             style: GoogleFonts.dmSans(
@@ -685,14 +989,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: TextButton(
                 onPressed: () {
                   setState(() {
-                    // setState(() {
-                    //   selectedIndex = 1;
-                    // });
-
-                    // tabController.animateTo(1);
-                    // isChangeInitiative = true;
                     context.read<AppBloc>().add(const AppChangeInitiative());
-                    // initiativeState = InitiativeValue.initial;
                   });
                 },
                 child: Text(
@@ -728,7 +1025,11 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: PillContainer(
                 title: 'total_earned'.tr(),
-                count: currentUser.credits.round(),
+                count: currentUser.credits < 1
+                    ? currentUser.credits.toStringAsFixed(2)
+                    : currentUser.credits == 0.0
+                        ? 0
+                        : currentUser.credits.round(),
                 icon: CFLIcons.coin1,
               ),
             ),
@@ -736,7 +1037,11 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: PillContainer(
                 title: 'total_km'.tr(),
-                count: currentUser.totalDist.round(),
+                count: currentUser.totalDist < 1
+                    ? currentUser.totalDist.toStringAsFixed(2)
+                    : currentUser.totalDist == 0.0
+                        ? 0
+                        : currentUser.totalDist.round(),
                 icon: CFLIcons.roadhz,
               ),
             ),
@@ -1023,17 +1328,18 @@ class ProfileButton extends StatelessWidget {
                 } else if (state.status.isLoading) {
                   return const CircleAvatar(
                     radius: 23,
-                    backgroundImage: AssetImage(
-                      AppAssets.placeholder,
-                    ),
+                    // backgroundImage: AssetImage(
+                    //   AppAssets.placeholder,
+                    // ),
+                    backgroundColor: Colors.white,
                   );
                 }
                 return currentProfilePic == ''
                     ? const CircleAvatar(
                         radius: 23,
-                        backgroundImage: AssetImage(
-                          AppAssets.placeholder,
-                        ),
+                        // backgroundImage: AssetImage(
+                        //   AppAssets.placeholder,
+                        // ),
                         backgroundColor: AppColors.background,
                       )
                     : CachedNetworkImage(
@@ -1054,9 +1360,6 @@ class ProfileButton extends StatelessWidget {
                         ),
                         placeholder: (context, i) => const CircleAvatar(
                           radius: 23,
-                          backgroundImage: AssetImage(
-                            AppAssets.placeholder,
-                          ),
                           backgroundColor: AppColors.background,
                         ),
                       );
@@ -1165,7 +1468,7 @@ class SelectedInitiativeCard extends StatelessWidget {
       errorWidget: (context, url, error) => SizedBox(
         height: 185,
         width: double.infinity,
-        child: Image.asset(AppAssets.placeholder),
+        child: Image.asset(AppAssets.initiativePlaceholder),
       ),
       placeholder: (context, i) => Container(
         height: 185,

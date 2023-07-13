@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:cfl/controller/app/initiative.dart';
+import 'package:cfl/controller/auth/auth.dart';
 import 'package:cfl/models/trip.model.dart';
 import 'package:cfl/shared/configs/url_config.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -10,16 +12,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
 import 'package:path_provider/path_provider.dart';
+import 'package:gpx/gpx.dart';
 
 class TripService {
-  final geolocator = GeolocatorPlatform.instance;
+  final geoLocator = GeolocatorPlatform.instance;
+  StreamSubscription<Position>? positionSubscription;
+  // Gpx gpx = Gpx();
+  List<Wpt> trkpts = [];
 
   Future<LatLng?> getCurrentLocation() async {
     LatLng? latLng;
     final permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
-      final position = await geolocator.getCurrentPosition();
+      final position = await geoLocator.getCurrentPosition();
       latLng = LatLng(position.latitude, position.longitude);
     } else {
       getCurrentLocation();
@@ -27,12 +33,24 @@ class TripService {
     return latLng;
   }
 
-  Stream<Position> getLocationStream() {
+  void getLocationStream() {
     const LocationSettings locationSettings = LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 100,
     );
-    return geolocator.getPositionStream(locationSettings: locationSettings);
+    positionSubscription?.cancel();
+    positionSubscription =
+        Geolocator.getPositionStream(locationSettings: locationSettings).listen(
+      (position) {
+        final trkPoint = Wpt(
+          lat: position.latitude,
+          lon: position.longitude,
+          ele: position.altitude,
+          time: DateTime.now(),
+        );
+        trkpts.add(trkPoint);
+
+      },
+    );
   }
 
   Future<bool> requestLocationPermission() async {
@@ -70,7 +88,8 @@ class TripService {
         final decodedResponse = json.decode(responseBody);
         throw Exception('${decodedResponse['error']['code']}');
       }
-    } catch (e) {
+    } catch (e, s) {
+      print(s);
       throw Exception('File upload failed: $e');
     }
   }
@@ -109,7 +128,6 @@ class TripService {
         throw Exception('${res['error']['message']}');
       }
     } catch (e) {
-      print(e.toString());
       throw Exception('$e');
     }
   }
@@ -120,11 +138,6 @@ class TripService {
     xml.XmlElement gpxElement = document.rootElement;
 
     for (var wptElement in gpxElement.findAllElements('trkpt')) {
-      double lat = double.parse(wptElement.getAttribute('lat')!);
-      double lon = double.parse(wptElement.getAttribute('lon')!);
-      waypoints.add(LatLng(lat, lon));
-    }
-    for (var wptElement in gpxElement.findAllElements('wpt')) {
       double lat = double.parse(wptElement.getAttribute('lat')!);
       double lon = double.parse(wptElement.getAttribute('lon')!);
       waypoints.add(LatLng(lat, lon));
@@ -182,6 +195,7 @@ class TripService {
           }
         }
         trips.sort((a, b) => b.trip.createdAt.compareTo(a.trip.createdAt));
+        await auth.saveToLocalStorage(key: 'tripId', value: trips[0].trip.id);
         return trips;
       } else {
         final res = jsonDecode(response.body);
@@ -222,4 +236,36 @@ class TripService {
       throw Exception('$e');
     }
   }
+
+  Future<TripModel> getSingleTrip(
+      {required String accessToken, required String id}) async {
+    final url = Uri.parse('$baseUrl/trips/$id');
+    final headers = {
+      'Authorization': 'Bearer $accessToken',
+      'accept': 'application/json',
+    };
+    try {
+      final response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        print(response.body);
+        final jsonBody = json.decode(response.body) as Map<String, dynamic>;
+        return TripModel.fromJson(jsonBody);
+      } else {
+        if (response.statusCode == 401) {
+          final jsonResponse = jsonDecode(response.body);
+          final errorMessage = jsonResponse['error']['message'];
+          throw Exception('$errorMessage');
+        } else {
+          final jsonResponse = jsonDecode(response.body);
+          final errorMessage = jsonResponse['error']['message'];
+          throw Exception('$errorMessage');
+        }
+      }
+    } catch (e) {
+      print(e);
+      throw Exception('$e');
+    }
+  }
 }
+
+TripService tripService = TripService();

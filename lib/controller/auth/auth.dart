@@ -30,7 +30,6 @@ class AuthService {
 
     try {
       final response = await http.post(url, headers: headers, body: body);
-      // print(response.body);
       if (response.statusCode == 201) {
         return true;
       } else {
@@ -64,9 +63,7 @@ class AuthService {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         final accessToken = json['access_token'] as String;
-        // final refreshToken = json['refresh_token'] as String;
-        // final token =
-        //     Token(accessToken: accessToken, refreshToken: refreshToken);
+
         return accessToken;
       } else {
         final res = jsonDecode(response.body);
@@ -76,32 +73,6 @@ class AuthService {
       throw Exception('$e');
     }
   }
-
-  // Future<bool> createUserSocialLogin(
-  //     {required String identificationToken}) async {
-  //   // Create a new user with the identification token
-  //   try {
-  //     final url = Uri.parse('$baseUrl/users');
-  //     final response = await http.post(
-  //       url,
-  //       headers: {
-  //         'Authorization': 'Bearer $identificationToken',
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: '{"subject": "$identificationToken"}',
-  //     );
-  //     print(response.body);
-
-  //     if (response.statusCode == 201) {
-  //       return true;
-  //     } else {
-  //       final res = jsonDecode(response.body);
-  //       throw RegistrationException('${res['error']['message']}');
-  //     }
-  //   } catch (e) {
-  //     throw RegistrationException(e.toString());
-  //   }
-  // }
 
   Future<void> signInWithGoogle({required String clientId}) async {
     try {
@@ -143,10 +114,6 @@ class AuthService {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         final accessToken = json['access_token'] as String;
-        // final refreshToken = json['refresh_token'] as String;
-        // final token =
-        //     Token(accessToken: accessToken, refreshToken: refreshToken);
-
         return accessToken;
       } else {
         final res = jsonDecode(response.body);
@@ -194,7 +161,8 @@ class AuthService {
         final res = jsonDecode(response.body);
         throw Exception('${res['error_description']}');
       }
-    } catch (e) {
+    } catch (e, s) {
+      print(s);
       throw Exception('$e');
     }
   }
@@ -294,7 +262,6 @@ class AuthService {
 
       if (response.statusCode == 200) {
         final jsonBody = json.decode(response.body) as Map<String, dynamic>;
-        print(jsonBody.containsKey('initiative'));
         if (jsonBody.containsKey('initiative')) {
           return User.fromJson(jsonBody);
         } else {
@@ -327,9 +294,7 @@ class AuthService {
           throw Exception('$errorMessage');
         }
       }
-    } catch (e, stackTrace) {
-      print(e);
-      print('Stack trace: $stackTrace');
+    } catch (e) {
       throw Exception('$e');
     }
   }
@@ -374,7 +339,6 @@ class AuthService {
         }
       }
     } catch (e) {
-      print(e);
       throw Exception('$e');
     }
   }
@@ -457,31 +421,25 @@ class AuthService {
     }
   }
 
-  void initForgotPasswordDeepLinkHandling() {
-    AppLinks().allStringLinkStream.listen((uri) {
-      handleDeepLink(uri);
-    });
-  }
+  final _appLinks = AppLinks();
 
-  void initSocialAuthDeepLinkHandling() {
-    AppLinks().allStringLinkStream.listen((uri) {
+  void initLinkHandling() {
+    _appLinks.allStringLinkStream.listen((uri) {
       handleRedirect(uri);
     });
   }
 
-  void handleDeepLink(String? uri) {
-    if (uri != null &&
-        uri.contains('https://api.cycleforlisbon.com') &&
-        uri.contains('/api/password/redirect-reset')) {
-      String? code = uri.split('code=')[1];
-      appRoutes.go('${AppRoutePath.signin}/$code?deepLink=true');
-    }
-  }
-
   void handleRedirect(String? uri) {
+    print(uri);
     if (uri != null && uri.startsWith('cfl://login-callback')) {
       String? code = uri.split('code=')[1].split('&')[0];
       appRoutes.go('${AppRoutePath.splash}/$code?redirect=true');
+    }
+    if (uri != null &&
+        uri.contains('api.cycleforlisbon.com') &&
+        uri.contains('/api/password/redirect-reset')) {
+      String? code = uri.split('code=')[1];
+      appRoutes.go('${AppRoutePath.signin}/$code?deepLink=true');
     }
   }
 

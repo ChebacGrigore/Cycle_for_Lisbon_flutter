@@ -1,12 +1,14 @@
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class Trip {
   final String id;
   final DateTime createdAt;
   final DateTime updatedAt;
   final double distance;
-  final int duration;
-  final int durationInMotion;
+  final double duration;
+  final num durationInMotion;
   final String userId;
 
   Trip({
@@ -25,7 +27,7 @@ class Trip {
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       distance: json['distance'].toDouble(),
-      duration: json['duration'],
+      duration: json['duration'].toDouble(),
       durationInMotion: json['durationInMotion'],
       userId: json['userId'],
     );
@@ -153,4 +155,10 @@ class POI {
       updatedAt: DateTime.parse(json['updatedAt']),
     );
   }
+}
+
+class LastRide {
+  final TripModel trip;
+  final List<LatLng> points;
+  LastRide({required this.trip, required this.points });
 }

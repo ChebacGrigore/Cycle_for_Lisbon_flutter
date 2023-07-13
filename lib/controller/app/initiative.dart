@@ -37,7 +37,23 @@ class InitiativeService {
       'Authorization': 'Bearer $accessToken',
       'accept': 'application/json',
     };
-    try {} catch (e) {
+    try {
+      final response = await http.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        final jsonBody = json.decode(response.body) as Map<String, dynamic>;
+        return Initiative.fromJson(jsonBody);
+      } else {
+        if (response.statusCode == 401) {
+          final jsonResponse = jsonDecode(response.body);
+          final errorMessage = jsonResponse['error']['message'];
+          throw Exception('$errorMessage');
+        } else {
+          final jsonResponse = jsonDecode(response.body);
+          final errorMessage = jsonResponse['error']['message'];
+          throw Exception('$errorMessage');
+        }
+      }
+    } catch (e) {
       print(e);
       throw Exception('$e');
     }

@@ -1,32 +1,35 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:cfl/controller/app/trip_service.dart';
+import 'package:cfl/controller/auth/auth.dart';
+import 'package:cfl/models/trip.model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cfl/bloc/trip/bloc/trip_state.dart';
 import 'package:equatable/equatable.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:gpx/gpx.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../../../shared/global/global_var.dart';
 
 part 'trip_event.dart';
 
 class TripBloc extends Bloc<TripEvent, TripState> {
-  StreamSubscription<Position>? _positionSubscription;
-  final TripService _trip = TripService();
+  // StreamSubscription<Position>? _positionSubscription;
+  // final TripService _trip = TripService();
   Gpx gpx = Gpx();
   TripBloc() : super(const TripState()) {
-    on<StartTrip>(_onTripStarted);
+    // on<StartTrip>(_onTripStarted);
     on<StopTrip>(_onTripStop);
     on<AppListOfTrips>(_onListOfTrips);
     on<AppListOfPOI>(_onListOfPois);
     on<GetPoints>(_onListOfPoints);
+    on<GetLastRide>(_onLastRide);
   }
 
   void _onListOfTrips(AppListOfTrips event, Emitter<TripState> emit) async {
     emit(state.copyWith(status: TripStatus.loading));
     try {
-      final trips = await _trip.getTrips(
+      final trips = await tripService.getTrips(
         accessToken: event.token,
         timeFrom: event.timeFrom,
         timeTo: event.timeTo,
@@ -47,7 +50,7 @@ class TripBloc extends Bloc<TripEvent, TripState> {
     emit(state.copyWith(status: TripStatus.loading));
     try {
       print(event.maxLat);
-      final pois = await _trip.fetchPOIs(
+      final pois = await tripService.fetchPOIs(
         token: event.token,
         maxLat: event.maxLat,
         maxLon: event.maxLon,
@@ -69,8 +72,9 @@ class TripBloc extends Bloc<TripEvent, TripState> {
   void _onListOfPoints(GetPoints event, Emitter<TripState> emit) async {
     emit(state.copyWith(status: TripStatus.loading));
     try {
-      final gpxContent = await _trip.downloadGpxFile(event.id, event.token);
-      final points = _trip.extractWaypoints(gpxContent);
+      final gpxContent =
+          await tripService.downloadGpxFile(event.id, event.token);
+      final points = tripService.extractWaypoints(gpxContent);
       emit(
         state.copyWith(
           status: TripStatus.allPoi,
@@ -82,45 +86,37 @@ class TripBloc extends Bloc<TripEvent, TripState> {
     }
   }
 
-  void _onTripStarted(StartTrip event, Emitter<TripState> emit) async {
-    emit(state.copyWith(status: TripStatus.start));
-    await _trip.requestLocationPermission();
-    const LocationSettings locationSettings = LocationSettings(
-      accuracy: LocationAccuracy.high,
-    );
+  void _onLastRide(GetLastRide event, Emitter<TripState> emit) async {
+    emit(state.copyWith(status: TripStatus.loading));
     try {
-      _positionSubscription?.cancel();
-      _positionSubscription =
-          Geolocator.getPositionStream(locationSettings: locationSettings)
-              .listen(
-        (position) {
-          final trkSegment = Trkseg();
-          final trkPoint = Wpt(
-            lat: position.latitude,
-            lon: position.longitude,
-            ele: position.altitude,
-          );
-          trkSegment.trkpts.add(trkPoint);
-
-          final trk = Trk();
-          trk.trksegs.add(trkSegment);
-          gpx.trks.add(trk);
-          emit(state.copyWith(
-              status: TripStatus.locationStream,
-              latitude: position.latitude,
-              longitude: position.longitude));
-        },
+      final gpxContent =
+          await tripService.downloadGpxFile(event.id, event.token);
+      final points = tripService.extractWaypoints(gpxContent);
+      final trip = await tripService.getSingleTrip(
+          accessToken: event.token, id: event.id);
+      emit(
+        state.copyWith(
+          status: TripStatus.lastRide,
+          lastRide: LastRide(trip: trip, points: points),
+        ),
       );
-    } catch (e) {
-      emit(state.copyWith(status: TripStatus.error, exception: e.toString()));
+    } catch (e, s) {
+      print(s);
+      emit(state.copyWith(exception: e.toString(), status: TripStatus.error));
     }
   }
 
   void _onTripStop(StopTrip event, Emitter<TripState> emit) async {
-    _positionSubscription?.cancel();
-    emit(state.copyWith(status: TripStatus.stop));
-    emit(state.copyWith(status: TripStatus.loading));
+    tripService.positionSubscription?.cancel();
+    // emit(state.copyWith(status: TripStatus.stop));
+    emit(state.copyWith(status: TripStatus.tripUploading));
     try {
+      gpx.trks.add(
+        Trk(
+          name: currentUser.initiative!.title,
+          trksegs: [Trkseg(trkpts: tripService.trkpts)],
+        ),
+      );
       final directory = await getApplicationDocumentsDirectory();
       final fileName = 'location_${DateTime.now().millisecondsSinceEpoch}.gpx';
       final filePath = '${directory.path}/$fileName';
@@ -128,9 +124,11 @@ class TripBloc extends Bloc<TripEvent, TripState> {
       final gpxString = GpxWriter().asString(gpx, pretty: true);
       await file.writeAsString(gpxString);
       print(gpxString);
-      final trip = await _trip.uploadGPXFile(event.token, file.path);
+      final trip = await tripService.uploadGPXFile(event.token, file.path);
+      await auth.saveToLocalStorage(key: 'tripId', value: trip.id);
       emit(state.copyWith(status: TripStatus.success, trip: trip));
-    } catch (e) {
+    } catch (e, s) {
+      print(s);
       emit(state.copyWith(status: TripStatus.error, exception: e.toString()));
     }
   }

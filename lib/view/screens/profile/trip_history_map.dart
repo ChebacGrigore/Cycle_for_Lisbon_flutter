@@ -249,8 +249,7 @@ class _TripMapScreenState extends State<TripMapScreen> {
                                         LeaderboardActivityCount(
                                           showTitle: false,
                                           count:
-                                              (widget.trip.trip.duration / 3600)
-                                                  .round(),
+                                              '${(widget.trip.trip.durationInMotion ~/ 3600).toString().padLeft(2, '0')}:${(widget.trip.trip.durationInMotion ~/ 60).toString().padLeft(2, '0')}',
                                           title: '',
                                           unit: 'h'.tr(),
                                           icon: AppAssets.clockIco,
@@ -279,93 +278,4 @@ class _TripMapScreenState extends State<TripMapScreen> {
       ),
     );
   }
-  // Future<void> getDirections({required LatLng start, required LatLng stop}) async {
-  //   // Send request to Google Directions API to get route
-  //   String apiUrl = 'https://maps.googleapis.com/maps/api/directions/json?';
-  //   String apiKey = 'AIzaSyBzw5hV5835icFv_9ycjcKG8eJ1EVCM8Qk';
-  //   String origin = '${start.latitude},${start.longitude}'; // Starting point
-  //   String destination = '${stop.latitude},${stop.longitude}'; // Ending point
-  //
-  //   Uri url = Uri.parse(
-  //     '${apiUrl}origin=$origin&destination=$destination&key=$apiKey',
-  //   );
-  //
-  //   http.Response response = await http.get(url);
-  //   if (response.statusCode == 200) {
-  //     // Parse the JSON response
-  //     var decoded = jsonDecode(response.body);
-  //     print(decoded);
-  //     List<LatLng> points = _decodePolyline(decoded['routes'][0]['overview_polyline']['points']);
-  //
-  //     // Draw route polyline on the map
-  //     setState(() {
-  //       polylines.add(
-  //         Polyline(
-  //           polylineId: PolylineId('route'),
-  //           color: Colors.blue,
-  //           width: 5,
-  //           points: points,
-  //         ),
-  //       );
-  //     });
-  //
-  //     // Adjust camera position to show entire route
-  //     LatLngBounds bounds = _getBoundsFromLatLngList(points);
-  //     mapController?.animateCamera(
-  //       CameraUpdate.newLatLngBounds(bounds, 50.0),
-  //     );
-  //   } else {
-  //     print('Error: ${response.reasonPhrase}');
-  //   }
-  // }
-  //
-  // List<LatLng> _decodePolyline(String encoded) {
-  //   List<LatLng> points = [];
-  //   int index = 0, len = encoded.length;
-  //   int lat = 0, lng = 0;
-  //
-  //   while (index < len) {
-  //     int b, shift = 0, result = 0;
-  //     do {
-  //       b = encoded.codeUnitAt(index++) - 63;
-  //       result |= (b & 0x1F) << shift;
-  //       shift += 5;
-  //     } while (b >= 0x20);
-  //     int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-  //     lat += dlat;
-  //
-  //     shift = 0;
-  //     result = 0;
-  //     do {
-  //       b = encoded.codeUnitAt(index++) - 63;
-  //       result |= (b & 0x1F) << shift;
-  //       shift += 5;
-  //     } while (b >= 0x20);
-  //     int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
-  //     lng += dlng;
-  //
-  //     points.add(LatLng(lat / 1E5, lng / 1E5));
-  //   }
-  //
-  //   return points;
-  // }
-  //
-  // LatLngBounds _getBoundsFromLatLngList(List<LatLng> latLngList) {
-  //   double minLat = double.infinity;
-  //   double maxLat = -double.infinity;
-  //   double minLng = double.infinity;
-  //   double maxLng = -double.infinity;
-  //
-  //   for (LatLng latLng in latLngList) {
-  //     minLat = min(minLat, latLng.latitude);
-  //     maxLat = max(maxLat, latLng.latitude);
-  //     minLng = min(minLng, latLng.longitude);
-  //     maxLng = max(maxLng, latLng.longitude);
-  //   }
-  //
-  //   LatLng sw = LatLng(minLat, minLng);
-  //   LatLng ne = LatLng(maxLat, maxLng);
-  //
-  //   return LatLngBounds(southwest: sw, northeast: ne);
-  // }
 }

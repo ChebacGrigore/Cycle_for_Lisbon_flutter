@@ -674,7 +674,7 @@ class SuccessDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
       margin: EdgeInsets.symmetric(
         horizontal: 20,
         vertical: MediaQuery.of(context).size.height * 0.1,
@@ -713,23 +713,12 @@ class SuccessDialog extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 2,
               style: GoogleFonts.dmSans(
-                fontWeight: FontWeight.w500,
-                fontSize: 22,
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
                 color: AppColors.primaryColor,
               ),
             ),
-            // const SizedBox(height: 8),
-            // Text(
-            //   "Sucessfully submitted",
-            //   textAlign: TextAlign.center,
-            //   style: GoogleFonts.dmSans(
-            //     fontWeight: FontWeight.w500,
-            //     fontSize: 22,
-            //     color: AppColors.primaryColor,
-            //   ),
-            // ),
-            const SizedBox(height: 14),
-            const SizedBox(height: 25),
+            const SizedBox(height: 35),
             SizedBox(
               width: double.infinity,
               height: 49,
